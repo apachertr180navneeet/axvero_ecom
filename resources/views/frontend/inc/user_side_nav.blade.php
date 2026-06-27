@@ -318,8 +318,7 @@
                 @endif
 
                 <!-- Affiliate -->
-                @if (addon_is_activated('affiliate_system') &&
-                    Auth::user()->affiliate_user != null &&
+                @if (Auth::user()->affiliate_user != null &&
                     Auth::user()->affiliate_user->status)
                     <li class="aiz-side-nav-item">
                         <a href="javascript:void(0);"

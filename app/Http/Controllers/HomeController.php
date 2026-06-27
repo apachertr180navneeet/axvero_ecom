@@ -240,7 +240,7 @@ public function getRecentProducts(Request $request)
         }
 
 
-        if ($request->has('referral_code') && addon_is_activated('affiliate_system')) {
+        if ($request->has('referral_code')) {
             try {
                 $affiliate_validation_time = AffiliateConfig::where('type', 'validation_time')->first();
                 $cookie_minute = 30 * 24;
@@ -440,7 +440,7 @@ public function product(Request $request, $slug)
             $order_id = $OrderDetail->order->id ?? null;
         }
 
-        if ($request->has('product_referral_code') && addon_is_activated('affiliate_system')) {
+        if ($request->has('product_referral_code')) {
             $affiliate_validation_time = AffiliateConfig::where('type', 'validation_time')->first();
             $cookie_minute = 30 * 24;
             if ($affiliate_validation_time) {
