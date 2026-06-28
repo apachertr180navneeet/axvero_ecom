@@ -159,8 +159,7 @@ class HomeController extends Controller
     }
     public function load_preorder_featured_products_section()
     {
-
-        // $preorder_products = Cache::remember('preorder_products', 3600, function () {
+        try {
             $preorder_products = PreorderProduct::where('is_published', 1)->where('is_featured',1)
             ->where(function ($query) {
                 $query->whereHas('user', function ($q) {
@@ -172,7 +171,9 @@ class HomeController extends Controller
             ->latest()
             ->limit(12)
             ->get();
-        // });
+        } catch (\Exception $e) {
+            $preorder_products = collect();
+        }
         return view('frontend.' . get_setting('homepage_select') . '.partials.preorder_products_section', compact('preorder_products'));
     }
 

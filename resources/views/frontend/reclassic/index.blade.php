@@ -496,7 +496,9 @@
 
 
         <!-- Newest Preorder Products -->
-        @include('preorder.frontend.home_page.newest_preorder')
+        @if(\Illuminate\Support\Facades\Schema::hasTable('preorder_products'))
+            @include('preorder.frontend.home_page.newest_preorder')
+        @endif
 
 
     <!-- Classified Product -->
