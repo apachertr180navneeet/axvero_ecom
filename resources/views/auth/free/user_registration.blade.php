@@ -187,7 +187,7 @@
                                 
                                         <input type="hidden" id="country_code" name="country_code" value="">
                                 
-                                        <div class="form-group email-form-group mb-3 d-none">
+                                        <div class="form-group email-form-group mb-3">
                                             <label for="email" class="fs-13 fw-600 text-dark mb-2">{{ translate('Email') }}</label>
                                             <div class="input-group">
                                                 <input type="email" class="form-control auth-input {{ $errors->has('email') ? ' is-invalid' : '' }} " value="{{ old('email') }}" placeholder="{{ translate('johndoe@example.com') }}" name="email" id="signinAddonEmail" autocomplete="off">
@@ -204,12 +204,6 @@
                                                     <strong>{{ $errors->first('email') }}</strong>
                                                 </span>
                                             @endif
-                                        </div>
-                                
-                                        <div class="text-right mb-3">
-                                            <button class="btn btn-link p-0 auth-link fs-13" type="button" onclick="toggleEmailPhone(this)">
-                                                {{ translate('Use Email Instead') }}
-                                            </button>
                                         </div>
                                     </div>
                                     <div class="form-group mb-3 d-none">

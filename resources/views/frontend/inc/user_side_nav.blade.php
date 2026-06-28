@@ -44,6 +44,45 @@
         <!-- Menus -->
         <div class="sidemnenu">
             <ul class="aiz-side-nav-list mb-3 pb-3 border-bottom" data-toggle="aiz-side-menu">
+                @if(Auth::user()->user_type == 'affiliate')
+                    <!-- Affiliate Dashboard -->
+                    <li class="aiz-side-nav-item">
+                        <a href="{{ route('affiliate.user.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['affiliate.user.index']) }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                                <g id="Group_24768" data-name="Group 24768" transform="translate(3495.144 -602)">
+                                  <path id="Path_2916" data-name="Path 2916" d="M15.3,5.4,9.561.481A2,2,0,0,0,8.26,0H7.74a2,2,0,0,0-1.3.481L.7,5.4A2,2,0,0,0,0,6.92V14a2,2,0,0,0,2,2H14a2,2,0,0,0,2-2V6.92A2,2,0,0,0,15.3,5.4M10,15H6V9A1,1,0,0,1,7,8H9a1,1,0,0,1,1,1Zm5-1a1,1,0,0,1-1,1H11V9A2,2,0,0,0,9,7H7A2,2,0,0,0,5,9v6H2a1,1,0,0,1-1-1V6.92a1,1,0,0,1,.349-.76l5.74-4.92A1,1,0,0,1,7.74,1h.52a1,1,0,0,1,.651.24l5.74,4.92A1,1,0,0,1,15,6.92Z" transform="translate(-3495.144 602)" fill="#b5b5bf"/>
+                                </g>
+                            </svg>
+                            <span class="aiz-side-nav-text ml-3">{{ translate('Dashboard') }}</span>
+                        </a>
+                    </li>
+
+                    <!-- Affiliate Payment History -->
+                    <li class="aiz-side-nav-item">
+                        <a href="{{ route('affiliate.user.payment_history') }}" class="aiz-side-nav-link {{ areActiveRoutes(['affiliate.user.payment_history']) }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                                <g id="Group_8109" data-name="Group 8109" transform="translate(-27.466 -542.963)">
+                                    <path id="Path_2953" data-name="Path 2953" d="M14.5,5.963h-4a1.5,1.5,0,0,0,0,3h4a1.5,1.5,0,0,0,0-3m0,2h-4a.5.5,0,0,1,0-1h4a.5.5,0,0,1,0,1" transform="translate(22.966 537)" fill="#b5b5bf"/>
+                                    <path id="Path_2954" data-name="Path 2954" d="M12.991,8.963a.5.5,0,0,1,0-1H13.5a2.5,2.5,0,0,1,2.5,2.5v10a2.5,2.5,0,0,1-2.5,2.5H2.5a2.5,2.5,0,0,1-2.5-2.5v-10a2.5,2.5,0,0,1,2.5-2.5h.509a.5.5,0,0,1,0,1H2.5a1.5,1.5,0,0,0-1.5,1.5v10a1.5,1.5,0,0,0,1.5,1.5h11a1.5,1.5,0,0,0,1.5-1.5v-10a1.5,1.5,0,0,0-1.5-1.5Z" transform="translate(27.466 536)" fill="#b5b5bf"/>
+                                </g>
+                            </svg>
+                            <span class="aiz-side-nav-text ml-3">{{ translate('Payment History') }}</span>
+                        </a>
+                    </li>
+
+                    <!-- Affiliate Payment Withdraw -->
+                    <li class="aiz-side-nav-item">
+                        <a href="{{ route('affiliate.user.withdraw_request_history') }}" class="aiz-side-nav-link {{ areActiveRoutes(['affiliate.user.withdraw_request_history']) }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                                <g id="Group_8103" data-name="Group 8103">
+                                    <path id="Path_2936" data-name="Path 2936" d="M13.5,4H13V2.5A2.5,2.5,0,0,0,10.5,0h-8A2.5,2.5,0,0,0,0,2.5v11A2.5,2.5,0,0,0,2.5,16h11A2.5,2.5,0,0,0,16,13.5v-7A2.5,2.5,0,0,0,13.5,4M2.5,1h8A1.5,1.5,0,0,1,12,2.5V4H2.5a1.5,1.5,0,0,1,0-3M15,11H10a1,1,0,0,1,0-2h5Zm0-3H10a2,2,0,0,0,0,4h5v1.5A1.5,1.5,0,0,1,13.5,15H2.5A1.5,1.5,0,0,1,1,13.5v-9A2.5,2.5,0,0,0,2.5,5h11A1.5,1.5,0,0,1,15,6.5Z" fill="#b5b5bf"/>
+                                </g>
+                            </svg>
+                            <span class="aiz-side-nav-text ml-3">{{ translate('Payment Withdraw') }}</span>
+                        </a>
+                    </li>
+
+                @else
 
                 <!-- Dashboard -->
                 <li class="aiz-side-nav-item">
@@ -85,6 +124,7 @@
                     </a>
                 </li>
 
+                @if(\Illuminate\Support\Facades\Route::has('preorder.order_list'))
                 <!-- Preorder -->
                     <li class="aiz-side-nav-item">
                         <a href="javascript:void(0);" class="aiz-side-nav-link">
@@ -116,6 +156,7 @@
                             @endif
                         </ul>
                     </li>
+                @endif
 
                 <!-- Downloads -->
                 <li class="aiz-side-nav-item">
@@ -360,6 +401,7 @@
                     </a>
                 </li>
 
+                @endif
             </ul>
 
             <!-- logout -->

@@ -589,13 +589,17 @@ Route::get('run-migration', function () {
 // Affiliate Routes
 Route::controller(App\Http\Controllers\AffiliateController::class)->group(function () {
     Route::get('/affiliate/apply', 'apply_for_affiliate')->name('affiliate.apply');
-    Route::post('/affiliate/store_affiliate_user', 'store_affiliate_user')->name('affiliate.store_affiliate_user');
-    Route::get('/affiliate/payment_settings', 'payment_settings')->name('affiliate.payment_settings');
-    Route::post('/affiliate/payment_settings_store', 'payment_settings_store')->name('affiliate.payment_settings_store');
-    Route::post('/affiliate/withdraw_request/store', 'withdraw_request_store')->name('affiliate.withdraw_request.store');
-    Route::get('/affiliate/user', 'user_index')->name('affiliate.user.index');
-    Route::get('/affiliate/payment_history', 'user_payment_history')->name('affiliate.user.payment_history');
-    Route::get('/affiliate/withdraw_request_history', 'user_withdraw_request_history')->name('affiliate.user.withdraw_request_history');
+
+    // Affiliate Routes - Auth required
+    Route::middleware('auth')->group(function () {
+        Route::post('/affiliate/store_affiliate_user', 'store_affiliate_user')->name('affiliate.store_affiliate_user');
+        Route::get('/affiliate/payment_settings', 'payment_settings')->name('affiliate.payment_settings');
+        Route::post('/affiliate/payment_settings_store', 'payment_settings_store')->name('affiliate.payment_settings_store');
+        Route::post('/affiliate/withdraw_request/store', 'withdraw_request_store')->name('affiliate.withdraw_request.store');
+        Route::get('/affiliate/user', 'user_index')->name('affiliate.user.index');
+        Route::get('/affiliate/payment_history', 'user_payment_history')->name('affiliate.user.payment_history');
+        Route::get('/affiliate/withdraw_request_history', 'user_withdraw_request_history')->name('affiliate.user.withdraw_request_history');
+    });
 });
 
 // Affiliate Auth Routes

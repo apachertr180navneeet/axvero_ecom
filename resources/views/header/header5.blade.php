@@ -641,6 +641,7 @@ $middleHeaderTextColor = get_setting('middle_header_text_color');
                                 </a>
                             </li>
 
+                            @if(\Illuminate\Support\Facades\Route::has('preorder.order_list'))
                             <li class="user-top-nav-element border border-top-0" data-id="1">
                                 <a href="{{ route('preorder.order_list') }}"
                                     class="text-truncate text-dark px-4 fs-14 d-flex align-items-center hov-column-gap-1">
@@ -654,6 +655,7 @@ $middleHeaderTextColor = get_setting('middle_header_text_color');
                                         class="user-top-menu-name has-transition ml-3">{{ translate('Preorder List') }}</span>
                                 </a>
                             </li>
+                            @endif
 
                             <li class="user-top-nav-element border border-top-0" data-id="1">
                                 <a href="{{ route('digital_purchase_history.index') }}"

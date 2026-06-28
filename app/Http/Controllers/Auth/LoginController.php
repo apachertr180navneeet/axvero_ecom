@@ -58,7 +58,12 @@ class LoginController extends Controller
                 ->scopes(["name", "email"])
                 ->redirect();
         }
-        return Socialite::driver($provider)->redirect();
+        try {
+            return Socialite::driver($provider)->redirect();
+        } catch (\Exception $e) {
+            flash(translate('Social login is not configured properly. Please try again later.'))->error();
+            return redirect()->route('user.login');
+        }
     }
 
     public function handleAppleCallback(Request $request)
@@ -299,12 +304,16 @@ class LoginController extends Controller
                 'time' => now()->toDateTimeString(),
             ]);
             return redirect()->route('seller.dashboard');
-        } else {
-                
-                 if (auth()->user()->is_first_login == 0) {
-            return redirect()->route('agent.join');
+        } elseif (auth()->user()->user_type == 'affiliate') {
+            if (session('link') != null) {
+                return redirect(session('link'));
+            } else {
+                return redirect()->route('affiliate.user.index');
             }
-
+        } else {
+            if (auth()->user()->is_first_login == 0) {
+                return redirect()->route('agent.join');
+            }
 
             if (session('link') != null) {
                 return redirect(session('link'));

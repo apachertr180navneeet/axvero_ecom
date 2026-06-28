@@ -1612,11 +1612,13 @@
                                 <span class="aiz-side-nav-text">{{translate('Wholesale Products')}}</span>
                             </a>
                         </li>
+                        @if(\Illuminate\Support\Facades\Route::has('products.preorder-hsn-gst.assigns'))
                         <li class="aiz-side-nav-item">
                             <a href="{{ route('products.preorder-hsn-gst.assigns') }}" class="aiz-side-nav-link">
                                 <span class="aiz-side-nav-text">{{translate('Preorder Products')}}</span>
                             </a>
                         </li>
+                        @endif
                         <li class="aiz-side-nav-item">
                             <a href="{{ route('products.auction-hsn-gst.assigns') }}" class="aiz-side-nav-link">
                                 <span class="aiz-side-nav-text">{{translate('Auction Products')}}</span>

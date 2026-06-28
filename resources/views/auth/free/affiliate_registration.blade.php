@@ -156,6 +156,7 @@
                             <form id="reg-form" role="form" action="{{ route('register') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="referral_code" value="{{ request('referral_code') }}">
+                                <input type="hidden" name="is_affiliate" value="1">
                                 
                                 <!-- Name -->
                                 <div class="form-group mb-3">
@@ -168,64 +169,25 @@
                                     @endif
                                 </div>
                                 
-                                <!-- Email or Phone -->
-                                <div>
-                                    <div id="emailOrPhoneDiv">
-                                        <div class="form-group phone-form-group mb-3 ">
-                                            <label for="phone" class="fs-13 fw-600 text-dark mb-2">{{ translate('Phone') }}</label>
-                                            <div class="input-group registration-iti">
-                                                <input type="tel" phone-number id="phone-code" class="form-control auth-input {{ $errors->has('phone') ? ' is-invalid' : '' }}" value="{{ old('phone') }}" placeholder="" name="phone" autocomplete="off">
-                                                @if(get_setting('customer_registration_verify') == '1')
-                                                <div class="input-group-append">
-                                                    <button class="btn btn-outline-primary" type="button" id="sendOtpPhoneBtn" onclick="sendVerificationCode(this)">
-                                                        {{ translate('Verify') }} 
-                                                    </button>
-                                                </div>
-                                                @endif
-                                            </div>
-                                        </div>
-                                
-                                        <input type="hidden" id="country_code" name="country_code" value="">
-                                
-                                        <div class="form-group email-form-group mb-3 d-none">
-                                            <label for="email" class="fs-13 fw-600 text-dark mb-2">{{ translate('Email') }}</label>
-                                            <div class="input-group">
-                                                <input type="email" class="form-control auth-input {{ $errors->has('email') ? ' is-invalid' : '' }} " value="{{ old('email') }}" placeholder="{{ translate('johndoe@example.com') }}" name="email" id="signinAddonEmail" autocomplete="off">
-                                                @if(get_setting('customer_registration_verify') == '1')
-                                                <div class="input-group-append">
-                                                    <button class="btn btn-outline-primary ms-2" type="button" id="sendOtpBtn" onclick="sendVerificationCode(this)">
-                                                        {{ translate('Verify') }} 
-                                                    </button>
-                                                </div>
-                                                @endif
-                                            </div>
-                                            @if ($errors->has('email'))
-                                                <span class="invalid-feedback d-block" role="alert">
-                                                    <strong>{{ $errors->first('email') }}</strong>
-                                                </span>
-                                            @endif
-                                        </div>
-                                
-                                        <div class="text-right mb-3">
-                                            <button class="btn btn-link p-0 auth-link fs-13" type="button" onclick="toggleEmailPhone(this)">
-                                                {{ translate('Use Email Instead') }}
-                                            </button>
-                                        </div>
+                                <!-- Phone -->
+                                <div class="form-group phone-form-group mb-3 ">
+                                    <label for="phone" class="fs-13 fw-600 text-dark mb-2">{{ translate('Phone') }}</label>
+                                    <div class="input-group">
+                                        <input type="text" id="phone" class="form-control auth-input {{ $errors->has('phone') ? ' is-invalid' : '' }}" value="{{ old('phone') }}" placeholder="" name="phone" autocomplete="off">
                                     </div>
-                                    <div class="form-group mb-3 d-none">
-                                        <label class="fs-13 fw-600 text-dark mb-2" for="verification_code">{{ translate('Verification Code') }}</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control auth-input @error('verification_code') is-invalid @enderror" name="code" id="verification_code" placeholder="{{ translate('Verification Code') }}" maxlength="6">
-                                            <div class="input-group-append">
-                                                <span class="btn btn-primary" id="verifyOtpBtn">
-                                                    <i class="las la-arrow-right"></i> 
-                                                </span>
-                                            </div>
-                                            @error('otp')
-                                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
-                                            @enderror
-                                        </div>
+                                </div>
+                        
+                                <!-- Email -->
+                                <div class="form-group email-form-group mb-3">
+                                    <label for="email" class="fs-13 fw-600 text-dark mb-2">{{ translate('Email') }}</label>
+                                    <div class="input-group">
+                                        <input type="email" class="form-control auth-input {{ $errors->has('email') ? ' is-invalid' : '' }} " value="{{ old('email') }}" placeholder="{{ translate('johndoe@example.com') }}" name="email" id="signinAddonEmail" autocomplete="off">
                                     </div>
+                                    @if ($errors->has('email'))
+                                        <span class="invalid-feedback d-block" role="alert">
+                                            <strong>{{ $errors->first('email') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                                 
                                 <div class="row">
@@ -311,7 +273,7 @@
                             <div class="text-center mt-4 pt-2">
                                 <p class="fs-14 text-secondary mb-0">
                                     {{ translate('Already have an account?')}}
-                                    <a href="{{ route('user.login') }}" class="fw-700 text-primary auth-link ms-1">{{ translate('Log In')}}</a>
+                                    <a href="{{ route('affiliate.login') }}" class="fw-700 text-primary auth-link ms-1">{{ translate('Log In')}}</a>
                                 </p>
                             </div>
                         </div>
@@ -359,23 +321,13 @@
             });
         </script>
     @endif
-    @include('auth.verifyEmailOrPhone')
-
     <script>
-        const regVerifyRequired = {{get_setting('customer_registration_verify') ? 'true' : 'false' }};
         const createBtn   = $('#createAccountBtn');
         const termsCheckbox = $('input[name="checkbox_example_1"]');
         
         function toggleCreateBtn() {
             const termsChecked = termsCheckbox.is(':checked');
-            const regVerified  = regVerifyRequired ? (typeof verifyBtn !== 'undefined' && verifyBtn && verifyBtn.classList.contains('disabled')) : true;
-            let enableBtn = false;
-            if (regVerifyRequired) {
-                enableBtn = termsChecked && regVerified;
-            } else {
-                enableBtn = termsChecked;
-            }
-            createBtn.prop('disabled', !enableBtn);
+            createBtn.prop('disabled', !termsChecked);
         }
 
         document.addEventListener('DOMContentLoaded', function() {

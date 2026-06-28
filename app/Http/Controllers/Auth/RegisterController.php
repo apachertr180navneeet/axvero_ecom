@@ -73,7 +73,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        // dd($data);
         if (isset($data['email']) && filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
             $user = User::create([
                 'name' => $data['name'],
@@ -83,35 +82,17 @@ class RegisterController extends Controller
         }
         else {
             $cleanPhone = preg_replace('/\D+/', '', $data['phone']);
-                $user = User::create([
-                    'name' => $data['name'],
-                    'phone' => '+'.$data['country_code'].$cleanPhone,
-                    'password' => Hash::make($data['password']),
-                    'verification_code' => rand(100000, 999999)
-                ]);
+            $user = User::create([
+                'name' => $data['name'],
+                'phone' => '+'.$data['country_code'].$cleanPhone,
+                'password' => Hash::make($data['password']),
+                'verification_code' => rand(100000, 999999)
+            ]);
 
-                if(get_setting('customer_registration_verify') != '1' ){
-                    $otpController = new OTPVerificationController;
-                    $otpController->send_code($user);
-                }
-
+            if(get_setting('customer_registration_verify') != '1' ){
+                $otpController = new OTPVerificationController;
+                $otpController->send_code($user);
             }
-        }
-        
-        if(session('temp_user_id') != null){
-            if(auth()->user()->user_type == 'customer'){
-                Cart::where('temp_user_id', session('temp_user_id'))
-                ->update(
-                    [
-                        'user_id' => auth()->user()->id,
-                        'temp_user_id' => null
-                    ]
-                );
-            }
-            else {
-                Cart::where('temp_user_id', session('temp_user_id'))->delete();
-            }
-            Session::forget('temp_user_id');
         }
 
         return $user;
@@ -119,7 +100,6 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        //dd($request->all());
         if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
             if(User::where('email', $request->email)->first() != null){
                 flash(translate('Email or Phone already exists.'));
@@ -137,6 +117,22 @@ class RegisterController extends Controller
         $user = $this->create($request->all());
 
         $this->guard()->login($user);
+
+        if(session('temp_user_id') != null){
+            if(auth()->user()->user_type == 'customer'){
+                Cart::where('temp_user_id', session('temp_user_id'))
+                ->update(
+                    [
+                        'user_id' => auth()->user()->id,
+                        'temp_user_id' => null
+                    ]
+                );
+            }
+            else {
+                Cart::where('temp_user_id', session('temp_user_id'))->delete();
+            }
+            Session::forget('temp_user_id');
+        }
 
         if($user->email != null){
             if(BusinessSetting::where('type', 'email_verification')->first()->value != 1 || get_setting('customer_registration_verify') === '1'){
@@ -181,6 +177,9 @@ class RegisterController extends Controller
         }
         
         if ($request->has('is_affiliate') && $request->is_affiliate == 1) {
+            $user->user_type = 'affiliate';
+            $user->save();
+
             $affiliate_user = new \App\Models\AffiliateUser;
             $affiliate_user->user_id = $user->id;
             $affiliate_user->status = 0;

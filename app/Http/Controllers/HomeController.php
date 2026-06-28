@@ -299,6 +299,8 @@ public function getRecentProducts(Request $request)
             return view('frontend.user.customer.dashboard');
         } elseif (Auth::user()->user_type == 'delivery_boy') {
             return view('delivery_boys.dashboard');
+        } elseif (Auth::user()->user_type == 'affiliate') {
+            return redirect()->route('affiliate.user.index');
         } else {
             abort(404);
         }
@@ -554,7 +556,7 @@ public function product(Request $request, $slug)
                 return view('frontend.seller_shop', compact('shop', 'type', 'products', 'selected_categories', 'min_price', 'max_price', 'brand_id', 'sort_by', 'rating'));
             }
 
-            if ($type == 'all-preorder-products') {
+            if ($type == 'all-preorder-products' && \Illuminate\Support\Facades\Schema::hasTable('preorder_products')) {
                 $sort_by = $request->sort_by;
                 $min_price = $request->min_price;
                 $max_price = $request->max_price;

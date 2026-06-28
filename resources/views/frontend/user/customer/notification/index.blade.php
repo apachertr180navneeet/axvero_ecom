@@ -81,7 +81,7 @@
                                             @elseif($notification->type == 'App\Notifications\PreorderNotification')
                                                 @php
                                                     $orderCode  = $notification->data['order_code'];
-                                                        $route = route('preorder.order_details', encrypt($notification->data['preorder_id']));
+                                                        $route = \Illuminate\Support\Facades\Route::has('preorder.order_details') ? route('preorder.order_details', encrypt($notification->data['preorder_id'])) : '#';
                                                         $orderCode = "<a href='".$route."'>".$orderCode."</a>";
                                                     $notifyContent = str_replace('[[order_code]]', $orderCode, $notifyContent);
                                                 @endphp
