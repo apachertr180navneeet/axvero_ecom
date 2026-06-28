@@ -1,5 +1,5 @@
 <div class="z-3 sticky-top-lg">
-<div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+<div class="modern-card overflow-hidden">
 
 
            @php
@@ -249,7 +249,7 @@
             @if ($proceed == 1)
             <!-- Continue to Shipping -->
             <div class="mt-4">
-                <a href="{{ route('checkout') }}" class="btn btn-primary w-100 fw-bold py-3 rounded-3 shadow-sm">
+                <a href="{{ route('checkout') }}" class="modern-btn modern-btn-primary w-100 fw-bold py-3 shadow-sm">
                     {{ translate('Proceed to Checkout')}} ({{ sprintf("%02d", count($carts)) }})
                 </a>
             </div>

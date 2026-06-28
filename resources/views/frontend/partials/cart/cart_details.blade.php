@@ -22,7 +22,7 @@
                         </div>
                     @endif
                 @endif
-                <div class="bg-white p-3 p-lg-4 text-left">
+                <div class="modern-card p-3 p-lg-4 text-left">
                     <div class="mb-4">
                         <div class="form-group mb-2 border-bottom">
                             <div class="aiz-checkbox-inline mb-3">
@@ -302,7 +302,7 @@
                             @endif
                         </ul>
                         @if(auth()->check())
-                            <div class="bg-white p-3 mb-3 border">
+                            <div class="modern-card p-3 mb-3">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h5 class="fw-700 mb-0">Bulk Buyer</h5>
                             
@@ -327,7 +327,7 @@
     @else
         <div class="row">
             <div class="col-xl-8 mx-auto">
-                <div class="border bg-white p-4">
+                <div class="modern-card p-4">
                     <!-- Empty cart -->
                     <div class="text-center p-3">
                         <i class="las la-frown la-3x opacity-60 mb-3"></i>

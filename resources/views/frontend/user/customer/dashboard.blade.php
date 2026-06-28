@@ -107,7 +107,7 @@
 
         <!-- count summary -->
         <div class="col-xl-4 col-md-6 mb-4">
-            <div class="px-4 bg-white border h-100">
+            <div class="px-4 modern-card h-100">
                 <!-- Cart summary -->
                 <div class="d-flex align-items-center py-4 border-bottom">
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
@@ -174,7 +174,7 @@
 
         <!-- Default Shipping Address -->
         <div class="col-xl-4 col-md-6 mb-4">
-            <div class="p-4 border h-100">
+            <div class="p-4 modern-card h-100">
                 <h6 class="fw-700 mb-3 text-dark">{{ translate('Default Shipping Address') }}</h6>
                 @if(Auth::user()->addresses != null)
                     @php
@@ -200,7 +200,7 @@
 
         <!--Billing Address -->
         <div class="col-xl-4 col-md-6 mb-4">
-            <div class="p-4 border h-100">
+            <div class="p-4 modern-card h-100">
                 <h6 class="fw-700 mb-3 text-dark">{{ translate('Default Billing Address') }}</h6>
                 @if(Auth::user()->addresses != null)
                     @php
@@ -224,7 +224,7 @@
          <!-- Purchased Package -->
         @if (get_setting('classified_product'))
         <div class="col-xl-4 col-md-6 mb-4">
-            <div class="p-4 border h-100">
+            <div class="p-4 modern-card h-100">
                 <h6 class="fw-700 mb-3 text-dark">{{ translate('Purchased Package') }}</h6>
                 @php
                     $customer_package = get_single_customer_package(Auth::user()->customer_package_id);
@@ -327,7 +327,7 @@
     @else
         <div class="row">
             <div class="col">
-                <div class="text-center bg-white p-4 border">
+                <div class="text-center modern-card p-4">
                     <img class="mw-100 h-200px" src="{{ static_asset('assets/img/nothing.svg') }}" alt="Image">
                     <h5 class="mb-0 h5 mt-3">{{ translate("There isn't anything added yet")}}</h5>
                 </div>

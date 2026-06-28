@@ -65,7 +65,7 @@
                                 </div>
 
                                 <!-- Categories -->
-                                <div class="bg-white border-bottom-listing-sidebar">
+                                <div class="modern-card mb-3">
                                     <div class="fs-16 fw-700 p-3">
                                         <a href="#collapse_1"
                                             class="dropdown-toggle filter-section text-dark d-flex align-items-center justify-content-between"
@@ -142,7 +142,7 @@
 
 
                                 <!-- Price range -->
-                                <div class="bg-white border-bottom-listing-sidebar">
+                                <div class="modern-card mb-3">
                                     <div class="fs-16 fw-700 p-3">
                                         <a href="#collapse_price"
                                             class="dropdown-toggle collapsed filter-section text-dark d-flex align-items-center justify-content-between"
@@ -201,7 +201,7 @@
                                 <!-- Attributes -->
                                 @foreach ($attributes as $attribute)
                                     @if ($attribute->product_count > 0)
-                                        <div class="bg-white preorder-time-hide border-bottom-listing-sidebar">
+                                        <div class="modern-card preorder-time-hide mb-3">
                                             <div class="fs-16 fw-700 p-3">
                                                 <a href="#"
                                                     class="dropdown-toggle text-dark filter-section collapsed d-flex align-items-center justify-content-between"
@@ -254,7 +254,7 @@
 
                                 <!-- Color -->
                                 @if (get_setting('color_filter_activation'))
-                                    <div class="bg-white  mb-3 preorder-time-hide">
+                                    <div class="modern-card mb-3 preorder-time-hide">
                                         <div class="fs-16 fw-700 p-3">
                                             <a href="#"
                                                 class="dropdown-toggle text-dark filter-section collapsed d-flex align-items-center justify-content-between"
@@ -310,7 +310,7 @@
 
                                 <!-- Attributes for preorder product -->
                                 <div
-                                    class="bg-white  mb-3 mt-3 preorder-time-show display-none border-bottom-listing-sidebar">
+                                    class="modern-card mb-3 mt-3 preorder-time-show display-none">
                                     <div class="fs-16 fw-700 p-3">
                                         <a href="#"
                                             class="dropdown-toggle text-dark filter-section collapsed d-flex align-items-center justify-content-between"

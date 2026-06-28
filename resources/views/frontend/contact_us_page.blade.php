@@ -75,7 +75,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="p-3 p-md-4 p-xl-5">
-                        <div class="bg-white p-4 p-xl-2rem border rounded-3">
+                        <div class="modern-card p-4 p-xl-2rem">
                             <form class="form-default" id="contact-us" role="form" action="{{ route('contact') }}" method="POST">
                                 @csrf
 
@@ -119,12 +119,12 @@
                                 <!-- Submit Button -->
                                 <div class="mt-4">
                                     @if (env('MAIL_USERNAME') == null && env('MAIL_PASSWORD') == null)
-                                        <a class="btn btn-primary fw-700 fs-14 rounded-0 w-200px"
+                                        <a class="modern-btn modern-btn-primary fw-700 fs-14 w-200px"
                                             href="javascript:void(1)" onclick="showWarning()">
                                             {{  translate('Submit') }}
                                         </a>
                                     @else
-                                        <button type="submit" class="btn btn-primary fw-700 fs-14 rounded-0 w-200px">{{  translate('Submit') }}</button>
+                                        <button type="submit" class="modern-btn modern-btn-primary fw-700 fs-14 w-200px">{{  translate('Submit') }}</button>
                                     @endif
 
                                 </div>

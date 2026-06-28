@@ -512,7 +512,7 @@
                                 <i class="la la-share"></i> {{ translate($detailedProduct->external_link_btn) }}
                             </a>
                             @else
-                            <button type="button" class="btn bg-soft-primary add-to-cart fw-600 min-w-150px w-75 rounded-1  text-primary hov-bg-primary hov-text-light" @if (Auth::check() || get_Setting('guest_checkout_activation')==1) onclick="addToCart()" @else onclick="showLoginModal()" @endif>
+                            <button type="button" class="modern-btn modern-btn-primary fw-600 min-w-150px w-75 rounded-1 hov-bg-primary hov-text-light" @if (Auth::check() || get_Setting('guest_checkout_activation')==1) onclick="addToCart()" @else onclick="showLoginModal()" @endif>
                                 <i class="las la-shopping-bag"></i> {{ translate('Add to cart') }}
                             </button>
                             @endif
@@ -525,10 +525,10 @@
                         <div class="product-quantity d-flex align-items-center">
                             @if (((get_setting('product_external_link_for_seller') == 1) && ($detailedProduct->added_by == "seller") && ($detailedProduct->external_link != null)) || (($detailedProduct->added_by != "seller") && ($detailedProduct->external_link != null)))
                             @else
-                            <button type="button" class="btn btn-dark buy-now fw-600 add-to-cart min-w-150px rounded-1 w-100" @if (Auth::check() || get_Setting('guest_checkout_activation')==1) onclick="buyNow()" @else onclick="showLoginModal()" @endif>
+                            <button type="button" class="modern-btn modern-btn-secondary buy-now fw-600 add-to-cart min-w-150px rounded-1 w-100" @if (Auth::check() || get_Setting('guest_checkout_activation')==1) onclick="buyNow()" @else onclick="showLoginModal()" @endif>
                                 <i class="la la-shopping-cart"></i> {{ translate('Buy Now') }}
                             </button>
-                            <button type="button" class="btn btn-secondary out-of-stock fw-600 d-none" disabled>
+                            <button type="button" class="modern-btn modern-btn-secondary out-of-stock fw-600 d-none" disabled>
                                 <i class="la la-cart-arrow-down"></i> {{ translate('Out of Stock') }}
                             </button>
                             @endif
@@ -558,7 +558,7 @@
                 <div class="row no-gutters mb-3">
                     <div class="col-sm-9">
                         <button type="button"
-                            class="btn bg-soft-primary add-to-cart fw-600 min-w-150px w-100 rounded-1 text-primary hov-bg-primary hov-text-light"
+                            class="modern-btn modern-btn-primary add-to-cart fw-600 min-w-150px w-100 rounded-1 hov-bg-primary hov-text-light"
                             @if (Auth::check() || get_Setting('guest_checkout_activation')==1) onclick="addToCart()" @else onclick="showLoginModal()" @endif>
                             <i class="las la-shopping-bag"></i> {{ translate('Add to cart') }}
                         </button>
@@ -567,7 +567,7 @@
                 </div>
                 <div class="row no-gutters mb-3">
                     <div class="col-sm-9">
-                        <button type="button" class="btn btn-dark buy-now fw-600 add-to-cart min-w-150px rounded-1 w-100"
+                        <button type="button" class="modern-btn modern-btn-secondary buy-now fw-600 add-to-cart min-w-150px rounded-1 w-100"
                             @if (Auth::check() || get_Setting('guest_checkout_activation')==1) onclick="buyNow()" @else onclick="showLoginModal()" @endif>
                             
                             <i class="la la-shopping-cart"></i> {{ translate('Buy Now') }}

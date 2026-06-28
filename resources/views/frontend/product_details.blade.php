@@ -58,7 +58,7 @@
 @section('content')
     <section class="mb-4 pt-3">
         <div class="container">
-            <div class="bg-white py-3">
+            <div class="modern-card p-4 py-3">
                 
                 <nav aria-label="breadcrumb">
     <ol class="breadcrumb mb-0 bg-transparent p-0" style="font-size:15px;">

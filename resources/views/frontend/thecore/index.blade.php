@@ -155,7 +155,7 @@
                     <div class="px-0 px-md-3">
                         <p class="fs-16 fw-700  font-weight-bold mb-1 mb-sm-3">{{translate('Featured Categories')}}</p>
                         <p class="fs-13 fs-lg-14 fw-300 text-truncate-2" title="{{translate('Categories catching eyes & winning hearts across our marketplace')}}">{{translate('Categories catching eyes & winning hearts across our marketplace')}}</p>
-                        <a class="btn fs-10 fs-md-16 custom-hov-btn py-2" href="{{route('categories.all')}}" style="background: {{ get_setting('featured_category_btn_color', '#F94C10') }}; color: {{ get_setting('featured_category_section_btn_text_color', '#f5f5f5') }};">
+                        <a class="modern-btn modern-btn-primary" href="{{route('categories.all')}}">
                             <span class="d-inline">{{ translate('All Categories') }}</span>
                         </a>
                     </div>
@@ -221,6 +221,7 @@
                     data-xs-items="3" data-arrows="false" data-dots="false" data-autoplay="false" data-infinite="true">
                     @foreach ($best_selling_products as $key => $product)
                         <div class="px-3">
+                            <div class="modern-card p-2 h-100 hov-scale-img">
                             <div class="img h-80px w-80px h-lg-100px w-lg-100px  h-xl-130px w-xl-130px h-xxl-170px w-xxl-170px rounded overflow-hidden mx-auto position-relative image-hover-effect">
                                 <a href="{{ route('product', $product->slug) }}" title="{{ $product->getTranslation('name') }}">
                                     <img class="lazyload img-fit m-auto has-transition product-main-image"
@@ -250,6 +251,7 @@
                                     <del class="d-block text-secondary fs-12 fw-400">{{ home_base_price($product) }}</del>
                                 @endif
                             </div>
+                            </div>
                         </div>
                     @endforeach
                 </div>
@@ -278,6 +280,7 @@
                     data-xs-items="1" data-arrows="true" data-dots="false" data-autoplay="true" data-infinite="true">
                     @foreach ($todays_deal_products as $key => $product)
                         <div class="px-3">
+                            <div class="modern-card p-2 h-100 hov-scale-img">
                             <div class="img h-80px w-80px h-lg-100px w-lg-100px  h-xl-130px w-xl-130px h-xxl-170px w-xxl-170px rounded overflow-hidden mx-auto position-relative image-hover-effect">
                                 <a href="{{ route('product', $product->slug) }}" title="{{ $product->getTranslation('name') }}">
                                     <img class="lazyload img-fit m-auto has-transition product-main-image"
@@ -307,6 +310,7 @@
                                     <del
                                         class="d-block text-secondary fs-12 fw-400">{{ home_base_price($product) }}</del>
                                 @endif
+                            </div>
                             </div>
                         </div>
                     @endforeach
@@ -506,6 +510,7 @@ $homeBanner2SmallImages = get_setting('home_banner2_sm_images', null, $lang);
                 <div id="bestSellingSlider{{ $category->id }}" class="aiz-carousel" data-items="2" data-xxl-items="4" data-xl-items="4" data-lg-items="4" data-md-items="3" data-sm-items="2" data-xs-items="2" data-arrows="true" data-dots="false" data-autoplay="true" data-infinite="true">
                     @foreach ($category->bestSellingProducts as $product)
                         <div class="px-3">
+                            <div class="modern-card p-2 h-100 hov-scale-img">
                             <!-- Product Image and Info -->
                             <div class="img h-80px w-80px h-lg-100px w-lg-100px h-xl-130px w-xl-130px h-xxl-170px w-xxl-170px rounded overflow-hidden mx-auto position-relative image-hover-effect">
                                 <a href="{{ route('product', $product->slug) }}" title="{{ $product->getTranslation('name') }}">
@@ -528,6 +533,7 @@ $homeBanner2SmallImages = get_setting('home_banner2_sm_images', null, $lang);
                                 @if (home_base_price($product) != home_discounted_base_price($product))
                                     <del class="d-block text-secondary fs-12 fw-400">{{ home_base_price($product) }}</del>
                                 @endif
+                            </div>
                             </div>
                         </div>
                     @endforeach
@@ -538,6 +544,7 @@ $homeBanner2SmallImages = get_setting('home_banner2_sm_images', null, $lang);
                 <div id="latestProductsSlider{{ $category->id }}" class="aiz-carousel" data-items="2" data-xxl-items="4" data-xl-items="4" data-lg-items="4" data-md-items="3" data-sm-items="2" data-xs-items="2" data-arrows="true" data-dots="false" data-autoplay="true" data-infinite="true">
                     @foreach ($category->products as $product)
                         <div class="px-3">
+                            <div class="modern-card p-2 h-100 hov-scale-img">
                             <!-- Product Image and Info -->
                             <div class="img h-80px w-80px h-lg-100px w-lg-100px h-xl-130px w-xl-130px h-xxl-170px w-xxl-170px rounded overflow-hidden mx-auto position-relative image-hover-effect">
                                 <a href="{{ route('product', $product->slug) }}" title="{{ $product->getTranslation('name') }}">
@@ -560,6 +567,7 @@ $homeBanner2SmallImages = get_setting('home_banner2_sm_images', null, $lang);
                                 @if (home_base_price($product) != home_discounted_base_price($product))
                                     <del class="d-block text-secondary fs-12 fw-400">{{ home_base_price($product) }}</del>
                                 @endif
+                            </div>
                             </div>
                         </div>
                     @endforeach
