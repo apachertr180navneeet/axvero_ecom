@@ -177,7 +177,7 @@ class HomeController extends Controller
         }
 
 
-        if ($request->has('referral_code')) {
+        if ($request->has('referral_code') && addon_is_activated('affiliate_system')) {
             try {
                 $affiliate_validation_time = AffiliateConfig::where('type', 'validation_time')->first();
                 $cookie_minute = 30 * 24;
@@ -362,7 +362,7 @@ class HomeController extends Controller
                 $review_status = $OrderDetail ? 1 : 0;
                 $order_id = $OrderDetail->order->id ?? null ;
             }
-            if ($request->has('product_referral_code')) {
+            if ($request->has('product_referral_code') && addon_is_activated('affiliate_system')) {
                 $affiliate_validation_time = AffiliateConfig::where('type', 'validation_time')->first();
                 $cookie_minute = 30 * 24;
                 if ($affiliate_validation_time) {

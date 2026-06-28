@@ -35,7 +35,7 @@ class OrderService{
                 product_restock($orderDetail);
             }
 
-            if (auth()->user()->user_type == 'admin') {
+            if (addon_is_activated('affiliate_system') && auth()->user()->user_type == 'admin') {
                 if (($request->status == 'delivered' || $request->status == 'cancelled') &&
                     $orderDetail->product_referral_code
                 ) {

@@ -291,11 +291,13 @@
                                 {{ translate('Track Order') }}
                             </a>
                         </li>
+                        @if (addon_is_activated('affiliate_system'))
                             <li class="mb-2">
                                 <a class="fs-13 text-soft-light animate-underline-white" href="{{ route('affiliate.apply') }}">
                                     {{ translate('Be an affiliate partner')}}
                                 </a>
                             </li>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -452,11 +454,13 @@
                                 {{ translate('Track Order') }}
                             </a>
                         </li>
+                        @if (addon_is_activated('affiliate_system'))
                             <li class="mb-2 pb-2 {{ areActiveRoutes(['affiliate.apply'],' active')}}">
                                 <a class="fs-13 text-soft-light text-sm-secondary animate-underline-white" href="{{ route('affiliate.apply') }}">
                                     {{ translate('Be an affiliate partner')}}
                                 </a>
                             </li>
+                        @endif
                     </ul>
                 </div>
             </div>

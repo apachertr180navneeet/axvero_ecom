@@ -1448,6 +1448,7 @@
                 @endcanany
 
                 <!-- Affiliate Addon -->
+                @if (addon_is_activated('affiliate_system'))
                 @canany(['affiliate_registration_form_config','affiliate_configurations','view_affiliate_users','view_all_referral_users','view_affiliate_withdraw_requests','view_affiliate_logs'])
                 <li class="aiz-side-nav-item">
                     <a href="#" class="aiz-side-nav-link">
@@ -1681,7 +1682,8 @@
                                 @endcan
                             </ul>
                         </li>
-                @endcanany
+                    @endcanany
+                @endif  
                   
                 <!--GST addon -->
                 @if (addon_is_activated('gst_system'))

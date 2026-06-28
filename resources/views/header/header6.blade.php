@@ -366,11 +366,13 @@ $bottomHeaderTextColor = get_setting('bottom_header_text_color');
                                                 style="min-height: 40px;">
                                                 {{ translate('Seller Login') }}
                                             </a>
+                                            @if (addon_is_activated('affiliate_system'))
                                             <a href="{{ route('affiliate.apply') }}"
                                                 class="dropdown-item fs-13 py-2 px-3 hover-bg-light hover-text-primary border-bottom border-soft-light d-flex align-items-center"
                                                 style="min-height: 40px;">
                                                 {{ translate('Be an affiliate partner') }}
                                             </a>
+                                            @endif
                                         </div>
                                         @endif
                                         <!-- Become a Seller Links -->

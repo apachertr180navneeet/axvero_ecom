@@ -306,7 +306,7 @@
                             <!-- Promote Link -->
                             <div class="d-table width-100 mt-3">
                                 <div class="d-table-cell">
-                                    @if(Auth::check() && get_affliate_option_status() && Auth::user()->affiliate_user != null && Auth::user()->affiliate_user->status)
+                                    @if(Auth::check() && addon_is_activated('affiliate_system') && get_affliate_option_status() && Auth::user()->affiliate_user != null && Auth::user()->affiliate_user->status)
                                         @php
                                             if(Auth::check()){
                                                 if(Auth::user()->referral_code == null){
