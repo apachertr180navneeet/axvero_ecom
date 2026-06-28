@@ -611,31 +611,6 @@
    
    
 
-        <!-- Promote Link -->
-        <div class="d-table width-100 mt-3">
-            <div class="d-table-cell">
-                @if (Auth::check() &&
-                        get_affliate_option_status() &&
-                        Auth::user()->affiliate_user != null &&
-                        Auth::user()->affiliate_user->status)
-                    @php
-                        if (Auth::check()) {
-                            if (Auth::user()->referral_code == null) {
-                                Auth::user()->referral_code = substr(Auth::user()->id . Str::random(10), 0, 10);
-                                Auth::user()->save();
-                            }
-                            $referral_code = Auth::user()->referral_code;
-                            $referral_code_url = URL::to('/product') . '/' . $detailedProduct->slug . "?product_referral_code=$referral_code";
-                        }
-                    @endphp
-                    <div>
-                        <button type="button" id="ref-cpurl-btn" class="btn btn-secondary w-200px rounded-0"
-                            data-attrcpy="{{ translate('Copied') }}" onclick="CopyToClipboard(this)"
-                            data-url="{{ $referral_code_url }}">{{ translate('Copy the Promote Link') }}</button>
-                    </div>
-                @endif
-            </div>
-        </div>
 
         <!-- Refund -->
         @php

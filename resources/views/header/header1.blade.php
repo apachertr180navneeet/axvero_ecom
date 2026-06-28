@@ -3,7 +3,7 @@
     $middleHeaderTextColor = get_setting('middle_header_text_color');
     $bottomHeaderTextColor = get_setting('bottom_header_text_color');
 @endphp
-<div class="top-navbar z-1035 h-35px h-sm-auto top-background-color-visibility"
+<div class="top-navbar modern-top-bar z-1035 h-35px h-sm-auto top-background-color-visibility"
     style="background-color: {{ get_setting('top_header_bg_color') }}">
     <div class="container">
         <div class="row">
@@ -83,19 +83,10 @@
                                     <a class="dropdown-item py-2 px-2 text-dark" href="{{ route('seller.login') }}">
                                         {{ translate('Login to Seller') }}
                                     </a>
-                                    <a class="dropdown-item py-2 px-2 text-dark" href="{{ route('affiliate.apply') }}">
-                                        {{ translate('Be an affiliate partner') }}
-                                    </a>
                                 </div>
                             </div>
                         </li>
                     @endif
-                    <li class="list-inline-item ml-3 pl-3 mr-0 pr-0 top-text-color-visibility"
-                        style="color: {{ $topHeaderTextColor }}">
-                        <a class="fs-12" href="{{ route('affiliate.apply') }}">
-                            {{ translate('Be an affiliate partner') }}
-                        </a>
-                    </li>
                     @if (get_setting('helpline_number'))
                         <li class="list-inline-item ml-3 pl-3 mr-0 pr-0 top-text-color-visibility"
                             style="color: {{ $topHeaderTextColor }}">
@@ -123,10 +114,10 @@
 </div>
 
 <header
-    class="@if (get_setting('header_stikcy') == 'on') sticky-top @endif z-1020 middle-background-color-visibility stikcy-header-visibility"
+    class="@if (get_setting('header_stikcy') == 'on') sticky-top @endif modern-header z-1020 middle-background-color-visibility stikcy-header-visibility"
     style="background-color: {{ get_setting('middle_header_bg_color') }}">
     <!-- Search Bar -->
-    <div class="position-relative logo-bar-area border-bottom border-md-nonea z-1025">
+    <div class="position-relative logo-bar-area modern-logo-bar-area border-bottom border-md-nonea z-1025">
         <div class="container">
             <div class="d-flex align-items-center">
                 <!-- top menu sidebar button -->
@@ -178,7 +169,7 @@
                                 </div>
                                 <div class="search-input-box">
                                     <input type="text"
-                                        class="border border-soft-light form-control fs-14 hov-animate-outline"
+                                        class="border border-soft-light form-control fs-14 hov-animate-outline modern-search-box"
                                         id="search" name="keyword"
                                         @isset($query) value="{{ $query }}" @endisset
                                         placeholder="{{ translate('I am shopping for...') }}" autocomplete="off">
@@ -250,7 +241,7 @@
                                     </svg>
                                     @if (Auth::check() && count($user->unreadNotifications) > 0)
                                         <span
-                                            class="badge badge-primary badge-inline badge-pill absolute-top-right--10px unread-notification-count">{{ count($user->unreadNotifications) }}</span>
+                                            class="modern-badge absolute-top-right--10px unread-notification-count">{{ count($user->unreadNotifications) }}</span>
                                     @endif
                                 </span>
                             </a>
@@ -432,7 +423,7 @@
         <div class="hover-user-top-menu position-absolute top-100 left-0 right-0 z-3">
             <div class="container">
                 <div class="position-static float-right">
-                    <div class="aiz-user-top-menu bg-white rounded-0 border-top shadow-sm" style="width:220px;">
+                    <div class="aiz-user-top-menu bg-white rounded-0 border-top shadow-sm" style="width:220px;margin-top: -40px !important;">
                         <ul class="list-unstyled no-scrollbar mb-0 text-left">
                             @if (isAdmin())
                                 <li class="user-top-nav-element border border-top-0" data-id="1">

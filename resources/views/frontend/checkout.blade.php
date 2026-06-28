@@ -176,6 +176,37 @@ input:checked + .slider:before {
 @section('script')
 
 <script>
+        function stepCompletionPaymentInfo() {
+            var headColor = '#9d9da6';
+            var btnDisable = true;
+            var payment = false;
+            var agree = false;
+            var allOk = false;
+            var length = $('input[name="payment_option"]:checked').length;
+            if(length > 0){
+                if ($('input[name="payment_option"]:checked').hasClass('offline_payment_option')) {
+                    if ($('#trx_id').val() != '' && $('#trx_id').val() != undefined && $('#trx_id').val() != null) {
+                        payment = true;
+                    }
+                } else {
+                    payment = true;
+                }
+
+                if ($('#agree_checkbox').is(":checked")){
+                    agree = true;
+                }
+
+                if (payment && agree) {
+                    headColor = '#15a405';
+                    btnDisable = false;
+                    allOk = true;
+                }
+            }
+
+            $('#headingPaymentInfo svg *').css('fill', headColor);
+            $("#submitOrderBtn").prop('disabled', btnDisable);
+            return allOk;
+        }
  $(document).ready(function() {
     // Initial setup
     var currentOnlinePay = parseInt($('#is_online_pay').val()) === 1;
@@ -683,38 +714,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 type_id = $('select[name=pickup_point_id_'+user_id+']').val();
             }
             updateDeliveryInfo(type, type_id, user_id);
-        }
-
-        function stepCompletionPaymentInfo() {
-            var headColor = '#9d9da6';
-            var btnDisable = true;
-            var payment = false;
-            var agree = false;
-            var allOk = false;
-            var length = $('input[name="payment_option"]:checked').length;
-            if(length > 0){
-                if ($('input[name="payment_option"]:checked').hasClass('offline_payment_option')) {
-                    if ($('#trx_id').val() != '' && $('#trx_id').val() != undefined && $('#trx_id').val() != null) {
-                        payment = true;
-                    }
-                } else {
-                    payment = true;
-                }
-
-                if ($('#agree_checkbox').is(":checked")){
-                    agree = true;
-                }
-
-                if (payment && agree) {
-                    headColor = '#15a405';
-                    btnDisable = false;
-                    allOk = true;
-                }
-            }
-
-            $('#headingPaymentInfo svg *').css('fill', headColor);
-            $("#submitOrderBtn").prop('disabled', btnDisable);
-            return allOk;
         }
 
         function stepCompletionWalletPaymentInfo() {

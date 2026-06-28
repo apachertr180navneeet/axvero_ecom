@@ -46,11 +46,6 @@ class Order extends Model
         return $this->belongsTo(Carrier::class);
     }
 
-    public function affiliate_log()
-    {
-        return $this->hasMany(AffiliateLog::class);
-    }
-
     public function club_point()
     {
         return $this->hasMany(ClubPoint::class);

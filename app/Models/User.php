@@ -10,7 +10,6 @@ use App\Models\Cart;
 use App\Notifications\EmailVerificationNotification;
 use App\Traits\PreventDemoModeChanges;
 use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -29,7 +28,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','referral_code','referred_by','address', 'city', 'postal_code', 'phone', 'country', 'provider_id', 'email_verified_at', 'verification_code',
+        'name', 'email', 'password', 'address', 'city', 'postal_code', 'phone', 'country', 'provider_id', 'email_verified_at', 'verification_code',
         'is_bulk_buyer', 'bulk_buyer_total_advance', 'bulk_buyer_total_pending', 'bulk_buyer_total_cod_received', 'bulk_buyer_since',
     ];
 
@@ -50,16 +49,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function customer()
     {
         return $this->hasOne(Customer::class);
-    }
-
-    public function affiliate_user()
-    {
-        return $this->hasOne(AffiliateUser::class);
-    }
-
-    public function affiliate_withdraw_request()
-    {
-        return $this->hasMany(AffiliateWithdrawRequest::class);
     }
 
     public function products()
@@ -141,11 +130,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Address::class);
     }
 
-    public function affiliate_log()
-    {
-        return $this->hasMany(AffiliateLog::class);
-    }
-
     public function product_bids()
     {
         return $this->hasMany(AuctionProductBid::class);
@@ -200,32 +184,7 @@ class User extends Authenticatable implements MustVerifyEmail
     
 
     
-            protected static function boot()
-        {
-            parent::boot();
-        
-            static::creating(function ($user) {
-                if (empty($user->referral_code)) {
-                    $user->referral_code = self::generateReferralCode();
-                }
-            });
-            
-              static::retrieved(function ($user) {
-        if (empty($user->referral_code)) {
-            $user->referral_code = self::generateReferralCode();
-            $user->saveQuietly(); // important
-        }
-    });
-        }
-        
-        public static function generateReferralCode()
-        {
-            do {
-                $code = strtoupper(Str::random(6));
-            } while (self::where('referral_code', $code)->exists());
-        
-            return $code;
-        }
+
         
         
        

@@ -35,27 +35,6 @@ class OrderService{
                 product_restock($orderDetail);
             }
 
-            if (addon_is_activated('affiliate_system') && auth()->user()->user_type == 'admin') {
-                if (($request->status == 'delivered' || $request->status == 'cancelled') &&
-                    $orderDetail->product_referral_code
-                ) {
-
-                    $no_of_delivered = 0;
-                    $no_of_canceled = 0;
-
-                    if ($request->status == 'delivered') {
-                        $no_of_delivered = $orderDetail->quantity;
-                    }
-                    if ($request->status == 'cancelled') {
-                        $no_of_canceled = $orderDetail->quantity;
-                    }
-
-                    $referred_by_user = User::where('referral_code', $orderDetail->product_referral_code)->first();
-
-                    $affiliateController = new AffiliateController;
-                    $affiliateController->processAffiliateStats($referred_by_user->id, 0, 0, $no_of_delivered, $no_of_canceled);
-                }
-            }
         }
         if (addon_is_activated('otp_system') && SmsTemplate::where('identifier', 'delivery_status_change')->first()->status == 1) {
             try {

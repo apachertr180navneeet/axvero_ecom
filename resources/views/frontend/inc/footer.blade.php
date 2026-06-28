@@ -291,11 +291,6 @@
                                 {{ translate('Track Order') }}
                             </a>
                         </li>
-                            <li class="mb-2">
-                                <a class="fs-13 text-soft-light animate-underline-white" href="{{ route('affiliate.apply') }}">
-                                    {{ translate('Be an affiliate partner')}}
-                                </a>
-                            </li>
                     </ul>
                 </div>
             </div>
@@ -452,11 +447,7 @@
                                 {{ translate('Track Order') }}
                             </a>
                         </li>
-                            <li class="mb-2 pb-2 {{ areActiveRoutes(['affiliate.apply'],' active')}}">
-                                <a class="fs-13 text-soft-light text-sm-secondary animate-underline-white" href="{{ route('affiliate.apply') }}">
-                                    {{ translate('Be an affiliate partner')}}
-                                </a>
-                            </li>
+
                     </ul>
                 </div>
             </div>

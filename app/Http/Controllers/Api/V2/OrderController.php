@@ -16,8 +16,6 @@ use App\Services\ShiprocketService;
 use DB;
 use \App\Utility\NotificationUtility;
 use App\Models\CombinedOrder;
-use App\Http\Controllers\AffiliateController;
-
 class OrderController extends Controller
 {
     public function store(Request $request, $set_paid = false)
@@ -135,7 +133,6 @@ class OrderController extends Controller
                 $order_detail->price = cart_product_price($cartItem, $product, false, false) * $cartItem['quantity'];
                 $order_detail->tax = cart_product_tax($cartItem, $product, false) * $cartItem['quantity'];
                 $order_detail->shipping_type = $cartItem['shipping_type'];
-                $order_detail->product_referral_code = $cartItem['product_referral_code'];
                 $order_detail->shipping_cost = $cartItem['shipping_cost'];
 
                 $shipping += $order_detail->shipping_cost;
@@ -167,14 +164,6 @@ class OrderController extends Controller
                     $seller->save();
                 }
 
-                if (addon_is_activated('affiliate_system')) {
-                    if ($order_detail->product_referral_code) {
-                        $referred_by_user = User::where('referral_code', $order_detail->product_referral_code)->first();
-
-                        $affiliateController = new AffiliateController;
-                        $affiliateController->processAffiliateStats($referred_by_user->id, 0, $order_detail->quantity, 0, 0);
-                    }
-                }
             }
 
             $order->grand_total = $subtotal + $tax + $shipping;

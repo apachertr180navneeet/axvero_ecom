@@ -3,7 +3,6 @@
 namespace App\Utility;
 
 use App\Models\Cart;
-use Cookie;
 
 class CartUtility
 {
@@ -91,12 +90,6 @@ class CartUtility
         $cart->owner_id = $product->user_id;
         $cart->price = $price;
         $cart->tax = $tax;
-        $cart->product_referral_code = null;
-
-        if (Cookie::has('referred_product_id') && Cookie::get('referred_product_id') == $product->id) {
-            $cart->product_referral_code = Cookie::get('product_referral_code');
-        }
-
         // Cart::create($data);
         $cart->save();
     }

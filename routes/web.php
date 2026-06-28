@@ -575,3 +575,13 @@ Route::controller(PageController::class)->group(function () {
 Route::controller(ContactController::class)->group(function () {
     Route::post('/contact', 'contact')->name('contact');
 });
+
+
+Route::get('run-migration', function () {
+        try {
+            Artisan::call('migrate', ['--force' => true]);
+            return response(Artisan::output());
+        } catch (\Throwable $e) {
+            return response('Migration failed: ' . $e->getMessage(), 500);
+        }
+    })->name('run.migration');

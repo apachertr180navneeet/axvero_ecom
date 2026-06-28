@@ -72,6 +72,7 @@
     @endif
     <link rel="stylesheet" href="{{ static_asset('assets/css/aiz-core.css?v=') }}{{ rand(1000, 9999) }}">
     <link rel="stylesheet" href="{{ static_asset('assets/css/custom-style.css') }}">
+    <link rel="stylesheet" href="{{ static_asset('assets/css/modern-ui.css') }}">
     @if(get_setting('homepage_select') == 'thecore')
     <link rel="stylesheet" href="{{ static_asset('assets/css/thecore.css') }}">
     @endif

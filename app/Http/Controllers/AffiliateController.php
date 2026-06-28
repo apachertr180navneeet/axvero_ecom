@@ -17,8 +17,6 @@ use Illuminate\Support\Str;
 
 class AffiliateController extends Controller
 {
-    // ==================== ADMIN METHODS ====================
-
     public function index()
     {
         $affiliate_options = AffiliateOption::all();
@@ -177,8 +175,6 @@ class AffiliateController extends Controller
         return view('backend.affiliate.logs', compact('affiliate_logs'));
     }
 
-    // ==================== FRONTEND METHODS ====================
-
     public function apply_for_affiliate()
     {
         if (auth()->check()) {
@@ -210,8 +206,6 @@ class AffiliateController extends Controller
         flash(translate('Your affiliate account has been created. Wait for approval.'))->success();
         return redirect()->route('home');
     }
-
-    // ==================== AUTHENTICATED USER METHODS ====================
 
     public function user_index()
     {
@@ -267,72 +261,11 @@ class AffiliateController extends Controller
         return back();
     }
 
-    // ==================== INTERNAL METHODS ====================
-
     public function processAffiliateStats($userId, $type, $quantity, $noOfDelivered, $noOfCanceled)
     {
-        $affiliate_stats = AffiliateStats::where('user_id', $userId)->first();
-        if (!$affiliate_stats) {
-            $affiliate_stats = new AffiliateStats;
-            $affiliate_stats->user_id = $userId;
-        }
-
-        if ($type == 1) {
-            $affiliate_stats->no_of_click += 1;
-        } else {
-            if ($quantity > 0) {
-                $affiliate_stats->no_of_item_sold += $quantity;
-            }
-            if ($noOfDelivered > 0) {
-                $affiliate_stats->no_of_delivered += $noOfDelivered;
-            }
-            if ($noOfCanceled > 0) {
-                $affiliate_stats->no_of_canceled += $noOfCanceled;
-            }
-        }
-
-        $affiliate_stats->save();
     }
 
     public function processAffiliatePoints($order)
     {
-        if ($order->user_id == null) {
-            return;
-        }
-
-        $referred_by_user = User::where('referral_code', $order->user->referral_code)->first();
-        if (!$referred_by_user) {
-            return;
-        }
-
-        $affiliate_user = AffiliateUser::where('user_id', $referred_by_user->id)->first();
-        if (!$affiliate_user || $affiliate_user->status != 1) {
-            return;
-        }
-
-        foreach ($order->orderDetails as $orderDetail) {
-            $affiliate_log = new AffiliateLog;
-            $affiliate_log->user_id = $referred_by_user->id;
-            $affiliate_log->order_id = $order->id;
-            $affiliate_log->order_detail_id = $orderDetail->id;
-            $affiliate_log->log_type = 0;
-            $affiliate_log->referral_amount = $orderDetail->price * get_setting('referral_percentage', 0) / 100;
-            $affiliate_log->save();
-
-            $affiliate_stats = AffiliateStats::where('user_id', $referred_by_user->id)->first();
-            if (!$affiliate_stats) {
-                $affiliate_stats = new AffiliateStats;
-                $affiliate_stats->user_id = $referred_by_user->id;
-            }
-            $affiliate_stats->total_amount += $affiliate_log->referral_amount;
-            $affiliate_stats->save();
-        }
-
-        $affiliate_earning = new AffiliateEarningDetail;
-        $affiliate_earning->user_id = $referred_by_user->id;
-        $affiliate_earning->amount = $order->grand_total * get_setting('referral_percentage', 0) / 100;
-        $affiliate_earning->type = 'referral';
-        $affiliate_earning->details = 'Earned from order #' . $order->code;
-        $affiliate_earning->save();
     }
 }

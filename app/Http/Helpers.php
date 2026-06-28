@@ -36,8 +36,6 @@ use App\Models\FollowSeller;
 use App\Models\ProductStock;
 use App\Models\CombinedOrder;
 use App\Models\SellerPackage;
-use App\Models\AffiliateConfig;
-use App\Models\AffiliateOption;
 use App\Models\BusinessSetting;
 use App\Models\CustomerPackage;
 use App\Models\CustomerProduct;
@@ -47,7 +45,6 @@ use App\Models\ManualPaymentMethod;
 use App\Models\SellerPackagePayment;
 use App\Utility\NotificationUtility;
 use App\Http\Resources\V2\CarrierCollection;
-use App\Http\Controllers\AffiliateController;
 use App\Http\Controllers\ClubPointController;
 use App\Http\Controllers\CommissionController;
 use AizPackages\ColorCodeConverter\Services\ColorCodeConverter;
@@ -982,7 +979,7 @@ if (!function_exists('translation_tables')) {
         $noTableAddons =  ['african_pg', 'paytm', 'pos_system'];
         if (!in_array($uniqueIdentifier, $noTableAddons)) {
             $addons = [];
-            $addons['affiliate'] = ['affiliate_options', 'affiliate_configs', 'affiliate_users', 'affiliate_payments', 'affiliate_withdraw_requests', 'affiliate_logs', 'affiliate_stats'];
+            $addons['custom_affiliate'] = ['affiliate_options', 'affiliate_configs', 'affiliate_users', 'affiliate_payments', 'affiliate_withdraw_requests', 'affiliate_logs', 'affiliate_stats'];
             $addons['auction'] = ['auction_product_bids'];
             $addons['club_point'] = ['club_points', 'club_point_details'];
             $addons['delivery_boy'] = ['delivery_boys', 'delivery_histories', 'delivery_boy_payments', 'delivery_boy_collections'];
@@ -1657,10 +1654,6 @@ if (!function_exists('calculateCommissionAffilationClubPoint')) {
     function calculateCommissionAffilationClubPoint($order)
     {
         (new CommissionController)->calculateCommission($order);
-
-        if (addon_is_activated('affiliate_system')) {
-            (new AffiliateController)->processAffiliatePoints($order);
-        }
 
         if (addon_is_activated('club_point')) {
             if ($order->user != null) {
@@ -2542,39 +2535,6 @@ if (!function_exists('get_non_viewed_preorder_conversations')) {
         ->count();
 
         return $numberOfUnreadMsg;
-    }
-}
-
-// get affliate option status
-if (!function_exists('get_affliate_option_status')) {
-    function get_affliate_option_status($status = false)
-    {
-        if (
-            AffiliateOption::where('type', 'product_sharing')->first()->status ||
-            AffiliateOption::where('type', 'category_wise_affiliate')->first()->status
-        ) {
-            $status = true;
-        }
-        return $status;
-    }
-}
-
-// get affliate option purchase status
-if (!function_exists('get_affliate_purchase_option_status')) {
-    function get_affliate_purchase_option_status($status = false)
-    {
-        if (AffiliateOption::where('type', 'user_registration_first_purchase')->first()->status) {
-            $status = true;
-        }
-        return $status;
-    }
-}
-
-// get affliate config
-if (!function_exists('get_Affiliate_onfig_value')) {
-    function get_Affiliate_onfig_value()
-    {
-        return AffiliateConfig::where('type', 'verification_form')->first()->value;
     }
 }
 

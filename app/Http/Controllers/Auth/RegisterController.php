@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Cookie;
 use Session;
 use App\Models\Cart;
 use App\Models\User;
@@ -115,14 +114,6 @@ class RegisterController extends Controller
             }
             Session::forget('temp_user_id');
         }
-
-        if(isset($data['referral_code'])){
-    $refUser = User::where('referral_code', $data['referral_code'])->first();
-    if($refUser){
-        $user->referred_by = $refUser->id;
-        $user->save();
-    }
-}
 
         return $user;
     }

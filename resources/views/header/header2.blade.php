@@ -85,19 +85,10 @@
                                         href="{{ route('seller.login') }}">
                                         {{ translate('Login to Seller') }}
                                     </a>
-                                    <a class="dropdown-item py-2 px-2 text-dark" href="{{ route('affiliate.apply') }}">
-                                        {{ translate('Be an affiliate partner') }}
-                                    </a>
                                 </div>
                             </div>
                         </li>
                     @endif
-                    <li class="list-inline-item ml-3 pl-3 mr-0 pr-0 top-text-color-visibility"
-                        style="color: {{ $topHeaderTextColor }}">
-                        <a class="fs-12" href="{{ route('affiliate.apply') }}">
-                            {{ translate('Be an affiliate partner') }}
-                        </a>
-                    </li>
                     @if (get_setting('helpline_number'))
                         <li class="list-inline-item ml-3 pl-3 mr-0 pr-0 top-text-color-visibility"
                             style="color: {{ $topHeaderTextColor }}">
@@ -435,7 +426,7 @@
         <div class="hover-user-top-menu position-absolute top-100 left-0 right-0 z-3">
             <div class="container">
                 <div class="position-static float-right">
-                    <div class="aiz-user-top-menu bg-white rounded-0 border-top shadow-sm" style="width:220px;">
+                    <div class="aiz-user-top-menu bg-white rounded-0 border-top shadow-sm" style="width:220px;margin-top: -40px !important;">
                         <ul class="list-unstyled no-scrollbar mb-0 text-left">
                             @if (isAdmin())
                                 <li class="user-top-nav-element border border-top-0" data-id="1">

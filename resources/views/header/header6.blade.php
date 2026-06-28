@@ -368,11 +368,6 @@ $bottomHeaderTextColor = get_setting('bottom_header_text_color');
                                             </a>
                                         </div>
                                         @endif
-                                        <a href="{{ route('affiliate.apply') }}"
-                                            class="dropdown-item fs-13 py-2 px-3 hover-bg-light hover-text-primary border-bottom border-soft-light d-flex align-items-center"
-                                            style="min-height: 40px;">
-                                            {{ translate('Be an affiliate partner') }}
-                                        </a>
                                         <!-- Become a Seller Links -->
                                         <div id="admin-helpline-preview" style="display: {{ get_setting('helpline_number') ? 'block' : 'none' }};">
                                             <div class="helpline-container">
@@ -458,7 +453,7 @@ $bottomHeaderTextColor = get_setting('bottom_header_text_color');
         <div class="hover-user-top-menu position-absolute top-100 left-0 right-0 z-3">
             <div class="container">
                 <div class="position-static float-right">
-                    <div class="aiz-user-top-menu bg-white rounded-0 border-top shadow-sm" style="width:220px;">
+                    <div class="aiz-user-top-menu bg-white rounded-0 border-top shadow-sm" style="width:220px;margin-top: -40px !important;">
                         <ul class="list-unstyled no-scrollbar mb-0 text-left">
                             @if (isAdmin())
                             <li class="user-top-nav-element border border-top-0" data-id="1">

@@ -317,42 +317,6 @@
                     </li>
                 @endif
 
-                <!-- Affiliate -->
-                    <li class="aiz-side-nav-item">
-                        <a href="javascript:void(0);"
-                            class="aiz-side-nav-link">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="19.998" height="19.998" viewBox="0 0 19.998 19.998">
-                                <g id="Group_25000" data-name="Group 25000" transform="translate(-298 -935.05)">
-                                    <path id="Union_13" data-name="Union 13" d="M8.931,6.946h.993a.5.5,0,1,1-.993,0ZM0,6.946V4.962a4.962,4.962,0,0,1,9.923,0V6.945H8.932V4.962a3.969,3.969,0,0,0-7.939,0V6.946h0a.5.5,0,1,1-.993,0Z" transform="translate(310.981 935.05) rotate(45)" fill="#b5b5bf"/>
-                                    <path id="Union_14" data-name="Union 14" d="M0,2.48V.5A.5.5,0,0,1,.993.5h0V2.48a3.969,3.969,0,1,0,7.939,0V.5h.992V2.48A4.962,4.962,0,0,1,0,2.48ZM8.931.5a.5.5,0,0,1,.993,0Z" transform="translate(303.263 942.769) rotate(45)" fill="#b5b5bf"/>
-                                    <rect id="Rectangle_18625" data-name="Rectangle 18625" width="0.992" height="7.939" rx="0.496" transform="translate(309.93 942.417) rotate(45)" fill="#b5b5bf"/>
-                                </g>
-                            </svg>
-                            <span class="aiz-side-nav-text ml-3">{{ translate('Affiliate') }}</span>
-                            <span class="aiz-side-nav-arrow"></span>
-                        </a>
-                        <ul class="aiz-side-nav-list level-2">
-                            <li class="aiz-side-nav-item">
-                                <a href="{{ route('affiliate.user.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['affiliate.user.index','affiliate.payment_settings']) }}">
-                                    <span class="aiz-side-nav-text">{{ translate('Affiliate System') }}</span>
-                                </a>
-                            </li>
-                            <li class="aiz-side-nav-item">
-                                <a href="{{ route('affiliate.user.payment_history') }}"
-                                    class="aiz-side-nav-link">
-                                    <span class="aiz-side-nav-text">{{ translate('Payment History') }}</span>
-                                </a>
-                            </li>
-                            <li class="aiz-side-nav-item">
-                                <a href="{{ route('affiliate.user.withdraw_request_history') }}"
-                                    class="aiz-side-nav-link">
-                                    <span
-                                        class="aiz-side-nav-text">{{ translate('Withdraw request history') }}</span>
-                                </a>
-                            </li>
-
-                        </ul>
-                    </li>
 
                 @php
                     $support_ticket = DB::table('tickets')

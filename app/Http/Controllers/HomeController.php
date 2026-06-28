@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Auth;
 use Hash;
 use Cache;
-use Cookie;
 use App\Models\Page;
 use App\Models\Shop;
 use App\Models\User;
@@ -18,7 +17,6 @@ use App\Models\FlashDeal;
 use App\Models\OrderDetail;
 use App\Models\ProductQuery;
 use Illuminate\Http\Request;
-use App\Models\AffiliateConfig;
 use App\Models\CustomerPackage;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Route;
@@ -240,22 +238,6 @@ public function getRecentProducts(Request $request)
         }
 
 
-        if ($request->has('referral_code') && addon_is_activated('affiliate_system')) {
-            try {
-                $affiliate_validation_time = AffiliateConfig::where('type', 'validation_time')->first();
-                $cookie_minute = 30 * 24;
-                if ($affiliate_validation_time) {
-                    $cookie_minute = $affiliate_validation_time->value * 60;
-                }
-
-                Cookie::queue('referral_code', $request->referral_code, $cookie_minute);
-                $referred_by_user = User::where('referral_code', $request->referral_code)->first();
-
-                $affiliateController = new AffiliateController;
-                $affiliateController->processAffiliateStats($referred_by_user->id, 1, 0, 0, 0);
-            } catch (\Exception $e) {
-            }
-        }
         $email = null;
         $phone = null;
         return view('auth.' . get_setting('authentication_layout_select') . '.user_registration', compact('email','phone'));
@@ -438,20 +420,6 @@ public function product(Request $request, $slug)
               ->first();
             $review_status = $OrderDetail ? 1 : 0;
             $order_id = $OrderDetail->order->id ?? null;
-        }
-
-        if ($request->has('product_referral_code') && addon_is_activated('affiliate_system')) {
-            $affiliate_validation_time = AffiliateConfig::where('type', 'validation_time')->first();
-            $cookie_minute = 30 * 24;
-            if ($affiliate_validation_time) {
-                $cookie_minute = $affiliate_validation_time->value * 60;
-            }
-            Cookie::queue('product_referral_code', $request->product_referral_code, $cookie_minute);
-            Cookie::queue('referred_product_id', $detailedProduct->id, $cookie_minute);
-
-            $referred_by_user = User::where('referral_code', $request->product_referral_code)->first();
-            $affiliateController = new AffiliateController;
-            $affiliateController->processAffiliateStats($referred_by_user->id, 1, 0, 0, 0);
         }
 
         $sessionId = session()->getId();

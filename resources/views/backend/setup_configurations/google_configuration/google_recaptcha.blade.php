@@ -120,7 +120,7 @@
                                     'recaptcha_delivery_boy_login' => 'Delivery Boy Login',
                                     'recaptcha_contact_form' => 'Contact Us Form',
                                 ]; 
-                                $settings['recaptcha_affiliate_apply'] = 'Affiliate Application Form';
+
                             @endphp
 
                             @foreach($settings as $key => $label)

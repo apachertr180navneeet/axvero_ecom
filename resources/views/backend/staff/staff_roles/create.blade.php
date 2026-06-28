@@ -22,7 +22,7 @@
                 <br>
                 @php
                     $permission_groups =  \App\Models\Permission::all()->groupBy('section');
-                    $addons = array("offline_payment", "club_point", "pos_system", "paytm", "seller_subscription", "otp_system", "refund_request", "affiliate_system", "african_pg", "delivery_boy", "auction", "wholesale");
+                    $addons = array("offline_payment", "club_point", "pos_system", "paytm", "seller_subscription", "otp_system", "refund_request", "african_pg", "delivery_boy", "auction", "wholesale");
                 @endphp
                 @foreach ($permission_groups as $key => $permission_group)
                     @php

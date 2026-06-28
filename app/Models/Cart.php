@@ -19,7 +19,6 @@ class Cart extends Model
         'shipping_cost',
         'discount',
         'online_pay_discount', 
-        'product_referral_code',
         'coupon_code',
         'is_online_pay',
         'coupon_applied',

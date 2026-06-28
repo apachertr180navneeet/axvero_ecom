@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\AffiliateController;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Cart;
@@ -283,7 +282,6 @@ class OrderController extends Controller
                 $order_detail->price = $base_price * $cartItem['quantity'];
                 $order_detail->tax = cart_product_tax($cartItem, $product, false) * $cartItem['quantity'];
                 $order_detail->shipping_type = $cartItem['shipping_type'];
-                $order_detail->product_referral_code = $cartItem['product_referral_code'];
                 $order_detail->shipping_cost = $cartItem['shipping_cost'];
                 $order_detail->coupon_discount = $cartItem['discount'];
                 if (addon_is_activated('gst_system')) {
@@ -338,14 +336,6 @@ class OrderController extends Controller
                     $seller->save();
                 }
 
-                if (addon_is_activated('affiliate_system')) {
-                    if ($order_detail->product_referral_code) {
-                        $referred_by_user = User::where('referral_code', $order_detail->product_referral_code)->first();
-
-                        $affiliateController = new AffiliateController;
-                        $affiliateController->processAffiliateStats($referred_by_user->id, 0, $order_detail->quantity, 0, 0);
-                    }
-                }
             }
 
             $order->grand_total = $subtotal + $tax + $shipping + $gst;
@@ -548,27 +538,6 @@ class OrderController extends Controller
                     product_restock($orderDetail);
                 }
     
-                if (addon_is_activated('affiliate_system')) {
-                    if (($request->status == 'delivered' || $request->status == 'cancelled') &&
-                        $orderDetail->product_referral_code
-                    ) {
-    
-                        $no_of_delivered = 0;
-                        $no_of_canceled = 0;
-    
-                        if ($request->status == 'delivered') {
-                            $no_of_delivered = $orderDetail->quantity;
-                        }
-                        if ($request->status == 'cancelled') {
-                            $no_of_canceled = $orderDetail->quantity;
-                        }
-    
-                        $referred_by_user = User::where('referral_code', $orderDetail->product_referral_code)->first();
-    
-                        $affiliateController = new AffiliateController;
-                        $affiliateController->processAffiliateStats($referred_by_user->id, 0, 0, $no_of_delivered, $no_of_canceled);
-                    }
-                }
             }
         }
         
