@@ -64,7 +64,6 @@ use App\Http\Controllers\WebsiteController;
 use App\Http\Controllers\ZoneController;
 use App\Http\Controllers\Cybersource\CybersourceSettingController;
 use App\Http\Controllers\ElementController;
-use App\Http\Controllers\NewUpdateController;
 use App\Http\Controllers\PickupController;
 use App\Http\Controllers\ShippingBoxSizeController;
 use App\Http\Controllers\ShippingSystemController;
@@ -725,7 +724,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin', 'prevent-ba
         Route::post('/get-states', 'getStates')->name('admin.get-state');
      });
 
-    Route::view('/system/update', 'backend.system.update')->name('system_update');
     Route::view('/system/server-status', 'backend.system.server_status')->name('system_server');
     Route::view('/system/import-demo-data', 'backend.system.import_demo_data')->name('import_demo_data');
 
@@ -778,10 +776,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin', 'prevent-ba
     //Custom Visitors Setup
     Route::view('/custom-product-visitors', 'backend.marketing.custom_product_visitors')->name('custom_product_visitors');
 
-    //Update Process
-    Route::controller(NewUpdateController::class)->group(function () {
-        Route::post('/update', 'step0')->name('new_update');
-    });
+
     
     Route::controller(PickupController::class)->group(function () {
         Route::get('/pickup-address-list', 'index')->name('pickup_address.index');
