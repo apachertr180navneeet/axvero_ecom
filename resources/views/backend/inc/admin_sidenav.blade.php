@@ -45,7 +45,6 @@
                 @endcan
 
                 <!-- POS Addon-->
-                @if (addon_is_activated('pos_system') && (auth()->user()->can('pos_manager') || auth()->user()->can('pos_configuration')))
                 <li class="aiz-side-nav-item">
                     <a href="#" class="aiz-side-nav-link">
                         <div class="aiz-side-nav-icon">
@@ -94,7 +93,6 @@
                         @endcan
                     </ul>
                 </li>
-                @endif
 
                 <!-- Product -->
                 @canany(['add_new_product', 'show_all_products','show_in_house_products','show_seller_products','add_digital_product','edit_digital_product','product_bulk_import',
@@ -307,7 +305,6 @@
                 @endcanany
 
                 {{-- Preorder --}}
-                @if (addon_is_activated('preorder'))
                     @canany(['preorder_dashboard', 'add_preorder_product', 'view_all_preorder_products', 'view_all_preorders', 'view_all_inhouse_preorders', 
                             'view_all_seller_preorders', 'view_all_delayed_prepayment_preorders', 'view_all_final_preorders', 'view_preorder_seller_commission_history',
                             'preorder_settings', 'view_all_preorder_product_conversations','view_all_preorder_product_queries', 'view_all_preorder_product_reviews',
@@ -497,7 +494,6 @@
                             </ul>
                         </li>
                     @endcan
-                @endif
 
                 <!-- Note  -->
                 @canany(['view_notes', 'add_note'])
@@ -532,7 +528,6 @@
                 @endcanany
 
                 <!-- Auction Product -->
-                @if(addon_is_activated('auction'))
                     @canany(['add_auction_product','view_all_auction_products','view_inhouse_auction_products','view_seller_auction_products','view_auction_product_orders'])
                         <li class="aiz-side-nav-item">
                             <a href="#" class="aiz-side-nav-link">
@@ -599,10 +594,8 @@
                             </ul>
                         </li>
                     @endcanany
-                @endif
 
                 <!-- Wholesale Product -->
-                @if(addon_is_activated('wholesale'))
                 @canany(['add_wholesale_product','view_all_wholesale_products','view_inhouse_wholesale_products','view_sellers_wholesale_products'])
                 <li class="aiz-side-nav-item">
                     <a href="#" class="aiz-side-nav-link">
@@ -661,7 +654,6 @@
                     </ul>
                 </li>
                 @endcanany
-                @endif
 
                 <!-- Sale -->
                 @canany(['view_all_orders', 'view_inhouse_orders','view_seller_orders','view_pickup_point_orders'])
@@ -732,7 +724,6 @@
                 @endcanany
 
                 <!-- Deliver Boy Addon-->
-                @if (addon_is_activated('delivery_boy'))
                 @canany(['view_all_delivery_boy','add_delivery_boy','delivery_boy_payment_history','collected_histories_from_delivery_boy','order_cancle_request_by_delivery_boy','delivery_boy_configuration'])
                 <li class="aiz-side-nav-item">
                     <a href="#" class="aiz-side-nav-link">
@@ -804,10 +795,8 @@
                     </ul>
                 </li>
                 @endcanany
-                @endif
 
  <!-- Refund addon -->
-                @if (addon_is_activated('refund_request'))
                     @canany(['view_refund_requests','view_approved_refund_requests','view_rejected_refund_requests','refund_request_configuration','set_category_wise_refund'])
                         <li class="aiz-side-nav-item">
                             <a href="#" class="aiz-side-nav-link">
@@ -871,7 +860,6 @@
                             </ul>
                         </li>
                     @endcanany
-                @endif
 
                 <!-- Customers -->
                 @canany(['view_all_customers','view_classified_products','view_classified_packages'])
@@ -1010,7 +998,6 @@
                             </a>
                         </li>
                         @endcan
-                        @if (addon_is_activated('seller_subscription'))
                         @can('view_all_seller_packages')
                         <li class="aiz-side-nav-item">
                             <a href="{{ route('seller_packages.index') }}"
@@ -1027,7 +1014,6 @@
                             </a>
                         </li>
                         @endcan
-                        @endif
                         @can('seller_verification_form_configuration')
                         <li class="aiz-side-nav-item">
                             <a href="{{ route('seller_verification_form.index') }}" class="aiz-side-nav-link">
@@ -1326,7 +1312,7 @@
                             </ul>
                         </li>
                         @endcanany
-                        @if (addon_is_activated('otp_system') && auth()->user()->can('send_bulk_sms'))
+                        @if (auth()->user()->can('send_bulk_sms'))
                         <li class="aiz-side-nav-item">
                             <a href="{{route('sms.index')}}" class="aiz-side-nav-link">
                                 <span class="aiz-side-nav-text">{{ translate('Bulk SMS') }}</span>
@@ -1451,7 +1437,6 @@
 
 
                 <!-- Club Point Addon-->
-                @if (addon_is_activated('club_point'))
                 @canany(['club_point_configurations','set_club_points','view_users_club_points'])
                 <li class="aiz-side-nav-item">
                     <a href="#" class="aiz-side-nav-link">
@@ -1510,10 +1495,8 @@
                     </ul>
                 </li>
                 @endcanany
-                @endif
 
                 <!--OTP addon -->
-                @if (addon_is_activated('otp_system'))
                 @canany(['otp_configurations','sms_templates','sms_providers_configurations','send_bulk_sms'])
                 <li class="aiz-side-nav-item">
                     <a href="#" class="aiz-side-nav-link">
@@ -1559,10 +1542,8 @@
                     </ul>
                 </li>
                 @endcanany
-                @endif
 
                 <!--Shipping System -->
-                @if (addon_is_activated('shiprocket'))
                     @canany(['manage_shipping_system'])
                         <li class="aiz-side-nav-item">
                             <a href="#" class="aiz-side-nav-link">
@@ -1593,15 +1574,13 @@
                             </ul>
                         </li>
                     @endcanany
-                @endif  
-                  
+                 
                 <!--GST addon -->
-                @if (addon_is_activated('gst_system'))
                 <li class="aiz-side-nav-item">
                     <a href="#" class="aiz-side-nav-link">
                         <div class="aiz-side-nav-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                                <path id="Path_1" data-name="Path 1" d="M104-848a2.507,2.507,0,0,1-.958-.187,2.451,2.451,0,0,1-.812-.542,3.083,3.083,0,0,0-.948-.687,3.092,3.092,0,0,0-1.177-.187,2.411,2.411,0,0,1-1.771-.729A2.411,2.411,0,0,1,97.6-852.1a3.108,3.108,0,0,0-.187-1.167,3.033,3.033,0,0,0-.687-.958,2.451,2.451,0,0,1-.542-.812A2.507,2.507,0,0,1,96-856a2.507,2.507,0,0,1,.188-.958,2.451,2.451,0,0,1,.542-.812,3.083,3.083,0,0,0,.688-.948A3.092,3.092,0,0,0,97.6-859.9a2.411,2.411,0,0,1,.729-1.771,2.411,2.411,0,0,1,1.771-.729,3.108,3.108,0,0,0,1.167-.187,3.033,3.033,0,0,0,.958-.687,2.451,2.451,0,0,1,.813-.542A2.507,2.507,0,0,1,104-864a2.507,2.507,0,0,1,.958.188,2.451,2.451,0,0,1,.813.542,3.083,3.083,0,0,0,.948.688,3.092,3.092,0,0,0,1.177.188,2.411,2.411,0,0,1,1.771.729,2.411,2.411,0,0,1,.729,1.771,3.108,3.108,0,0,0,.188,1.167,3.033,3.033,0,0,0,.688.958,2.451,2.451,0,0,1,.542.813A2.507,2.507,0,0,1,112-856a2.507,2.507,0,0,1-.187.958,2.451,2.451,0,0,1-.542.813,3.083,3.083,0,0,0-.687.948,3.092,3.092,0,0,0-.187,1.177,2.411,2.411,0,0,1-.729,1.771,2.411,2.411,0,0,1-1.771.729,3.108,3.108,0,0,0-1.167.188,3.033,3.033,0,0,0-.958.688,2.451,2.451,0,0,1-.812.542A2.507,2.507,0,0,1,104-848Zm0-1.5a1,1,0,0,0,.385-.073.985.985,0,0,0,.323-.219,4.243,4.243,0,0,1,1.438-1.021,4.709,4.709,0,0,1,1.75-.292.968.968,0,0,0,.713-.287.968.968,0,0,0,.287-.713,4.627,4.627,0,0,1,.292-1.74,4.484,4.484,0,0,1,1.021-1.448A.964.964,0,0,0,110.5-856a.964.964,0,0,0-.292-.708,4.484,4.484,0,0,1-1.021-1.448,4.627,4.627,0,0,1-.292-1.74.968.968,0,0,0-.287-.713.968.968,0,0,0-.713-.287,4.627,4.627,0,0,1-1.74-.292,4.485,4.485,0,0,1-1.448-1.021.985.985,0,0,0-.323-.219A1,1,0,0,0,104-862.5a1,1,0,0,0-.385.073.985.985,0,0,0-.323.219,4.243,4.243,0,0,1-1.437,1.021,4.709,4.709,0,0,1-1.75.292.968.968,0,0,0-.713.287.968.968,0,0,0-.287.713,4.627,4.627,0,0,1-.292,1.74,4.484,4.484,0,0,1-1.021,1.448A.964.964,0,0,0,97.5-856a.964.964,0,0,0,.292.708,4.484,4.484,0,0,1,1.021,1.448,4.627,4.627,0,0,1,.292,1.74.968.968,0,0,0,.287.713.968.968,0,0,0,.713.287,4.627,4.627,0,0,1,1.74.292,4.485,4.485,0,0,1,1.448,1.021.985.985,0,0,0,.323.219A1,1,0,0,0,104-849.5Zm2.25-3a1.205,1.205,0,0,0,.885-.365,1.206,1.206,0,0,0,.365-.885,1.206,1.206,0,0,0-.365-.885,1.205,1.205,0,0,0-.885-.365,1.205,1.205,0,0,0-.885.365,1.206,1.206,0,0,0-.365.885,1.206,1.206,0,0,0,.365.885A1.205,1.205,0,0,0,106.25-852.5Zm-4.25-.437,5-5L105.938-859l-5,5ZM101.75-857a1.205,1.205,0,0,0,.885-.365,1.206,1.206,0,0,0,.365-.885,1.206,1.206,0,0,0-.365-.885,1.205,1.205,0,0,0-.885-.365,1.205,1.205,0,0,0-.885.365,1.206,1.206,0,0,0-.365.885,1.206,1.206,0,0,0,.365.885A1.205,1.205,0,0,0,101.75-857ZM104-856Z" transform="translate(-96 864)" fill="#575b6a"/>
+                                <path id="Path_1" data-name="Path 1" d="M104-848a2.507,2.507,0,0,1-.958-.187,2.451,2.451,0,0,1-.812-.542,3.083,3.083,0,0,0-.948-.687,3.092,3.092,0,0,0-1.177-.187,2.411,2.411,0,0,1-1.771-.729A2.411,2.411,0,0,1,97.6-852.1a3.108,3.108,0,0,0-.187-1.167,3.033,3.033,0,0,0-.687-.958,2.451,2.451,0,0,1-.542-.812A2.507,2.507,0,0,1,96-856a2.507,2.507,0,0,1,.188-.958,2.451,2.451,0,0,1,.542-.812,3.083,3.083,0,0,0,.688-.948A3.092,3.092,0,0,0,97.6-859.9a2.411,2.411,0,0,1,.729-1.771,2.411,2.411,0,0,1,1.771-.729,3.108,3.108,0,0,0,1.167-.187,3.033,3.033,0,0,0,.958-.687,2.451,2.451,0,0,1,.813-.542A2.507,2.507,0,0,1,104-864a2.507,2.507,0,0,1,.958.188,2.451,2.451,0,0,1,.813.542,3.083,3.083,0,0,0,.948.688,3.092,3.092,0,0,0,1.177.188,2.411,2.411,0,0,1,1.771.729,2.411,2.411,0,0,1,.729,1.771,3.108,3.108,0,0,0,.188,1.167,3.033,3.033,0,0,0,.688.958,2.451,2.451,0,0,1,.542.813A2.507,2.507,0,0,1,112-856a2.507,2.507,0,0,1-.187.958,2.451,2.451,0,0,1-.542.813,3.083,3.083,0,0,0-.687.948,3.092,3.092,0,0,0-.187,1.177,2.411,2.411,0,0,1-.729,1.771,2.411,2.411,0,0,1-1.771.729,3.108,3.108,0,0,0-1.167.188,3.033,3.033,0,0,0-.958.688,2.451,2.451,0,0,1-.812.542A2.507,2.507,0,0,1,104-848Zm0-1.5a1,1,0,0,0,.385-.073.985.985,0,0,0,.323-.219,4.243,4.243,0,0,1,1.438-1.021,4.709,4.709,0,0,1,1.75-.292.968.968,0,0,0,.713-.287.968.968,0,0,0,.287-.713,4.627,4.627,0,0,1,.292-1.74,4.484,4.484,0,0,1,1.021-1.448A.964.964,0,0,0,110.5-856a.964.964,0,0,0-.292-.708,4.484,4.484,0,0,1-1.021-1.448,4.627,4.627,0,0,1-.292-1.74.968.968,0,0,0-.287-.713.968.968,0,0,0-.713-.287,4.627,4.627,0,0,1-1.74-.292,4.485,4.485,0,0,1-1.448-1.021.985.985,0,0,0-.323-.219A1,1,0,0,0,104-862.5a1,1,0,0,0-.385.073.985.985,0,0,0-.323.219,4.243,4.243,0,0,1-1.437,1.021,4.709,4.709,0,0,1-1.75.292.968.968,0,0,0-.713.287.968.968,0,0,0-.287.713,4.627,4.627,0,0,1-.292,1.74,4.484,4.484,0,0,1-1.021,1.448A.964.964,0,0,0,97.5-856a.964.964,0,0,0,.292.708,4.484,4.484,0,0,1,1.021,1.448,4.627,4.627,0,0,1,.292,1.74.968.968,0,0,0,.287.713.9...</path>
                             </svg>
 
                         </div>
@@ -1628,32 +1607,25 @@
                                 <span class="aiz-side-nav-text">{{translate('HSN Assign')}}</span>
                             </a>
                         </li>
-                        @if (addon_is_activated('wholesale'))
                         <li class="aiz-side-nav-item">
                             <a href="{{ route('products.wholesale-hsn-gst.assigns') }}" class="aiz-side-nav-link">
                                 <span class="aiz-side-nav-text">{{translate('Wholesale Products')}}</span>
                             </a>
                         </li>
-                        @endif
-                        @if (addon_is_activated('preorder'))
                         <li class="aiz-side-nav-item">
                             <a href="{{ route('products.preorder-hsn-gst.assigns') }}" class="aiz-side-nav-link">
                                 <span class="aiz-side-nav-text">{{translate('Preorder Products')}}</span>
                             </a>
                         </li>
-                        @endif
-                        @if (addon_is_activated('auction'))
                         <li class="aiz-side-nav-item">
                             <a href="{{ route('products.auction-hsn-gst.assigns') }}" class="aiz-side-nav-link">
                                 <span class="aiz-side-nav-text">{{translate('Auction Products')}}</span>
                             </a>
                         </li>
-                        @endif
                         @endcan
                         
                     </ul>
                 </li>
-                @endif
                 
 
                 @canany(['payment_methods_configurations','african_pg_configuration','african_pg_credentials_configuration','view_all_manual_payment_methods','view_all_offline_payment_orders',
@@ -1695,7 +1667,7 @@
 
                         
                         <!-- Cybersource Addon -->
-                        @if (addon_is_activated('cybersource')  && auth()->user()->can('cybersource_pg_configuration'))
+                        @if (auth()->user()->can('cybersource_pg_configuration'))
                         <li class="aiz-side-nav-item">
                             <a href="{{route('cybersource_configuration')}}" class="aiz-side-nav-link">
                                 <span class="aiz-side-nav-text">{{translate('Cybersource Payment Gateway')}}</span>
@@ -1716,7 +1688,7 @@
 
                        
                         <!-- Paytm Addon -->
-                        @if (addon_is_activated('paytm') && auth()->user()->can('asian_payment_gateway_configuration'))
+                        @if (auth()->user()->can('asian_payment_gateway_configuration'))
                         <li class="aiz-side-nav-item">
                             <a href="{{route('paytm.index')}}" class="aiz-side-nav-link">
                                 <span class="aiz-side-nav-text">{{translate('Asian Payment Gateway')}}</span>
@@ -1733,7 +1705,6 @@
                         @endif
 
                          <!-- African Payment Gateway -->
-                        @if(addon_is_activated('african_pg'))
                         @canany(['african_pg_configuration','african_pg_credentials_configuration'])
                          <li class="aiz-side-nav-item">
                             <a href="{{route('african_credentials.index')}}" class="aiz-side-nav-link">
@@ -1749,12 +1720,10 @@
                             </a>
                         </li>
                         @endcanany
-                        @endif
 
 
 
                         <!-- Offline Payment Addon-->
-                        @if (addon_is_activated('offline_payment'))
                         @canany(['view_all_manual_payment_methods','view_all_offline_payment_orders',
                         'view_all_offline_wallet_recharges','view_all_offline_customer_package_payments','view_all_offline_seller_package_payments'])
                         <li class="aiz-side-nav-item">
@@ -1804,8 +1773,7 @@
                                     </a>
                                 </li>
                                 @endif
-                                @if (addon_is_activated('seller_subscription') &&
-                                auth()->user()->can('view_all_offline_seller_package_payments'))
+                                @if (auth()->user()->can('view_all_offline_seller_package_payments'))
                                 <li class="aiz-side-nav-item">
                                     <a href="{{ route('offline_seller_package_payment_request.index') }}"
                                         class="aiz-side-nav-link">
@@ -1816,7 +1784,6 @@
                             </ul>
                         </li>
                         @endcanany
-                        @endif
 
 
                     </ul>
@@ -1824,7 +1791,7 @@
                 @endcanany
 
                 
-
+                
                 <!-- Website Setup -->
                 @canany(['header_setup', 'footer_setup', 'view_all_website_pages', 'website_appearance', 'authentication_layout_settings', 'top_banner_setting', 'view_top_banner'])
                     <li class="aiz-side-nav-item">
@@ -2195,7 +2162,6 @@
                                     </a>
                                 </li>
                                 @endcan
-                                @if (addon_is_activated('shiprocket'))
                                     @can('pickup_address_index')
                                         <li class="aiz-side-nav-item">
                                             <a href="{{ route('pickup_address.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['pickup_address.index','pickup_address.create','pickup_address.edit'])}}">
@@ -2211,7 +2177,6 @@
                                         </a>
                                     </li>
                                     @endcan
-                                @endif
                             </ul>
                         </li>
                         @endif

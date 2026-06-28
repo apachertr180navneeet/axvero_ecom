@@ -13,7 +13,6 @@
                     <form class="form-default" role="form" action="{{ route('cart.login.submit') }}" method="POST">
                         @csrf
 
-                        @if (addon_is_activated('otp_system'))
                             <!-- Phone -->
                             <div class="form-group phone-form-group mb-1">
                                 <input type="tel" id="phone-code"
@@ -39,20 +38,6 @@
                                 <button class="btn btn-link p-0 text-primary" type="button"
                                     onclick="toggleEmailPhone(this)"><i>*{{ translate('Use Email Instead') }}</i></button>
                             </div>
-                        @else
-                            <!-- Email -->
-                            <div class="form-group">
-                                <input type="email"
-                                    class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                                    value="{{ old('email') }}" placeholder="{{ translate('Email') }}" name="email"
-                                    id="email" autocomplete="off">
-                                @if ($errors->has('email'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        @endif
 
                         <!-- Password -->
                         <div class="form-group">

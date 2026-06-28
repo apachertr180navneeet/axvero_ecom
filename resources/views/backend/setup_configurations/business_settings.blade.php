@@ -10,7 +10,6 @@
         <div class="card-body">
             <form action="{{ route('business_info.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                @if (addon_is_activated('gst_system'))
                 {{-- GSTIN Number --}}
                 <div class="row">
                     <div class="col-md-2">
@@ -47,7 +46,6 @@
                         @endif
                     </div>
                 </div>
-                @endif
 
                 {{-- Certificate Number --}}
                 <div class="row">

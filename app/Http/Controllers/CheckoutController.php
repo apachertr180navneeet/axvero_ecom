@@ -266,7 +266,7 @@ class CheckoutController extends Controller
         $user = new User();
         $user->name = $guest_shipping_info['name'];
         $user->email = $guest_shipping_info['email'];
-        $user->phone = addon_is_activated('otp_system') ? '+' . $guest_shipping_info['country_code'] . $guest_shipping_info['phone'] : null;
+        $user->phone = '+' . $guest_shipping_info['country_code'] . $guest_shipping_info['phone'];
         $user->password = Hash::make($password);
         $user->email_verified_at = $isEmailVerificationEnabled != 1 ? date('Y-m-d H:m:s') : null;
         $user->save();
@@ -758,9 +758,7 @@ class CheckoutController extends Controller
 
     public function guestCustomerInfoCheck(Request $request)
     {
-        $user = addon_is_activated('otp_system') ?
-            User::where('email', $request->email)->orWhere('phone', '+' . $request->phone)->first() :
-            User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->orWhere('phone', '+' . $request->phone)->first();
         return ($user != null) ? true : false;
     }
 

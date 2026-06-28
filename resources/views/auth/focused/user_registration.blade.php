@@ -41,40 +41,8 @@
                                         </div>
 
                                         <!-- Email or Phone -->
-                                        {{-- @if (addon_is_activated('otp_system'))
-                                            <div class="form-group phone-form-group mb-1">
-                                                <label for="phone" class="fs-12 fw-700 text-soft-dark">{{  translate('Phone') }}</label>
-                                                <input type="tel" id="phone-code" class="form-control rounded-0{{ $errors->has('phone') ? ' is-invalid' : '' }}" value="{{ old('phone') }}" placeholder="" name="phone" autocomplete="off">
-                                            </div>
 
-                                            <input type="hidden" name="country_code" value="">
 
-                                            <div class="form-group email-form-group mb-1 d-none">
-                                                <label for="email" class="fs-12 fw-700 text-soft-dark">{{  translate('Email') }}</label>
-                                                <input type="email" class="form-control rounded-0 {{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" placeholder="{{  translate('Email') }}" name="email"  autocomplete="off">
-                                                @if ($errors->has('email'))
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $errors->first('email') }}</strong>
-                                                    </span>
-                                                @endif
-                                            </div>
-
-                                            <div class="form-group text-right">
-                                                <button class="btn btn-link p-0 text-primary fs-12 fw-400" type="button" onclick="toggleEmailPhone(this)"><i>*{{ translate('Use Email Instead') }}</i></button>
-                                            </div>
-                                        @else
-                                            <div class="form-group">
-                                                <label for="email" class="fs-12 fw-700 text-soft-dark">{{  translate('Email') }}</label>
-                                                <input type="email" class="form-control rounded-0{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" placeholder="{{  translate('Email') }}" name="email">
-                                                @if ($errors->has('email'))
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $errors->first('email') }}</strong>
-                                                    </span>
-                                                @endif
-                                            </div>
-                                        @endif --}}
-
-                                        @if (addon_is_activated('otp_system'))
                                         <div>
                                             <div id="emailOrPhoneDiv">
                                                 {{-- Show both fields with the toggle button if neither email nor phone is set --}}
@@ -137,48 +105,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @else
-                                            {{-- If OTP system is disabled, show only the email field --}}
-                                            <div class="form-group email-phone-div" id="emailOrPhoneDiv">
-                                                <label for="email" class="fs-12 fw-700 text-soft-dark">{{ translate('Email') }}</label>
-                                                {{--<input type="email" class="form-control rounded-0{{ $errors->has('email') ? ' is-invalid' : '' }}" 
-                                                       value="{{ $email ?? old('email') }}" placeholder="{{ translate('Email') }}" name="email" {{$email  ? 'readonly' : ''}} >--}}
-
-                                                <div class="input-group">
-                                                    <input type="email"
-                                                        class="form-control rounded-0 {{ $errors->has('email') ? ' is-invalid' : '' }}"
-                                                        name="email" id="signinSrEmail"
-                                                        placeholder="{{ translate('Email Address') }}">
-                                                        @if(get_setting('customer_registration_verify') == '1')
-                                                        <button class="btn btn-primary ml-2" type="button" id="sendOtpBtn" onclick="sendVerificationCode()">
-                                                            {{ translate('Verify') }} 
-                                                        </button>
-                                                        @endif
-                                                </div>
-                                                @if ($errors->has('email'))
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $errors->first('email') }}</strong>
-                                                    </span>
-                                                @endif
-                                            </div>
-
-                                            <div class="form-group mb-3 d-none">
-                                                <label class="form-label" for="verification_code">{{ translate('Verification Code') }}</label>
-                                                <div class="input-group">
-                                                    <input type="text"
-                                                        class="form-control @error('verification_code') is-invalid @enderror border-right-0"
-                                                        name="code" id="verification_code"
-                                                        placeholder="{{ translate('Verification Code') }}"
-                                                        maxlength="6">
-                                                    <span class="btn border border-left-0" id="verifyOtpBtn">
-                                                        <i class="las la-lg la-arrow-right"></i> 
-                                                    </span>
-                                                    @error('otp')
-                                                    <span class="invalid-feedback" role="alert">{{ $message }}</span>
-                                                    @enderror
-                                                </div>
-                                            </div>
-                                        @endif
 
                                         <!-- password -->
                                         <div class="form-group mb-0">

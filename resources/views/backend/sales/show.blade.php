@@ -20,7 +20,6 @@
                 @if ($order->seller_id == $admin_user_id || get_setting('product_manage_by_admin') == 1)
 
                     <!--Assign Delivery Boy-->
-                    @if (addon_is_activated('delivery_boy'))
                     @if ($shipping_method != 'shiprocket')
                         <div class="col-md-2 ml-auto">
                             <label for="assign_deliver_boy">{{ translate('Assign Deliver Boy') }}</label>
@@ -40,7 +39,6 @@
                                     disabled>
                             @endif
                         </div>
-                    @endif
                     @endif
 
                     <div class="col-md-2 ml-auto">

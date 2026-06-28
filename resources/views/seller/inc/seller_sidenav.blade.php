@@ -77,7 +77,7 @@
                 <!--    </ul>-->
                 <!--</li>-->
 
-                @if (addon_is_activated('preorder') && (get_setting('seller_preorder_product') == 1))
+                @if (get_setting('seller_preorder_product') == 1)
                     <li class="aiz-side-nav-item">
                         <a href="#" class="aiz-side-nav-link">
                             <i class="las la-clock aiz-side-nav-icon"></i>
@@ -208,7 +208,6 @@
                 <!--        <span class="aiz-side-nav-text">{{ translate('Uploaded Files') }}</span>-->
                 <!--    </a>-->
                 <!--</li>-->
-                @if (addon_is_activated('seller_subscription'))
                     <li class="aiz-side-nav-item">
                         <a href="#" class="aiz-side-nav-link">
                             <i class="las la-shopping-cart aiz-side-nav-icon"></i>
@@ -229,7 +228,6 @@
                             </li>
                         </ul>
                     </li>
-                @endif
                 @if (get_setting('coupon_system') == 1)
                     <li class="aiz-side-nav-item">
                         <a href="{{ route('seller.coupon.index') }}"
@@ -239,7 +237,7 @@
                         </a>
                     </li>
                 @endif
-                @if (addon_is_activated('wholesale') && get_setting('seller_wholesale_product') == 1)
+                @if (get_setting('seller_wholesale_product') == 1)
                     <li class="aiz-side-nav-item">
                         <a href="{{ route('seller.wholesale_products_list') }}"
                             class="aiz-side-nav-link {{ areActiveRoutes(['wholesale_product_create.seller', 'wholesale_product_edit.seller']) }}">
@@ -248,7 +246,7 @@
                         </a>
                     </li>
                 @endif
-                @if (addon_is_activated('auction') && get_setting('seller_auction_product') == 1)
+                @if (get_setting('seller_auction_product') == 1)
                     <li class="aiz-side-nav-item">
                         <a href="javascript:void(0);" class="aiz-side-nav-link">
                             <i class="las la-gavel aiz-side-nav-icon"></i>
@@ -272,8 +270,7 @@
                     </li>
                 @endif
 
-                @if (addon_is_activated('pos_system') &&
-                        get_setting('pos_activation_for_seller') != null &&
+                @if (get_setting('pos_activation_for_seller') != null &&
                         get_setting('pos_activation_for_seller') != 0)
                     <li class="aiz-side-nav-item">
                         <a href="#" class="aiz-side-nav-link">
@@ -301,7 +298,6 @@
                     </li>
                 @endif
 
-                @if (addon_is_activated('gst_system'))
                     <li class="aiz-side-nav-item">
                         <a href="#" class="aiz-side-nav-link">
                             <i class="las la-percentage aiz-side-nav-icon"></i>
@@ -318,32 +314,25 @@
                                     <span class="aiz-side-nav-text">{{ translate('HSN Assign') }}</span>
                                 </a>
                             </li>
-                            @if (addon_is_activated('wholesale'))
                             <li class="aiz-side-nav-item">
                                 <a href="{{ route('seller.products.wholesale-hsn-gst.assigns') }}" class="aiz-side-nav-link">
                                     <span class="aiz-side-nav-text">{{ translate('Wholesale Products') }}</span>
                                 </a>
                             </li>
-                            @endif
 
-                            @if (addon_is_activated('preorder'))
                             <li class="aiz-side-nav-item">
                                 <a href="{{ route('seller.products.preorder-hsn-gst.assigns') }}" class="aiz-side-nav-link">
                                     <span class="aiz-side-nav-text">{{ translate('Preorder Products') }}</span>
                                 </a>
                             </li>
-                            @endif
 
-                            @if (addon_is_activated('auction'))
                             <li class="aiz-side-nav-item">
                                 <a href="{{ route('seller.products.auction-hsn-gst.assigns') }}" class="aiz-side-nav-link">
                                     <span class="aiz-side-nav-text">{{ translate('Auction Products') }}</span>
                                 </a>
                             </li>
-                            @endif
                         </ul>
                     </li>
-                @endif
 
                 <li class="aiz-side-nav-item">
                     <a href="{{ route('seller.orders.index') }}"
@@ -352,7 +341,6 @@
                         <span class="aiz-side-nav-text">{{ translate('Orders') }}</span>
                     </a>
                 </li>
-                @if (addon_is_activated('refund_request'))
                     <li class="aiz-side-nav-item">
                         <a href="javascript:void(0);" class="aiz-side-nav-link">
                             <i class="las la-backward aiz-side-nav-icon"></i>
@@ -374,8 +362,6 @@
                             </li>
                         </ul>
                     </li>
-
-                @endif
 
 
                 <!--<li class="aiz-side-nav-item">-->

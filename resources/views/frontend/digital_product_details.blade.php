@@ -217,7 +217,6 @@
                                                 <span class="bg-primary ml-2 fs-11 fw-700 text-white w-35px text-center p-1" style="padding-top:2px;padding-bottom:2px;">-{{discount_in_percentage($detailedProduct)}}%</span>
                                             @endif
                                             <!-- Club Point -->
-                                            @if (addon_is_activated('club_point') && $detailedProduct->earn_point > 0)
                                                 <div class="ml-2 bg-secondary-base d-flex justify-content-center align-items-center px-3 py-1" style="width: fit-content;">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
                                                         <g id="Group_23922" data-name="Group 23922" transform="translate(-973 -633)">
@@ -231,7 +230,6 @@
                                                     </svg>
                                                     <small class="fs-11 fw-500 text-white ml-2">{{  translate('Club Point') }}: {{ $detailedProduct->earn_point }}</small>
                                                 </div>
-                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -252,7 +250,6 @@
                                                     class="opacity-70">/{{ $detailedProduct->getTranslation('unit') }}</span>
                                             @endif
                                             <!-- Club Point -->
-                                            @if (addon_is_activated('club_point') && $detailedProduct->earn_point > 0)
                                                 <div class="ml-2 bg-secondary-base d-flex justify-content-center align-items-center px-3 py-1" style="width: fit-content;">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
                                                         <g id="Group_23922" data-name="Group 23922" transform="translate(-973 -633)">
@@ -266,7 +263,6 @@
                                                     </svg>
                                                     <small class="fs-11 fw-500 text-white ml-2">{{  translate('Club Point') }}: {{ $detailedProduct->earn_point }}</small>
                                                 </div>
-                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -308,7 +304,6 @@
                             @php
                                 $refund_sticker = get_setting('refund_sticker');
                             @endphp
-                            @if (addon_is_activated('refund_request'))
                                 <div class="row no-gutters mt-3">
                                     <div class="col-sm-2">
                                         <div class="text-secondary fs-14 fw-400 mt-2">{{ translate('Refund') }}</div>
@@ -326,7 +321,6 @@
                                             target="_blank">{{ translate('View Policy') }}</a>
                                     </div>
                                 </div>
-                            @endif
 
                             <!-- Seller Guarantees -->
                             @if ($detailedProduct->added_by == 'seller')
@@ -820,14 +814,8 @@
                         <form class="form-default" role="form" action="{{ route('cart.login.submit') }}" method="POST">
                             @csrf
                             <div class="form-group">
-                                @if (addon_is_activated('otp_system'))
-                                    <input type="text" class="form-control h-auto form-control-lg {{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" placeholder="{{ translate('Email Or Phone')}}" name="email" id="email">
-                                @else
-                                    <input type="email" class="form-control h-auto form-control-lg {{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" placeholder="{{  translate('Email') }}" name="email">
-                                @endif
-                                @if (addon_is_activated('otp_system'))
-                                    <span class="opacity-60">{{  translate('Use country code before number') }}</span>
-                                @endif
+                                <input type="text" class="form-control h-auto form-control-lg {{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" placeholder="{{ translate('Email Or Phone')}}" name="email" id="email">
+                                <span class="opacity-60">{{  translate('Use country code before number') }}</span>
                             </div>
 
                             <div class="form-group">

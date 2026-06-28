@@ -72,10 +72,7 @@ class ProductDetailCollection extends ResourceCollection
                     ];
                 }
 
-                $whole_sale = [];
-                if (addon_is_activated('wholesale')) {
-                    $whole_sale =  ProductWholesaleResource::collection($data->stocks->first()->wholesalePrices);
-                }
+                $whole_sale = ProductWholesaleResource::collection($data->stocks->first()->wholesalePrices);
                 return [
                     'id' => (int)$data->id,
                     'name' => $data->getTranslation('name'),

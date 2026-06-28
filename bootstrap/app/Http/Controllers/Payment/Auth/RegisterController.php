@@ -83,7 +83,6 @@ class RegisterController extends Controller
             ]);
         }
         else {
-            if (addon_is_activated('otp_system')){
                 $cleanPhone = preg_replace('/\D+/', '', $data['phone']);
                 $user = User::create([
                     'name' => $data['name'],
@@ -97,7 +96,6 @@ class RegisterController extends Controller
                     $otpController->send_code($user);
                 }
 
-            }
         }
         
         if(session('temp_user_id') != null){

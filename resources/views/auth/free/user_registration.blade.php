@@ -169,7 +169,6 @@
                                 </div>
                                 
                                 <!-- Email or Phone -->
-                                @if (addon_is_activated('otp_system'))
                                 <div>
                                     <div id="emailOrPhoneDiv">
                                         <div class="form-group phone-form-group mb-3 ">
@@ -228,41 +227,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                @else
-                                    <div class="form-group email-phone-div mb-3" id="emailOrPhoneDiv">
-                                        <label for="email" class="fs-13 fw-600 text-dark mb-2">{{ translate('Email Address') }}</label>
-                                        <div class="input-group">
-                                            <input type="email" class="form-control auth-input {{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" id="signinSrEmail" placeholder="{{ translate('johndoe@example.com') }}">
-                                            @if(get_setting('customer_registration_verify') == '1')
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-primary ms-2" style="border-radius:14px;" type="button" id="sendOtpBtn" onclick="sendVerificationCode()">
-                                                    {{ translate('Verify') }} 
-                                                </button>
-                                            </div>
-                                            @endif
-                                        </div>
-                                        @if ($errors->has('email'))
-                                            <span class="invalid-feedback d-block" role="alert">
-                                                <strong>{{ $errors->first('email') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-
-                                    <div class="form-group mb-3 d-none">
-                                        <label class="fs-13 fw-600 text-dark mb-2" for="verification_code">{{ translate('Verification Code') }}</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control auth-input @error('verification_code') is-invalid @enderror" name="code" id="verification_code" placeholder="{{ translate('Verification Code') }}" maxlength="6">
-                                            <div class="input-group-append">
-                                                <span class="btn btn-primary" id="verifyOtpBtn" style="border-radius: 0 14px 14px 0;">
-                                                    <i class="las la-arrow-right"></i> 
-                                                </span>
-                                            </div>
-                                            @error('otp')
-                                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                @endif
                                 
                                 <div class="row">
                                     <!-- password -->

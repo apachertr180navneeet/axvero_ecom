@@ -27,7 +27,7 @@ class ProductService
         $collection['online_pay_discount'] = $collection['online_pay_discount'] ?? 0.00;
         $collection['online_pay_discount_type'] = $collection['online_pay_discount_type'] ?? 0.00;
 
-        if(!isset($collection['gst_rate']) && addon_is_activated('gst_system')){
+        if(!isset($collection['gst_rate'])){
             $collection['tax'] = 0;
             $collection['tax_type'] = 'amount';
         }   
@@ -225,7 +225,7 @@ class ProductService
         $slug .= $slug_suffix;
         $collection['draft'] = 0;
 
-        if(addon_is_activated('refund_request') && !isset($collection['refundable'])){
+        if(!isset($collection['refundable'])){
             $collection['refundable'] = 0;
         }
 
@@ -243,7 +243,7 @@ class ProductService
             $collection['todays_deal'] = 0;
         }
 
-        if(!isset($collection['gst_rate']) && addon_is_activated('gst_system')){
+        if(!isset($collection['gst_rate'])){
             $collection['tax'] = 0;
             $collection['tax_type'] = 'amount';
         }
@@ -399,9 +399,7 @@ class ProductService
         $product_new->published = 0;
         $product_new->rating = 0.0;
         $product_new->num_of_sale = 0.0;
-        if(addon_is_activated('club_point')){
-            $product_new->earn_point = 0.0;
-        }
+        $product_new->earn_point = 0.0;
         $product_new->added_by = auth()->user()->user_type != 'seller' ? 'admin' : 'seller';
         if($product_new->added_by != 'seller'){
             $product_new->draft = 1; 

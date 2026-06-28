@@ -138,9 +138,7 @@ class OrderController extends Controller
                 $shipping += $order_detail->shipping_cost;
 
                 //End of storing shipping cost
-                if (addon_is_activated('club_point')) {
-                    $order_detail->earn_point = $product->earn_point;
-                }
+                $order_detail->earn_point = $product->earn_point;
 
                 $order_detail->quantity = $cartItem['quantity'];
                 $order_detail->save();

@@ -174,7 +174,6 @@
                                         required>
                                 </div>
                             </div>
-                            @if (addon_is_activated('gst_system'))
                             <div class="w-100">
                                 <div class="form-group mb-2 row">
                                     <label class="col-lg-2 col-from-label">{{translate('HSN Code')}}</label>
@@ -189,28 +188,6 @@
                                     </div>
                                 </div>
                             </div>
-                            @else
-                            <!-- Vat & TAX -->
-                            @foreach (\App\Models\Tax::where('tax_status', 1)->get() as $tax)
-                                <div class="form-group row">
-                                    <label class="col-lg-2 col-from-label">
-                                        {{ $tax->name }}
-                                    </label>
-                                    <div class="col-lg-6">
-                                        <input type="hidden" value="{{$tax->id}}" name="tax_id[]">
-                                        <input type="number" lang="en" min="0" value="0" step="0.01"
-                                            placeholder="{{ translate('Tax') }}" name="tax[]" class="form-control"
-                                            required>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <select class="form-control aiz-selectpicker" name="tax_type[]">
-                                            <option value="amount">{{ translate('Flat') }}</option>
-                                            <option value="percent">{{ translate('Percent') }}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            @endforeach
-                            @endif
                             <div class="form-group row">
                                 <label class="col-lg-2 control-label"
                                     for="start_date">{{ translate('Discount Date Range') }}</label>

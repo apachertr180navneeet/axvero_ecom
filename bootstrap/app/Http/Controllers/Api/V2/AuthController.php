@@ -336,7 +336,7 @@ class AuthController extends Controller
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->phone = addon_is_activated('otp_system') ? $request->phone : null;
+        $user->phone = $request->phone;
         $user->password = Hash::make($password);
         $user->email_verified_at = $isEmailVerificationEnabled != 1 ? date('Y-m-d H:m:s') : null;
         $user->save();

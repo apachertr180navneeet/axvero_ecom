@@ -277,7 +277,7 @@
                     </div>
                 </div>
             @elseif($custom_alert->id == 200)
-                @if(addon_is_activated('club_point') && get_setting('set_point_for_product_review') != 0 )
+                @if(get_setting('set_point_for_product_review') != 0 )
                     <div class="aiz-cookie-alert mb-3 club-point-alert" style="box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.24);">
                         <div class="p-3 px-lg-2rem rounded-0" style="background: {{ $custom_alert->background_color }};">
                             <div class="text-{{ $custom_alert->text_color }} mb-3 custom-alert-for-product-club-point">
@@ -502,7 +502,7 @@
                 AIZ.plugins.slickCarousel();
             });
 
-            var isPreorderEnabled = @json(addon_is_activated('preorder'));
+            var isPreorderEnabled = true;
 
             if (isPreorderEnabled) {
                 $.post('{{ route('home.section.preorder_products') }}', {

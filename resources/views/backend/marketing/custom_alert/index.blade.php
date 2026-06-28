@@ -187,11 +187,7 @@
                         </td>
                     </tr>
                     @foreach($custom_alerts as $key => $custom_alert)
-                    @php
-                        if ($custom_alert->id == 200 && !addon_is_activated('club_point')) {
-                            continue;
-                        }
-                    @endphp
+
                    
                     <tr>
                         @can('delete_custom_alerts')

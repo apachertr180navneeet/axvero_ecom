@@ -8,7 +8,6 @@
 
 @section('script')
 <script type="text/javascript">
-    @if (addon_is_activated('otp_system'))
         var isPhoneShown = true,
             countryData = window.intlTelInputGlobals.getCountryData(),
             input = document.querySelector("#phone-code");
@@ -64,7 +63,6 @@
                 $(el).html('<i>*{{ translate('Use Email Instead') }}</i>');
             }
         }
-    @endif
 </script>
 
 @if(get_setting('google_recaptcha') == 1 && get_setting('recaptcha_forgot_password') == 1)

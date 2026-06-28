@@ -346,7 +346,6 @@
                                         </div>
                                     @endif
                                     <!-- African Payment Getaway -->
-                                    @if (addon_is_activated('african_pg'))
                                         <!-- flutterwave -->
                                         @if (get_setting('flutterwave') == 1)
                                             <div class="col-6 col-xl-3 col-md-4">
@@ -381,10 +380,8 @@
                                                 </label>
                                             </div>
                                         @endif
-                                    @endif
                                     {{-- Asian Payment gateways --}}
                                     <!--paytm -->
-                                    @if (addon_is_activated('paytm'))
                                         @if (get_setting('paytm_payment') == 1)
                                             <div class="col-6 col-xl-3 col-md-4">
                                                 <label class="aiz-megabox d-block mb-3">
@@ -469,7 +466,6 @@
                                                 </label>
                                             </div>
                                         @endif
-                                    @endif
 
                                     <!-- Paymob -->
                                     @if (get_setting('paymob_payment') == 1)
@@ -522,7 +518,6 @@
                                     @endif
                                     @if (Auth::check())
                                         <!-- Offline Payment -->
-                                        @if (addon_is_activated('offline_payment'))
                                             @foreach (get_all_manual_payment_methods() as $method)
                                                 <div class="col-6 col-xl-3 col-md-4">
                                                     <label class="aiz-megabox d-block mb-3">
@@ -566,7 +561,6 @@
                                 </div>
 
                                 <!-- Offline Payment Fields -->
-                                @if (addon_is_activated('offline_payment'))
                                     <div class="d-none mb-3 rounded border bg-white p-3 text-left">
                                         <div id="manual_payment_description">
 
@@ -600,7 +594,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                @endif
 
                                 <!-- Wallet Payment -->
                                 @if (Auth::check() && get_setting('wallet_system') == 1)
@@ -700,7 +693,7 @@
                     AIZ.plugins.notify('danger',
                         '{{ translate('You order amount is less then the minimum order amount') }}');
                 } else {
-                    var offline_payment_active = '{{ addon_is_activated('offline_payment') }}';
+                    var offline_payment_active = '1';
                     if (offline_payment_active == '1' && $('.offline_payment_option').is(":checked") && $('#trx_id')
                         .val() == '') {
                         AIZ.plugins.notify('danger', '{{ translate('You need to put Transaction id') }}');

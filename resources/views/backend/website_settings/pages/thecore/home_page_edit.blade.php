@@ -80,7 +80,6 @@
 						</a>
 					</li>
 
-					@if(addon_is_activated('auction'))
 					<!-- Auction Products -->
 					<li class="nav-item">
 						<a class="nav-link" id="auction-tab" href="#auction"
@@ -91,7 +90,6 @@
 							@endif
 						</a>
 					</li>
-					@endif
 					
 					<!-- Banner Level 2 -->
 					<li class="nav-item">
@@ -124,7 +122,6 @@
 							{{ translate('Classifieds') }}
 						</a>
 					</li>
-					@if(addon_is_activated('preorder'))
 					<!-- Newest Preorder Products -->
 					<li class="nav-item">
 						<a class="nav-link" id="classifiedss-tab" href="#newestPreorder"
@@ -132,7 +129,6 @@
 							{{ translate('Newest Preorder Products') }}
 						</a>
 					</li>
-					@endif
 					<!-- Top Sellers -->
 					{{-- <li class="nav-item">
 						<a class="nav-link" aria-current="page" href="#profile"
@@ -777,7 +773,6 @@
 						</form>
 					</div>
 
-					@if(addon_is_activated('auction'))
 					<!-- Auction Banner -->
 					<div class="tab-pane fade" id="auction" role="tabpanel" aria-labelledby="auction-tab">
 						<form action="{{ route('business_settings.update') }}" method="POST" enctype="multipart/form-data">
@@ -844,9 +839,7 @@
 								</div>
 							</div>
 						</form>
-					</div>
-					@endif
-
+						</div>
 
 
 					<!-- newestPreorder -->

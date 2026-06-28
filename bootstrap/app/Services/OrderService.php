@@ -35,7 +35,7 @@ class OrderService{
                 product_restock($orderDetail);
             }
 
-            if (addon_is_activated('affiliate_system') && auth()->user()->user_type == 'admin') {
+            if (auth()->user()->user_type == 'admin') {
                 if (($request->status == 'delivered' || $request->status == 'cancelled') &&
                     $orderDetail->product_referral_code
                 ) {
@@ -57,7 +57,7 @@ class OrderService{
                 }
             }
         }
-        if (addon_is_activated('otp_system') && SmsTemplate::where('identifier', 'delivery_status_change')->first()->status == 1) {
+        if (SmsTemplate::where('identifier', 'delivery_status_change')->first()->status == 1) {
             try {
                 SmsUtility::delivery_status_change(json_decode($order->shipping_address)->phone, $order);
             } catch (\Exception $e) {
@@ -81,11 +81,9 @@ class OrderService{
         }
 
 
-        if (addon_is_activated('delivery_boy')) {
-            if (auth()->user()->user_type == 'delivery_boy') {
-                $deliveryBoyController = new DeliveryBoyController;
-                $deliveryBoyController->store_delivery_history($order);
-            }
+        if (auth()->user()->user_type == 'delivery_boy') {
+            $deliveryBoyController = new DeliveryBoyController;
+            $deliveryBoyController->store_delivery_history($order);
         }
     }
 
@@ -137,7 +135,7 @@ class OrderService{
         }
 
 
-        if (addon_is_activated('otp_system') && SmsTemplate::where('identifier', 'payment_status_change')->first()->status == 1) {
+        if (SmsTemplate::where('identifier', 'payment_status_change')->first()->status == 1) {
             try {
                 SmsUtility::payment_status_change(json_decode($order->shipping_address)->phone, $order);
             } catch (\Exception $e) {

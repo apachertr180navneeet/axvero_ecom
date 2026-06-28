@@ -16,8 +16,7 @@ class PurchaseHistoryItemsCollection extends ResourceCollection
                 $refund_button = false;
                 $refund_label = "";
                 $refund_request_status = 99;
-                if (addon_is_activated('refund_request')) {
-                    $refund_section = true;
+                $refund_section = true;
                     $no_of_max_day = get_setting('refund_request_time');
                     $last_refund_date = Carbon::parse($data->order->delivered_date)->addDays($no_of_max_day);
                     $today_date = Carbon::now();

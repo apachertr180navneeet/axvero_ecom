@@ -208,7 +208,6 @@ class ShopController extends Controller
             }
         }
         else {
-            if (addon_is_activated('otp_system')){
                 $sms_template   = SmsTemplate::where('identifier', 'phone_number_verification')->first();
                 $sms_body       = $sms_template->sms_body;
                 $sms_body       = str_replace('[[code]]', $verificationCode, $sms_body);
@@ -217,7 +216,6 @@ class ShopController extends Controller
                 
                 (new SendSmsService())->sendSMS($phone, env('APP_NAME'), $sms_body, $template_id);
             }
-        }
 
         if($success){
             return redirect()->route('shop-reg.verify_code', encrypt($sellerVerification->id));

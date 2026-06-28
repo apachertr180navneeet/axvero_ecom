@@ -276,7 +276,6 @@ $flash_deal = get_featured_flash_deal();
 </div>
 
 
-@if (addon_is_activated('preorder'))
 
 <!-- Preorder Banner 1 -->
 @php $homepreorder_banner_1Images = get_setting('home_preorder_banner_1_images', null, $lang); @endphp
@@ -314,7 +313,6 @@ $flash_deal = get_featured_flash_deal();
 <div id="section_featured_preorder_products">
 
 </div>
-@endif
 
 
 <!-- Banner Section 2 -->
@@ -392,11 +390,9 @@ $flash_deal = get_featured_flash_deal();
 @endif
 
 <!-- Auction Product -->
-@if (addon_is_activated('auction'))
 <div id="auction_products">
 
 </div>
-@endif
 
 <!-- Cupon -->
 @if (get_setting('coupon_system') == 1)
@@ -487,10 +483,8 @@ $flash_deal = get_featured_flash_deal();
 
 </div>
 
-@if (addon_is_activated('preorder'))
 <!-- Newest Preorder Products -->
 @include('preorder.frontend.home_page.newest_preorder')
-@endif
 
 <!-- Classified Product -->
 @if (get_setting('classified_product') == 1)

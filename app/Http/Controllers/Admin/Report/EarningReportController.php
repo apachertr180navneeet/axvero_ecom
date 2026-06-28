@@ -36,15 +36,13 @@ class EarningReportController extends Controller
 
         $seller_subscriptions = array();
         $total_seller_subscriptions_earning = 0;
-        if (addon_is_activated('seller_subscription')) {
-            $seller_subscriptions = SellerPackagePayment::groupBy('time')
+        $seller_subscriptions = SellerPackagePayment::groupBy('time')
                                     ->select(DB::raw('SUM(amount) as total'), DB::raw('DATE_FORMAT(created_at, "%M") AS time'))
                                     ->whereYear('created_at', Carbon::now()->year)
                                     ->where('approval', 1)
                                     ->orderBy(DB::raw('MONTH(created_at)'), 'asc')
                                     ->get();
             $total_seller_subscriptions_earning = SellerPackagePayment::where('approval', 1)->sum('amount');
-        }
 
         $customer_subscriptions = CustomerPackagePayment::groupBy('time')
                                 ->select(DB::raw('SUM(amount) as total'), DB::raw('DATE_FORMAT(created_at, "%M") AS time'))
@@ -64,26 +62,22 @@ class EarningReportController extends Controller
 
         $refunds = array();
         $total_refund_amount = 0;
-        if (addon_is_activated('refund_request')) {
-            $refunds = RefundRequest::groupBy('time')
+        $refunds = RefundRequest::groupBy('time')
                         ->select(DB::raw('SUM(refund_amount) as total'), DB::raw('DATE_FORMAT(created_at, "%M") AS time'))
                         ->whereYear('created_at', Carbon::now()->year)
                         ->where('admin_approval', 1)
                         ->orderBy(DB::raw('MONTH(created_at)'), 'asc')
                         ->get();
             $total_refund_amount = RefundRequest::where('admin_approval', 1)->sum('refund_amount');
-        }
 
         $delivery_boy_payments = array();
         $total_delivery_boy_payment_amount = 0;
-        if (addon_is_activated('delivery_boy')) {
-            $delivery_boy_payments = DeliveryBoyPayment::groupBy('time')
+        $delivery_boy_payments = DeliveryBoyPayment::groupBy('time')
                                     ->select(DB::raw('SUM(payment) as total'), DB::raw('DATE_FORMAT(created_at, "%M") AS time'))
                                     ->whereYear('created_at', Carbon::now()->year)
                                     ->orderBy(DB::raw('MONTH(created_at)'), 'asc')
                                     ->get();
             $total_delivery_boy_payment_amount = DeliveryBoyPayment::sum('payment');
-        }
         $mymonths = array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
         foreach ($mymonths as $month) {
             // Sales
@@ -228,7 +222,6 @@ class EarningReportController extends Controller
 
         // Seller Subscription
         $data['seller_subscription'] = 0.00;
-        if (addon_is_activated('seller_subscription')) {
             $seller_subscription = SellerPackagePayment::query();
             if ($intervalType == 'DAY') {
                 $seller_subscription->whereDate('created_at', Carbon::today());
@@ -239,9 +232,7 @@ class EarningReportController extends Controller
             }
             $seller_subscription->select(DB::raw('SUM(amount) as total_amount'))->where('approval', 1);
             $data['seller_subscription'] = $seller_subscription->first()->total_amount;
-        }
-
-        // Customer Subscription
+        
         $customer_subscription = CustomerPackagePayment::query();
         if ($intervalType == 'DAY') {
             $customer_subscription->whereDate('created_at', Carbon::today());
@@ -274,7 +265,6 @@ class EarningReportController extends Controller
 
         // Refund Amount
         $refund_amount = 0;
-        if (addon_is_activated('refund_request')) {
             $refund_request = RefundRequest::where('admin_approval', 1);
             if ($intervalType == 'DAY') {
                 $refund_request->whereDate('created_at', Carbon::today());
@@ -285,12 +275,10 @@ class EarningReportController extends Controller
             }
             $refund_request->select(DB::raw('SUM(refund_amount) as total'));
             $refund_amount = $refund_request->first()->total;
-        }
-        $data['product_refund'] = $refund_amount;
+        
 
         // Delivery Boy payout
         $delivery_boy_payout = 0;
-        if (addon_is_activated('delivery_boy')) {
 
             $delivery_boy_payout = DeliveryBoyPayment::query();
             if ($intervalType == 'DAY') {
@@ -302,9 +290,7 @@ class EarningReportController extends Controller
             }
             $delivery_boy_payout->select(DB::raw('SUM(payment) as total'));
             $delivery_boy_payout = $delivery_boy_payout->first()->total;
-        }
-
-        $data['delivery_boy_payout'] = $delivery_boy_payout;
+        
         return $data;
     }
 
@@ -326,7 +312,6 @@ class EarningReportController extends Controller
 
         // Earning from Seller Subscription
         $seller_subscriptions = array();
-        if (addon_is_activated('seller_subscription')) {
             $seller_subscriptions_query = SellerPackagePayment::groupBy('time')->where('approval', 1)->whereYear('created_at', Carbon::now()->year);
             if($intervalType == 'MONTH'){
                 $seller_subscriptions_query->select(DB::raw('SUM(amount) as total'), DB::raw('DATE_FORMAT(created_at, "%M") AS time'));
@@ -442,7 +427,6 @@ class EarningReportController extends Controller
 
         // Refunds
         $refunds = array();
-        if (addon_is_activated('refund_request')) {
             $refund_query = RefundRequest::groupBy('time')->where('admin_approval', 1)->whereYear('created_at', Carbon::now()->year);
             if($intervalType == 'MONTH'){
                 $refund_query->select(DB::raw('SUM(refund_amount) as total'), DB::raw('DATE_FORMAT(created_at, "%M") AS time'))
@@ -454,11 +438,7 @@ class EarningReportController extends Controller
                     ->orderBy(DB::raw('Date(created_at)'), 'asc');
             }
             $refunds = $refund_query->get();
-        }
-
-        // Delivery Boy Payments
-        $delivery_boy_payments = array();
-        if (addon_is_activated('delivery_boy')) {
+        
             $delivery_boy_payment_query = DeliveryBoyPayment::groupBy('time')->whereYear('created_at', Carbon::now()->year);
             if($intervalType == 'MONTH'){
                 $delivery_boy_payment_query->select(DB::raw('SUM(payment) as total'), DB::raw('DATE_FORMAT(created_at, "%M") AS time'))
@@ -470,9 +450,7 @@ class EarningReportController extends Controller
                     ->orderBy(DB::raw('Date(created_at)'), 'asc');
             }
             $delivery_boy_payments = $delivery_boy_payment_query->get();
-        }
-
-        $mymonths = array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+        
         $new_data = array();
         if ($intervalType == 'MONTH') {
             foreach ($mymonths as $month) {
@@ -550,12 +528,10 @@ class EarningReportController extends Controller
             $customerPackagePayment->save();
         }
 
-        if(addon_is_activated('seller_subscription')){
-            $sellerPackagePayments = SellerPackagePayment::where('amount','<',1)->get();
+        $sellerPackagePayments = SellerPackagePayment::where('amount','<',1)->get();
             foreach($sellerPackagePayments as $sellerPackagePayment){
                 $sellerPackagePayment->amount = $sellerPackagePayment->seller_package->amount;
                 $sellerPackagePayment->save();
             }
-        }
     }
 }

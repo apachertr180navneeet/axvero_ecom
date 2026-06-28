@@ -151,38 +151,26 @@
                                 @csrf
                                 
                                 <!-- Email or Phone -->
-                                @if (addon_is_activated('otp_system'))
-                                    <div class="form-group phone-form-group mb-3">
-                                        <label for="phone" class="fs-13 fw-600 text-dark mb-2">{{  translate('Phone') }}</label>
-                                        <input type="tel" phone-number id="phone-code" class="form-control auth-input {{ $errors->has('phone') ? ' is-invalid' : '' }}" value="{{ old('phone') }}" placeholder="" name="phone" autocomplete="off">
-                                    </div>
+                                <div class="form-group phone-form-group mb-3">
+                                    <label for="phone" class="fs-13 fw-600 text-dark mb-2">{{  translate('Phone') }}</label>
+                                    <input type="tel" phone-number id="phone-code" class="form-control auth-input {{ $errors->has('phone') ? ' is-invalid' : '' }}" value="{{ old('phone') }}" placeholder="" name="phone" autocomplete="off">
+                                </div>
 
-                                    <input type="hidden" name="country_code" value="">
-                                    
-                                    <div class="form-group email-form-group mb-3 d-none">
-                                        <label for="email" class="fs-13 fw-600 text-dark mb-2">{{  translate('Email') }}</label>
-                                        <input type="email" class="form-control auth-input {{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" placeholder="{{  translate('johndoe@example.com') }}" name="email" id="email" autocomplete="off">
-                                        @if ($errors->has('email'))
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('email') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                    
-                                    <div class="text-right mb-3">
-                                        <button class="btn btn-link p-0 auth-link fs-13" type="button" onclick="toggleEmailPhone(this)">{{ translate('Use Email Instead') }}</button>
-                                    </div>
-                                @else
-                                    <div class="form-group mb-3">
-                                        <label for="email" class="fs-13 fw-600 text-dark mb-2">{{  translate('Email Address') }}</label>
-                                        <input type="email" class="form-control auth-input {{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" placeholder="{{  translate('johndoe@example.com') }}" name="email" id="email" autocomplete="off">
-                                        @if ($errors->has('email'))
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('email') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                @endif
+                                <input type="hidden" name="country_code" value="">
+                                
+                                <div class="form-group email-form-group mb-3 d-none">
+                                    <label for="email" class="fs-13 fw-600 text-dark mb-2">{{  translate('Email') }}</label>
+                                    <input type="email" class="form-control auth-input {{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" placeholder="{{  translate('johndoe@example.com') }}" name="email" id="email" autocomplete="off">
+                                    @if ($errors->has('email'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('email') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                
+                                <div class="text-right mb-3">
+                                    <button class="btn btn-link p-0 auth-link fs-13" type="button" onclick="toggleEmailPhone(this)">{{ translate('Use Email Instead') }}</button>
+                                </div>
                                 
                                 <div class="password-login-block">
                                     <!-- password -->

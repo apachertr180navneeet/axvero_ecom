@@ -58,12 +58,10 @@ class DigitalProductController extends Controller
             ->with('childrenCategories')
             ->get();
 
-        if (addon_is_activated('gst_system')) {
-            $business_info = admin_business_info();
-            if ( empty($business_info) || !is_array($business_info) || empty($business_info['gstin'])) {
-                flash(translate('Please Update Your GST Information'))->warning();
-                return back();
-            }
+        $business_info = admin_business_info();
+        if ( empty($business_info) || !is_array($business_info) || empty($business_info['gstin'])) {
+            flash(translate('Please Update Your GST Information'))->warning();
+            return back();
         }
 
 
@@ -78,12 +76,10 @@ class DigitalProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        if (addon_is_activated('gst_system')) {
-            $business_info = admin_business_info();
-            if ( empty($business_info) || !is_array($business_info) || empty($business_info['gstin'])) {
-                flash(translate('Please Update Your GST Information'))->warning();
-                return back();
-            }
+        $business_info = admin_business_info();
+        if ( empty($business_info) || !is_array($business_info) || empty($business_info['gstin'])) {
+            flash(translate('Please Update Your GST Information'))->warning();
+            return back();
         }
 
         // Product Store
@@ -145,12 +141,10 @@ class DigitalProductController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        if (addon_is_activated('gst_system')) {
-            $business_info = admin_business_info();
-            if ( empty($business_info) || !is_array($business_info) || empty($business_info['gstin'])) {
-                flash(translate('Please Update Your GST Information'))->warning();
-                return back();
-            }
+        $business_info = admin_business_info();
+        if ( empty($business_info) || !is_array($business_info) || empty($business_info['gstin'])) {
+            flash(translate('Please Update Your GST Information'))->warning();
+            return back();
         }
         
         $lang = $request->lang;
@@ -171,12 +165,10 @@ class DigitalProductController extends Controller
      */
     public function update(ProductRequest $request, $id)
     {
-        if (addon_is_activated('gst_system')) {
-            $business_info = admin_business_info();
-            if ( empty($business_info) || !is_array($business_info) || empty($business_info['gstin'])) {
-                flash(translate('Please Update Your GST Information'))->warning();
-                return back();
-            }
+        $business_info = admin_business_info();
+        if ( empty($business_info) || !is_array($business_info) || empty($business_info['gstin'])) {
+            flash(translate('Please Update Your GST Information'))->warning();
+            return back();
         }
         
         $product                    = Product::findOrFail($id);

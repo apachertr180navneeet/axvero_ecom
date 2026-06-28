@@ -27,8 +27,7 @@ class WholesaleProductController extends Controller
 
     public function product_store(WholesaleProductRequest $request)
     {
-        if (addon_is_activated('seller_subscription')) {
-            if (
+        if (
                 (auth()->user()->shop->seller_package == null) ||
                 (auth()->user()->shop->seller_package->product_upload_limit <= auth()->user()->products()->count())
             ) {

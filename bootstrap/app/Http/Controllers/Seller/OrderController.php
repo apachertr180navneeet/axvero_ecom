@@ -112,7 +112,7 @@ class OrderController extends Controller
 
 
         // Delivery Status change SMS notification
-        if (addon_is_activated('otp_system') && SmsTemplate::where('identifier', 'delivery_status_change')->first()->status == 1) {
+        if (SmsTemplate::where('identifier', 'delivery_status_change')->first()->status == 1) {
             try {
                 SmsUtility::delivery_status_change(json_decode($order->shipping_address)->phone, $order);
             } catch (\Exception $e) {}
@@ -137,11 +137,9 @@ class OrderController extends Controller
         }
 
 
-        if (addon_is_activated('delivery_boy')) {
-            if ($authUser->user_type == 'delivery_boy') {
-                $deliveryBoyController = new DeliveryBoyController;
-                $deliveryBoyController->store_delivery_history($order);
-            }
+        if ($authUser->user_type == 'delivery_boy') {
+            $deliveryBoyController = new DeliveryBoyController;
+            $deliveryBoyController->store_delivery_history($order);
         }
 
         return 1;
@@ -194,7 +192,7 @@ class OrderController extends Controller
         }
 
 
-        if (addon_is_activated('otp_system') && SmsTemplate::where('identifier', 'payment_status_change')->first()->status == 1) {
+        if (SmsTemplate::where('identifier', 'payment_status_change')->first()->status == 1) {
             try {
                 SmsUtility::payment_status_change(json_decode($order->shipping_address)->phone, $order);
             } catch (\Exception $e) {

@@ -140,9 +140,7 @@ if (!function_exists('filter_products')) {
 
         $products = $products->isApprovedPublished()->where('auction_product', 0);
 
-        if (!addon_is_activated('wholesale')) {
-            $products = $products->where('wholesale_product', 0);
-        }
+        $products = $products->where('wholesale_product', 0);
         $verified_sellers = verified_sellers_id();
         if (get_setting('vendor_system_activation') == 1) {
             return $products->where(function ($p) use ($verified_sellers) {
@@ -647,10 +645,8 @@ if (!function_exists('home_price')) {
             }
         }
         
-        if(addon_is_activated('gst_system')){
-            $lowest_price += ($lowest_price * $product->gst_rate) / 100;
-            $highest_price += ($highest_price * $product->gst_rate) / 100;
-        }
+        $lowest_price += ($lowest_price * $product->gst_rate) / 100;
+        $highest_price += ($highest_price * $product->gst_rate) / 100;
         if ($formatted) {
             if ($lowest_price == $highest_price) {
                 return format_price(convert_price($lowest_price));
@@ -722,10 +718,8 @@ if (!function_exists('home_discounted_price')) {
                 $highest_price += $product_tax->tax;
             }
         }
-        if(addon_is_activated('gst_system')){
-            $lowest_price += ($lowest_price * $product->gst_rate) / 100;
-            $highest_price += ($highest_price * $product->gst_rate) / 100;
-        }
+        $lowest_price += ($lowest_price * $product->gst_rate) / 100;
+        $highest_price += ($highest_price * $product->gst_rate) / 100;
 
         if ($formatted) {
             if ($lowest_price == $highest_price) {
@@ -739,9 +733,9 @@ if (!function_exists('home_discounted_price')) {
     }
 }
 
-//Generates Fromatted DateTime
-if (!function_exists('TimeDateFormatter')) {
-    function TimeDateFormatter()
+//Shows Bad Results in Seller Hompapage Retruns
+if (!function_exists('seller_homepage_urls')) {
+    function seller_homepage_urls($slug)
     {
         date_default_timezone_set('UTC');
         $timestamp = time();
@@ -784,9 +778,7 @@ if (!function_exists('home_base_price')) {
             }
         }
         $price += $tax;
-        if (addon_is_activated('gst_system')){
         $price += ($price * $product->gst_rate) / 100;
-        }
         return $formatted ? format_price(convert_price($price)) : convert_price($price);
     }
 }
@@ -858,9 +850,7 @@ if (!function_exists('home_discounted_base_price')) {
                 $price -= $product->discount;
             }
         }
-        if(addon_is_activated('gst_system')){
-            $price += ($price * $product->gst_rate) / 100;
-        }
+        $price += ($price * $product->gst_rate) / 100;
 
         foreach ($product->taxes as $product_tax) {
             if ($product_tax->tax_type == 'percent') {
@@ -1655,10 +1645,8 @@ if (!function_exists('calculateCommissionAffilationClubPoint')) {
     {
         (new CommissionController)->calculateCommission($order);
 
-        if (addon_is_activated('club_point')) {
-            if ($order->user != null) {
-                (new ClubPointController)->processClubPoints($order);
-            }
+        if ($order->user != null) {
+            (new ClubPointController)->processClubPoints($order);
         }
 
         $order->commission_calculated = 1;
@@ -1666,26 +1654,9 @@ if (!function_exists('calculateCommissionAffilationClubPoint')) {
     }
 }
 
-// Addon Activation Check
-if (!function_exists('addon_is_activated')) {
-    function addon_is_activated($identifier, $default = null)
-    {
-        $addons = Cache::remember('addons', 86400, function () {
-            return Addon::all();
-        });
-
-        $activation = $addons->where('unique_identifier', $identifier)->where('activated', 1)->first();
-        return $activation == null ? false : true;
-    }
-}
-
 if (!function_exists('shiprocket_is_enabled')) {
     function shiprocket_is_enabled()
     {
-        if (addon_is_activated('shiprocket')) {
-            return true;
-        }
-
         if (\App\Models\ShippingSystem::where('name', 'shiprocket')->where('active', 1)->exists()) {
             return true;
         }
@@ -2073,12 +2044,6 @@ if (!function_exists('getLastViewedProducts')) {
                                     $query->select('id')
                                         ->from('products')
                                         ->where('approved', '1')->where('published', 1)
-                                        ->when(!addon_is_activated('wholesale') ,function ($q1){
-                                            $q1->where('wholesale_product', 0);
-                                        })
-                                        ->when(!addon_is_activated('auction') ,function ($q2){
-                                            $q2->where('auction_product', 0);
-                                        })
                                         ->when(get_setting('vendor_system_activation') == 0 ,function ($q3){
                                             $q3->where('added_by', 'admin');
                                         })
@@ -2700,19 +2665,13 @@ if (!function_exists('get_activate_payment_methods')) {
                                         ->Where(function($query){
                                             $query->whereNull('addon_identifier')
                                             ->orWhere(function($q){
-                                                if(addon_is_activated('paytm')){
-                                                    $q->where('addon_identifier', 'paytm');
-                                                }
+                                                $q->where('addon_identifier', 'paytm');
                                             })
                                             ->orWhere(function($q){
-                                                if(addon_is_activated('african_pg')){
-                                                    $q->where('addon_identifier', 'african_pg');
-                                                }
+                                                $q->where('addon_identifier', 'african_pg');
                                             })
                                             ->orWhere(function($q){
-                                                if(addon_is_activated('cybersource')){
-                                                    $q->where('addon_identifier', 'cybersource');
-                                                }
+                                                $q->where('addon_identifier', 'cybersource');
                                             });
                                         });
         return $payment_methods->get();
@@ -2744,12 +2703,6 @@ if (!function_exists('get_wishlists')) {
                         $query->select('id')
                             ->from('products')
                             ->where('approved', '1')->where('published', 1)
-                            ->when(!addon_is_activated('wholesale') ,function ($q1){
-                                $q1->where('wholesale_product', 0);
-                            })
-                            ->when(!addon_is_activated('auction') ,function ($q2){
-                                $q2->where('auction_product', 0);
-                            })
                             ->when(get_setting('vendor_system_activation') == 0 ,function ($q3){
                                 $q3->where('added_by', 'admin');
                             })
@@ -3312,12 +3265,7 @@ if (!function_exists('gst_applicable_product_rate')) {
     function gst_applicable_product_rate($product_id)
     {
        $product = Product::find($product_id);
-    //    if (addon_is_activated('gst_system')  && ($product->gst_rate > 0 || ($product->gst_rate == 0 && $product->hsn_code != ''))){
-    //         return $product->gst_rate;
-    //    }
-    if (addon_is_activated('gst_system')){
-        return $product->gst_rate;
-    }
+    return $product->gst_rate;
        return null;
     }
 }
@@ -3327,7 +3275,7 @@ if (!function_exists('gst_applicable_product_rate')) {
 if (!function_exists('get_gst_by_price_and_rate')) {
     function get_gst_by_price_and_rate($price, $gst_rate)
     {
-       if (addon_is_activated('gst_system')  && $gst_rate > 0){
+       if ($gst_rate > 0){
             $gst_amount = ($price * $gst_rate) / 100;
             //return round($gst_amount, 2);
             return $gst_amount;

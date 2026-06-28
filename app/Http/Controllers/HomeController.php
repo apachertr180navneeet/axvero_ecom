@@ -143,9 +143,7 @@ class HomeController extends Controller
 
     public function load_auction_products_section()
     {
-        if (!addon_is_activated('auction')) {
-            return;
-        }
+        return;
         $lang = get_system_language() ? get_system_language()->code : null;
         return view('auction.frontend.' . get_setting('homepage_select') . '.auction_products_section', compact('lang'));
     }
@@ -204,8 +202,10 @@ public function getRecentProducts(Request $request)
 
         if (Route::currentRouteName() == 'seller.login' && get_setting('vendor_system_activation') == 1) {
             return view('auth.' . get_setting('authentication_layout_select') . '.seller_login');
-        } else if (Route::currentRouteName() == 'deliveryboy.login' && addon_is_activated('delivery_boy')) {
+        } else if (Route::currentRouteName() == 'deliveryboy.login') {
             return view('auth.' . get_setting('authentication_layout_select') . '.deliveryboy_login');
+        } else if (Route::currentRouteName() == 'affiliate.login') {
+            return view('auth.' . get_setting('authentication_layout_select') . '.affiliate_login');
         }
         return view('auth.' . get_setting('authentication_layout_select') . '.user_login');
     }
@@ -240,6 +240,9 @@ public function getRecentProducts(Request $request)
 
         $email = null;
         $phone = null;
+        if (Route::currentRouteName() == 'affiliate.registration') {
+            return view('auth.' . get_setting('authentication_layout_select') . '.affiliate_registration', compact('email','phone'));
+        }
         return view('auth.' . get_setting('authentication_layout_select') . '.user_registration', compact('email','phone'));
     }
 
@@ -383,7 +386,7 @@ public function product(Request $request, $slug)
             abort(404);
         }
 
-        if (!addon_is_activated('wholesale') && $detailedProduct->wholesale_product == 1) {
+        if ($detailedProduct->wholesale_product == 1) {
             abort(404);
         }
 
@@ -779,9 +782,7 @@ if ($price < 0) {
         }
 
         $price += $tax;
-        if (addon_is_activated('gst_system')) {
         $price += ($price * $product->gst_rate) / 100;
-        }
 
         return array(
             'price' => single_price($price * $request->quantity),
@@ -1089,16 +1090,13 @@ if ($price < 0) {
                 $success = 0;
             }
         } else {
-            if (addon_is_activated('otp_system')) {
-                $sms_template   = SmsTemplate::where('identifier', 'phone_number_verification')->first();
+            $sms_template   = SmsTemplate::where('identifier', 'phone_number_verification')->first();
                 $sms_body       = $sms_template->sms_body;
                 $sms_body       = str_replace('[[code]]', $verificationCode, $sms_body);
                 $sms_body       = str_replace('[[site_name]]', env('APP_NAME'), $sms_body);
                 $template_id    = $sms_template->template_id;
 
                 (new SendSmsService())->sendSMS($phone, env('APP_NAME'), $sms_body, $template_id);
-
-            }
         }
 
         // if ($success) {

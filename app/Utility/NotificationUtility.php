@@ -45,7 +45,7 @@ class NotificationUtility
             }   
         }
 
-        if (addon_is_activated('otp_system') && SmsTemplate::where('identifier', 'order_placement')->first()->status == 1) {
+        if (SmsTemplate::where('identifier', 'order_placement')->first()->status == 1) {
             try {
                 $otpController = new OTPVerificationController;
                 $otpController->send_order_code($order);

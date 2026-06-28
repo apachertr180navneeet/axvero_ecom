@@ -231,12 +231,10 @@ class ProductController extends Controller
             ->where('digital', 0)
             ->with('childrenCategories')
             ->get();
-            if (addon_is_activated('gst_system')) {
-                $business_info = admin_business_info();
-                if ( empty($business_info) || !is_array($business_info) || empty($business_info['gstin'])) {
-                    flash(translate('Please Update Your GST Information'))->warning();
-                    return back();
-                }
+            $business_info = admin_business_info();
+            if ( empty($business_info) || !is_array($business_info) || empty($business_info['gstin'])) {
+                flash(translate('Please Update Your GST Information'))->warning();
+                return back();
             }
 
         return view('backend.product.products.create', compact('categories'));
@@ -290,7 +288,7 @@ class ProductController extends Controller
         }
 
         // Delete other Taxes if GST Rate is updated
-        if ($request->has('gst_rate') && addon_is_activated('gst_system')) {
+        if ($request->has('gst_rate')) {
             $product->taxes()->delete();
         }
 
@@ -493,8 +491,7 @@ class ProductController extends Controller
             return redirect('admin/digitalproducts/' . $id . '/edit');
         }
 
-        if (addon_is_activated('gst_system')) {
-            if($product->added_by=='admin'){
+        if($product->added_by=='admin'){
                 $business_info = admin_business_info();
                 if ( empty($business_info) || !is_array($business_info) || empty($business_info['gstin'])) {
                     flash(translate('Please Update Your GST Information'))->warning();
@@ -507,7 +504,6 @@ class ProductController extends Controller
                     return back();
                 }
             }
-        }
 
         $lang = $request->lang;
         $tags = json_decode($product->tags);
@@ -528,13 +524,10 @@ class ProductController extends Controller
     public function seller_product_edit(Request $request, $id)
     {
         $product = Product::findOrFail($id);
-        if (addon_is_activated('gst_system')) {
-            $shop = $product->user->shop;
-            if ($shop && !$shop->gst_verification) {
-                flash(translate('GST verification is pending for This Seller'))->warning();
-                return back();
-            }
-
+        $shop = $product->user->shop;
+        if ($shop && !$shop->gst_verification) {
+            flash(translate('GST verification is pending for This Seller'))->warning();
+            return back();
         }
         
         $product = Product::findOrFail($id);
@@ -563,8 +556,7 @@ class ProductController extends Controller
     {
         //Log::info('Product Update Request:', $request->all());
         //Product
-        if (addon_is_activated('gst_system')) {
-            if($product->added_by=='admin'){
+        if($product->added_by=='admin'){
                 $business_info = admin_business_info();
                 if ( empty($business_info) || !is_array($business_info) || empty($business_info['gstin'])) {
                     flash(translate('Please Update Your GST Information'))->warning();
@@ -577,7 +569,6 @@ class ProductController extends Controller
                     return back();
                 }
             }
-        }
 
         $product = $this->productService->update($request->except([
             '_token',
@@ -628,7 +619,7 @@ class ProductController extends Controller
         }
 
         // Delete other Taxes if GST Rate is updated
-        if ($request->has('gst_rate') && addon_is_activated('gst_system')) {
+        if ($request->has('gst_rate')) {
             $product->taxes()->delete();
         }
 
@@ -818,7 +809,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($request->id);
         $product->published = $request->status;
 
-        if ($product->added_by == 'seller' && addon_is_activated('seller_subscription') && $request->status == 1) {
+        if ($product->added_by == 'seller' && $request->status == 1) {
             $shop = $product->user->shop;
             if (
                 $shop->package_invalid_at == null
@@ -829,8 +820,7 @@ class ProductController extends Controller
             }
         }
 
-        if (addon_is_activated('gst_system')) {
-            if($product->added_by=='admin'){
+        if($product->added_by=='admin'){
                 $business_info = admin_business_info();
                 if ( empty($business_info) || !is_array($business_info) || empty($business_info['gstin'])) {
                     return 3;
@@ -845,7 +835,6 @@ class ProductController extends Controller
                 }
                 
             }
-        }
 
         $product->save();
 
@@ -866,7 +855,7 @@ class ProductController extends Controller
                 }
                 
 
-                if ($product->added_by == 'seller' && addon_is_activated('seller_subscription')) {
+                if ($product->added_by == 'seller') {
                     $shop = $product->user->shop;
                     if (
                         $shop->package_invalid_at == null
@@ -877,8 +866,7 @@ class ProductController extends Controller
                     }
                 }
 
-                if (addon_is_activated('gst_system')) {
-                    if($product->added_by=='admin'){
+                if($product->added_by=='admin'){
                         $business_info = admin_business_info();
                         if ( empty($business_info) || !is_array($business_info) || empty($business_info['gstin'])) {
                            continue;
@@ -895,7 +883,6 @@ class ProductController extends Controller
                             continue;
                         }
                     }
-                }
 
                 $product->published = 1;
                 $product->save();
@@ -911,7 +898,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($request->id);
         $product->approved = $request->approved;
 
-        if ($product->added_by == 'seller' && addon_is_activated('seller_subscription')) {
+        if ($product->added_by == 'seller') {
             $shop = $product->user->shop;
             if (
                 $shop->package_invalid_at == null

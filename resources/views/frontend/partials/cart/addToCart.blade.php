@@ -84,7 +84,7 @@
                             </div>
 
                             <!-- Club Point -->
-                            @if (addon_is_activated('club_point') && $product->earn_point > 0)
+                            @if ($product->earn_point > 0)
                             <div class="mt-2 bg-secondary-base d-flex justify-content-center align-items-center px-3 py-1" style="width: fit-content;">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
                                     <g id="Group_23922" data-name="Group 23922" transform="translate(-973 -633)">

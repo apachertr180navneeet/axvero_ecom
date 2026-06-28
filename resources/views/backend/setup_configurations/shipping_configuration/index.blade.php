@@ -41,7 +41,7 @@
                             <div class=" py-2 d-flex align-items-center justify-content-between flex-row">
                                 <p class="mb-0 fs-13 fw-600">{{ translate('Do You want to enable states?')}}</p>
                                 <label class="aiz-switch aiz-switch-success mb-0">
-                                    <input onchange="update_status(this)" value="{{get_setting('has_state')}}" type="checkbox"<?php if(get_setting('has_state') == 1) echo "checked"; if(addon_is_activated('gst_system')) echo " disabled";?>  >
+                                    <input onchange="update_status(this)" value="{{get_setting('has_state')}}" type="checkbox"<?php if(get_setting('has_state') == 1) echo "checked"; echo " disabled";?>  >
                                     <span class="slider round"></span>
                                 </label>
                             </div>

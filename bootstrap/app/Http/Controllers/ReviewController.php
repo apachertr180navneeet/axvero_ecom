@@ -144,41 +144,39 @@ class ReviewController extends Controller
             $seller->save();
         }
 
-        if (addon_is_activated('club_point')) {
-            $product = Product::findOrFail($request->product_id);
-            $getPoint = false;
+        $product = Product::findOrFail($request->product_id);
+        $getPoint = false;
 
-            if ($product->added_by == 'admin') {
-                $getPoint = true;
-            } elseif ($product->added_by == 'seller') {
-                $getPoint = get_setting('set_club_point_for_sellers_product_review') == 1;
-            }
-            if ($getPoint) {
-                $order = Order::where('id', $request->order_id)->first();
-                $reviewPoint = get_setting('set_point_for_product_review');
-                if($order){
-                    $orderDetail = $order->orderDetails
-                                ->where('product_id', $request->product_id)
-                                ->where('reviewed', 1)
-                                ->first();
+        if ($product->added_by == 'admin') {
+            $getPoint = true;
+        } elseif ($product->added_by == 'seller') {
+            $getPoint = get_setting('set_club_point_for_sellers_product_review') == 1;
+        }
+        if ($getPoint) {
+            $order = Order::where('id', $request->order_id)->first();
+            $reviewPoint = get_setting('set_point_for_product_review');
+            if($order){
+                $orderDetail = $order->orderDetails
+                            ->where('product_id', $request->product_id)
+                            ->where('reviewed', 1)
+                            ->first();
+               
+                if($orderDetail){
+                    $orderDetail->earn_point += $reviewPoint;
+                    $orderDetail->save();
+
+                    $clubPoint = ClubPoint::create([
+                        'user_id' => Auth::id(),
+                        'points' => $reviewPoint,
+                        'order_id' => $request->order_id
+                    ]);
+            
+                    ClubPointDetail::create([
+                        'club_point_id' => $clubPoint->id,
+                        'product_id'    => $request->product_id,
+                        'point'         => $reviewPoint,
+                    ]);
                    
-                    if($orderDetail){
-                        $orderDetail->earn_point += $reviewPoint;
-                        $orderDetail->save();
-
-                        $clubPoint = ClubPoint::create([
-                            'user_id' => Auth::id(),
-                            'points' => $reviewPoint,
-                            'order_id' => $request->order_id
-                        ]);
-                
-                        ClubPointDetail::create([
-                            'club_point_id' => $clubPoint->id,
-                            'product_id'    => $request->product_id,
-                            'point'         => $reviewPoint,
-                        ]);
-                       
-                    }
                 }
             }
         }

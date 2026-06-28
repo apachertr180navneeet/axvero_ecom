@@ -3,7 +3,7 @@
 @section('panel_content')
     <div class="aiz-titlebar mt-2 mb-4">
         <div class="row align-items-center">
-            @if(addon_is_activated('gst_system') && !auth()->user()->shop->gst_verification)
+            @if(!auth()->user()->shop->gst_verification)
                 <div class="col-md-12 alert alert-info text-center ">
                     <p class="font-weight-bold text-danger m-0">{{ translate('GST is being enabled on our platform. Please upload and complete the required documents from ') }} <a class="text-info" href="{{ route('seller.shop.index') }}">{{ translate('here') }}</a>.  {{translate('Products will not be published unless the form is completed and HSN codes and GST values are properly assigned.')}}</p>
                 </div>
@@ -427,7 +427,6 @@
             </div>
         </div>
         <div class="col-sm-6 col-md-6 col-lg-3 mb-4">
-            @if (addon_is_activated('seller_subscription'))
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title">
@@ -447,11 +446,9 @@
                                         <p class="mb-1 text-muted">{{ translate('Product Upload Limit') }}:
                                             {{ $authUser->shop->product_upload_limit }} {{ translate('Times') }}
                                         </p>
-                                        @if(addon_is_activated('preorder'))
-                                            <p class="mb-1 text-muted">{{ translate('Preorder Product Upload Limit') }}:
+                                        <p class="mb-1 text-muted">{{ translate('Preorder Product Upload Limit') }}:
                                                 {{ $authUser->shop->preorder_product_upload_limit }} {{ translate('Times') }}
                                             </p>
-                                        @endif
                                         <p class="text-muted mb-4">{{ translate('Package Expires at') }}:
                                             {{ $authUser->shop->package_invalid_at }}
                                         </p>
@@ -467,9 +464,8 @@
 
                     </div>
                 </div>
-            @endif
             <div
-                class="card mb-0 @if (addon_is_activated('seller_subscription')) px-4 py-5 @else p-5 h-100 @endif d-flex align-items-center justify-content-center">
+                class="card mb-0 px-4 py-5 d-flex align-items-center justify-content-center">
                 @if ($authUser->shop?->verification_status == 0)
                     <div class="my-n4 py-1 text-center">
                         <img src="{{ static_asset('assets/img/non_verified.png') }}" alt=""

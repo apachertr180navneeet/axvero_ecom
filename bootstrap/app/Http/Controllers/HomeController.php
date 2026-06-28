@@ -100,9 +100,6 @@ class HomeController extends Controller
 
     public function load_auction_products_section()
     {
-        if (!addon_is_activated('auction')) {
-            return;
-        }
         $lang = get_system_language() ? get_system_language()->code : null;
         return view('auction.frontend.' . get_setting('homepage_select') . '.auction_products_section', compact('lang'));
     }
@@ -143,7 +140,7 @@ class HomeController extends Controller
 
         if (Route::currentRouteName() == 'seller.login' && get_setting('vendor_system_activation') == 1) {
             return view('auth.' . get_setting('authentication_layout_select') . '.seller_login');
-        } else if (Route::currentRouteName() == 'deliveryboy.login' && addon_is_activated('delivery_boy')) {
+        } else if (Route::currentRouteName() == 'deliveryboy.login') {
             return view('auth.' . get_setting('authentication_layout_select') . '.deliveryboy_login');
         }
         return view('auth.' . get_setting('authentication_layout_select') . '.user_login');
@@ -177,7 +174,7 @@ class HomeController extends Controller
         }
 
 
-        if ($request->has('referral_code') && addon_is_activated('affiliate_system')) {
+        if ($request->has('referral_code')) {
             try {
                 $affiliate_validation_time = AffiliateConfig::where('type', 'validation_time')->first();
                 $cookie_minute = 30 * 24;
@@ -334,7 +331,7 @@ class HomeController extends Controller
                 abort(404);
             }
 
-            if (!addon_is_activated('wholesale') && $detailedProduct->wholesale_product == 1) {
+            if ($detailedProduct->wholesale_product == 1) {
                 abort(404);
             }
 
@@ -362,7 +359,7 @@ class HomeController extends Controller
                 $review_status = $OrderDetail ? 1 : 0;
                 $order_id = $OrderDetail->order->id ?? null ;
             }
-            if ($request->has('product_referral_code') && addon_is_activated('affiliate_system')) {
+            if ($request->has('product_referral_code')) {
                 $affiliate_validation_time = AffiliateConfig::where('type', 'validation_time')->first();
                 $cookie_minute = 30 * 24;
                 if ($affiliate_validation_time) {
@@ -681,9 +678,7 @@ class HomeController extends Controller
         }
 
         $price += $tax;
-        if (addon_is_activated('gst_system')) {
         $price += ($price * $product->gst_rate) / 100;
-        }
 
         return array(
             'price' => single_price($price * $request->quantity),
@@ -962,7 +957,6 @@ class HomeController extends Controller
                 $success = 0;
             }
         } else {
-            if (addon_is_activated('otp_system')) {
                 $sms_template   = SmsTemplate::where('identifier', 'phone_number_verification')->first();
                 $sms_body       = $sms_template->sms_body;
                 $sms_body       = str_replace('[[code]]', $verificationCode, $sms_body);
@@ -971,7 +965,6 @@ class HomeController extends Controller
 
                 (new SendSmsService())->sendSMS($phone, env('APP_NAME'), $sms_body, $template_id);
 
-            }
         }
 
         // if ($success) {

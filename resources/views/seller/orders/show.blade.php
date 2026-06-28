@@ -19,7 +19,7 @@
                 @if (get_setting('product_manage_by_admin') == 0)
                     <div class="col-md-3 ml-auto">
                         <label for="update_payment_status">{{ translate('Payment Status') }}</label>
-                        @if (($order->payment_type == 'cash_on_delivery' || (addon_is_activated('offline_payment') == 1 && $order->manual_payment == 1)) && $payment_status == 'unpaid')
+                        @if (($order->payment_type == 'cash_on_delivery' || $order->manual_payment == 1) && $payment_status == 'unpaid')
                             <select class="form-control aiz-selectpicker" data-minimum-results-for-search="Infinity"
                                 id="update_payment_status">
                                 <option value="unpaid" @if ($payment_status == 'unpaid') selected @endif>

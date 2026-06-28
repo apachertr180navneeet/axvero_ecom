@@ -116,9 +116,7 @@
                             <th data-breakpoints="md">{{ translate('Payment method') }}</th>
                             <th data-breakpoints="md">{{ translate('Payment Status') }}</th>
                             <th data-breakpoints="md">{{ translate('Member') }}</th>
-                            @if (addon_is_activated('refund_request'))
                                 <th>{{ translate('Refund') }}</th>
-                            @endif
                             <th class="text-right" width="15%">{{ translate('options') }}</th>
                         </tr>
                     </thead>
@@ -145,9 +143,7 @@
                                     @if ($order->viewed == 0)
                                         <span class="badge badge-inline badge-info">{{ translate('New') }}</span>
                                     @endif
-                                    @if (addon_is_activated('pos_system') && $order->order_from == 'pos')
-                                        <span class="badge badge-inline badge-danger">{{ translate('POS') }}</span>
-                                    @endif
+                                    <span class="badge badge-inline badge-danger">{{ translate('POS') }}</span>
                                 </td>
                                 <td>
                                     {{ count($order->orderDetails) }}
@@ -207,7 +203,6 @@
                             </td>
                                                             
                                 
-                                @if (addon_is_activated('refund_request'))
                                     <td>
                                         @if (count($order->refund_requests) > 0)
                                             {{ count($order->refund_requests) }} {{ translate('Refund') }}
@@ -215,15 +210,12 @@
                                             {{ translate('No Refund') }}
                                         @endif
                                     </td>
-                                @endif
                                 <td class="text-right">
-                                    @if (addon_is_activated('pos_system') && $order->order_from == 'pos')
-                                        <a class="btn btn-soft-success btn-icon btn-circle btn-sm"
+                                    <a class="btn btn-soft-success btn-icon btn-circle btn-sm"
                                             href="{{ route('admin.invoice.thermal_printer', $order->id) }}" target="_blank"
                                             title="{{ translate('Thermal Printer') }}">
                                             <i class="las la-print"></i>
                                         </a>
-                                    @endif
                                     @can('view_order_details')
                                         @php
                                             $order_detail_route = route('all_orders.show', encrypt($order->id));

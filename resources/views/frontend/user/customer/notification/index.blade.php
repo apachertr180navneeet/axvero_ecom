@@ -44,10 +44,7 @@
             @forelse($notifications as $notification)
                 @php
                     $showNotification = true;
-                    if (($notification->type == 'App\Notifications\PreorderNotification') && !addon_is_activated('preorder'))
-                    {
-                        $showNotification = false;
-                    }
+
                 @endphp
                 @if($showNotification)
                     <li class="list-group-item d-flex justify-content-between align-items- py-3 px-0">

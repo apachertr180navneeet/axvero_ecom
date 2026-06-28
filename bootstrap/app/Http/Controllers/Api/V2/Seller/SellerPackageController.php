@@ -11,12 +11,8 @@ class SellerPackageController extends Controller
 {
     public function seller_packages_list()
     {
-        if (addon_is_activated('seller_subscription')) {
-            $seller_packages = SellerPackage::all();
-            return SellerPackageResource::collection($seller_packages);
-        }
-
-        return $this->failed(translate('Package is not available'));
+        $seller_packages = SellerPackage::all();
+        return SellerPackageResource::collection($seller_packages);
     }
 
     public function purchase_free_package(Request $request)

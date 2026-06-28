@@ -144,8 +144,7 @@ class ReviewController extends Controller
             $seller->save();
         }
 
-        if (addon_is_activated('club_point')) {
-            $product = Product::findOrFail($request->product_id);
+        $product = Product::findOrFail($request->product_id);
             $getPoint = false;
 
             if ($product->added_by == 'admin') {

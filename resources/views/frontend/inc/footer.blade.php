@@ -203,7 +203,7 @@
 </section>
 
 @php
-    $col_values = ((get_setting('vendor_system_activation') == 1) || addon_is_activated('delivery_boy')) ? "col-lg-3 col-md-6 col-sm-6" : "col-md-4 col-sm-6";
+    $col_values = ((get_setting('vendor_system_activation') == 1) || 1) ? "col-lg-3 col-md-6 col-sm-6" : "col-md-4 col-sm-6";
 @endphp
 <section class="py-lg-3 text-light footer-widget" style="background-color: #212129 !important;">
     <!-- footer widgets ========== [Accordion Fotter widgets are bellow from this]-->
@@ -296,7 +296,7 @@
             </div>
 
             <!-- Seller & Delivery Boy -->
-            @if ((get_setting('vendor_system_activation') == 1) || addon_is_activated('delivery_boy'))
+            @if ((get_setting('vendor_system_activation') == 1) || 1)
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="text-center text-sm-left mt-4">
                     <!-- Seller -->
@@ -328,7 +328,6 @@
                     @endif
 
                     <!-- Delivery Boy -->
-                    @if (addon_is_activated('delivery_boy'))
                         <h4 class="fs-14 text-secondary text-uppercase fw-700 mt-4 mb-3">{{ translate('Delivery Boy') }}</h4>
                         <ul class="list-unstyled">
                             @guest
@@ -347,7 +346,6 @@
                                 </li>
                             @endif
                         </ul>
-                    @endif
                 </div>
             </div>
             @endif
@@ -489,7 +487,6 @@
         @endif
 
         <!-- Delivery Boy -->
-        @if (addon_is_activated('delivery_boy'))
         <div class="aiz-accordion-wrap bg-black">
             <div class="aiz-accordion-heading container bg-black">
                 <button class="aiz-accordion fs-14 text-white bg-transparent">{{ translate('Delivery Boy') }}</button>
@@ -515,7 +512,6 @@
                 </div>
             </div>
         </div>
-        @endif
     </div>
 </section>
 

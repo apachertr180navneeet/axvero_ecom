@@ -327,7 +327,6 @@
                 </div>
 
 				<!-- Download App Link -->
-				@if ((get_setting('vendor_system_activation') == 1) || addon_is_activated('delivery_boy'))
 					<div class="card shadow-none bg-light">
 						<div class="card-header">
 							<h6 class="mb-0">{{ translate('Download App Link') }}</h6>
@@ -344,7 +343,6 @@
 								</div>
 							@endif
 							<!-- Delivery Boy App Link -->
-							@if (addon_is_activated('delivery_boy'))
 								<div class="form-group">
 									<label>{{ translate('Delivery Boy App Link') }}</label>
 									<div class="input-group form-group">
@@ -352,10 +350,8 @@
 										<input type="text" class="form-control" placeholder="http://" name="delivery_boy_app_link" value="{{ get_setting('delivery_boy_app_link')}}">
 									</div>
 								</div>
-							@endif
 						</div>
 					</div>
-				@endif
 
 				<!-- Payment Methods Widget -->
                 <div class="card shadow-none bg-light">

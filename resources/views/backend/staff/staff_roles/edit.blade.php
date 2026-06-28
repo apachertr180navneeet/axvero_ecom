@@ -42,10 +42,6 @@
                         $show_permission_group = true;
                         
                         if(in_array($permission_group[0]['section'], $addons)){
-
-                            if (addon_is_activated($permission_group[0]['section']) == false) {
-                                $show_permission_group = false;
-                            }
                         }
                     @endphp
                     @if($show_permission_group)

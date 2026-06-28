@@ -98,10 +98,8 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
-        if (addon_is_activated('seller_subscription')) {
-            if (!seller_package_validity_check(auth()->user()->id)) {
-                return $this->failed(translate('Please upgrade your package.'));
-            }
+        if (!seller_package_validity_check(auth()->user()->id)) {
+            return $this->failed(translate('Please upgrade your package.'));
         }
 
         if (auth()->user()->user_type != 'seller') {
@@ -212,10 +210,8 @@ class ProductController extends Controller
 
     public function change_status(Request $request)
     {
-        if (addon_is_activated('seller_subscription')) {
-            if (!seller_package_validity_check()) {
-                return $this->failed(translate('Please upgrade your package'));
-            }
+        if (!seller_package_validity_check()) {
+            return $this->failed(translate('Please upgrade your package'));
         }
 
         $product = Product::where('user_id', auth()->user()->id)
@@ -256,10 +252,8 @@ class ProductController extends Controller
         if (auth()->user()->id != $product->user_id) {
             return $this->failed(translate('This product is not yours'));
         }
-        if (addon_is_activated('seller_subscription')) {
-            if (!seller_package_validity_check(auth()->user()->id)) {
-                return $this->failed(translate('Please upgrade your package'));
-            }
+        if (!seller_package_validity_check(auth()->user()->id)) {
+            return $this->failed(translate('Please upgrade your package'));
         }
 
         //Product

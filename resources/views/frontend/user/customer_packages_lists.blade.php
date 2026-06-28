@@ -47,13 +47,8 @@
                                         <button class="btn btn-primary rounded-0"
                                             onclick="get_free_package({{ $customer_package->id }})">{{ translate('Free Package') }}</button>
                                     @else
-                                        @if (addon_is_activated('offline_payment'))
                                             <button class="btn btn-primary rounded-0"
                                                 onclick="select_payment_type({{ $customer_package->id }})">{{ translate('Purchase Package') }}</button>
-                                        @else
-                                            <button class="btn btn-primary rounded-0"
-                                                onclick="show_price_modal({{ $customer_package->id }})">{{ translate('Purchase Package') }}</button>
-                                        @endif
                                     @endif
                                 </div>
                             </div>

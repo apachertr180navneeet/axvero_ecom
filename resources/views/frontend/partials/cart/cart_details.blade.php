@@ -116,7 +116,7 @@
                                             <div class="col-md col-4 ml-4 ml-sm-0 my-3 my-md-0 d-flex flex-column ml-sm-5 ml-md-0">
                                                 <span class="fs-12 text-secondary">{{ translate('Price')}}</span>
                                                 <span class="fw-700 fs-14 mb-2">{{ cart_product_price($cartItem, $product, true, false) }}</span>
-                                                 @if (addon_is_activated('gst_system')  && $product->gst_rate > 0 && $product->hsn_code != '')
+                                                 @if ($product->gst_rate > 0 && $product->hsn_code != '')
                                                 <span>
                                                     <span class="opacity-90 fs-12">{{ translate('GST')}}: {{ cart_product_gst($cartItem, $product) }}</span>
                                                 </span>
@@ -240,15 +240,9 @@
                                                 <div class="col-md col-4 ml-4 ml-sm-0 my-3 my-md-0 d-flex flex-column ml-sm-5 ml-md-0">
                                                     <span class="fs-12 text-secondary">{{ translate('Price')}}</span>
                                                     <span class="fw-700 fs-14 mb-2">{{ cart_product_price($cartItem, $product, true, false) }}</span>
-                                                    @if (addon_is_activated('gst_system'))
                                                     <span>
                                                         <span class="opacity-90 fs-12">{{ translate('GST')}}: {{ cart_product_gst($cartItem, $product) }}</span>
                                                     </span>
-                                                    @else
-                                                    <span>
-                                                        <span class="opacity-90 fs-12">{{ translate('Tax')}}: {{ cart_product_tax($cartItem, $product) }}</span>
-                                                    </span>
-                                                    @endif
                                                     
                                                 </div>
                                                 <!-- Quantity & Total -->

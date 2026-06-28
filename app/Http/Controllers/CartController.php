@@ -63,9 +63,7 @@ class CartController extends Controller
         $subtotal += cart_product_price($cartItem, $product, false, false) * $cartItem->quantity;
         $tax      += cart_product_tax($cartItem, $product, false) * $cartItem->quantity;
 
-        if (addon_is_activated('gst_system')) {
-            $gst += cart_product_gst($cartItem, $product, false);
-        }
+        $gst += cart_product_gst($cartItem, $product, false);
 
         $shipping += $cartItem->shipping_cost;
     }

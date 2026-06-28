@@ -186,7 +186,6 @@
 				@endif
 
 
-				@if (addon_is_activated('delivery_boy'))
 					<!-- Delivery Boy Login page Background -->
 					<div class="form-group col-lg-6">
 						<label class="from-label fs-13">{{ translate('Delivery Boy Login Page Image') }}</label>
@@ -201,7 +200,6 @@
 						<div class="file-preview box"></div>
                     <small class="text-muted">{{ translate("Minimum dimensions required: 945px width X 839px height.") }}</small>
 					</div>
-				@endif
 
 				<!-- Forgot Password Page Image -->
 				<div class="form-group col-lg-6">
@@ -233,7 +231,6 @@
                     <small class="text-muted">{{ translate("Minimum dimensions required: 945px width X 839px height.") }}</small>
 				</div>
 
-				@if (addon_is_activated('otp_system'))
 					<div class="form-group col-lg-6">
 						<label class="from-label fs-13">{{ translate('Phone Number Verification Page Image') }}</label>
 						<div class="input-group " data-toggle="aizuploader" data-type="image">
@@ -247,7 +244,6 @@
 						<div class="file-preview box"></div>
                     <small class="text-muted">{{ translate("Minimum dimensions required: 945px width X 839px height.") }}</small>
 					</div>
-				@endif
 			</div>
 
 			<!-- Update Button -->

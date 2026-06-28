@@ -359,7 +359,6 @@
 
                     <!-- Contents -->
                     <div class="col-xl-9">
-                        @if (addon_is_activated('preorder') && Route::currentRouteName() == 'search')
                             <div class="product-tab mt-2">
                                 @php
                                     $activeClasses = 'bg-soft-dark text-white';
@@ -391,7 +390,6 @@
                                     </label>
                                 </div>
                             </div>
-                        @endif
                         <!-- Breadcrumb -->
                         <ul class="breadcrumb mb-0 bg-transparent py-0 px-0 mt-2 d-flex align-items-center">
                             <li class=" has-transition opacity-50 hov-opacity-100">

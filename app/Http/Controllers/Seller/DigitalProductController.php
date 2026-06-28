@@ -39,19 +39,15 @@ class DigitalProductController  extends Controller
      */
     public function create()
     {
-        if (addon_is_activated('seller_subscription')) {
-            if (!seller_package_validity_check()) {
+        if (!seller_package_validity_check()) {
                 flash(translate('Please upgrade your package.'))->warning();
                 return back();
             }
-        }
-        if (addon_is_activated('gst_system')) {
-            $shop = Auth::user()->shop;
+        $shop = Auth::user()->shop;
             if ($shop && !$shop->gst_verification) {
                 flash(translate('GST verification is pending for your account.'))->warning();
                 return back();
             }
-        }
         $categories = Category::where('parent_id', 0)
             ->where('digital', 1)
             ->with('childrenCategories')
@@ -67,20 +63,16 @@ class DigitalProductController  extends Controller
      */
     public function store(ProductRequest $request)
     {
-        if (addon_is_activated('seller_subscription')) {
-            if (!seller_package_validity_check()) {
+        if (!seller_package_validity_check()) {
                 flash(translate('Please upgrade your package.'))->warning();
                 return redirect()->route('seller.digitalproducts');
             }
-        }
 
-        if (addon_is_activated('gst_system')) {
-            $shop = Auth::user()->shop;
+        $shop = Auth::user()->shop;
             if ($shop && !$shop->gst_verification) {
                 flash(translate('GST verification is pending for your account.'))->warning();
                 return back();
             }
-        }
 
         // Product Store
         $product = (new ProductService)->store($request->except([

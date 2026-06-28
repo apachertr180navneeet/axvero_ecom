@@ -42,10 +42,8 @@
                 <a class="fw-700 fs-11 fs-md-13 text-dark mr-3 mr-sm-4 mr-md-5 opacity-60 hov-opacity-100 @if(isset($type) && $type == 'all-products') opacity-100 @endif"
                         href="{{ route('shop.visit.type', ['slug'=>$shop->slug, 'type'=>'all-products']) }}">{{ translate('All Products')}}</a>
 
-                @if(addon_is_activated('preorder'))
                 <a class="fw-700 fs-11 fs-md-13 mr-3 mr-sm-4 mr-md-5 text-dark opacity-60 hov-opacity-100 @if(isset($type) && $type == 'all-preorder-products') opacity-100 @endif"
                         href="{{ route('shop.visit.type', ['slug'=>$shop->slug, 'type'=>'all-preorder-products']) }}">{{ translate('All Preorder Products')}}</a>
-                @endif
             </div>
         </div>
     </section>

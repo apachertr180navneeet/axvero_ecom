@@ -27,7 +27,6 @@
                     </a>
                 </div>
             </div>
-            @if (addon_is_activated('pos_system') && auth()->user()->can('pos_manager'))
             <!-- POS -->
             <div class="aiz-topbar-item mr-3">
                 <div class="d-flex align-items-center">
@@ -44,7 +43,6 @@
                     </a>
                 </div>
             </div>
-            @endif
             <!-- Clear Cache -->
             <div class="aiz-topbar-item mr-3">
                 <div class="d-flex align-items-center">
@@ -65,10 +63,8 @@
                         <a class="aiz-topbar-menu fs-13 fw-600 d-flex align-items-center justify-content-center {{ areActiveRoutes(['all_orders.index']) }}"
                             href="{{ route('all_orders.index') }}">{{ translate('Orders') }}</a>
                     @endcan
-                    @if (addon_is_activated('preorder'))
                     <a class="aiz-topbar-menu fs-13 fw-600 d-flex align-items-center justify-content-center {{ areActiveRoutes(['all_orders.index']) }}"
                             href="{{ route('all_preorder.list') }}">{{ translate('Preorders') }}</a>
-                    @endif
                     @can('earning_report')
                         <a class="aiz-topbar-menu fs-13 fw-600 d-flex align-items-center justify-content-center {{ areActiveRoutes(['earning_payout_report.index']) }}"
                             href="{{ route('earning_payout_report.index') }}">{{ translate('Earnings') }}</a>
@@ -146,12 +142,10 @@
                                         <a class="nav-link text-dark active" data-toggle="tab" data-type="order" href="javascript:void(0);"
                                             data-target="#orders-notifications" role="tab" id="orders-tab">{{ translate('Orders') }}</a>
                                     </li>
-                                    @if (addon_is_activated('preorder'))
-                                        <li class="nav-item">
+                                    <li class="nav-item">
                                             <a class="nav-link text-dark" data-toggle="tab" data-type="preorder" href="javascript:void(0);"
                                                 data-target="#preorders-notifications" role="tab" id="preorders-tab">{{ translate('Preorders') }}</a>
                                         </li>
-                                    @endif
                                     <li class="nav-item">
                                         <a class="nav-link text-dark" data-toggle="tab" data-type="seller" href="javascript:void(0);"
                                             data-target="#sellers-notifications" role="tab" id="sellers-tab">{{ translate('Sellers') }}</a>

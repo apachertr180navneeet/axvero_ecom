@@ -180,7 +180,6 @@
                                                     <th class="opacity-60 border-top-0 pl-0">#</th>
                                                     <th class="opacity-60 border-top-0" width="30%">{{ translate('Product')}}</th>
                                                     <th class="opacity-60 border-top-0">{{ translate('Qty')}}</th>
-                                                    @if(addon_is_activated('gst_system'))
                                                     <th class="opacity-60 border-top-0">{{ translate('Gross Amount')}}</th>
                                                     <th class="opacity-60 border-top-0">{{ translate('Discount/ Coupon')}}</th>
                                                     <th class="opacity-60 border-top-0">{{ translate('Taxable Value')}}</th>
@@ -189,7 +188,6 @@
                                                     <th class="opacity-60 border-top-0">{{ translate('SGST')}}</th>
                                                     @else
                                                     <th class="opacity-60 border-top-0">{{ translate('IGST')}}</th>
-                                                    @endif
                                                     @endif
 
                                                     <th class="text-right opacity-60 border-top-0 pr-0">{{ translate('Price')}}</th>
@@ -219,7 +217,6 @@
                                                         <td class="border-top-0 border-bottom">
                                                             {{ $orderDetail->quantity }}
                                                         </td>
-                                                        @if(addon_is_activated('gst_system'))
                                                         <td class="border-top-0 border-bottom">
                                                             {{ single_price($orderDetail->price) }}
                                                         </td>
@@ -248,14 +245,8 @@
                                                             {{ single_price($gst_amount) }}
                                                         </td>
                                                         @endif
-                                                        @endif
-                                                        @if(addon_is_activated('gst_system'))
                                                         <td class="border-top-0 border-bottom pr-0 text-right">{{ single_price($orderDetail->price - $orderDetail->coupon_discount + $gst_amount) }}</td>
-                                                        @else
-                                                        <td class="border-top-0 border-bottom pr-0 text-right">{{ single_price($orderDetail->price) }}</td>
-                                                        @endif
                                                     </tr>
-                                                    @if(addon_is_activated('gst_system'))
                                                     <tr>
                                                         <td class="border-top-0 border-bottom pl-0"></td>
                                                         <td class="border-top-0 border-bottom">
@@ -288,7 +279,6 @@
                                                         <td class="border-top-0 border-bottom pr-0 text-right">{{ single_price($orderDetail->shipping_cost + (($orderDetail->shipping_cost* $orderDetail->gst_rate)/100)) }}
                                                         </td>
                                                     </tr>
-                                                    @endif
                                                 @endforeach
                                             </tbody>
                                         </table>
@@ -299,7 +289,6 @@
                                             <table class="table ">
                                                 <tbody>
                                                     <!-- Subtotal -->
-                                                     @if(addon_is_activated('gst_system'))
                                                      <tr>
                                                         <th class="border-top-0 py-2">{{ translate('Subtotal')}}</th>
                                                         <td class="text-right border-top-0 pr-0 py-2">
@@ -312,35 +301,6 @@
                                                             <span>{{ single_price($order->orderDetails->sum('gst_amount')) }}</span>
                                                         </td>
                                                     </tr>
-                                                    @else
-                                                    <tr>
-                                                        <th class="border-top-0 py-2">{{ translate('Subtotal')}}</th>
-                                                        <td class="text-right border-top-0 pr-0 py-2">
-                                                            <span class="fw-600">{{ single_price($order->orderDetails->sum('price')) }}</span>
-                                                        </td>
-                                                    </tr>
-                                                    <!-- Shipping -->
-                                                    <tr>
-                                                        <th class="border-top-0 py-2">{{ translate('Shipping')}}</th>
-                                                        <td class="text-right border-top-0 pr-0 py-2">
-                                                            <span>{{ single_price($order->orderDetails->sum('shipping_cost')) }}</span>
-                                                        </td>
-                                                    </tr>
-                                                    <!-- Tax -->
-                                                    <tr>
-                                                        <th class="border-top-0 py-2">{{ translate('Tax')}}</th>
-                                                        <td class="text-right border-top-0 pr-0 py-2">
-                                                            <span>{{ single_price($order->orderDetails->sum('tax')) }}</span>
-                                                        </td>
-                                                    </tr>
-                                                    <!-- Coupon Discount -->
-                                                    <tr>
-                                                        <th class="border-top-0 py-2">{{ translate('Coupon Discount')}}</th>
-                                                        <td class="text-right border-top-0 pr-0 py-2">
-                                                            <span>{{ single_price($order->coupon_discount) }}</span>
-                                                        </td>
-                                                    </tr>
-                                                    @endif
                                                     <!-- Total -->
                                                     <tr>
                                                         <th class="py-2"><span class="fw-600">{{ translate('Total')}}</span></th>

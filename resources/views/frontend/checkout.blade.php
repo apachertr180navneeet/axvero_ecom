@@ -435,7 +435,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     AIZ.plugins.notify('danger',
                         '{{ translate('You order amount is less then the minimum order amount') }}');
                 } else {
-                    var offline_payment_active = '{{ addon_is_activated('offline_payment') }}';
+                    var offline_payment_active = '1';
                     if (offline_payment_active == '1' && $('.offline_payment_option').is(":checked") && $('#trx_id')
                         .val() == '') {
                         AIZ.plugins.notify('danger', '{{ translate('You need to put Transaction id') }}');

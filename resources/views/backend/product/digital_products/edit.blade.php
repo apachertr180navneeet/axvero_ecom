@@ -166,7 +166,6 @@
                                     class="form-control" value="{{ $product->unit_price }}" required>
                             </div>
                         </div>
-                        @if (addon_is_activated('gst_system'))
                         <div class="w-100">
                             <div class="form-group mb-2 row">
                                 <label class="col-lg-2 col-from-label">{{translate('HSN Code')}}</label>
@@ -181,42 +180,6 @@
                                 </div>
                             </div>
                         </div>
-                        @else
-                        <!-- Vat & TAX -->
-                        @foreach (\App\Models\Tax::where('tax_status', 1)->get() as $tax)
-                            @php
-                                $tax_amount = 0;
-                                $tax_type = '';
-                                foreach ($tax->product_taxes as $row) {
-                                    if ($product->id == $row->product_id) {
-                                        $tax_amount = $row->tax;
-                                        $tax_type = $row->tax_type;
-                                    }
-                                }
-                            @endphp
-                            <div class="form-group row">
-                                <label class="col-lg-2 col-from-label">
-                                    {{$tax->name}}
-                                </label>
-                                <div class="col-lg-6">
-                                    <input type="hidden" value="{{$tax->id}}" name="tax_id[]">
-                                    <input type="number" lang="en" min="0" step="0.01"
-                                        placeholder="{{ translate('tax') }}" name="tax[]" class="form-control"
-                                        value="{{ $tax_amount }}" required>
-                                </div>
-                                <div class="col-md-2">
-                                    <select class="form-control aiz-selectpicker" name="tax_type[]" required>
-                                        <option value="amount" @if($tax_type == 'amount') selected @endif>
-                                            {{translate('Flat')}}
-                                        </option>
-                                        <option value="percent" @if($tax_type == 'percent') selected @endif>
-                                            {{translate('Percent')}}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                        @endforeach
-                        @endif
 
                         @php
                             $start_date = $product->discount_start_date ? date('d-m-Y H:i:s', $product->discount_start_date) : null;

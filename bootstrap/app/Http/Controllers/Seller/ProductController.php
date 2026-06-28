@@ -62,18 +62,14 @@ class ProductController extends Controller
 
     public function create(Request $request)
     {
-        if (addon_is_activated('seller_subscription')) {
-            if (!seller_package_validity_check()) {
-                flash(translate('Please upgrade your package.'))->warning();
-                return back();
-            }
+        if (!seller_package_validity_check()) {
+            flash(translate('Please upgrade your package.'))->warning();
+            return back();
         }
-        if (addon_is_activated('gst_system')) {
-            $shop = Auth::user()->shop;
-            if ($shop && !$shop->gst_verification) {
-                flash(translate('GST verification is pending for your account.'))->warning();
-                return redirect()->route('seller.products');
-            }
+        $shop = Auth::user()->shop;
+        if ($shop && !$shop->gst_verification) {
+            flash(translate('GST verification is pending for your account.'))->warning();
+            return redirect()->route('seller.products');
         }
         $categories = Category::where('parent_id', 0)
             ->where('digital', 0)
@@ -84,18 +80,14 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
-        if (addon_is_activated('seller_subscription')) {
-            if (!seller_package_validity_check()) {
-                flash(translate('Please upgrade your package.'))->warning();
-                return redirect()->route('seller.products');
-            }
+        if (!seller_package_validity_check()) {
+            flash(translate('Please upgrade your package.'))->warning();
+            return redirect()->route('seller.products');
         }
-        if (addon_is_activated('gst_system')) {
-            $shop = Auth::user()->shop;
-            if ($shop && !$shop->gst_verification) {
-                flash(translate('GST verification is pending for your account.'))->warning();
-                return redirect()->route('seller.products');
-            }
+        $shop = Auth::user()->shop;
+        if ($shop && !$shop->gst_verification) {
+            flash(translate('GST verification is pending for your account.'))->warning();
+            return redirect()->route('seller.products');
         }
 
         $product = $this->productService->store($request->except([
@@ -114,7 +106,7 @@ class ProductController extends Controller
         }
 
         // Delete other Taxes if GST Rate is updated
-        if ($request->filled('gst_rate') && addon_is_activated('gst_system')) {
+        if ($request->filled('gst_rate')) {
             $product->taxes()->delete();
         }
 
@@ -200,7 +192,7 @@ class ProductController extends Controller
         }
 
         // Delete other Taxes if GST Rate is updated
-        if ($request->filled('gst_rate') && addon_is_activated('gst_system')) {
+        if ($request->filled('gst_rate')) {
             $product->taxes()->delete();
         }
 
@@ -304,12 +296,12 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($request->id);
         $product->published = $request->status;
-        if (addon_is_activated('seller_subscription') && $request->status == 1) {
+        if ($request->status == 1) {
             if (!seller_package_validity_check()) {
                 return 2;
             }
         }
-        if (addon_is_activated('gst_system') && $request->status == 1) {
+        if ($request->status == 1) {
             $shop = Auth::user()->shop;
             if ($shop && !$shop->gst_verification) {
                 return 3;
@@ -345,19 +337,15 @@ class ProductController extends Controller
             return back();
         }
 
-        if (addon_is_activated('seller_subscription')) {
-            if (!seller_package_validity_check()) {
-                flash(translate('Please upgrade your package.'))->warning();
-                return back();
-            }
+        if (!seller_package_validity_check()) {
+            flash(translate('Please upgrade your package.'))->warning();
+            return back();
         }
 
-        if (addon_is_activated('gst_system')) {
-            $shop = Auth::user()->shop;
-            if ($shop && !$shop->gst_verification) {
-                flash(translate('GST verification is pending for your account.'))->warning();
-                return redirect()->route('seller.products');
-            }
+        $shop = Auth::user()->shop;
+        if ($shop && !$shop->gst_verification) {
+            flash(translate('GST verification is pending for your account.'))->warning();
+            return redirect()->route('seller.products');
         }
 
         //Product

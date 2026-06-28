@@ -118,7 +118,6 @@ class CustomerController extends Controller
         }
         // Register by phone
         else {
-            if (addon_is_activated('otp_system')){
                 $phone = '+'.$request->country_code.$request->phone;
                 $user = User::create([
                     'name' => $request->name,
@@ -130,7 +129,6 @@ class CustomerController extends Controller
                 $otpController = new OTPVerificationController;
                 $otpController->account_opening($user, $password);
                 flash(translate('Registration successful.'))->success();
-            }
         }
 
         // Customer Account Opening Email to Admin

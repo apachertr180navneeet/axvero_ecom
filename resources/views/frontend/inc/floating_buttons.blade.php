@@ -65,7 +65,6 @@
             </span>
         </a>
     </div>
-    @if(addon_is_activated('auction'))
     <!-- Auction -->
     <div class="aiz-floating-button">
         <a href="{{ route('auction_products.all') }}">
@@ -95,6 +94,5 @@
             </span>
         </a>
     </div>
-    @endif
 </div>
 

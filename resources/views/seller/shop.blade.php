@@ -98,7 +98,6 @@
             <form action="{{ route('seller.shop.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="shop_id" value="{{ $shop->id }}">
-                @if (addon_is_activated('gst_system'))
                 {{-- GSTIN Number --}}
                 <div class="row">
                     <div class="col-md-2">
@@ -135,7 +134,6 @@
                         @endif
                     </div>
                 </div>
-                @endif
 
                 {{-- Certificate Number --}}
                 <div class="row">
@@ -214,7 +212,6 @@
     </div>
 
     <!-- Delivery Boy Pickup Point -->
-    @if (addon_is_activated('delivery_boy'))
         <div class="card">
             <div class="card-header">
                 <h5 class="mb-0 h6">{{ translate('Delivery Boy Pickup Point') }}</h5>
@@ -277,7 +274,6 @@
                 </form>
             </div>
         </div>
-    @endif
 
     <!-- Banner Settings -->
     <div class="card">
@@ -769,7 +765,7 @@
 
 @section('script')
 
-    @if (addon_is_activated('delivery_boy') && get_setting('google_map') == 1)
+    @if (get_setting('google_map') == 1)
             
     <script>
         function initialize(id_format = '') {

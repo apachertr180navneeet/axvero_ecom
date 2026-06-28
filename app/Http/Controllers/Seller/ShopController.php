@@ -69,7 +69,7 @@ class ShopController extends Controller
             $business_info['state']   = State::find($request->state_id)?->name;
         }
 
-        if (addon_is_activated('gst_system') && $request->has('gstin_number')) {
+        if ($request->has('gstin_number')) {
             $business_info['gstin'] = $request->gstin_number;
             if ($request->hasFile('gstin_certificate')) {
                 if (!empty($business_info['gstin_certificate']) &&

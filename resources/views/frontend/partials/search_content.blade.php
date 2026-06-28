@@ -53,7 +53,7 @@
 </div>
 
 <div class="">
-    @if (addon_is_activated('preorder') && count($preorder_products) > 0)
+    @if (count($preorder_products) > 0)
         <div class="px-2 py-1 text-uppercase fs-10 text-right text-muted bg-soft-secondary">{{translate('Preorder Products')}}</div>
         <ul class="list-group list-group-raw">
             @foreach ($preorder_products as $key => $product)

@@ -62,7 +62,6 @@
     });
 </script>
 
-@if (addon_is_activated('otp_system'))
     <script type="text/javascript">
         // Country Code
         var isPhoneShown = true,
@@ -133,7 +132,6 @@
             $('.loginForm').attr('action', url);
         }
     </script> 
-@endif
 
 <script>
     function showError(input, message) {

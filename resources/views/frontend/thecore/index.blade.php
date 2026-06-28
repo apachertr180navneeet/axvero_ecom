@@ -357,11 +357,9 @@
 
 
 <!-- Auction Product -->
-@if (addon_is_activated('auction'))
 <div id="auction_products">
 
 </div>
-@endif
 
 
 
@@ -437,10 +435,8 @@
     @endif
 @endif
 
-@if (addon_is_activated('preorder'))
 <!-- Newest Preorder Products -->
 @include('preorder.frontend.home_page.thecore.newest_preorder')
-@endif
 
 
 <!-- Banner Section 2 -->

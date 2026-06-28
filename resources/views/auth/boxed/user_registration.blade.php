@@ -40,7 +40,6 @@
                                                 @endif
                                             </div>
 
-                                            @if (addon_is_activated('otp_system'))
                                             <div>
                                                 {{-- Show both fields with the toggle button if neither email nor phone is set --}}
                                                 <div id="emailOrPhoneDiv">
@@ -101,44 +100,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            @else
-                                                {{-- If OTP system is disabled, show only the email field --}}
-                                                <div class="form-group email-phone-div" id="emailOrPhoneDiv">
-                                                    <label for="email" class="fs-12 fw-700 text-soft-dark">{{ translate('Email') }}</label>
-                                                    <div class="input-group">
-                                                        <input type="email" class="form-control rounded-0 {{ $errors->has('email') ? ' is-invalid' : '' }}"
-                                                         name="email" id="signinSrEmail"
-                                                        placeholder="{{ translate('Email Address') }}">
-                                                            @if(get_setting('customer_registration_verify') == '1')
-                                                            <button class="btn btn-primary ml-2" type="button" id="sendOtpBtn" onclick="sendVerificationCode()">
-                                                                {{ translate('Verify') }} 
-                                                            </button>
-                                                            @endif
-                                                    </div>
-                                                    @if ($errors->has('email'))
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $errors->first('email') }}</strong>
-                                                        </span>
-                                                    @endif
-                                                </div>
-
-                                                <div class="form-group mb-3 d-none">
-                                                    <label class="form-label" for="verification_code">{{ translate('Verification Code') }}</label>
-                                                    <div class="input-group">
-                                                        <input type="text"
-                                                            class="form-control @error('verification_code') is-invalid @enderror border-right-0"
-                                                            name="code" id="verification_code"
-                                                            placeholder="{{ translate('Verification Code') }}"
-                                                            maxlength="6">
-                                                        <span class="btn border border-left-0" id="verifyOtpBtn">
-                                                            <i class="las la-lg la-arrow-right"></i> 
-                                                        </span>
-                                                        @error('otp')
-                                                        <span class="invalid-feedback" role="alert">{{ $message }}</span>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                            @endif
                                         
 
                                             <!-- password -->

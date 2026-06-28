@@ -31,7 +31,6 @@
                         @endif
                     </div>
                 </div>
-                @if (addon_is_activated('otp_system'))
                     <div class="form-group row phone-form-group mb-1">
                         <label for="phone" class="col-sm-2 col-from-label">
                             {{ translate('Phone') }} <span class="text-danger">*</span>
@@ -60,21 +59,6 @@
                     <div class="form-group text-right">
                         <button class="btn btn-link p-0 text-primary" type="button" onclick="toggleEmailPhone(this)"><i>*{{ translate('Use Email Instead') }}</i></button>
                     </div>
-                @else
-                    <div class="form-group row">
-                        <label for="email" class="col-sm-2 col-from-label">
-                            {{ translate('Email') }} <span class="text-danger">*</span>
-                        </label>
-                        <div class="col-sm-10">
-                            <input type="email" class="form-control rounded-0 @if($errors->has('email')) is-invalid @endif" value="{{ old('email') }}" placeholder="{{  translate('Email') }}" name="email">
-                            @if ($errors->has('email'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('email') }}</strong>
-                                </span>
-                            @endif
-                        </div>
-                    </div>
-                @endif
                 {{-- <div class="form-group row">
                     <label class="col-sm-2 col-from-label" for="email">
                         {{translate('Password')}} <span class="text-danger">*</span>

@@ -32,18 +32,14 @@
                 $subtotal_for_min_order_amount += cart_product_price($cartItem, $cartItem->product, false, false) * $cartItem['quantity'];
                 $subtotal += cart_product_price($cartItem, $product, false, false) * $cartItem['quantity'];
                 $tax += cart_product_tax($cartItem, $product, false) * $cartItem['quantity'];
-                if (addon_is_activated('gst_system')) {
                     $gst += cart_product_gst($cartItem, $product, false);
-                }
                 $product_shipping_cost = $cartItem['shipping_cost'];
                 $shipping += $product_shipping_cost;
                 if ((get_setting('coupon_system') == 1) && ($cartItem->coupon_applied == 1)) {
                     $coupon_code = $cartItem->coupon_code;
                     $coupon_discount = $carts->sum('discount');
                 }
-                if (addon_is_activated('club_point')) {
                     $total_point += $product->earn_point * $cartItem['quantity'];
-                }
         
                 // Agent discount
                 if ($isAgentMember && $product->agent_discount > 0) {
@@ -69,13 +65,12 @@
 
             <div class="row gutters-5">
                 <!-- Total Products -->
-                <div class="@if (addon_is_activated('club_point')) col-6 @else col-12 @endif">
+                <div class="col-6">
                    <div class="d-flex align-items-center justify-content-between bg-primary bg-gradient rounded-3 px-3 py-2 shadow-sm">
                         <span class="fs-13 text-white">{{ translate('Total Products') }}</span>
                         <span class="fs-13 fw-700 text-white">{{ sprintf("%02d", count($carts)) }}</span>
                     </div>
                 </div>
-                @if (addon_is_activated('club_point'))
                     <!-- Total Clubpoint -->
                     <div class="col-6">
                         <div class="d-flex align-items-center justify-content-between bg-secondary bg-gradient rounded-3 px-3 py-2 shadow-sm">
@@ -83,7 +78,6 @@
                             <span class="fs-13 fw-700 text-white">{{ sprintf("%02d", $total_point) }}</span>
                         </div>
                     </div>
-                @endif
             </div>
 
             <input type="hidden" id="sub_total" value="{{ $subtotal }}">
@@ -97,12 +91,7 @@
                     </tr>
                     
                     <!-- Tax -->
-                     @if(!addon_is_activated('gst_system'))
-                    <tr class="cart-tax">
-                        <th class="pl-0 fs-14 fw-400 pt-0 pb-2 text-dark border-top-0">{{ translate('Tax') }}</th>
-                        <td class="text-right pr-0 fs-14 pt-0 pb-2 text-dark border-top-0">{{ single_price($tax) }}</td>
-                    </tr>
-                    @endif
+
                     @if ($proceed != 1)
                     <!-- Total Shipping -->
                     <tr class="cart-shipping">
@@ -135,13 +124,11 @@
                         </td>
                     </tr>
                 @endif
-                    @if(addon_is_activated('gst_system'))
                     <!-- Gst -->
                     <tr class="cart-gst">
                         <th class="pl-0 fs-14 fw-400 pt-0 pb-2 text-dark border-top-0">{{ translate('GST') }}</th>
                         <td class="text-right pr-0 fs-14 pt-0 pb-2 text-dark border-top-0">{{ single_price($gst) }}</td>
                     </tr>
-                    @endif
 
                   @php
                         $onlinePayDiscountTotal = $carts->sum('online_pay_discount');

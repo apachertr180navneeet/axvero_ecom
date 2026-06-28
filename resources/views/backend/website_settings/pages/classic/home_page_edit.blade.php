@@ -44,7 +44,6 @@
 						</a>
 					</li>
 
-					@if(addon_is_activated('preorder'))
 					<!-- Preorder  banner 1-->
 					<li class="nav-item">
 						<a class="nav-link" id="preorder-banner-2-tab" href="#preorder_banner_1"
@@ -52,7 +51,6 @@
 							{{ translate('Preorder Banner 1') }}
 						</a>
 					</li>
-					@endif
 
 					<!-- Banner Level 2 -->
 					<li class="nav-item">
@@ -69,7 +67,6 @@
 							{{ translate('Banner Level 3') }}
 						</a>
 					</li>
-					@if(addon_is_activated('auction'))
 					<!-- Auction Products -->
 					<li class="nav-item">
 						<a class="nav-link" id="auction-tab" href="#auction"
@@ -80,7 +77,6 @@
 							@endif
 						</a>
 					</li>
-					@endif
 					@if(get_setting('coupon_system') == 1)
 					<!-- Coupon Section -->
 					<li class="nav-item">
@@ -104,7 +100,6 @@
 							{{ translate('Classifieds') }}
 						</a>
 					</li>
-					@if(addon_is_activated('preorder'))
 					<!-- Newest Preorder Products -->
 					<li class="nav-item">
 						<a class="nav-link" id="classifiedss-tab" href="#newestPreorder"
@@ -112,7 +107,6 @@
 							{{ translate('Newest Preorder Products') }}
 						</a>
 					</li>
-					@endif
 					<!-- Top Brands -->
 					<li class="nav-item">
 						<a class="nav-link" id="brands-tab" href="#brands"
@@ -790,7 +784,6 @@
 						</form>
 					</div>
 
-					@if(addon_is_activated('auction'))
 					<!-- Auction Banner -->
 					<div class="tab-pane fade" id="auction" role="tabpanel" aria-labelledby="auction-tab">
 						<form action="{{ route('business_settings.update') }}" method="POST" enctype="multipart/form-data">
@@ -821,7 +814,7 @@
 							</div>
 						</form>
 					</div>
-					@endif
+
 
 					@if(get_setting('coupon_system') == 1)
 					<!-- Coupon system -->

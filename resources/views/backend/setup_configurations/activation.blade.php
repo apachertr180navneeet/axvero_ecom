@@ -286,8 +286,7 @@
             </div>
         </div>
         
-        @if (addon_is_activated('wholesale'))
-            <div class="col-lg-4">
+        <div class="col-lg-4">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="mb-0 h6 text-center">{{ translate('Wholesale Product for Seller') }}</h3>
@@ -303,9 +302,7 @@
                     </div>
                 </div>
             </div>
-        @endif
 
-        @if (addon_is_activated('auction'))
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-header">
@@ -322,7 +319,6 @@
                     </div>
                 </div>
             </div>
-        @endif
 
         <div class="col-lg-4">
             <div class="card">

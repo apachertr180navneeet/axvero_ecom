@@ -227,7 +227,6 @@
     </div>
 
 
-    @if (addon_is_activated('preorder'))
 
     <!-- Banner section 2 -->
     @php $homepreorder_banner_1Images = get_setting('home_preorder_banner_1_images', null, $lang);   @endphp
@@ -265,7 +264,6 @@
     <div id="section_featured_preorder_products">
 
     </div>
-    @endif
  
 
     <!-- Banner section 2 -->
@@ -581,11 +579,9 @@
     @endif
 
     <!-- Auction Product -->
-    @if (addon_is_activated('auction'))
         <div id="auction_products">
 
         </div>
-    @endif
 
     <!-- Cupon -->
     @if (get_setting('coupon_system') == 1)
@@ -722,10 +718,8 @@
             </section>
         @endif
     @endif
-    @if (addon_is_activated('preorder'))
     <!-- Newest Preorder Products -->
         @include('preorder.frontend.home_page.newest_preorder')
-    @endif
     <!-- Category wise Products -->
     <div id="section_home_categories">
 

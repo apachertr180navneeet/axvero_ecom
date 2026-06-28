@@ -324,9 +324,7 @@ class CartController extends Controller
     }
 
     public function guestCustomerInfoCheck(Request $request){
-        $user = addon_is_activated('otp_system') ?
-                User::where('email', $request->email)->orWhere('phone','+'.$request->phone)->first() :
-                User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->orWhere('phone','+'.$request->phone)->first();
 
         return response()->json([
             'result' => ($user != null) ? true : false

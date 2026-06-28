@@ -185,7 +185,6 @@
 
         @if (Auth::check())
             <!-- Offline Payment -->
-            @if (addon_is_activated('offline_payment'))
                 @foreach (get_all_manual_payment_methods() as $method)
                     <div class="col-xl-4 col-md-6">
                         <label class="aiz-megabox d-block mb-3">
@@ -223,12 +222,11 @@
                         @endif
                     </div>
                 @endforeach
-            @endif
         @endif
     </div>
 
     <!-- Offline Payment Fields -->
-    @if (addon_is_activated('offline_payment') && count(get_all_manual_payment_methods())>0)
+    @if (count(get_all_manual_payment_methods())>0)
         <div class="d-none mb-3 rounded border bg-white p-3 text-left">
             <div id="manual_payment_description">
 

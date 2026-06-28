@@ -82,8 +82,7 @@ class RegisterController extends Controller
             ]);
         }
         else {
-            if (addon_is_activated('otp_system')){
-                $cleanPhone = preg_replace('/\D+/', '', $data['phone']);
+            $cleanPhone = preg_replace('/\D+/', '', $data['phone']);
                 $user = User::create([
                     'name' => $data['name'],
                     'phone' => '+'.$data['country_code'].$cleanPhone,
@@ -179,6 +178,18 @@ class RegisterController extends Controller
             try {
                 EmailUtility::customer_registration_email('customer_reg_email_to_admin', $user, null);
             } catch (\Exception $e) {}
+        }
+        
+        if ($request->has('is_affiliate') && $request->is_affiliate == 1) {
+            $affiliate_user = new \App\Models\AffiliateUser;
+            $affiliate_user->user_id = $user->id;
+            $affiliate_user->status = 0;
+            $affiliate_user->save();
+            
+            if ($user->referral_code == null) {
+                $user->referral_code = substr($user->id . \Illuminate\Support\Str::random(10), 0, 10);
+                $user->save();
+            }
         }
 
         return $this->registered($request, $user)

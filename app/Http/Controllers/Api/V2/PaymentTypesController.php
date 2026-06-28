@@ -214,8 +214,7 @@ class PaymentTypesController
             }
 
             //African Payment Gateways
-            if (addon_is_activated('african_pg')) {
-                if (get_setting('flutterwave') == 1) {
+            if (get_setting('flutterwave') == 1) {
                     $payment_type = array();
                     $payment_type['payment_type'] = 'flutterwave';
                     $payment_type['payment_type_key'] = 'flutterwave';
@@ -229,7 +228,7 @@ class PaymentTypesController
                     }
                     $payment_types[] = $payment_type;
                 }
-                if (get_setting('payfast') == 1) {
+            if (get_setting('payfast') == 1) {
                     $payment_type = array();
                     $payment_type['payment_type'] = 'payfast';
                     $payment_type['payment_type_key'] = 'payfast';
@@ -244,8 +243,6 @@ class PaymentTypesController
                     $payment_types[] = $payment_type;
                 }
             }
-
-            if (addon_is_activated('paytm')) {
 
                 if (get_setting('paytm_payment') == 1) {
                     $payment_type = array();
@@ -357,7 +354,7 @@ class PaymentTypesController
             }
         }
 
-        if (($list == 'offline' || $list == "both")  && addon_is_activated('offline_payment')) {
+        if (($list == 'offline' || $list == "both")) {
             foreach (ManualPaymentMethod::all() as $method) {
 
                 $bank_list = "";

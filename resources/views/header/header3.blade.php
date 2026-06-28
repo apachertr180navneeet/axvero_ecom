@@ -89,6 +89,27 @@
                             </div>
                         </li>
                     @endif
+                        <li class="list-inline-item d-flex">
+                            <!-- Become an Affiliate Dropdown -->
+                            <div class="dropdown">
+                                <a href="{{ route('affiliate.registration') }}"
+                                    class="fs-12 dropdown-toggle top-text-color-visibility"
+                                    style="color: {{ $topHeaderTextColor }}" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    {{ translate('Affiliate !') }}
+                                </a>
+
+                                <!-- Dropdown Menu -->
+                                <div class="dropdown-menu fs-12 p-0 mt-1">
+                                    <a class="dropdown-item py-2 px-2 text-dark" href="{{ route('affiliate.registration') }}">
+                                        {{ translate('Register as Affiliate') }}
+                                    </a>
+                                    <a class="dropdown-item py-2 px-2 text-dark" href="{{ route('affiliate.login') }}">
+                                        {{ translate('Login to Affiliate') }}
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
                     @if (get_setting('helpline_number'))
                         <li class="list-inline-item ml-3 pl-3 mr-0 pr-0 top-text-color-visibility"
                             style="color: {{ $topHeaderTextColor }}">
@@ -255,13 +276,6 @@
                                             @forelse($user->unreadNotifications as $notification)
                                                 @php
                                                     $showNotification = true;
-                                                    if (
-                                                        $notification->type ==
-                                                        'App\Notifications\PreorderNotification' &&
-                                                        !addon_is_activated('preorder')
-                                                    ) {
-                                                        $showNotification = false;
-                                                    }
                                                 @endphp
                                                 @if ($showNotification)
                                                     @php
@@ -494,7 +508,6 @@
                                     </a>
                                 </li>
 
-                                @if (addon_is_activated('preorder'))
                                     <li class="user-top-nav-element border border-top-0" data-id="1">
                                         <a href="{{ route('preorder.order_list') }}"
                                             class="text-truncate text-dark px-4 fs-14 d-flex align-items-center hov-column-gap-1">
@@ -508,7 +521,6 @@
                                                 class="user-top-menu-name has-transition ml-3">{{ translate('Preorder List') }}</span>
                                         </a>
                                     </li>
-                                @endif
 
                                 <li class="user-top-nav-element border border-top-0" data-id="1">
                                     <a href="{{ route('digital_purchase_history.index') }}"
@@ -686,3 +698,5 @@
         </div>
     </div>
 </header>
+
+

@@ -36,7 +36,7 @@ class OrderService{
             }
 
         }
-        if (addon_is_activated('otp_system') && SmsTemplate::where('identifier', 'delivery_status_change')->first()->status == 1) {
+        if (SmsTemplate::where('identifier', 'delivery_status_change')->first()->status == 1) {
             try {
                 SmsUtility::delivery_status_change(json_decode($order->shipping_address)->phone, $order);
             } catch (\Exception $e) {
@@ -60,12 +60,10 @@ class OrderService{
         }
 
 
-        if (addon_is_activated('delivery_boy')) {
-            if (auth()->user()->user_type == 'delivery_boy') {
+        if (auth()->user()->user_type == 'delivery_boy') {
                 $deliveryBoyController = new DeliveryBoyController;
                 $deliveryBoyController->store_delivery_history($order);
             }
-        }
     }
 
     public function handle_payment_status(Request $request)
@@ -116,7 +114,7 @@ class OrderService{
         }
 
 
-        if (addon_is_activated('otp_system') && SmsTemplate::where('identifier', 'payment_status_change')->first()->status == 1) {
+        if (SmsTemplate::where('identifier', 'payment_status_change')->first()->status == 1) {
             try {
                 SmsUtility::payment_status_change(json_decode($order->shipping_address)->phone, $order);
             } catch (\Exception $e) {

@@ -34,7 +34,6 @@
         </div>
 
         <!-- Offline Recharge Wallet -->
-        @if (addon_is_activated('offline_payment'))
             <div class="col-md-4 mx-auto mb-4">
                 <div class="p-4 mb-3 c-pointer text-center bg-light has-transition border h-100 hov-bg-soft-light"
                     onclick="show_make_wallet_recharge_modal()">
@@ -45,7 +44,6 @@
                     <div class="fs-14 fw-600 text-dark">{{ translate('Offline Recharge Wallet') }}</div>
                 </div>
             </div>
-        @endif
     </div>
 
     <!-- Wallet Recharge History -->

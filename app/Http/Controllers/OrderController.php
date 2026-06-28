@@ -284,14 +284,10 @@ class OrderController extends Controller
                 $order_detail->shipping_type = $cartItem['shipping_type'];
                 $order_detail->shipping_cost = $cartItem['shipping_cost'];
                 $order_detail->coupon_discount = $cartItem['discount'];
-                if (addon_is_activated('gst_system')) {
                 $order_detail->gst_rate = $product->gst_rate;
                 $order_detail->gst_amount = (($order_detail->shipping_cost + $order_detail->tax + $order_detail->price - $cartItem['discount'])*$product->gst_rate)/100;
                 $gst+=$order_detail->gst_amount;
-                }
                 
-                if (addon_is_activated('refund_request')) {
-
                     $refund_type = get_setting('refund_type');
 
                     if($refund_type == 'global_refund' && $product->refundable != 0){
@@ -305,15 +301,12 @@ class OrderController extends Controller
                         $order_detail->refund_days = (int) $refund_days;
 
                     }
-                }
                 
                 $shipping += $order_detail->shipping_cost;
                 //End of storing shipping cost
                 $order_detail->quantity = $cartItem['quantity'];
 
-                if (addon_is_activated('club_point')) {
-                    $order_detail->earn_point = $product->earn_point;
-                }
+                $order_detail->earn_point = $product->earn_point;
 
                 $order_detail->save();
 
@@ -556,7 +549,7 @@ class OrderController extends Controller
         }
     
         // Delivery Status change SMS notification
-        if (addon_is_activated('otp_system') && SmsTemplate::where('identifier', 'delivery_status_change')->first()->status == 1) {
+        if (SmsTemplate::where('identifier', 'delivery_status_change')->first()->status == 1) {
             try {
                 SmsUtility::delivery_status_change(json_decode($order->shipping_address)->phone, $order);
             } catch (\Exception $e) {}
@@ -579,12 +572,10 @@ class OrderController extends Controller
             NotificationUtility::sendFirebaseNotification($request);
         }
     
-        if (addon_is_activated('delivery_boy')) {
-            if (Auth::user()->user_type == 'delivery_boy') {
+        if (Auth::user()->user_type == 'delivery_boy') {
                 $deliveryBoyController = new DeliveryBoyController;
                 $deliveryBoyController->store_delivery_history($order);
             }
-        }
     
         return 1;
     }
@@ -655,7 +646,7 @@ class OrderController extends Controller
         }
 
 
-        if (addon_is_activated('otp_system') && SmsTemplate::where('identifier', 'payment_status_change')->first()->status == 1) {
+        if (SmsTemplate::where('identifier', 'payment_status_change')->first()->status == 1) {
             try {
                 SmsUtility::payment_status_change(json_decode($order->shipping_address)->phone, $order);
             } catch (\Exception $e) {
@@ -666,9 +657,7 @@ class OrderController extends Controller
 
     public function assign_delivery_boy(Request $request)
     {
-        if (addon_is_activated('delivery_boy')) {
-
-            $order = Order::findOrFail($request->order_id);
+        $order = Order::findOrFail($request->order_id);
             $order->assign_delivery_boy = $request->delivery_boy;
             $order->delivery_history_date = date("Y-m-d H:i:s");
             $order->save();
@@ -700,14 +689,14 @@ class OrderController extends Controller
                 }
             }
 
-            if (addon_is_activated('otp_system') && SmsTemplate::where('identifier', 'assign_delivery_boy')->first()->status == 1) {
+            if (SmsTemplate::where('identifier', 'assign_delivery_boy')->first()->status == 1) {
                 try {
                     SmsUtility::assign_delivery_boy($order->delivery_boy->phone, $order->code);
                 } catch (\Exception $e) {
                 }
             }
         }
-
+    
         return 1;
     }
 

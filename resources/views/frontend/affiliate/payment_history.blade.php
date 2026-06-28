@@ -2,12 +2,13 @@
 
 @section('panel_content')
 
-    <div class="card shadow-none rounded-0 border">
-        <div class="card-header pt-4 border-bottom-0">
+    <div class="card modern-card shadow-none rounded-0 border-0 mb-4">
+        <div class="card-header pt-4 border-bottom-0 pb-0">
             <h5 class="mb-0 fs-18 fw-700 text-dark">{{ translate('Payment History') }}</h5>
         </div>
         <div class="card-body">
-            <table class="table aiz-table mb-0">
+            <div class="table-responsive">
+                <table class="table-modern">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -28,7 +29,8 @@
                         </tr>
                     @endforeach
                 </tbody>
-            </table>
+                </table>
+            </div>
             <div class="aiz-pagination">
                 {{ $affiliate_payments->appends(request()->input())->links() }}
             </div>

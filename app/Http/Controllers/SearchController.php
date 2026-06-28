@@ -70,7 +70,7 @@ class SearchController extends Controller
         // return $colors;
 
 
-        if (addon_is_activated('preorder') && $request->product_type == 'preorder_product') {
+        if ($request->product_type == 'preorder_product') {
             $products = PreorderProduct::where('is_published', 1);
             $products = filter_preorder_product($products);
             if ($category_id != null) {
@@ -198,7 +198,6 @@ class SearchController extends Controller
         // return $categories;
         
        $preorder_categories=[];
-       if (addon_is_activated('preorder')) {
             // ################# preorder category start here #################
 
             $preorder_products = PreorderProduct::where('is_published', 1);
@@ -356,7 +355,7 @@ class SearchController extends Controller
         }
 
         // return $colors;
-        if (addon_is_activated('preorder') && $request->product_type == 'preorder_product') {
+        if ($request->product_type == 'preorder_product') {
             $products = PreorderProduct::where('is_published', 1);
 
             if (count($category_list_preorder) > 0) {
@@ -664,22 +663,11 @@ class SearchController extends Controller
 
         $shops = Shop::whereIn('user_id', verified_sellers_id())->where('name', 'like', '%' . $query . '%')->get()->take(3);
 
-        if (addon_is_activated('preorder')) {
-            $preorder_products =  PreorderProduct::where('is_published', 1)
-                ->where(function ($queryBuilder) use ($query) {
-                    $queryBuilder->where('product_name', 'like', '%' . $query . '%')
-                        ->orWhere('tags', 'like', '%' . $query . '%');
-                })
-                ->where(function ($query) {
-                    $query->whereHas('user', function ($q) {
-                        $q->where('user_type', 'admin');
-                    })->orWhereHas('user.shop', function ($q) {
                         $q->where('verification_status', 1);
                     });
                 })
                 ->limit(3)
                 ->get();
-        }
 
         if (sizeof($keywords) > 0 || sizeof($categories) > 0 || sizeof($products) > 0 || sizeof($shops) > 0  || sizeof($preorder_products) > 0) {
             return view('frontend.partials.search_content', compact('products', 'categories', 'keywords', 'shops', 'preorder_products'));

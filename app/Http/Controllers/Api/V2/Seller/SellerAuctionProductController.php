@@ -31,11 +31,9 @@ class SellerAuctionProductController extends Controller
 
     public function store(ProductRequest $request)
     {
-        if (addon_is_activated('seller_subscription')) {
-            if (!seller_package_validity_check(auth()->user()->id)) {
+        if (!seller_package_validity_check(auth()->user()->id)) {
                 return $this->failed(translate('Please upgrade your package.'));
             }
-        }
 
         (new AuctionService)->store($request);
         return $this->success(translate('Auction Product has been inserted successfully'));

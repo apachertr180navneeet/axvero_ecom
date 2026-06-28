@@ -325,7 +325,7 @@ class DeliveryBoyController extends Controller
         $order->save();
         $delivery_history->save();
 
-        if (addon_is_activated('otp_system') && SmsTemplate::where('identifier','delivery_status_change')->first()->status == 1){
+        if (SmsTemplate::where('identifier','delivery_status_change')->first()->status == 1){
             try {
                 SmsUtility::delivery_status_change($order->user->phone, $order);
             } catch (\Exception $e) {

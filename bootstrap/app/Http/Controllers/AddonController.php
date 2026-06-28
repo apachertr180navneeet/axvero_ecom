@@ -449,10 +449,8 @@ class AddonController extends Controller
         ->orWhere('hsn_code', '')
         ->update(['published' => 0]);
 
-        if (addon_is_activated('preorder')) {
-            PreorderProductTax::query()->delete();
-            PreorderProduct::whereNull('hsn_code')->orWhere('hsn_code', '')->update(['is_published' => 0]);
-        }
+        PreorderProductTax::query()->delete();
+        PreorderProduct::whereNull('hsn_code')->orWhere('hsn_code', '')->update(['is_published' => 0]);
 
         $business_settings = BusinessSetting::where('type', 'has_state')->first();
         if (!$business_settings) {

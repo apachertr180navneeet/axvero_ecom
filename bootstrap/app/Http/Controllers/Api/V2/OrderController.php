@@ -140,9 +140,7 @@ class OrderController extends Controller
                 $shipping += $order_detail->shipping_cost;
 
                 //End of storing shipping cost
-                if (addon_is_activated('club_point')) {
-                    $order_detail->earn_point = $product->earn_point;
-                }
+                $order_detail->earn_point = $product->earn_point;
 
                 $order_detail->quantity = $cartItem['quantity'];
                 $order_detail->save();
@@ -166,13 +164,11 @@ class OrderController extends Controller
                     $seller->save();
                 }
 
-                if (addon_is_activated('affiliate_system')) {
-                    if ($order_detail->product_referral_code) {
-                        $referred_by_user = User::where('referral_code', $order_detail->product_referral_code)->first();
+                if ($order_detail->product_referral_code) {
+                    $referred_by_user = User::where('referral_code', $order_detail->product_referral_code)->first();
 
-                        $affiliateController = new AffiliateController;
-                        $affiliateController->processAffiliateStats($referred_by_user->id, 0, $order_detail->quantity, 0, 0);
-                    }
+                    $affiliateController = new AffiliateController;
+                    $affiliateController->processAffiliateStats($referred_by_user->id, 0, $order_detail->quantity, 0, 0);
                 }
             }
 

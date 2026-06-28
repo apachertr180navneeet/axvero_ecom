@@ -46,7 +46,6 @@
     </div>
 
     <!-- Club point -->
-    @if (addon_is_activated('club_point'))
     <div class="px-4 pt-1 w-100 d-flex align-items-center justify-content-between">
         <h3 class="fs-14 fw-700 mb-0">{{ translate('Total Clubpoint') }}</h3>
         <div class="text-right">
@@ -75,7 +74,6 @@
             </span>
         </div>
     </div>
-    @endif
 
     <div class="card-body">
         <!-- Products Info -->

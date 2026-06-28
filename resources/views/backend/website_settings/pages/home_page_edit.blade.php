@@ -497,7 +497,6 @@
 		</div>
 
 		{{-- Auction Banner --}}
-		@if(addon_is_activated('auction'))
 		<div class="card">
 			<div class="card-header">
 				<h6 class="mb-0">{{ translate('Auction Banner') }}</h6>
@@ -536,7 +535,6 @@
 				</form>
 			</div>
 		</div>
-		@endif
 
 		{{-- Coupon system --}}
 		@if(get_setting('coupon_system') == 1)

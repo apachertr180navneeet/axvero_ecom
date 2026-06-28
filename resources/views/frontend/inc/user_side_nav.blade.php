@@ -86,7 +86,6 @@
                 </li>
 
                 <!-- Preorder -->
-                @if (addon_is_activated('preorder'))
                     <li class="aiz-side-nav-item">
                         <a href="javascript:void(0);" class="aiz-side-nav-link">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16.002" viewBox="0 0 16 16.002">
@@ -117,7 +116,6 @@
                             @endif
                         </ul>
                     </li>
-                @endif
 
                 <!-- Downloads -->
                 <li class="aiz-side-nav-item">
@@ -134,7 +132,6 @@
                 </li>
 
                 <!-- Refund Requests -->
-                @if (addon_is_activated('refund_request'))
                     <li class="aiz-side-nav-item">
                         <a href="{{ route('customer_refund_request') }}"
                             class="aiz-side-nav-link {{ areActiveRoutes(['customer_refund_request']) }}">
@@ -147,7 +144,6 @@
                             <span class="aiz-side-nav-text ml-3">{{ translate('Refund Requests') }}</span>
                         </a>
                     </li>
-                @endif
 
                 <!-- Wishlist -->
                 <li class="aiz-side-nav-item">
@@ -221,7 +217,6 @@
                 @endif
 
                 <!-- Auction -->
-                @if (addon_is_activated('auction'))
                     <li class="aiz-side-nav-item">
                         <a href="javascript:void(0);" class="aiz-side-nav-link">
                             <svg id="Group_8142" data-name="Group 8142" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
@@ -255,7 +250,6 @@
                             </li>
                         </ul>
                     </li>
-                @endif
 
                 <!-- Conversations -->
                 @if (get_setting('conversation_system') == 1)
@@ -302,7 +296,6 @@
                 @endif
 
                 <!-- Earning Points -->
-                @if (addon_is_activated('club_point'))
                     <li class="aiz-side-nav-item">
                         <a href="{{ route('earnng_point_for_user') }}"
                             class="aiz-side-nav-link {{ areActiveRoutes(['earnng_point_for_user']) }}">
@@ -315,7 +308,6 @@
                             <span class="aiz-side-nav-text ml-3">{{ translate('Earning Points') }}</span>
                         </a>
                     </li>
-                @endif
 
 
                 @php

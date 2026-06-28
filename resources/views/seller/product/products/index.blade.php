@@ -11,7 +11,6 @@
     </div>
 
     <div class="row gutters-10 justify-content-center">
-        @if (addon_is_activated('seller_subscription'))
             <div class="col-md-4 mx-auto mb-3" >
                 <div class="bg-grad-1 text-white rounded-lg overflow-hidden">
                   <span class="size-30px rounded-circle mx-auto bg-soft-primary d-flex align-items-center justify-content-center mt-3">
@@ -23,7 +22,6 @@
                   </div>
                 </div>
             </div>
-        @endif
 
         <!--<div class="col-md-4 mx-auto mb-3" >-->
         <!--    <a href="{{ route('seller.products.create')}}">-->
@@ -36,7 +34,6 @@
         <!--    </a>-->
         <!--</div>-->
 
-        @if (addon_is_activated('seller_subscription'))
         @php
             $seller_package = \App\Models\SellerPackage::find(Auth::user()->shop->seller_package_id);
         @endphp
@@ -52,7 +49,6 @@
                 <div class="btn btn-outline-primary py-1">{{ translate('Upgrade Package')}}</div>
             </a>
         </div>
-        @endif
 
     </div>
 

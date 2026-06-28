@@ -1,7 +1,6 @@
 @extends('auth.layouts.authentication')
 
 @section('content')
-@php $isOtpSystemActivated = addon_is_activated('otp_system'); @endphp
 <!-- aiz-main-wrapper -->
 <div class="aiz-main-wrapper d-flex flex-column justify-content-md-center bg-white">
     <section class="bg-white overflow-hidden">
@@ -24,7 +23,7 @@
                             <!-- Titles -->
                             <div class="text-center text-lg-left">
                                 <h1 class="fs-20 fs-md-24 fw-700 text-primary" style="text-transform: uppercase;">
-                                    {{ !$isOtpSystemActivated ? translate('Verify Your Email') : translate('Verify Your Email/Phone') }}
+                                    {{ translate('Verify Your Email/Phone') }}
                                 </h1>
                             </div>
                             <!-- Register form -->

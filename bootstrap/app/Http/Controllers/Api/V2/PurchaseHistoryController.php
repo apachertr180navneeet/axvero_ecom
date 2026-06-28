@@ -104,7 +104,7 @@ class PurchaseHistoryController extends Controller
 
             if (
                 !$product || $product->published == 0 ||
-                $product->approved == 0 || ($product->wholesale_product && !addon_is_activated("wholesale"))
+                $product->approved == 0
             ) {
                 array_push($failed_msgs, translate('An item from this order is not available now.'));
                 continue;

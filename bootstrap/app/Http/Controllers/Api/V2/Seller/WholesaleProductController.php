@@ -27,13 +27,11 @@ class WholesaleProductController extends Controller
 
     public function product_store(WholesaleProductRequest $request)
     {
-        if (addon_is_activated('seller_subscription')) {
-            if (
-                (auth()->user()->shop->seller_package == null) ||
-                (auth()->user()->shop->seller_package->product_upload_limit <= auth()->user()->products()->count())
-            ) {
-                return $this->failed(translate('Upload limit has been reached. Please upgrade your package.'));
-            }
+        if (
+            (auth()->user()->shop->seller_package == null) ||
+            (auth()->user()->shop->seller_package->product_upload_limit <= auth()->user()->products()->count())
+        ) {
+            return $this->failed(translate('Upload limit has been reached. Please upgrade your package.'));
         }
 
         $request->added_by = "seller";

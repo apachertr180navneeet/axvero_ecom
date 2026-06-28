@@ -183,13 +183,11 @@
                                             <small class="text-muted">{{translate('This is used for search. Input those words by which cutomer can find this product.')}}</small>
                                         </div>
 
-                                        @if (addon_is_activated('pos_system'))
                                         <!-- Barcode -->
                                         <div class="form-group mb-2">
                                             <label class="col-xxl-3 col-from-label fs-13">{{translate('Barcode')}}</label>
                                             <input type="text" class="form-control" name="barcode" value="{{ old('barcode') }}" placeholder="{{ translate('Barcode') }}">
                                         </div>
-                                        @endif
                                     </div>
 
                                     <!-- Product Category -->
@@ -232,7 +230,6 @@
                             </div>
 
                             <!-- Refund -->
-                            @if (addon_is_activated('refund_request'))
                                 <h5 class="mb-3 mt-5 pb-3 fs-17 fw-700" style="border-bottom: 1px dashed #e4e5eb;">{{translate('Refund')}}</h5>
                                 <div class="w-100">
                                     <!-- Refundable -->
@@ -270,7 +267,6 @@
                                         </button>
                                     </div>
                                 </div>
-                            @endif
 
                             <!-- Status -->
                             <h5 class="mb-3 mt-5 pb-3 fs-17 fw-700" style="border-bottom: 1px dashed #e4e5eb;">{{translate('Status')}}</h5>
@@ -348,7 +344,6 @@
                             </div>
 
                             <!-- GST Rate -->
-                            @if (addon_is_activated('gst_system'))
                             <h5 class="mb-3 mt-4 pb-3 fs-17 fw-700" style="border-bottom: 1px dashed #e4e5eb;">{{translate('HSN & GST')}}</h5>
                             <div class="w-100">
                                 <div class="form-group mb-2">
@@ -360,30 +355,6 @@
                                     <input type="number" lang="en" min="0" value="0" step="0.01" placeholder="{{ translate('GST Rate') }}" name="gst_rate" class="form-control">
                                 </div>
                             </div>
-                            @else
-                            <!-- Vat & TAX -->
-                            <h5 class="mb-3 mt-4 pb-3 fs-17 fw-700" style="border-bottom: 1px dashed #e4e5eb;">{{translate('Vat & TAX')}}</h5>
-                            <div class="w-100">
-                                @foreach(\App\Models\Tax::where('tax_status', 1)->get() as $tax)
-                                    <label for="name">
-                                        {{$tax->name}}
-                                        <input type="hidden" value="{{$tax->id}}" name="tax_id[]">
-                                    </label>
-
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <input type="number" lang="en" min="0" value="0" step="0.01" placeholder="{{ translate('Tax') }}" name="tax[]" class="form-control">
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <select class="form-control aiz-selectpicker" name="tax_type[]">
-                                                <option value="amount">{{translate('Flat')}}</option>
-                                                <option value="percent">{{translate('Percent')}}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                            @endif
                         </div>
                     </div>
 
@@ -615,7 +586,6 @@
                                     </div>
                                     <small class="text-muted">{{ translate('Additional discount applied only for online payments.') }}</small>
                                 </div>
-                                @if(addon_is_activated('club_point'))
                                     <!-- club point -->
                                     <div class="form-group mb-2">
                                         <label class=" col-from-label">
@@ -623,7 +593,6 @@
                                         </label>
                                         <input type="number" lang="en" min="0" value="0" step="1" integer-only placeholder="{{ translate('1') }}" name="earn_point" class="form-control">
                                     </div>
-                                @endif
 
                                 <div id="show-hide-div">
                                     <!-- Quantity -->
