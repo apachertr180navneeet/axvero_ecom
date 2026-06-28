@@ -53,7 +53,7 @@
 @php
     $cart_added = [];
 @endphp
-<div class="aiz-card-box h-auto bg-white py-3 hov-scale-img">
+<div class="aiz-card-box h-auto bg-white py-3 hov-scale-img modern-card">
    <div class="position-relative overflow-hidden product-img-wrapper">
         @php
             $product_url = route('product', $product->slug);
