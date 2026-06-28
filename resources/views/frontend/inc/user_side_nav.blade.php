@@ -318,9 +318,6 @@
                 @endif
 
                 <!-- Affiliate -->
-                @if (addon_is_activated('affiliate_system') &&
-                    Auth::user()->affiliate_user != null &&
-                    Auth::user()->affiliate_user->status)
                     <li class="aiz-side-nav-item">
                         <a href="javascript:void(0);"
                             class="aiz-side-nav-link">
@@ -356,7 +353,6 @@
 
                         </ul>
                     </li>
-                @endif
 
                 @php
                     $support_ticket = DB::table('tickets')

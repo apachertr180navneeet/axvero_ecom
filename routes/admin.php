@@ -667,8 +667,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin', 'prevent-ba
     Route::get('/measurement-points/destroy/{id}',  [MeasurementPointsController::class, 'destroy'])->name('measurement-points.destroy');
 
     // Addon
-    Route::resource('addons', AddonController::class);
-    Route::post('/addons/activation', [AddonController::class, 'activation'])->name('addons.activation');
+    // Route::resource('addons', AddonController::class);
+    // Route::post('/addons/activation', [AddonController::class, 'activation'])->name('addons.activation');
 
     //Customer Package
     Route::resource('customer_packages', CustomerPackageController::class);

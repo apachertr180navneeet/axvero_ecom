@@ -617,11 +617,15 @@
             }
         }
 
-        $(".aiz-user-top-menu").on("mouseover", function (event) {
+        var userMenuTimeout;
+        $(".nav-user-info, .hover-user-top-menu").on("mouseover", function (event) {
+            clearTimeout(userMenuTimeout);
             $(".hover-user-top-menu").addClass('active');
         })
         .on("mouseout", function (event) {
-            $(".hover-user-top-menu").removeClass('active');
+            userMenuTimeout = setTimeout(function() {
+                $(".hover-user-top-menu").removeClass('active');
+            }, 150);
         });
 
         $(document).on("click", function(event){

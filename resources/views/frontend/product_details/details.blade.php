@@ -615,7 +615,6 @@
         <div class="d-table width-100 mt-3">
             <div class="d-table-cell">
                 @if (Auth::check() &&
-                        addon_is_activated('affiliate_system') &&
                         get_affliate_option_status() &&
                         Auth::user()->affiliate_user != null &&
                         Auth::user()->affiliate_user->status)

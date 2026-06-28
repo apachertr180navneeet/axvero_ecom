@@ -83,10 +83,19 @@
                                     <a class="dropdown-item py-2 px-2 text-dark" href="{{ route('seller.login') }}">
                                         {{ translate('Login to Seller') }}
                                     </a>
+                                    <a class="dropdown-item py-2 px-2 text-dark" href="{{ route('affiliate.apply') }}">
+                                        {{ translate('Be an affiliate partner') }}
+                                    </a>
                                 </div>
                             </div>
                         </li>
                     @endif
+                    <li class="list-inline-item ml-3 pl-3 mr-0 pr-0 top-text-color-visibility"
+                        style="color: {{ $topHeaderTextColor }}">
+                        <a class="fs-12" href="{{ route('affiliate.apply') }}">
+                            {{ translate('Be an affiliate partner') }}
+                        </a>
+                    </li>
                     @if (get_setting('helpline_number'))
                         <li class="list-inline-item ml-3 pl-3 mr-0 pr-0 top-text-color-visibility"
                             style="color: {{ $topHeaderTextColor }}">

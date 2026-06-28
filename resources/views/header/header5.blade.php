@@ -295,6 +295,9 @@ $middleHeaderTextColor = get_setting('middle_header_text_color');
                                         </a>
                                     </div>
                                     @endif
+                                    <a class="dropdown-item py-2 px-2 text-dark" href="{{ route('affiliate.apply') }}">
+                                        {{ translate('Be an affiliate partner') }}
+                                    </a>
                                 </div>
 
 

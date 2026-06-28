@@ -1447,9 +1447,7 @@
                 </li>
                 @endcanany
 
-                <!-- Affiliate Addon -->
-                @if (addon_is_activated('affiliate_system'))
-                @canany(['affiliate_registration_form_config','affiliate_configurations','view_affiliate_users','view_all_referral_users','view_affiliate_withdraw_requests','view_affiliate_logs'])
+                <!-- Affiliate -->
                 <li class="aiz-side-nav-item">
                     <a href="#" class="aiz-side-nav-link">
                         <div class="aiz-side-nav-icon">
@@ -1490,55 +1488,40 @@
                         <span class="aiz-side-nav-arrow"></span>
                     </a>
                     <ul class="aiz-side-nav-list level-2">
-                        @can('affiliate_registration_form_config')
                         <li class="aiz-side-nav-item">
                             <a href="{{route('affiliate.configs')}}" class="aiz-side-nav-link">
                                 <span class="aiz-side-nav-text">{{translate('Affiliate Registration Form')}}</span>
                             </a>
                         </li>
-                        @endcan
-                        @can('affiliate_configurations')
                         <li class="aiz-side-nav-item">
                             <a href="{{route('affiliate.index')}}" class="aiz-side-nav-link">
                                 <span class="aiz-side-nav-text">{{translate('Affiliate Configurations')}}</span>
                             </a>
                         </li>
-                        @endcan
-                        @can('view_affiliate_users')
                         <li class="aiz-side-nav-item">
                             <a href="{{route('affiliate.users')}}"
                                 class="aiz-side-nav-link {{ areActiveRoutes(['affiliate.users', 'affiliate_users.show_verification_request', 'affiliate_user.payment_history'])}}">
                                 <span class="aiz-side-nav-text">{{translate('Affiliate Users')}}</span>
                             </a>
                         </li>
-                        @endcan
-                        @can('view_all_referral_users')
                         <li class="aiz-side-nav-item">
                             <a href="{{route('refferals.users')}}" class="aiz-side-nav-link">
                                 <span class="aiz-side-nav-text">{{translate('Referral Users')}}</span>
                             </a>
                         </li>
-                        @endcan
-                        @can('view_affiliate_withdraw_requests')
                         <li class="aiz-side-nav-item">
                             <a href="{{route('affiliate.withdraw_requests')}}" class="aiz-side-nav-link">
                                 <span class="aiz-side-nav-text">{{translate('Affiliate Withdraw Requests')}}</span>
                             </a>
                         </li>
-                        @endcan
-                        @can('view_affiliate_logs')
                         <li class="aiz-side-nav-item">
                             <a href="{{route('affiliate.logs.admin')}}" class="aiz-side-nav-link">
                                 <span class="aiz-side-nav-text">{{translate('Affiliate Logs')}}</span>
                             </a>
                         </li>
-                        @endcan
                     </ul>
                 </li>
-                @endcanany
-                @endif
 
-               
 
                 <!-- Club Point Addon-->
                 @if (addon_is_activated('club_point'))
@@ -2434,7 +2417,7 @@
                 @endcanany
 
                 <!-- Addon Manager -->
-                @can('manage_addons')
+                {{--  @can('manage_addons')
                 <li class="aiz-side-nav-item">
                     <a href="{{route('addons.index')}}"
                         class="aiz-side-nav-link {{ areActiveRoutes(['addons.index', 'addons.create'])}}">
@@ -2449,7 +2432,7 @@
                         <span class="aiz-side-nav-text">{{translate('Addon Manager')}}</span>
                     </a>
                 </li>
-                @endcan
+                @endcan  --}}
             </ul><!-- .aiz-side-nav -->
         </div><!-- .aiz-side-nav-wrap -->
     </div><!-- .aiz-sidebar -->
