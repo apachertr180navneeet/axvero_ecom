@@ -12,6 +12,7 @@ use App\Models\User;
 use Auth;
 use App\Models\ClubPoint;
 use App\Models\ClubPointDetail;
+use Illuminate\Support\Facades\Schema;
 use Route;
 
 class ReviewController extends Controller
@@ -165,18 +166,20 @@ class ReviewController extends Controller
                         $orderDetail->earn_point += $reviewPoint;
                         $orderDetail->save();
 
-                        $clubPoint = ClubPoint::create([
-                            'user_id' => Auth::id(),
-                            'points' => $reviewPoint,
-                            'order_id' => $request->order_id
-                        ]);
-                
-                        ClubPointDetail::create([
-                            'club_point_id' => $clubPoint->id,
-                            'product_id'    => $request->product_id,
-                            'point'         => $reviewPoint,
-                        ]);
-                       
+                        if (Schema::hasTable('club_points')) {
+                            $clubPoint = ClubPoint::create([
+                                'user_id' => Auth::id(),
+                                'points' => $reviewPoint,
+                                'order_id' => $request->order_id
+                            ]);
+                    
+                            ClubPointDetail::create([
+                                'club_point_id' => $clubPoint->id,
+                                'product_id'    => $request->product_id,
+                                'point'         => $reviewPoint,
+                            ]);
+                        }
+                        
                     }
                 }
             }

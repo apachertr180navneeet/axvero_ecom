@@ -2417,6 +2417,9 @@ if (!function_exists('get_user_last_wallet_recharge')) {
 if (!function_exists('get_user_total_club_point')) {
     function get_user_total_club_point()
     {
+        if (!\Illuminate\Support\Facades\Schema::hasTable('club_points')) {
+            return 0;
+        }
         $club_point_query = ClubPoint::query();
         return $club_point_query->where('user_id', Auth::user()->id)->where('convert_status', 0)->sum('points');
     }
