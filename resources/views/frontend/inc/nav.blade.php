@@ -120,6 +120,14 @@
                             {{ translate('My Account') }}
                         </a>
                     </li>
+                @elseif(Auth::user()->user_type == 'affiliate')
+                    <hr>
+                    <li class="mr-0">
+                        <a href="{{ route('affiliate.user.index') }}" class="fs-13 px-3 py-3 w-100 d-inline-block fw-700 text-dark header_menu_links
+                                        {{ areActiveRoutes(['affiliate.user.index'], ' active') }}">
+                            {{ translate('Affiliate Dashboard') }}
+                        </a>
+                    </li>
                 @else
                     <hr>
                     <li class="mr-0">

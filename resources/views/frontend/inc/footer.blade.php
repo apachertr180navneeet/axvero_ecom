@@ -646,6 +646,17 @@
                         </span>
                         <span class="d-block mt-1 fs-10 fw-600 text-reset">{{ translate('My Account') }}</span>
                     </a>
+                @elseif(Auth::user()->user_type == 'affiliate')
+                    <a href="{{ route('affiliate.user.index') }}" class="text-secondary d-block text-center pb-2 pt-3">
+                        <span class="d-block mx-auto">
+                            @if($user->avatar_original != null)
+                                <img src="{{ $user_avatar }}" alt="{{ translate('avatar') }}" class="rounded-circle size-20px">
+                            @else
+                                <img src="{{ static_asset('assets/img/avatar-place.png') }}" alt="{{ translate('avatar') }}" class="rounded-circle size-20px">
+                            @endif
+                        </span>
+                        <span class="d-block mt-1 fs-10 fw-600 text-reset">{{ translate('Affiliate Dashboard') }}</span>
+                    </a>
                 @else
                     <a href="javascript:void(0)" class="text-secondary d-block text-center pb-2 pt-3 mobile-side-nav-thumb" data-toggle="class-toggle" data-backdrop="static" data-target=".aiz-mobile-side-nav">
                         <span class="d-block mx-auto">
