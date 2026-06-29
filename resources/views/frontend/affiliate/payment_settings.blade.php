@@ -14,7 +14,7 @@
                     <label class="col-md-3 col-form-label fs-14 fw-600">{{ translate('Bank Name') }}</label>
                     <div class="col-md-9">
                         <input type="text" class="modern-input" name="bank_name"
-                            value="{{ auth()->user()->bank_name }}" placeholder="{{ translate('Bank Name') }}">
+                            value="{{ $payment_settings->bank_name }}" placeholder="{{ translate('Bank Name') }}">
                     </div>
                 </div>
 
@@ -22,7 +22,7 @@
                     <label class="col-md-3 col-form-label fs-14 fw-600">{{ translate('Bank Account Name') }}</label>
                     <div class="col-md-9">
                         <input type="text" class="modern-input" name="bank_acc_name"
-                            value="{{ auth()->user()->bank_acc_name }}"
+                            value="{{ $payment_settings->bank_acc_name }}"
                             placeholder="{{ translate('Bank Account Name') }}">
                     </div>
                 </div>
@@ -31,7 +31,7 @@
                     <label class="col-md-3 col-form-label fs-14 fw-600">{{ translate('Bank Account Number') }}</label>
                     <div class="col-md-9">
                         <input type="text" class="modern-input" name="bank_acc_no"
-                            value="{{ auth()->user()->bank_acc_no }}"
+                            value="{{ $payment_settings->bank_acc_no }}"
                             placeholder="{{ translate('Bank Account Number') }}">
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                     <label class="col-md-3 col-form-label fs-14 fw-600">{{ translate('Bank IBAN') }}</label>
                     <div class="col-md-9">
                         <input type="text" class="modern-input" name="bank_iban"
-                            value="{{ auth()->user()->bank_iban }}" placeholder="{{ translate('Bank IBAN') }}">
+                            value="{{ $payment_settings->bank_iban }}" placeholder="{{ translate('Bank IBAN') }}">
                     </div>
                 </div>
 
@@ -48,7 +48,7 @@
                     <label class="col-md-3 col-form-label fs-14 fw-600">{{ translate('Bank Routing Number') }}</label>
                     <div class="col-md-9">
                         <input type="text" class="modern-input" name="bank_routing_no"
-                            value="{{ auth()->user()->bank_routing_no }}"
+                            value="{{ $payment_settings->bank_routing_no }}"
                             placeholder="{{ translate('Bank Routing Number') }}">
                     </div>
                 </div>

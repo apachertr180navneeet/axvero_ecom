@@ -146,101 +146,18 @@
                                 <p class="fs-14 text-secondary">{{ translate('Login to Affiliate Portal to continue')}}</p>
                             </div>
                             
-                            <!-- Login form -->
-                            <form class="loginForm" id="user-login-form" role="form" action="{{ route('login') }}" method="POST">
-                                @csrf
-                                
-                                <!-- Email -->
-                                <div class="form-group mb-3">
-                                    <label for="email" class="fs-13 fw-600 text-dark mb-2">{{  translate('Email') }}</label>
-                                    <input type="email" class="form-control auth-input {{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" placeholder="{{  translate('johndoe@example.com') }}" name="email" id="email" autocomplete="off">
-                                    @if ($errors->has('email'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('email') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                                
-                                <div class="password-login-block">
-                                    <!-- password -->
-                                    <div class="form-group mb-3">
-                                        <div class="d-flex justify-content-between align-items-center mb-2">
-                                            <label for="password" class="fs-13 fw-600 text-dark mb-0">{{  translate('Password') }}</label>
-                                            <a href="{{ route('password.request') }}" class="auth-link fs-13">{{ translate('Forgot password?')}}</a>
-                                        </div>
-                                        <div class="position-relative">
-                                            <input type="password" class="form-control auth-input {{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="{{ translate('Enter your password')}}" name="password" id="password">
-                                            <i class="password-toggle las la-eye" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #94a3b8; font-size: 1.2rem;"></i>
-                                        </div>
-                                    </div>
+                            @include('auth.partials.affiliate_login_form', [
+                                'inputClass' => 'form-control auth-input',
+                                'btnClass' => 'btn auth-btn btn-block w-100 fs-15',
+                                'labelClass' => 'fs-13 fw-600 text-dark mb-2',
+                                'formClass' => 'loginForm',
+                                'passwordToggleClass' => 'las la-eye',
+                                'socialLoginStyle' => 'free',
+                                'forgotPasswordTop' => true,
+                                'demoModeStyle' => 'free',
+                                'submitText' => 'Sign In',
+                            ])
 
-                                    <!-- Recaptcha -->
-                                    @if(get_setting('google_recaptcha') == 1 && get_setting('recaptcha_customer_login') == 1)
-                                        @if ($errors->has('g-recaptcha-response'))
-                                            <span class="border invalid-feedback rounded p-2 mb-3 bg-danger text-white" role="alert" style="display: block;">
-                                                <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
-                                            </span>
-                                        @endif
-                                    @endif
-
-                                    <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <!-- Remember Me -->
-                                        <label class="aiz-checkbox mb-0">
-                                            <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
-                                            <span class="has-transition fs-13 fw-500 text-secondary ms-2">{{  translate('Remember Me') }}</span>
-                                            <span class="aiz-square-check"></span>
-                                        </label>
-                                        
-                                        @if(get_setting('login_with_otp'))
-                                            <a href="javascript:void(0);" class="auth-link fs-13 toggle-login-with-otp" onclick="toggleLoginPassOTP(this)">{{ translate('Login With OTP') }}</a>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <!-- Submit Button -->
-                                <button type="submit" class="btn auth-btn btn-block w-100 fs-15 submit-button">{{  translate('Sign In') }}</button>
-                            </form>
-
-                            <!-- DEMO MODE -->
-                            @if (env("DEMO_MODE") == "On")
-                                <div class="mt-4 bg-light p-3 rounded">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <span class="fs-13 fw-600">{{ translate('Demo Customer')}}</span>
-                                        <button class="btn btn-sm btn-outline-primary rounded-pill px-3" onclick="autoFillCustomer()">{{ translate('Copy') }}</button>
-                                    </div>
-                                </div>
-                            @endif
-
-                            <!-- Social Login -->
-                            @if(get_setting('google_login') == 1 || get_setting('facebook_login') == 1 || get_setting('twitter_login') == 1 || get_setting('apple_login') == 1)
-                                <div class="divider my-4">{{ translate('Or continue with')}}</div>
-                                <div class="d-flex justify-content-center gap-3">
-                                    @if (get_setting('facebook_login') == 1)
-                                        <a href="{{ route('social.login', ['provider' => 'facebook']) }}" class="social-btn mx-2" title="Facebook">
-                                            <i class="lab la-facebook-f" style="color: #1877F2;"></i>
-                                        </a>
-                                    @endif
-                                    @if (get_setting('twitter_login') == 1)
-                                        <a href="{{ route('social.login', ['provider' => 'twitter']) }}" class="social-btn mx-2" title="Twitter">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#1DA1F2" viewBox="0 0 16 16">
-                                                <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/>
-                                            </svg>
-                                        </a>
-                                    @endif
-                                    @if(get_setting('google_login') == 1)
-                                        <a href="{{ route('social.login', ['provider' => 'google']) }}" class="social-btn mx-2" title="Google">
-                                            <i class="lab la-google" style="color: #DB4437;"></i>
-                                        </a>
-                                    @endif
-                                    @if (get_setting('apple_login') == 1)
-                                        <a href="{{ route('social.login', ['provider' => 'apple']) }}" class="social-btn mx-2" title="Apple">
-                                            <i class="lab la-apple" style="color: #000;"></i>
-                                        </a>
-                                    @endif
-                                </div>
-                            @endif
-
-                            <!-- Register Now -->
                             <div class="text-center mt-4 pt-2">
                                 <p class="fs-14 text-secondary mb-0">
                                     {{ translate('Don\'t have an account?')}}

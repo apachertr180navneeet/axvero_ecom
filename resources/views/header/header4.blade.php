@@ -91,23 +91,33 @@
                         </li>
                     @endif
                         <li class="list-inline-item d-flex">
-                            <!-- Become an Affiliate Dropdown -->
                             <div class="dropdown">
-                                <a href="{{ route('affiliate.registration') }}"
+                                <a href="{{ auth()->check() && auth()->user()->user_type == 'affiliate' ? route('affiliate.user.index') : route('affiliate.registration') }}"
                                     class="fs-12 dropdown-toggle top-text-color-visibility"
                                     style="color: {{ $topHeaderTextColor }}" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
-                                    {{ translate('Affiliate !') }}
+                                    {{ translate('Affiliate') }}
                                 </a>
 
-                                <!-- Dropdown Menu -->
                                 <div class="dropdown-menu fs-12 p-0 mt-1">
-                                    <a class="dropdown-item py-2 px-2 text-dark" href="{{ route('affiliate.registration') }}">
-                                        {{ translate('Register as Affiliate') }}
-                                    </a>
-                                    <a class="dropdown-item py-2 px-2 text-dark" href="{{ route('affiliate.login') }}">
-                                        {{ translate('Login to Affiliate') }}
-                                    </a>
+                                    @auth
+                                        @if(auth()->user()->user_type == 'affiliate')
+                                            <a class="dropdown-item py-2 px-2 text-dark" href="{{ route('affiliate.user.index') }}">
+                                                {{ translate('Affiliate Dashboard') }}
+                                            </a>
+                                        @else
+                                            <a class="dropdown-item py-2 px-2 text-dark" href="{{ route('affiliate.apply') }}">
+                                                {{ translate('Become an Affiliate') }}
+                                            </a>
+                                        @endif
+                                    @else
+                                        <a class="dropdown-item py-2 px-2 text-dark" href="{{ route('affiliate.registration') }}">
+                                            {{ translate('Register as Affiliate') }}
+                                        </a>
+                                        <a class="dropdown-item py-2 px-2 text-dark" href="{{ route('affiliate.login') }}">
+                                            {{ translate('Login to Affiliate') }}
+                                        </a>
+                                    @endauth
                                 </div>
                             </div>
                         </li>

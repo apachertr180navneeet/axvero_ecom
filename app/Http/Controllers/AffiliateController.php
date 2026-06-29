@@ -11,6 +11,7 @@ use App\Models\AffiliateWithdrawRequest;
 use App\Models\AffiliateLog;
 use App\Models\AffiliateStats;
 use App\Models\AffiliateEarningDetail;
+use App\Models\AffiliatePaymentSetting;
 use App\Models\User;
 use App\Models\Order;
 use Illuminate\Support\Str;
@@ -230,20 +231,22 @@ class AffiliateController extends Controller
 
     public function payment_settings()
     {
-        return view('frontend.affiliate.payment_settings');
+        $payment_settings = AffiliatePaymentSetting::firstOrNew(['user_id' => auth()->user()->id]);
+        return view('frontend.affiliate.payment_settings', compact('payment_settings'));
     }
 
     public function payment_settings_store(Request $request)
     {
-        $user = auth()->user();
-        $user->bank_name = $request->bank_name;
-        $user->bank_acc_name = $request->bank_acc_name;
-        $user->bank_acc_no = $request->bank_acc_no;
-        try {
-            $user->bank_iban = $request->bank_iban;
-            $user->bank_routing_no = $request->bank_routing_no;
-        } catch (\Exception $e) {}
-        $user->save();
+        $payment_settings = AffiliatePaymentSetting::updateOrCreate(
+            ['user_id' => auth()->user()->id],
+            [
+                'bank_name' => $request->bank_name,
+                'bank_acc_name' => $request->bank_acc_name,
+                'bank_acc_no' => $request->bank_acc_no,
+                'bank_iban' => $request->bank_iban,
+                'bank_routing_no' => $request->bank_routing_no,
+            ]
+        );
 
         flash(translate('Payment settings has been updated successfully'))->success();
         return back();
