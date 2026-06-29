@@ -2467,6 +2467,10 @@ if (!function_exists('get_non_viewed_conversations')) {
 if (!function_exists('get_non_viewed_preorder_conversations')) {
     function get_non_viewed_preorder_conversations()
     {
+        if (!\Illuminate\Support\Facades\Schema::hasTable('preorder_conversation_messages')) {
+            return 0;
+        }
+
         $userId = in_array(auth()->user()->user_type, ['admin', 'staff']) ?  get_admin()->id : auth()->id();
 
         $numberOfUnreadMsg = PreorderConversationMessage::where('receiver_viewed', 0)
