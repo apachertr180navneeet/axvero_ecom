@@ -44,7 +44,7 @@
         <!-- Menus -->
         <div class="sidemnenu">
             <ul class="aiz-side-nav-list mb-3 pb-3 border-bottom" data-toggle="aiz-side-menu">
-                @if(Auth::user()->user_type == 'affiliate')
+                @if(optional(Auth::user())->user_type == 'affiliate')
                     <!-- Affiliate Dashboard -->
                     <li class="aiz-side-nav-item">
                         <a href="{{ route('affiliate.user.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['affiliate.user.index']) }}">

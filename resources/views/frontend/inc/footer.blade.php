@@ -646,7 +646,7 @@
                         </span>
                         <span class="d-block mt-1 fs-10 fw-600 text-reset">{{ translate('My Account') }}</span>
                     </a>
-                @elseif(Auth::user()->user_type == 'affiliate')
+                @elseif(optional(Auth::user())->user_type == 'affiliate')
                     <a href="{{ route('affiliate.user.index') }}" class="text-secondary d-block text-center pb-2 pt-3">
                         <span class="d-block mx-auto">
                             @if($user->avatar_original != null)

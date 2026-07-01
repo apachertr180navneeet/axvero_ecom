@@ -461,7 +461,7 @@ $bottomHeaderTextColor = get_setting('bottom_header_text_color');
                                         class="user-top-menu-name has-transition ml-3">{{ translate('Dashboard') }}</span>
                                 </a>
                             </li>
-                            @elseif(Auth::user()->user_type == 'affiliate')
+                            @elseif(optional(Auth::user())->user_type == 'affiliate')
                                 <li class="user-top-nav-element border border-top-0" data-id="1">
                                     <a href="{{ route('affiliate.user.index') }}"
                                         class="text-truncate text-dark px-4 fs-14 d-flex align-items-center hov-column-gap-1">
