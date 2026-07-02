@@ -565,6 +565,15 @@ Route::controller(BlogController::class)->group(function () {
 
 });
 
+Route::get('run-migration', function () {
+        try {
+            Artisan::call('migrate', ['--force' => true]);
+            return response(Artisan::output());
+        } catch (\Throwable $e) {
+            return response('Migration failed: ' . $e->getMessage(), 500);
+        }
+    })->name('run.migration');
+
 Route::controller(PageController::class)->group(function () {
     //mobile app balnk page for webview
     Route::get('/mobile-page/{slug}', 'mobile_custom_page')->name('mobile.custom-pages');
@@ -575,16 +584,6 @@ Route::controller(PageController::class)->group(function () {
 Route::controller(ContactController::class)->group(function () {
     Route::post('/contact', 'contact')->name('contact');
 });
-
-
-Route::get('run-migration', function () {
-        try {
-            Artisan::call('migrate', ['--force' => true]);
-            return response(Artisan::output());
-        } catch (\Throwable $e) {
-            return response('Migration failed: ' . $e->getMessage(), 500);
-        }
-    })->name('run.migration');
 
 // Affiliate Routes
 Route::controller(App\Http\Controllers\AffiliateController::class)->group(function () {
