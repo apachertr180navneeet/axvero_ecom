@@ -755,15 +755,6 @@
                         <span class="aiz-side-nav-arrow"></span>
                     </a>
                     <ul class="aiz-side-nav-list level-2">
-                        @can('affiliate_registration_form_config')
-                        <li class="aiz-side-nav-item">
-                            <a href="{{ route('affiliate.index') }}"
-                                class="aiz-side-nav-link {{ areActiveRoutes(['affiliate.index']) }}">
-                                <span class="aiz-side-nav-text">{{ translate('Affiliate Options') }}</span>
-                            </a>
-                        </li>
-                        @endcan
-
                         @can('affiliate_configurations')
                         <li class="aiz-side-nav-item">
                             <a href="{{ route('affiliate.configs') }}"
