@@ -355,6 +355,13 @@ class OrderController extends Controller
             $combined_order->grand_total += $order->grand_total;
 
             $order->save();
+
+            // Trigger Affiliate points process on order placement (unpaid/pending status)
+            try {
+                (new \App\Http\Controllers\AffiliateController)->processAffiliatePoints($order);
+            } catch (\Exception $e) {
+                \Log::error("Affiliate processing failed on order store: " . $e->getMessage());
+            }
         }
 
         $combined_order->save();
@@ -540,6 +547,21 @@ class OrderController extends Controller
                     product_restock($orderDetail);
                 }
     
+            }
+        }
+
+        // Process Affiliate commissions status updates
+        if ($request->status == 'delivered') {
+            try {
+                (new \App\Http\Controllers\AffiliateController)->orderDeliveredHook($order->id);
+            } catch (\Exception $e) {
+                \Log::error("Affiliate delivered hook failed: " . $e->getMessage());
+            }
+        } elseif ($request->status == 'cancelled') {
+            try {
+                (new \App\Http\Controllers\AffiliateController)->rejectOrderCommissions($order->id);
+            } catch (\Exception $e) {
+                \Log::error("Affiliate cancelled hook failed: " . $e->getMessage());
             }
         }
         

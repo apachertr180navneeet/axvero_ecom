@@ -42,6 +42,22 @@
                     placeholder="{{ translate('Payment Details') }}"></textarea>
             </div>
         </div>
+
+        <div class="form-group row">
+            <label class="col-sm-3 col-from-label" for="transaction_id">{{ translate('Transaction Reference/ID') }}</label>
+            <div class="col-sm-9">
+                <input type="text" name="transaction_id" id="transaction_id" class="form-control"
+                    placeholder="{{ translate('Transaction Reference/ID') }}">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-3 col-from-label" for="remarks">{{ translate('Remarks') }}</label>
+            <div class="col-sm-9">
+                <textarea name="remarks" id="remarks" class="form-control" rows="3"
+                    placeholder="{{ translate('Remarks') }}"></textarea>
+            </div>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="submit" class="btn btn-primary">{{ translate('Pay') }}</button>

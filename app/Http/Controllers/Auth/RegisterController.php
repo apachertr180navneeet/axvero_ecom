@@ -122,6 +122,15 @@ class RegisterController extends Controller
             if ($referred_by_user != null) {
                 $user->referred_by = $referred_by_user->id;
                 $user->save();
+
+                // Track relationship in affiliate_customers
+                $affiliate_user = \App\Models\AffiliateUser::where('user_id', $referred_by_user->id)->where('status', 1)->first();
+                if ($affiliate_user) {
+                    \App\Models\AffiliateCustomer::create([
+                        'affiliate_id' => $affiliate_user->id,
+                        'customer_id' => $user->id
+                    ]);
+                }
             }
         }
 

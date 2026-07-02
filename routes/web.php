@@ -599,6 +599,7 @@ Route::controller(App\Http\Controllers\AffiliateController::class)->group(functi
         Route::get('/affiliate/user', 'user_index')->name('affiliate.user.index');
         Route::get('/affiliate/payment_history', 'user_payment_history')->name('affiliate.user.payment_history');
         Route::get('/affiliate/withdraw_request_history', 'user_withdraw_request_history')->name('affiliate.user.withdraw_request_history');
+        Route::get('/affiliate/referred_customers', 'referred_customers')->name('affiliate.referred_customers');
     });
 });
 

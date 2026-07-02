@@ -54,6 +54,22 @@ class OrderService{
             }
 
         }
+
+        // Process Affiliate commissions status updates
+        if ($request->status == 'delivered') {
+            try {
+                (new \App\Http\Controllers\AffiliateController)->orderDeliveredHook($order->id);
+            } catch (\Exception $e) {
+                \Log::error("Affiliate delivered hook failed: " . $e->getMessage());
+            }
+        } elseif ($request->status == 'cancelled') {
+            try {
+                (new \App\Http\Controllers\AffiliateController)->rejectOrderCommissions($order->id);
+            } catch (\Exception $e) {
+                \Log::error("Affiliate cancelled hook failed: " . $e->getMessage());
+            }
+        }
+
         if (SmsTemplate::where('identifier', 'delivery_status_change')->first()->status == 1) {
             try {
                 SmsUtility::delivery_status_change(json_decode($order->shipping_address)->phone, $order);
