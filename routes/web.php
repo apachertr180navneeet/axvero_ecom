@@ -567,10 +567,47 @@ Route::controller(BlogController::class)->group(function () {
 
 Route::get('run-migration', function () {
         try {
+            $db = DB::connection()->getDatabaseName();
+            
+            // Auto-register migrations if tables already exist
+            $existingMigrations = DB::table('migrations')->pluck('migration')->toArray();
+            $toRegister = [];
+            
+            if (Schema::hasTable('personal_access_tokens') && !in_array('2019_12_14_000001_create_personal_access_tokens_table', $existingMigrations)) {
+                $toRegister[] = ['migration' => '2019_12_14_000001_create_personal_access_tokens_table', 'batch' => 1];
+            }
+            if (Schema::hasTable('payku_transactions') && !in_array('2021_06_07_000000_create_payku_transactions_table', $existingMigrations)) {
+                $toRegister[] = ['migration' => '2021_06_07_000000_create_payku_transactions_table', 'batch' => 1];
+            }
+            if (Schema::hasTable('payku_payments') && !in_array('2021_06_07_000001_create_payku_payments_table', $existingMigrations)) {
+                $toRegister[] = ['migration' => '2021_06_07_000001_create_payku_payments_table', 'batch' => 1];
+            }
+            if (Schema::hasTable('product_queries') && !in_array('2022_06_29_075906_create_product_queries_table', $existingMigrations)) {
+                $toRegister[] = ['migration' => '2022_06_29_075906_create_product_queries_table', 'batch' => 1];
+            }
+            
+            if (!empty($toRegister)) {
+                DB::table('migrations')->insert($toRegister);
+            }
+            
+            $ran = DB::table('migrations')->pluck('migration')->toArray();
             Artisan::call('migrate', ['--force' => true]);
-            return response(Artisan::output());
+            
+            return response()->json([
+                'status' => 'success',
+                'db' => $db,
+                'auto_registered' => array_column($toRegister, 'migration'),
+                'ran_migrations' => $ran,
+                'output' => Artisan::output()
+            ]);
         } catch (\Throwable $e) {
-            return response('Migration failed: ' . $e->getMessage(), 500);
+            return response()->json([
+                'db' => DB::connection()->getDatabaseName() ?? 'unknown',
+                'has_personal_access_tokens_table' => Schema::hasTable('personal_access_tokens'),
+                'existing_migrations' => DB::table('migrations')->pluck('migration')->toArray(),
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ], 500);
         }
     })->name('run.migration');
 
