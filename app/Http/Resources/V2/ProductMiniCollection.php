@@ -3,6 +3,7 @@
 namespace App\Http\Resources\V2;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProductMiniCollection extends ResourceCollection
 {
@@ -36,9 +37,20 @@ class ProductMiniCollection extends ResourceCollection
 
     public function with($request)
     {
-        return [
+        $response = [
             'success' => true,
             'status' => 200
         ];
+
+        if ($this->resource instanceof LengthAwarePaginator) {
+            $response['pagination'] = [
+                'current_page' => $this->resource->currentPage(),
+                'last_page' => $this->resource->lastPage(),
+                'per_page' => $this->resource->perPage(),
+                'total' => $this->resource->total(),
+            ];
+        }
+
+        return $response;
     }
 }

@@ -275,7 +275,9 @@ Route::group(['prefix' => 'v2', 'middleware' => ['app_language']], function () {
 
     Route::get('category/info/{slug}', 'App\Http\Controllers\Api\V2\CategoryController@info');
     Route::get('categories/featured', 'App\Http\Controllers\Api\V2\CategoryController@featured');
-    Route::get('categories/home', 'App\Http\Controllers\Api\V2\CategoryController@home');
+    // Public for React home page (no login/System-Key required)
+    Route::get('categories/home', 'App\Http\Controllers\Api\V2\CategoryController@home')
+        ->withoutMiddleware([EnsureSystemKey::class]);
     Route::get('categories/top', 'App\Http\Controllers\Api\V2\CategoryController@top');
     Route::apiResource('categories', 'App\Http\Controllers\Api\V2\CategoryController')->only('index');
     Route::get('sub-categories/{id}', 'App\Http\Controllers\Api\V2\SubCategoryController@index')->name('subCategories.index');
@@ -297,7 +299,10 @@ Route::group(['prefix' => 'v2', 'middleware' => ['app_language']], function () {
 
     Route::get('products/inhouse', 'App\Http\Controllers\Api\V2\ProductController@inhouse');
     Route::get('products/seller/{id}', 'App\Http\Controllers\Api\V2\ProductController@seller');
-    Route::get('products/category/{slug}', 'App\Http\Controllers\Api\V2\ProductController@categoryProducts')->name('api.products.category');
+    // Public for React home page (no login/System-Key required)
+    Route::get('products/category/{slug}', 'App\Http\Controllers\Api\V2\ProductController@categoryProducts')
+        ->withoutMiddleware([EnsureSystemKey::class])
+        ->name('api.products.category');
     Route::get('products/sub-category/{id}', 'App\Http\Controllers\Api\V2\ProductController@subCategory')->name('products.subCategory');
     Route::get('products/sub-sub-category/{id}', 'App\Http\Controllers\Api\V2\ProductController@subSubCategory')->name('products.subSubCategory');
     Route::get('products/brand/{slug}', 'App\Http\Controllers\Api\V2\ProductController@brand')->name('api.products.brand');

@@ -7,17 +7,17 @@ use Illuminate\Support\Facades\Http;
 
 class ShiprocketService
 {
-    protected $baseUrl;
-    protected $email;
-    protected $password;
-    protected $defaultWeight;
-    protected $mockPickupPincode;
+    protected string $baseUrl;
+    protected string $email;
+    protected string $password;
+    protected float $defaultWeight;
+    protected string $mockPickupPincode;
 
     public function __construct()
     {
-        $this->baseUrl = config('services.shiprocket.base_url');
-        $this->email = config('services.shiprocket.email');
-        $this->password = config('services.shiprocket.password');
+        $this->baseUrl = (string) config('services.shiprocket.base_url');
+        $this->email = (string) (config('services.shiprocket.email') ?? '');
+        $this->password = (string) (config('services.shiprocket.password') ?? '');
         $this->defaultWeight = (float) config('services.shiprocket.default_weight', 0.5);
         $this->mockPickupPincode = (string) config('services.shiprocket.mock_pickup_pincode', '110001');
     }
@@ -44,7 +44,7 @@ class ShiprocketService
             return 'mock-shiprocket-token';
         }
 
-        return Cache::remember('shiprocket_token', now()->addMinutes(55), function () {
+        return (string) Cache::remember('shiprocket_token', now()->addMinutes(55), function (): string {
             $response = Http::post($this->baseUrl . '/auth/login', [
                 'email' => $this->email,
                 'password' => $this->password,
@@ -59,7 +59,7 @@ class ShiprocketService
                 throw new \Exception('Shiprocket authentication failed: token missing in response.');
             }
 
-            return $token;
+            return (string) $token;
         });
     }
 
@@ -163,10 +163,25 @@ class ShiprocketService
             return $this->mockAssignAwbResponse($shipmentId, $courierId);
         }
 
-        return $this->authenticatedPost('/courier/assign/awb', [
+        $response = $this->authenticatedPost('/courier/assign/awb', [
             'shipment_id' => $shipmentId,
             'courier_id' => $courierId,
         ]);
+
+        if (isset($response['awb_assign_status']) && (int) $response['awb_assign_status'] !== 1) {
+            $message = $response['message']
+                ?? data_get($response, 'response.data.awb_assign_error')
+                ?? 'Shiprocket AWB assignment failed.';
+            throw new \Exception($message);
+        }
+
+        $awbCode = $this->extractAwbCode($response);
+        if (empty($awbCode)) {
+            $message = $response['message'] ?? 'Shiprocket AWB assignment failed: AWB code missing in response.';
+            throw new \Exception($message);
+        }
+
+        return $response;
     }
 
     public function requestPickup(int $shipmentId): array

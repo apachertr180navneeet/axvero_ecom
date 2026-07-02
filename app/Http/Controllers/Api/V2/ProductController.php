@@ -156,7 +156,18 @@ class ProductController extends Controller
 
     public function categoryProducts($slug, Request $request)
     {
+        // Support both category slug and numeric ID (some clients generate links using id)
         $category = Category::where('slug', $slug)->first();
+        if (!$category && is_numeric($slug)) {
+            $category = Category::find((int) $slug);
+        }
+        if (!$category) {
+            return response()->json([
+                'result' => false,
+                'message' => 'Category not found',
+            ], 404);
+        }
+
         $category = Category::with('childrenCategories')->find($category->id);
         $products = $category->products();
 
@@ -164,7 +175,10 @@ class ProductController extends Controller
             $products = $products->where('name', 'like', '%' . $request->name . '%');
         }
 
-        return new ProductMiniCollection(filter_products($products)->latest()->paginate(10));
+        $perPage = max(1, (int) $request->get('per_page', 10));
+        return new ProductMiniCollection(
+            filter_products($products)->latest()->paginate($perPage)->appends($request->query())
+        );
     }
 
     public function brand($slug, Request $request)

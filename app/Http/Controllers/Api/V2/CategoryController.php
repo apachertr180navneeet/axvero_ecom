@@ -36,8 +36,37 @@ class CategoryController extends Controller
 
     public function home()
     {
+        if (
+            request()->filled('category_id') ||
+            request()->filled('slug') ||
+            request()->filled('limit') ||
+            request()->filled('per_page') ||
+            request()->filled('page')
+        ) {
+            $homeCategoryIds = json_decode(get_setting('home_categories')) ?? [];
+            $query = Category::whereIn('id', $homeCategoryIds);
+
+            if (request()->filled('category_id')) {
+                $query->where('id', (int) request()->category_id);
+            }
+            if (request()->filled('slug')) {
+                $query->where('slug', request()->slug);
+            }
+            if (request()->filled('limit')) {
+                $query->limit((int) request()->limit);
+            }
+
+            if (request()->filled('per_page') || request()->filled('page')) {
+                $perPage = max(1, (int) request()->get('per_page', 10));
+                return new CategoryCollection($query->paginate($perPage)->appends(request()->query()));
+            }
+
+            return new CategoryCollection($query->get());
+        }
+
         return Cache::remember('app.home_categories', 86400, function () {
-            return new CategoryCollection(Category::whereIn('id', json_decode(get_setting('home_categories')))->get());
+            $homeCategoryIds = json_decode(get_setting('home_categories')) ?? [];
+            return new CategoryCollection(Category::whereIn('id', $homeCategoryIds)->get());
         });
     }
 

@@ -121,6 +121,9 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @php
+                            $hasRefundRequestsTable = \Illuminate\Support\Facades\Schema::hasTable('refund_requests');
+                        @endphp
                         @foreach ($orders as $key => $order)
                             <tr>
                                 @if (auth()->user()->can('delete_order') || auth()->user()->can('export_order'))
@@ -204,7 +207,7 @@
                                                             
                                 
                                     <td>
-                                        @if (count($order->refund_requests) > 0)
+                                        @if ($hasRefundRequestsTable && count($order->refund_requests) > 0)
                                             {{ count($order->refund_requests) }} {{ translate('Refund') }}
                                         @else
                                             {{ translate('No Refund') }}
