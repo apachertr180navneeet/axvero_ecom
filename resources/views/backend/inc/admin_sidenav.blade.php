@@ -742,6 +742,76 @@
                 </li>
                 @endcanany
 
+                <!-- Affiliate System -->
+                @canany(['affiliate_registration_form_config', 'affiliate_configurations', 'view_affiliate_users', 'view_affiliate_withdraw_requests', 'view_affiliate_logs'])
+                <li class="aiz-side-nav-item">
+                    <a href="#" class="aiz-side-nav-link">
+                        <div class="aiz-side-nav-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                                <path id="Union_44" data-name="Union 44" d="M12.75,16a3.254,3.254,0,0,1-3.23-2.915,2.74,2.74,0,0,1-.832-.835,3.254,3.254,0,1,1-.462-4.526,2.736,2.736,0,0,1,1.294.618,3.235,3.235,0,0,1,2.83,2.83,2.736,2.736,0,0,1,.618,1.294A3.252,3.252,0,0,1,12.75,16Zm-2.228-3.023a1.745,1.745,0,1,0,1.251-1.251A3.267,3.267,0,0,1,10.522,12.977ZM3.25,16A3.254,3.254,0,0,1,.02,13.085,2.74,2.74,0,0,1,.852,12.25,3.254,3.254,0,1,1,5.378,7.724a2.736,2.736,0,0,1-.618,1.294,3.235,3.235,0,0,1-2.83,2.83,2.736,2.736,0,0,1-1.294.618A3.252,3.252,0,0,1,3.25,16Zm2.228-3.023A3.267,3.267,0,0,1,6.728,11.73,1.745,1.745,0,1,0,5.478,12.977ZM8,8A3.254,3.254,0,0,1,4.77,5.085,2.74,2.74,0,0,1,5.6,4.25,3.254,3.254,0,1,1,10.128-.276a2.736,2.736,0,0,1-.618,1.294,3.235,3.235,0,0,1-2.83,2.83,2.736,2.736,0,0,1-1.294.618A3.252,3.252,0,0,1,8,8ZM10.228,4.977A3.267,3.267,0,0,1,11.478,3.73a1.745,1.745,0,1,0-1.25,1.247Z" fill="#575b6a"/>
+                            </svg>
+                        </div>
+                        <span class="aiz-side-nav-text">{{ translate('Affiliate System') }}</span>
+                        <span class="aiz-side-nav-arrow"></span>
+                    </a>
+                    <ul class="aiz-side-nav-list level-2">
+                        @can('affiliate_registration_form_config')
+                        <li class="aiz-side-nav-item">
+                            <a href="{{ route('affiliate.index') }}"
+                                class="aiz-side-nav-link {{ areActiveRoutes(['affiliate.index']) }}">
+                                <span class="aiz-side-nav-text">{{ translate('Affiliate Options') }}</span>
+                            </a>
+                        </li>
+                        @endcan
+
+                        @can('affiliate_configurations')
+                        <li class="aiz-side-nav-item">
+                            <a href="{{ route('affiliate.configs') }}"
+                                class="aiz-side-nav-link {{ areActiveRoutes(['affiliate.configs']) }}">
+                                <span class="aiz-side-nav-text">{{ translate('Affiliate Configurations') }}</span>
+                            </a>
+                        </li>
+                        @endcan
+
+                        @can('view_affiliate_users')
+                        <li class="aiz-side-nav-item">
+                            <a href="{{ route('affiliate.users') }}"
+                                class="aiz-side-nav-link {{ areActiveRoutes(['affiliate.users', 'affiliate.users.show_verification_request']) }}">
+                                <span class="aiz-side-nav-text">{{ translate('Affiliate Users') }}</span>
+                            </a>
+                        </li>
+                        @endcan
+
+                        @can('view_affiliate_users')
+                        <li class="aiz-side-nav-item">
+                            <a href="{{ route('affiliate.refferal_users') }}"
+                                class="aiz-side-nav-link {{ areActiveRoutes(['affiliate.refferal_users']) }}">
+                                <span class="aiz-side-nav-text">{{ translate('Referral Users') }}</span>
+                            </a>
+                        </li>
+                        @endcan
+
+                        @can('view_affiliate_withdraw_requests')
+                        <li class="aiz-side-nav-item">
+                            <a href="{{ route('affiliate.withdraw_requests') }}"
+                                class="aiz-side-nav-link {{ areActiveRoutes(['affiliate.withdraw_requests']) }}">
+                                <span class="aiz-side-nav-text">{{ translate('Withdraw Requests') }}</span>
+                            </a>
+                        </li>
+                        @endcan
+
+                        @can('view_affiliate_logs')
+                        <li class="aiz-side-nav-item">
+                            <a href="{{ route('affiliate.logs_admin') }}"
+                                class="aiz-side-nav-link {{ areActiveRoutes(['affiliate.logs_admin']) }}">
+                                <span class="aiz-side-nav-text">{{ translate('Affiliate Logs') }}</span>
+                            </a>
+                        </li>
+                        @endcan
+                    </ul>
+                </li>
+                @endcanany
+
                 <!-- Support -->
                 @canany(['view_all_support_tickets','view_all_product_conversations','view_all_product_queries'])
                 <li class="aiz-side-nav-item">
