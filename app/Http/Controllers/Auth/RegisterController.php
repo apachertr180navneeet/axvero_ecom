@@ -116,6 +116,15 @@ class RegisterController extends Controller
 
         $user = $this->create($request->all());
 
+        if (\Cookie::has('referral_code')) {
+            $referral_code = \Cookie::get('referral_code');
+            $referred_by_user = User::where('referral_code', $referral_code)->first();
+            if ($referred_by_user != null) {
+                $user->referred_by = $referred_by_user->id;
+                $user->save();
+            }
+        }
+
         $this->guard()->login($user);
 
         if(session('temp_user_id') != null){

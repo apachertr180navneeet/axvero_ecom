@@ -35,6 +35,24 @@ class OrderService{
                 product_restock($orderDetail);
             }
 
+            if ($orderDetail->product_referral_code) {
+                $no_of_delivered = 0;
+                $no_of_canceled = 0;
+
+                if ($request->status == 'delivered') {
+                    $no_of_delivered = $orderDetail->quantity;
+                }
+                if ($request->status == 'cancelled') {
+                    $no_of_canceled = $orderDetail->quantity;
+                }
+
+                $referred_by_user = User::where('referral_code', $orderDetail->product_referral_code)->first();
+                if ($referred_by_user) {
+                    $affiliateController = new \App\Http\Controllers\AffiliateController;
+                    $affiliateController->processAffiliateStats($referred_by_user->id, 0, 0, $no_of_delivered, $no_of_canceled);
+                }
+            }
+
         }
         if (SmsTemplate::where('identifier', 'delivery_status_change')->first()->status == 1) {
             try {

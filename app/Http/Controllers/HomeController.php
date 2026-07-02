@@ -238,6 +238,24 @@ public function getRecentProducts(Request $request)
             return redirect()->route('home');
         }
 
+        if ($request->has('referral_code')) {
+            try {
+                $affiliate_validation_time = \App\Models\AffiliateConfig::where('type', 'validation_time')->first();
+                $cookie_minute = 30 * 24;
+                if ($affiliate_validation_time) {
+                    $cookie_minute = $affiliate_validation_time->value * 60;
+                }
+
+                \Cookie::queue('referral_code', $request->referral_code, $cookie_minute);
+                $referred_by_user = User::where('referral_code', $request->referral_code)->first();
+
+                if ($referred_by_user) {
+                    $affiliateController = new AffiliateController;
+                    $affiliateController->processAffiliateStats($referred_by_user->id, 1, 0, 0, 0);
+                }
+            } catch (\Exception $e) {
+            }
+        }
 
         $email = null;
         $phone = null;
@@ -426,6 +444,26 @@ public function product(Request $request, $slug)
               ->first();
             $review_status = $OrderDetail ? 1 : 0;
             $order_id = $OrderDetail->order->id ?? null;
+        }
+
+        if ($request->has('product_referral_code')) {
+            try {
+                $affiliate_validation_time = \App\Models\AffiliateConfig::where('type', 'validation_time')->first();
+                $cookie_minute = 30 * 24;
+                if ($affiliate_validation_time) {
+                    $cookie_minute = $affiliate_validation_time->value * 60;
+                }
+                \Cookie::queue('product_referral_code', $request->product_referral_code, $cookie_minute);
+                \Cookie::queue('referred_product_id', $detailedProduct->id, $cookie_minute);
+
+                $referred_by_user = User::where('referral_code', $request->product_referral_code)->first();
+
+                if ($referred_by_user) {
+                    $affiliateController = new AffiliateController;
+                    $affiliateController->processAffiliateStats($referred_by_user->id, 1, 0, 0, 0);
+                }
+            } catch (\Exception $e) {
+            }
         }
 
         $sessionId = session()->getId();

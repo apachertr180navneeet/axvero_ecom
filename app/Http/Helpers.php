@@ -1649,6 +1649,13 @@ if (!function_exists('calculateCommissionAffilationClubPoint')) {
             (new ClubPointController)->processClubPoints($order);
         }
 
+        // Trigger Affiliate Points processing
+        try {
+            (new \App\Http\Controllers\AffiliateController)->processAffiliatePoints($order);
+        } catch (\Exception $e) {
+            \Log::error("Affiliate processing failed: " . $e->getMessage());
+        }
+
         $order->commission_calculated = 1;
         $order->save();
     }
@@ -2483,6 +2490,39 @@ if (!function_exists('get_non_viewed_conversations')) {
     {
         $Conversation_query = Conversation::query();
         return $Conversation_query->where('sender_id', Auth::user()->id)->where('sender_viewed', 0)->get();
+    }
+}
+
+// get affiliate option status
+if (!function_exists('get_affliate_option_status')) {
+    function get_affliate_option_status($status = false)
+    {
+        if (
+            \App\Models\AffiliateOption::where('type', 'product_sharing')->first()->status ||
+            \App\Models\AffiliateOption::where('type', 'category_wise_affiliate')->first()->status
+        ) {
+            $status = true;
+        }
+        return $status;
+    }
+}
+
+// get affiliate option purchase status
+if (!function_exists('get_affliate_purchase_option_status')) {
+    function get_affliate_purchase_option_status($status = false)
+    {
+        if (\App\Models\AffiliateOption::where('type', 'user_registration_first_purchase')->first()->status) {
+            $status = true;
+        }
+        return $status;
+    }
+}
+
+// get affiliate config
+if (!function_exists('get_Affiliate_onfig_value')) {
+    function get_Affiliate_onfig_value()
+    {
+        return \App\Models\AffiliateConfig::where('type', 'verification_form')->first()->value;
     }
 }
 

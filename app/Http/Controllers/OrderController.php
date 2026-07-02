@@ -307,8 +307,17 @@ class OrderController extends Controller
                 $order_detail->quantity = $cartItem['quantity'];
 
                 $order_detail->earn_point = $product->earn_point;
+                $order_detail->product_referral_code = $cartItem['product_referral_code'] ?? null;
 
                 $order_detail->save();
+
+                if ($order_detail->product_referral_code) {
+                    $referred_by_user = User::where('referral_code', $order_detail->product_referral_code)->first();
+                    if ($referred_by_user) {
+                        $affiliateController = new \App\Http\Controllers\AffiliateController;
+                        $affiliateController->processAffiliateStats($referred_by_user->id, 0, $order_detail->quantity, 0, 0);
+                    }
+                }
 
                 $product->num_of_sale += $cartItem['quantity'];
                 $product->save();
@@ -695,7 +704,6 @@ class OrderController extends Controller
                 } catch (\Exception $e) {
                 }
             }
-        }
     
         return 1;
     }

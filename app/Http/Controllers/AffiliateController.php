@@ -114,6 +114,13 @@ class AffiliateController extends Controller
         $affiliate_payment->payment_details = $request->payment_details;
         $affiliate_payment->save();
 
+        $affiliate_user = AffiliateUser::findOrFail($request->affiliate_user_id);
+        $user = $affiliate_user->user;
+        if ($user) {
+            $user->balance -= $request->amount;
+            $user->save();
+        }
+
         flash(translate('Payment has been made successfully'))->success();
         return back();
     }
@@ -155,6 +162,12 @@ class AffiliateController extends Controller
         $affiliate_payment->payment_method = $request->payment_method;
         $affiliate_payment->payment_details = $request->payment_details;
         $affiliate_payment->save();
+
+        $user = $affiliate_withdraw_request->user;
+        if ($user) {
+            $user->balance -= $affiliate_withdraw_request->amount;
+            $user->save();
+        }
 
         flash(translate('Withdraw request has been paid successfully'))->success();
         return back();
@@ -254,8 +267,14 @@ class AffiliateController extends Controller
 
     public function withdraw_request_store(Request $request)
     {
+        $user = auth()->user();
+        if ($user->balance < $request->amount) {
+            flash(translate('Insufficient balance'))->error();
+            return back();
+        }
+
         $affiliate_withdraw_request = new AffiliateWithdrawRequest;
-        $affiliate_withdraw_request->user_id = auth()->user()->id;
+        $affiliate_withdraw_request->user_id = $user->id;
         $affiliate_withdraw_request->amount = $request->amount;
         $affiliate_withdraw_request->status = 0;
         $affiliate_withdraw_request->save();
@@ -266,9 +285,147 @@ class AffiliateController extends Controller
 
     public function processAffiliateStats($userId, $type, $quantity, $noOfDelivered, $noOfCanceled)
     {
+        $affiliate_stats = AffiliateStats::firstOrNew(['user_id' => $userId]);
+        
+        if ($type == 1) {
+            $affiliate_stats->no_of_click += 1;
+        } elseif ($type == 0) {
+            $affiliate_stats->no_of_item_sold += $quantity;
+            $affiliate_stats->no_of_delivered += $noOfDelivered;
+            $affiliate_stats->no_of_canceled += $noOfCanceled;
+        }
+
+        $affiliate_stats->save();
     }
 
     public function processAffiliatePoints($order)
     {
+        $buyer = $order->user;
+        if (!$buyer) {
+            return;
+        }
+
+        // 1. User Registration First Purchase Commission
+        $first_purchase_option = AffiliateOption::where('type', 'user_registration_first_purchase')->first();
+        if ($first_purchase_option && $first_purchase_option->status == 1) {
+            // Check if this is the buyer's first paid order
+            $paid_orders_count = Order::where('user_id', $buyer->id)
+                ->where('payment_status', 'paid')
+                ->count();
+
+            if ($paid_orders_count <= 1 && $buyer->referred_by) {
+                $referrer = User::find($buyer->referred_by);
+                if ($referrer) {
+                    $referrer_affiliate = AffiliateUser::where('user_id', $referrer->id)->where('status', 1)->first();
+                    if ($referrer_affiliate) {
+                        // Check if commission is already awarded for user registration first purchase
+                        $already_logged = AffiliateLog::where('user_id', $referrer->id)
+                            ->where('order_id', $order->id)
+                            ->where('log_type', 2) // 2 = Registration First Purchase
+                            ->exists();
+
+                        if (!$already_logged) {
+                            $details = json_decode($first_purchase_option->details, true) ?? [];
+                            $commission_rate = doubleval($details['commission_rate'] ?? 0);
+                            $commission_type = $details['commission_type'] ?? 'percent';
+
+                            if ($commission_type == 'percent') {
+                                $commission = ($order->grand_total) * $commission_rate / 100;
+                            } else {
+                                $commission = $commission_rate;
+                            }
+
+                            if ($commission > 0) {
+                                // Create Affiliate Log
+                                $log = new AffiliateLog;
+                                $log->user_id = $referrer->id;
+                                $log->order_id = $order->id;
+                                $log->referral_amount = $commission;
+                                $log->log_type = 2; // Registration First Purchase
+                                $log->save();
+
+                                // Update referrer balance
+                                $referrer->balance += $commission;
+                                $referrer->save();
+
+                                // Update referrer stats
+                                $stats = AffiliateStats::firstOrNew(['user_id' => $referrer->id]);
+                                $stats->total_amount += $commission;
+                                $stats->save();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // 2. Product Sharing / Category Wise Affiliate Commission
+        $category_wise_option = AffiliateOption::where('type', 'category_wise_affiliate')->first();
+        $product_sharing_option = AffiliateOption::where('type', 'product_sharing')->first();
+
+        foreach ($order->orderDetails as $order_detail) {
+            if ($order_detail->product_referral_code) {
+                $referrer = User::where('referral_code', $order_detail->product_referral_code)->first();
+                if ($referrer && $referrer->id != $buyer->id) {
+                    $referrer_affiliate = AffiliateUser::where('user_id', $referrer->id)->where('status', 1)->first();
+                    if ($referrer_affiliate) {
+                        // Check if commission is already awarded for this detail
+                        $already_logged = AffiliateLog::where('user_id', $referrer->id)
+                            ->where('order_detail_id', $order_detail->id)
+                            ->whereIn('log_type', [0, 1])
+                            ->exists();
+
+                        if (!$already_logged) {
+                            $commission = 0;
+                            $calculated = false;
+
+                            // 2a. Category Wise Commission check
+                            if ($category_wise_option && $category_wise_option->status == 1) {
+                                $details = json_decode($category_wise_option->details, true) ?? [];
+                                $product = $order_detail->product;
+                                if ($product && isset($details[$product->category_id])) {
+                                    $rate = doubleval($details[$product->category_id]);
+                                    $commission = ($order_detail->price - $order_detail->coupon_discount) * $rate / 100;
+                                    $calculated = true;
+                                }
+                            }
+
+                            // 2b. Product Sharing Commission check
+                            if (!$calculated && $product_sharing_option && $product_sharing_option->status == 1) {
+                                $details = json_decode($product_sharing_option->details, true) ?? [];
+                                $rate = doubleval($details['commission_rate'] ?? 0);
+                                $commission_type = $details['commission_type'] ?? 'percent';
+
+                                if ($commission_type == 'percent') {
+                                    $commission = ($order_detail->price - $order_detail->coupon_discount) * $rate / 100;
+                                } else {
+                                    $commission = $rate * $order_detail->quantity;
+                                }
+                            }
+
+                            if ($commission > 0) {
+                                // Create Affiliate Log
+                                $log = new AffiliateLog;
+                                $log->user_id = $referrer->id;
+                                $log->order_id = $order->id;
+                                $log->order_detail_id = $order_detail->id;
+                                $log->referral_amount = $commission;
+                                $log->log_type = 0; // 0 = Sale
+                                $log->save();
+
+                                // Update referrer balance
+                                $referrer->balance += $commission;
+                                $referrer->save();
+
+                                // Update referrer stats
+                                $stats = AffiliateStats::firstOrNew(['user_id' => $referrer->id]);
+                                $stats->total_amount += $commission;
+                                $stats->save();
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
