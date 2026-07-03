@@ -278,6 +278,18 @@ Route::group(['prefix' => 'v2', 'middleware' => ['app_language']], function () {
     // Public for React home page (no login/System-Key required)
     Route::get('categories/home', 'App\Http\Controllers\Api\V2\CategoryController@home')
         ->withoutMiddleware([EnsureSystemKey::class]);
+
+    // React home sections — public wrappers around categories/home + products/category/{slug}
+    Route::controller('App\Http\Controllers\Api\V2\ReactHomeController')
+        ->prefix('home')
+        ->withoutMiddleware([EnsureSystemKey::class])
+        ->group(function () {
+            Route::get('trending-men', 'trendingMen');
+            Route::get('trending-women', 'trendingWomen');
+            Route::get('decor', 'decor');
+            Route::get('footwear', 'footwear');
+            Route::get('hero-categories', 'heroCategories');
+        });
     Route::get('categories/top', 'App\Http\Controllers\Api\V2\CategoryController@top');
     Route::apiResource('categories', 'App\Http\Controllers\Api\V2\CategoryController')->only('index');
     Route::get('sub-categories/{id}', 'App\Http\Controllers\Api\V2\SubCategoryController@index')->name('subCategories.index');
