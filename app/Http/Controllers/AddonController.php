@@ -64,14 +64,7 @@ class AddonController extends Controller
         if (class_exists('ZipArchive')) {
             if ($request->hasFile('addon_zip')) {
                 
-                if (! self::isLocalhostDomain()) {
-                    $result = self::check_activation($request);
 
-                    if(isset($result) && $result !== true){
-                        flash($result == false ? 'Please use the same purchase key that you have registered' : $result )->warning();
-                        return back();
-                    }
-                }
 
                 // Create update directory.
                 $dir = 'addons';
