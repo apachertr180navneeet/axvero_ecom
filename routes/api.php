@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Middleware\EnsureSystemKey;
 use App\Http\Controllers\ShiprocketController as AdminShiprocketController;
+use App\Http\Controllers\Api\V2\FrontendAuthController;
+use App\Http\Controllers\Api\V2\FrontendHomeController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -25,26 +27,24 @@ Route::withoutMiddleware([
 
 Route::group(['prefix' => 'v2/auth', 'middleware' => ['app_language']], function () {
 
-    Route::post('info', [AuthController::class, 'getUserInfoByAccessToken']);
-    Route::controller(AuthController::class)->group(function () {
-        Route::post('login', 'login');
-        Route::post('signup', 'signup');
-        Route::post('social-login', 'socialLogin');
-    });
-
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::controller(AuthController::class)->group(function () {
+    // Frontend auth — no System-Key required (Bearer token validated directly)
+    Route::withoutMiddleware([EnsureSystemKey::class])
+        ->controller(FrontendAuthController::class)
+        ->group(function () {
+            Route::post('login', 'login');
+            Route::post('signup', 'signup');
+            Route::post('password/forget_request', 'forgetRequest');
+            Route::post('password/confirm_reset', 'confirmReset');
+            Route::post('password/resend_code', 'resendCode');
+            Route::post('info', 'authInfo');
             Route::get('logout', 'logout');
             Route::get('user', 'user');
-            Route::get('account-deletion', 'account_deletion');
-            Route::get('resend_code', 'resendCode');
-            Route::post('confirm_code', 'confirmCode');
+            Route::get('resend_code', 'resendVerificationCode');
+            Route::post('confirm_code', 'confirmVerificationCode');
         });
-    });
-    Route::controller(PasswordResetController::class)->group(function () {
-        Route::post('password/forget_request', 'forgetRequest');
-        Route::post('password/confirm_reset', 'confirmReset');
-        Route::post('password/resend_code', 'resendCode');
+
+    Route::controller(AuthController::class)->group(function () {
+        Route::post('social-login', 'socialLogin');
     });
 });
 
@@ -279,8 +279,8 @@ Route::group(['prefix' => 'v2', 'middleware' => ['app_language']], function () {
     Route::get('categories/home', 'App\Http\Controllers\Api\V2\CategoryController@home')
         ->withoutMiddleware([EnsureSystemKey::class]);
 
-    // React home sections — public wrappers around categories/home + products/category/{slug}
-    Route::controller('App\Http\Controllers\Api\V2\ReactHomeController')
+    // Frontend home sections — public wrappers around categories/home + products/category/{slug}
+    Route::controller(FrontendHomeController::class)
         ->prefix('home')
         ->withoutMiddleware([EnsureSystemKey::class])
         ->group(function () {

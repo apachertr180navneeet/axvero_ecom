@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\V2;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
-class ReactHomeController extends Controller
+class FrontendHomeController extends Controller
 {
     /**
      * 1. Trending Now – Men
@@ -68,7 +68,7 @@ class ReactHomeController extends Controller
 
     protected function resolveSectionSlug(string $section): ?string
     {
-        $config = config("react_home.sections.{$section}");
+        $config = config("frontend_home.sections.{$section}");
 
         if (!$config) {
             return null;
