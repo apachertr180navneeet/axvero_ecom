@@ -713,7 +713,6 @@
                                 <span class="aiz-side-nav-text">{{ translate('Coupon') }}</span>
                             </a>
                         </li>
-                        @endif
 
                         
                         <li class="aiz-side-nav-item">
@@ -1385,7 +1384,6 @@
                                     
                             </ul>
                         </li>
-                        @endif
                     </ul>
                 </li>
                 
