@@ -657,13 +657,24 @@ class SearchController extends Controller
 
         $shops = Shop::whereIn('user_id', verified_sellers_id())->where('name', 'like', '%' . $query . '%')->get()->take(3);
 
+        if (addon_is_activated('preorder')) {
+            $preorder_products =  PreorderProduct::where('is_published', 1)
+                ->where(function ($queryBuilder) use ($query) {
+                    $queryBuilder->where('product_name', 'like', '%' . $query . '%')
+                        ->orWhere('tags', 'like', '%' . $query . '%');
+                })
+                ->where(function ($query) {
+                    $query->whereHas('user', function ($q) {
+                        $q->where('user_type', 'admin');
+                    })->orWhereHas('user.shop', function ($q) {
                         $q->where('verification_status', 1);
                     });
                 })
                 ->limit(3)
                 ->get();
+        }
 
-        if (sizeof($keywords) > 0 || sizeof($categories) > 0 || sizeof($products) > 0 || sizeof($shops) > 0  || sizeof($preorder_products) > 0) {
+        if (sizeof($keywords) > 0 || sizeof($categories) > 0 || sizeof($products) > 0 || sizeof($shops) > 0  || ($preorder_products != null && sizeof($preorder_products) > 0)) {
             return view('frontend.partials.search_content', compact('products', 'categories', 'keywords', 'shops', 'preorder_products'));
         }
         return '0';

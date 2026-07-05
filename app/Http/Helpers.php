@@ -2436,6 +2436,9 @@ if (!function_exists('get_user_total_club_point')) {
 if (!function_exists('get_all_manual_payment_methods')) {
     function get_all_manual_payment_methods()
     {
+        if (!\Illuminate\Support\Facades\Schema::hasTable('manual_payment_methods')) {
+            return collect();
+        }
         $manual_payment_methods_query = ManualPaymentMethod::query();
         return $manual_payment_methods_query->get();
     }
