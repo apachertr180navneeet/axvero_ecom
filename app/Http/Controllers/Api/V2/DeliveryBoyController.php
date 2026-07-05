@@ -325,13 +325,12 @@ class DeliveryBoyController extends Controller
         $order->save();
         $delivery_history->save();
 
-        if (SmsTemplate::where('identifier','delivery_status_change')->first()->status == 1){
-            try {
+        try {
+            $sms_template = SmsTemplate::where('identifier','delivery_status_change')->first();
+            if ($sms_template != null && $sms_template->status == 1){
                 SmsUtility::delivery_status_change($order->user->phone, $order);
-            } catch (\Exception $e) {
-
             }
-        }
+        } catch (\Exception $e) {}
 
         return response()->json([
             'result' => true,

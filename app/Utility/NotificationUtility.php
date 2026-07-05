@@ -45,13 +45,14 @@ class NotificationUtility
             }   
         }
 
-        if (SmsTemplate::where('identifier', 'order_placement')->first()->status == 1) {
-            try {
+        try {
+            $sms_template = SmsTemplate::where('identifier', 'order_placement')->first();
+            if ($sms_template != null && $sms_template->status == 1) {
                 $otpController = new OTPVerificationController;
                 $otpController->send_order_code($order);
-            } catch (\Exception $e) {
-
             }
+        } catch (\Exception $e) {
+
         }
 
         //sends Notifications to user

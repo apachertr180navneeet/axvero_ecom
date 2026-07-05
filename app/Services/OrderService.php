@@ -70,12 +70,12 @@ class OrderService{
             }
         }
 
-        if (SmsTemplate::where('identifier', 'delivery_status_change')->first()->status == 1) {
-            try {
+        try {
+            $sms_template = SmsTemplate::where('identifier', 'delivery_status_change')->first();
+            if ($sms_template != null && $sms_template->status == 1) {
                 SmsUtility::delivery_status_change(json_decode($order->shipping_address)->phone, $order);
-            } catch (\Exception $e) {
-
             }
+        } catch (\Exception $e) {
         }
 
         //sends Notifications to user
@@ -148,12 +148,12 @@ class OrderService{
         }
 
 
-        if (SmsTemplate::where('identifier', 'payment_status_change')->first()->status == 1) {
-            try {
+        try {
+            $sms_template = SmsTemplate::where('identifier', 'payment_status_change')->first();
+            if ($sms_template != null && $sms_template->status == 1) {
                 SmsUtility::payment_status_change(json_decode($order->shipping_address)->phone, $order);
-            } catch (\Exception $e) {
-
             }
+        } catch (\Exception $e) {
         }
         return 1;
     

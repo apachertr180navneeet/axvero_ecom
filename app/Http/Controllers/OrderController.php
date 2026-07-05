@@ -580,11 +580,12 @@ class OrderController extends Controller
         }
     
         // Delivery Status change SMS notification
-        if (SmsTemplate::where('identifier', 'delivery_status_change')->first()->status == 1) {
-            try {
+        try {
+            $sms_template = SmsTemplate::where('identifier', 'delivery_status_change')->first();
+            if ($sms_template != null && $sms_template->status == 1) {
                 SmsUtility::delivery_status_change(json_decode($order->shipping_address)->phone, $order);
-            } catch (\Exception $e) {}
-        }
+            }
+        } catch (\Exception $e) {}
     
         //Send web Notifications to user
         NotificationUtility::sendNotification($order, $request->status);
@@ -677,12 +678,12 @@ class OrderController extends Controller
         }
 
 
-        if (SmsTemplate::where('identifier', 'payment_status_change')->first()->status == 1) {
-            try {
+        try {
+            $sms_template = SmsTemplate::where('identifier', 'payment_status_change')->first();
+            if ($sms_template != null && $sms_template->status == 1) {
                 SmsUtility::payment_status_change(json_decode($order->shipping_address)->phone, $order);
-            } catch (\Exception $e) {
             }
-        }
+        } catch (\Exception $e) {}
         return 1;
     }
 
@@ -720,12 +721,12 @@ class OrderController extends Controller
                 }
             }
 
-            if (SmsTemplate::where('identifier', 'assign_delivery_boy')->first()->status == 1) {
-                try {
+            try {
+                $sms_template = SmsTemplate::where('identifier', 'assign_delivery_boy')->first();
+                if ($sms_template != null && $sms_template->status == 1) {
                     SmsUtility::assign_delivery_boy($order->delivery_boy->phone, $order->code);
-                } catch (\Exception $e) {
                 }
-            }
+            } catch (\Exception $e) {}
     
         return 1;
     }

@@ -208,13 +208,17 @@ class ShopController extends Controller
             }
         }
         else {
-                $sms_template   = SmsTemplate::where('identifier', 'phone_number_verification')->first();
-                $sms_body       = $sms_template->sms_body;
-                $sms_body       = str_replace('[[code]]', $verificationCode, $sms_body);
-                $sms_body       = str_replace('[[site_name]]', env('APP_NAME'), $sms_body);
-                $template_id    = $sms_template->template_id;
-                
-                (new SendSmsService())->sendSMS($phone, env('APP_NAME'), $sms_body, $template_id);
+                try {
+                    $sms_template = SmsTemplate::where('identifier', 'phone_number_verification')->first();
+                    if ($sms_template) {
+                        $sms_body       = $sms_template->sms_body;
+                        $sms_body       = str_replace('[[code]]', $verificationCode, $sms_body);
+                        $sms_body       = str_replace('[[site_name]]', env('APP_NAME'), $sms_body);
+                        $template_id    = $sms_template->template_id;
+                        
+                        (new SendSmsService())->sendSMS($phone, env('APP_NAME'), $sms_body, $template_id);
+                    }
+                } catch (\Exception $e) {}
             }
 
         if($success){
