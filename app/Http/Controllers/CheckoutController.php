@@ -737,7 +737,11 @@ class CheckoutController extends Controller
 
     public function order_confirmed()
     {
-        $combined_order = CombinedOrder::findOrFail(Session::get('combined_order_id'));
+        $combined_order = CombinedOrder::find(Session::get('combined_order_id'));
+
+        if (!$combined_order) {
+            return redirect()->route('home');
+        }
 
         // Cart::where('user_id', $combined_order->user_id)
         //     ->delete();

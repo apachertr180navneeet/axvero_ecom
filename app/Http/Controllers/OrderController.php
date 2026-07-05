@@ -306,7 +306,7 @@ class OrderController extends Controller
                 //End of storing shipping cost
                 $order_detail->quantity = $cartItem['quantity'];
 
-                $order_detail->earn_point = $product->earn_point;
+                $order_detail->earn_point = $product->earn_point ?? 0;
                 $order_detail->product_referral_code = $cartItem['product_referral_code'] ?? null;
 
                 $order_detail->save();

@@ -138,7 +138,7 @@ class OrderController extends Controller
                 $shipping += $order_detail->shipping_cost;
 
                 //End of storing shipping cost
-                $order_detail->earn_point = $product->earn_point;
+                $order_detail->earn_point = $product->earn_point ?? 0;
 
                 $order_detail->quantity = $cartItem['quantity'];
                 $order_detail->save();
