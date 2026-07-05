@@ -22,20 +22,20 @@
         </div>
     </section>
     <!-- All Brands -->
-    <section class="mb-4">
+    <section class="mb-5">
         <div class="container">
-            <div class="bg-white px-3 pt-3">
-                <div class="row row-cols-xxl-6 row-cols-xl-6 row-cols-lg-4 row-cols-md-4 row-cols-3 gutters-16 border-top border-left">
-                    @foreach ($brands as $brand)
-                        <div class="col text-center border-right border-bottom hov-scale-img has-transition hov-shadow-out z-1">
-                            <a href="{{ route('products.brand', $brand->slug) }}" class="d-block p-sm-3">
-                                <img src="{{ uploaded_asset($brand->logo) }}" class="lazyload h-md-100px mx-auto has-transition p-2 p-sm-4 mw-100"
+            <div class="row row-cols-xxl-6 row-cols-xl-6 row-cols-lg-4 row-cols-md-4 row-cols-3 g-4">
+                @foreach ($brands as $brand)
+                    <div class="col text-center mb-4">
+                        <a href="{{ route('products.brand', $brand->slug) }}" class="d-block p-4 card border-0 shadow-sm rounded-lg h-100 hov-shadow-lg has-transition" style="transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                            <div class="d-flex align-items-center justify-content-center h-md-100px mb-3">
+                                <img src="{{ uploaded_asset($brand->logo) }}" class="lazyload mw-100 max-h-100" style="object-fit: contain;"
                                     alt="{{ $brand->getTranslation('name') }}">
-                                <p class="text-center text-dark fs-14 fw-700 mt-2">{{ $brand->getTranslation('name') }}</p>
-                            </a>
-                        </div>
-                    @endforeach
-                </div>
+                            </div>
+                            <p class="text-center text-dark fs-15 fw-700 m-0">{{ $brand->getTranslation('name') }}</p>
+                        </a>
+                    </div>
+                @endforeach
             </div>
         </div>
     </section>

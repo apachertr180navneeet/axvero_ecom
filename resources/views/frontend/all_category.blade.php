@@ -27,23 +27,23 @@
     <section class="mb-5 pb-3">
         <div class="container">
             @foreach ($categories as $key => $category)
-                <div class="mb-4 bg-white rounded-0 border">
+                <div class="card border-0 shadow-sm rounded-lg mb-4 overflow-hidden">
                     <!-- Category Name -->
-                    <a href="{{ route('products.category', $category->slug) }}" class="text-dark p-4 d-flex align-items-center">
-                        <div class="size-60px overflow-hidden p-1 border mr-3">
-                            <img src="{{ uploaded_asset($category->banner) }}" alt="" class="img-fit h-100">
+                    <a href="{{ route('products.category', $category->slug) }}" class="bg-light p-4 d-flex align-items-center hov-bg-primary hov-text-white" style="transition: all 0.3s;">
+                        <div class="size-60px overflow-hidden rounded-circle shadow-sm bg-white p-2 border-0 mr-4">
+                            <img src="{{ uploaded_asset($category->banner) }}" alt="" class="img-fit h-100 w-100 object-fit-cover">
                         </div>
-                        <div class="text-reset fs-16 fs-md-20 fw-700 hov-text-primary">
+                        <div class="text-dark fs-18 fw-700 m-0">
                             {{ $category->getTranslation('name') }}
                         </div>
                     </a>
-                    <div class="px-4 py-2">
+                    <div class="p-4 bg-white">
                         <div class="row row-cols-xl-5 row-cols-md-3 row-cols-sm-2 row-cols-1 gutters-16">
                             @foreach ($category->childrenCategories as $key => $child_category)
-                                <div class="col text-left mb-3">
+                                <div class="col text-left mb-4">
                                     <!-- Sub Category Name -->
-                                    <h6 class="text-dark mb-3 d-flex justify-content-between align-items-center">
-                                        <a class="text-reset fw-700 fs-14 hov-text-primary"
+                                    <h6 class="text-dark mb-3 d-flex justify-content-between align-items-center border-bottom pb-2">
+                                        <a class="text-reset fw-700 fs-15 hov-text-primary"
                                            href="{{ route('products.category', $child_category->slug) }}">
                                             {{ $child_category->getTranslation('name') }}
                                         </a>
@@ -51,11 +51,11 @@
                                         @if ($child_category->childrenCategories->count())
                                             <button
                                                 type="button"
-                                                class="toggle-second btn btn-link p-0 ml-2"
+                                                class="toggle-second btn btn-light btn-sm rounded-circle p-0 ml-2 d-flex align-items-center justify-content-center"
                                                 data-target="second-{{ $child_category->id }}"
-                                                style="font-size:18px;font-weight:bold;text-decoration:none;"
+                                                style="width: 24px; height: 24px; text-decoration:none;"
                                             >
-                                                +
+                                                <i class="las la-plus fs-14"></i>
                                             </button>
                                         @endif
                                     </h6>
@@ -64,11 +64,11 @@
                                     <!-- Sub-sub Categories -->
                                     <ul
                                         id="second-{{ $child_category->id }}"
-                                        class="mb-2 list-unstyled d-none"
+                                        class="mb-2 list-unstyled d-none pl-2" style="border-left: 2px solid #f1f1f1;"
                                     >
                                         @foreach ($child_category->childrenCategories as $second_level_category)
-                                            <li class="text-dark mb-2">
-                                                <a class="text-reset fw-400 fs-14 hov-text-primary animate-underline-primary"
+                                            <li class="text-muted mb-2">
+                                                <a class="text-reset fw-500 fs-14 hov-text-primary animate-underline-primary"
                                                    href="{{ route('products.category', $second_level_category->slug) }}">
                                                     {{ $second_level_category->getTranslation('name') }}
                                                 </a>
@@ -78,14 +78,13 @@
 
                                     @if ($child_category->childrenCategories->count() > 5)
                                         <a href="javascript:void(1)"
-                                            class="show-hide-cetegoty text-primary hov-text-primary fs-12 fw-700">{{ translate('More') }}
+                                            class="show-hide-cetegoty text-primary hov-text-primary fs-13 fw-600 mt-2 d-inline-block">{{ translate('View More') }}
                                             <i class="las la-angle-down"></i></a>
                                     @endif
                                 </div>
                             @endforeach
                         </div>
                     </div>
-
                 </div>
             @endforeach
         </div>

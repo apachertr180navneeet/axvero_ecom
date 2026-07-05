@@ -544,7 +544,7 @@
 
                         <!-- Products -->
                         <div class="px-3">
-                            <div class="row g-3 row-cols-xxl-4 row-cols-xl-3 row-cols-lg-4 row-cols-md-3 row-cols-2 border-right border-bottom"
+                            <div class="row g-3 row-cols-xxl-4 row-cols-xl-3 row-cols-lg-4 row-cols-md-3 row-cols-2"
                                 id="products-row">
                                 {{-- @foreach ($products as $key => $product)
                                     <div class="col border-right border-bottom has-transition hov-shadow-out z-1 ">

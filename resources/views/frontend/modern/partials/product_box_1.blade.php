@@ -5,7 +5,7 @@
         $cart_added = $carts->pluck('product_id')->toArray();
     }
 @endphp
-<div class="card border-0 shadow-sm rounded-lg overflow-hidden h-100 position-relative category-tile" style="transition: transform 0.3s ease, box-shadow 0.3s ease;">
+<div class="card border-0 shadow-sm rounded-lg overflow-hidden h-100 position-relative category-tile bg-white" style="transition: transform 0.3s ease, box-shadow 0.3s ease;">
     <!-- Image Section -->
     <div class="position-relative img-fit overflow-hidden" style="height: 250px;">
         @php
@@ -34,15 +34,6 @@
                     {{ translate('Wholesale') }}
                 </span>
             @endif
-            @php $customLabels = get_custom_labels($product->custom_label_id); @endphp
-            @if ($customLabels)
-                @foreach ($customLabels as $customLabel)
-                    <span class="badge rounded-pill px-2 py-1 shadow-sm fs-12 fw-bold"
-                        style="background-color:{{ $customLabel->background_color }}; color:{{ $customLabel->text_color }};">
-                        {{ $customLabel->text }}
-                    </span>
-                @endforeach
-            @endif
         </div>
 
         <!-- Action Icons (Hover) -->
@@ -62,35 +53,9 @@
         <!-- Add to Cart (Bottom of Image) -->
         @if ($product->auction_product == 0)
             <div class="position-absolute w-100" style="bottom: 0; left: 0;">
-                @php
-                    $colors = is_string($product->colors) ? json_decode($product->colors, true) : $product->colors;
-                    $attributes = is_string($product->attributes) ? json_decode($product->attributes, true) : $product->attributes;
-                @endphp
-
-                @if ( (is_array($colors) && count($colors) > 0) || (is_array($attributes) && count($attributes) > 0) )
-                    <button class="btn btn-dark w-100 rounded-0 fw-bold py-2 @if (in_array($product->id, $cart_added)) active @endif"
-                        onclick="showAddToCartModal({{ $product->id }})" style="opacity: 0.9;">
-                        <i class="las la-sliders-h mr-1"></i> {{ translate('Select Option') }}
-                    </button>
-                @else
-                    <button class="btn btn-dark w-100 rounded-0 fw-bold py-2 @if (in_array($product->id, $cart_added)) active @endif"
-                        @if (Auth::check() || get_Setting('guest_checkout_activation') == 1) onclick="addToCartSingleProduct({{ $product->id }})" @else onclick="showLoginModal()" @endif style="opacity: 0.9;">
-                        <i class="las la-shopping-cart mr-1"></i> {{ translate('Add to Cart') }}
-                    </button>
-                @endif
-            </div>
-        @endif
-
-        @if ($product->auction_product == 1 && $product->auction_start_date <= strtotime('now') && $product->auction_end_date >= strtotime('now'))
-            @php
-                $highest_bid = $product->bids->max('amount');
-                $min_bid_amount = $highest_bid != null ? $highest_bid + 1 : $product->starting_bid;
-                $gst_rate = gst_applicable_product_rate($product->id);
-            @endphp
-            <div class="position-absolute w-100" style="bottom: 0; left: 0;">
-                <button class="btn btn-info w-100 rounded-0 fw-bold py-2 @if (in_array($product->id, $cart_added)) active @endif"
-                    onclick="bid_single_modal({{ $product->id }}, {{ $min_bid_amount }}, {{ $gst_rate }})" style="opacity: 0.9;">
-                    <i class="las la-gavel mr-1"></i> {{ translate('Place Bid') }}
+                <button class="btn btn-dark w-100 rounded-0 fw-bold py-2 @if (in_array($product->id, $cart_added)) active @endif"
+                    @if (Auth::check() || get_Setting('guest_checkout_activation') == 1) onclick="addToCartSingleProduct({{ $product->id }})" @else onclick="showLoginModal()" @endif style="opacity: 0.9;">
+                    <i class="las la-shopping-cart mr-1"></i> {{ translate('Add to Cart') }}
                 </button>
             </div>
         @endif
@@ -110,8 +75,6 @@
                     <del class="text-muted fs-13 mr-2">{{ home_base_price($product) }}</del>
                 @endif
                 <span class="text-primary fw-bold fs-16">{{ home_discounted_base_price($product) }}</span>
-            @else
-                <span class="text-primary fw-bold fs-16">{{ single_price($product->starting_bid) }}</span>
             @endif
         </div>
     </div>
@@ -120,7 +83,7 @@
 <style>
     .category-tile:hover {
         transform: translateY(-5px);
-        box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15) !important;
     }
     .object-fit-cover {
         object-fit: cover;
