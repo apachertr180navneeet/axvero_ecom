@@ -2,6 +2,7 @@
 
 @section('content')
 @php $lang = get_system_language()->code; @endphp
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
     /* Global resets */
     .h-250px { height: 250px !important; }
@@ -15,56 +16,58 @@
         background: #ffffff;
         position: relative;
         overflow: hidden;
-        min-height: 650px;
+        min-height: 680px;
     }
     .hero-section::before {
         content: '';
         position: absolute;
         top: 0;
         right: 0;
-        width: 45%;
+        width: 50%;
         height: 100%;
-        background: linear-gradient(135deg, #e3c3b0 0%, #212852 100%);
+        background: linear-gradient(160deg, #d4a88a 0%, #8b6b8e 38%, #2a3560 100%);
         z-index: 0;
     }
     .hero-huge-text {
         position: absolute;
-        top: 50%;
+        top: 48%;
         left: 50%;
         width: 100%;
         text-align: center;
         transform: translate(-50%, -50%);
-        font-size: clamp(50px, 9vw, 160px);
-        font-family: 'Playfair Display', serif;
+        font-size: clamp(56px, 10vw, 168px);
+        font-family: 'Playfair Display', Georgia, serif;
         font-weight: 700;
-        color: #333;
+        color: #2b2b2b;
         z-index: 1;
-        opacity: 0.9;
+        opacity: 0.92;
         white-space: nowrap;
         pointer-events: none;
-        letter-spacing: -2px;
+        letter-spacing: -3px;
+        line-height: 1;
     }
     .hero-text {
-        padding: 5rem 2rem 5rem 0;
-        z-index: 3;
+        padding: 0 2rem 4.5rem 0;
+        z-index: 4;
         position: relative;
-        max-width: 450px;
-        margin-top: 80px;
+        max-width: 420px;
     }
     .hero-subtitle {
         font-size: 13px;
-        color: #777;
-        line-height: 1.8;
-        margin-bottom: 2rem;
+        color: #6b6b6b;
+        line-height: 1.85;
+        margin-bottom: 1.75rem;
     }
     .hero-img {
         position: absolute;
         left: 50%;
         bottom: 0;
         transform: translateX(-50%);
-        height: 95%;
+        height: 92%;
+        max-height: 640px;
         z-index: 2;
         object-fit: contain;
+        pointer-events: none;
     }
     .hero-floating-card {
         background: rgba(255, 255, 255, 0.15);
@@ -117,23 +120,60 @@
         font-size: 16px;
         align-self: flex-end;
     }
-    .hero-floating-card.top-left { 
-        top: 30%; 
-        left: 5%; 
-        background: rgba(0, 0, 0, 0.05); 
-        border: 1px solid rgba(0, 0, 0, 0.1); 
+    .hero-floating-card.top-left {
+        top: 28%;
+        left: 4%;
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid rgba(255, 255, 255, 0.85);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
     }
-    .hero-floating-card.top-left .prod-title, 
+    .hero-floating-card.top-left .prod-title,
     .hero-floating-card.top-left .prod-price { color: #333; }
-    
-    .hero-floating-card.bottom-right { 
-        bottom: 25%; 
-        right: 5%; 
-        background: rgba(255, 255, 255, 0.15); 
-        border: 1px solid rgba(255, 255, 255, 0.2); 
+
+    .hero-floating-card.bottom-right {
+        bottom: 22%;
+        right: 6%;
+        background: linear-gradient(135deg, #4f6fd8 0%, #2f3f8f 100%);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        box-shadow: 0 18px 40px rgba(33, 40, 82, 0.35);
     }
-    .hero-floating-card.bottom-right .prod-title, 
+    .hero-floating-card.bottom-right .prod-title,
     .hero-floating-card.bottom-right .prod-price { color: #fff; }
+    .hero-floating-card.bottom-right .add-btn {
+        background: rgba(255, 255, 255, 0.95);
+        color: #2f3f8f;
+    }
+
+    @media (max-width: 991.98px) {
+        .hero-section {
+            min-height: 520px;
+        }
+        .hero-section::before {
+            width: 100%;
+            opacity: 0.35;
+        }
+        .hero-huge-text {
+            font-size: clamp(42px, 12vw, 72px);
+            top: 42%;
+        }
+        .hero-img {
+            height: 70%;
+            opacity: 0.35;
+        }
+        .hero-floating-card {
+            width: 260px;
+            padding: 10px;
+        }
+        .hero-floating-card.top-left {
+            top: auto;
+            bottom: 120px;
+            left: 12px;
+        }
+        .hero-floating-card.bottom-right {
+            bottom: 24px;
+            right: 12px;
+        }
+    }
 
     /* 2. Category Circles */
     .cat-circle-wrap {
@@ -212,44 +252,148 @@
     /* 4. Latest Edition Card */
     .latest-wrapper {
         position: relative;
-        padding: 60px 0;
+        padding: 70px 0 90px;
+        overflow: hidden;
     }
     .latest-bg-split {
         position: absolute;
         top: 0; left: 0; right: 0; bottom: 0;
         z-index: 0;
     }
-    .latest-bg-top { height: 60%; background: #fff; }
-    .latest-bg-bottom { height: 40%; background: #001f3f; }
-    
-    .latest-card-stack {
+    .latest-bg-top { height: 58%; background: #fff; }
+    .latest-bg-bottom { height: 42%; background: #0c1b33; }
+
+    .latest-stage {
         position: relative;
         z-index: 2;
-        max-width: 800px;
+        max-width: 900px;
         margin: 0 auto;
+        padding: 0 16px;
+    }
+    .latest-stack-card {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        height: 110px;
+        background: #fff;
+        border-radius: 18px;
+        border: 1px solid #ececec;
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.06);
+        pointer-events: none;
+    }
+    .latest-stack-card--back-2 {
+        width: 78%;
+        transform: translateX(-50%) rotate(-7deg);
+        z-index: 1;
+        top: 8px;
+    }
+    .latest-stack-card--back-1 {
+        width: 84%;
+        transform: translateX(-50%) rotate(5deg);
+        z-index: 2;
+        top: 22px;
+    }
+    .latest-main-card {
+        position: relative;
+        z-index: 4;
+        margin-top: 48px;
+        background: #fff;
+        border-radius: 18px;
+        border: 1px solid #e8e8e8;
+        box-shadow: 0 22px 55px rgba(0, 0, 0, 0.1);
+        padding: 28px 32px;
+        text-decoration: none;
+        color: inherit;
+        display: block;
+    }
+    .latest-product-row {
         display: flex;
-        flex-direction: column;
         align-items: center;
+        gap: 28px;
+    }
+    .latest-product-img {
+        flex: 0 0 200px;
         text-align: center;
     }
-    .latest-card-layer-1, .latest-card-layer-2, .latest-card-layer-3 {
-        background: #fff;
-        border-radius: 15px;
-        border: 1px solid #eaeaea;
-        box-shadow: 0 15px 40px rgba(0,0,0,0.05);
+    .latest-product-img img {
+        width: 100%;
+        max-height: 220px;
+        object-fit: contain;
     }
-    .latest-card-layer-1 { width: 85%; height: 50px; position: absolute; top: -10px; z-index: 1; }
-    .latest-card-layer-2 { width: 92%; height: 50px; position: absolute; top: -25px; z-index: 0; }
-    .latest-card-layer-3 { width: 100%; padding: 40px; position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; }
-    .latest-text-huge {
-        font-family: 'Playfair Display', serif;
-        font-size: 6rem;
+    .latest-product-copy {
+        flex: 1;
+        text-align: left;
+    }
+    .latest-product-title {
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: #111;
+        margin-bottom: 8px;
+        line-height: 1.3;
+    }
+    .latest-product-subtitle {
+        font-size: 0.92rem;
+        color: #444;
+        line-height: 1.6;
+        margin-bottom: 18px;
+    }
+    .latest-product-price {
+        font-size: 1.65rem;
         font-weight: 800;
-        color: #001f3f;
+        color: #111;
         line-height: 1;
-        margin-top: -30px;
-        margin-bottom: 20px;
-        text-shadow: 2px 2px 0px white;
+    }
+    .latest-text-huge {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        font-family: 'Public Sans', sans-serif;
+        font-size: clamp(4.5rem, 14vw, 7.5rem);
+        font-weight: 900;
+        color: #0c1b33;
+        letter-spacing: -3px;
+        line-height: 0.85;
+        margin-top: -36px;
+        margin-bottom: 28px;
+        pointer-events: none;
+        user-select: none;
+    }
+    .latest-cta-btn {
+        display: table;
+        margin: 0 auto;
+        background-color: #4fc3f7 !important;
+        border-color: #4fc3f7 !important;
+        color: #fff !important;
+        font-weight: 700;
+        border-radius: 0;
+        padding: 12px 48px;
+        position: relative;
+        z-index: 5;
+        text-decoration: none;
+    }
+    .latest-cta-btn:hover {
+        background-color: #3db8ef !important;
+        border-color: #3db8ef !important;
+        color: #fff !important;
+    }
+
+    @media (max-width: 767.98px) {
+        .latest-product-row {
+            flex-direction: column;
+            text-align: center;
+        }
+        .latest-product-img {
+            flex: 0 0 auto;
+            width: 100%;
+            max-width: 220px;
+        }
+        .latest-product-copy {
+            text-align: center;
+        }
+        .latest-text-huge {
+            margin-top: -20px;
+            font-size: clamp(3rem, 18vw, 4.5rem);
+        }
     }
     
     /* 5. Our Collection */
@@ -324,60 +468,59 @@
 </style>
 
 <!-- 1. Hero Section -->
+@php
+    $hero_img_setting = get_setting('axvero_hero_image', null, $lang);
+    $hero_img = ($hero_img_setting != null && $hero_img_setting != '') ? uploaded_asset($hero_img_setting) : static_asset('assets/img/demo/lady.png');
+    $hero_title = get_setting('axvero_hero_title', null, $lang) ?: 'New Fashion';
+    $hero_subtitle = get_setting('axvero_hero_subtitle', null, $lang) ?: 'Elevate your wardrobe and make a statement with our fashion forward pieces. Step into a realm of endless possibilities and discover the perfect outfit that speaks to your unique style. Get ready to turn heads and exude confidence with every step you take. Your fashion journey starts here.';
+    $hero_btn_text = get_setting('axvero_hero_btn_text', null, $lang) ?: 'SHOP NOW';
+    $hero_btn_link = get_setting('axvero_hero_btn_link', null, $lang) ?: route('search');
+    $latest_hero_products = filter_products(\App\Models\Product::where('published', 1)->orderBy('created_at', 'desc'))->limit(2)->get();
+@endphp
 <div class="container-fluid px-0 mb-5">
     <div class="hero-section">
-        <div class="hero-huge-text">New Fashion</div>
-        
+        <div class="hero-huge-text">{{ $hero_title }}</div>
+
+        <img src="{{ $hero_img }}" class="hero-img d-none d-md-block" alt="Fashion Model" onerror="this.onerror=null;this.src='{{ static_asset('assets/img/demo/lady.png') }}';">
+
         <div class="container h-100 position-relative z-2">
-            <div class="row align-items-center h-100">
-                <div class="col-md-5">
+            <div class="row align-items-end h-100" style="min-height: 680px;">
+                <div class="col-md-5 col-lg-4">
                     <div class="hero-text">
-                        <a href="{{ get_setting('axvero_hero_btn_link', route('search'), $lang) }}" class="btn btn-primary px-4 py-2 rounded-0 shadow-sm fw-600" style="background-color: #293868; border-color: #293868;">SHOP NOW</a>
+                        <p class="hero-subtitle mb-0">{{ $hero_subtitle }}</p>
+                        <a href="{{ $hero_btn_link }}" class="btn btn-primary px-4 py-2 rounded-0 shadow-sm fw-600 mt-4 d-inline-block" style="background-color: #293868; border-color: #293868;">{{ $hero_btn_text }}</a>
                     </div>
-                </div>
-                
-                <div class="col-md-7 position-static h-100 d-none d-md-block">
-                    @php
-                        $hero_img_setting = get_setting('axvero_hero_image', null, $lang);
-                        $hero_img = ($hero_img_setting != null && $hero_img_setting != '') ? uploaded_asset($hero_img_setting) : static_asset('assets/img/demo/lady.png');
-                    @endphp
-                    <img src="{{ $hero_img }}" class="hero-img" alt="Fashion Model" onerror="this.onerror=null;this.src='{{ static_asset('assets/img/demo/lady.png') }}';">
-                    
-                    <!-- Decorative Elements (Latest 2 Products) -->
-                    @php
-                        $latest_hero_products = filter_products(\App\Models\Product::where('published', 1)->orderBy('created_at', 'desc'))->limit(2)->get();
-                    @endphp
-                    
-                    @if(isset($latest_hero_products[0]))
-                    <a href="{{ route('product', $latest_hero_products[0]->slug) }}" class="hero-floating-card top-left text-decoration-none">
-                        <img src="{{ uploaded_asset($latest_hero_products[0]->thumbnail_img) }}" class="prod-img" onerror="this.onerror=null;this.src='{{ static_asset('assets/img/placeholder.jpg') }}';">
-                        <div class="prod-info">
-                            <div class="prod-title">{{ $latest_hero_products[0]->getTranslation('name') }}</div>
-                            <div class="prod-price">{{ home_discounted_base_price($latest_hero_products[0]) }}</div>
-                            <div class="rating-stars" style="color: #999; font-size: 10px;">
-                                <i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i>
-                            </div>
-                        </div>
-                        <div class="add-btn"><i class="las la-plus"></i></div>
-                    </a>
-                    @endif
-                    
-                    @if(isset($latest_hero_products[1]))
-                    <a href="{{ route('product', $latest_hero_products[1]->slug) }}" class="hero-floating-card bottom-right text-decoration-none">
-                        <img src="{{ uploaded_asset($latest_hero_products[1]->thumbnail_img) }}" class="prod-img" onerror="this.onerror=null;this.src='{{ static_asset('assets/img/placeholder.jpg') }}';">
-                        <div class="prod-info">
-                            <div class="prod-title">{{ $latest_hero_products[1]->getTranslation('name') }}</div>
-                            <div class="prod-price">{{ home_discounted_base_price($latest_hero_products[1]) }}</div>
-                            <div class="rating-stars" style="color: #ccc; font-size: 10px;">
-                                <i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i>
-                            </div>
-                        </div>
-                        <div class="add-btn"><i class="las la-plus"></i></div>
-                    </a>
-                    @endif
                 </div>
             </div>
         </div>
+
+        @if(isset($latest_hero_products[0]))
+        <a href="{{ route('product', $latest_hero_products[0]->slug) }}" class="hero-floating-card top-left text-decoration-none d-none d-md-flex">
+            <img src="{{ uploaded_asset($latest_hero_products[0]->thumbnail_img) }}" class="prod-img" onerror="this.onerror=null;this.src='{{ static_asset('assets/img/placeholder.jpg') }}';">
+            <div class="prod-info">
+                <div class="prod-title">{{ $latest_hero_products[0]->getTranslation('name') }}</div>
+                <div class="prod-price">{{ home_discounted_base_price($latest_hero_products[0]) }}</div>
+                <div class="rating-stars" style="color: #999; font-size: 10px;">
+                    <i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i>
+                </div>
+            </div>
+            <div class="add-btn"><i class="las la-plus"></i></div>
+        </a>
+        @endif
+
+        @if(isset($latest_hero_products[1]))
+        <a href="{{ route('product', $latest_hero_products[1]->slug) }}" class="hero-floating-card bottom-right text-decoration-none d-none d-md-flex">
+            <img src="{{ uploaded_asset($latest_hero_products[1]->thumbnail_img) }}" class="prod-img" onerror="this.onerror=null;this.src='{{ static_asset('assets/img/placeholder.jpg') }}';">
+            <div class="prod-info">
+                <div class="prod-title">{{ $latest_hero_products[1]->getTranslation('name') }}</div>
+                <div class="prod-price">{{ home_discounted_base_price($latest_hero_products[1]) }}</div>
+                <div class="rating-stars" style="color: rgba(255,255,255,0.75); font-size: 10px;">
+                    <i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i>
+                </div>
+            </div>
+            <div class="add-btn"><i class="las la-plus"></i></div>
+        </a>
+        @endif
     </div>
 </div>
 
@@ -430,31 +573,60 @@
 </div>
 
 <!-- 4. Latest Edition Card -->
+@php
+    $latest_single_product = filter_products(\App\Models\Product::where('published', 1)->orderBy('created_at', 'desc'))->first();
+    $latest_title = get_setting('axvero_latest_title', null, $lang);
+    $latest_subtitle = get_setting('axvero_latest_subtitle', null, $lang);
+    $latest_price = get_setting('axvero_latest_price', null, $lang);
+    $latest_link = get_setting('axvero_latest_link', null, $lang);
+    $latest_product_image_setting = get_setting('axvero_latest_product_image', null, $lang);
+
+    if ($latest_single_product) {
+        $latest_title = $latest_title ?: $latest_single_product->getTranslation('name');
+        $latest_price = $latest_price ?: home_discounted_base_price($latest_single_product);
+        $latest_link = $latest_link ?: route('product', $latest_single_product->slug);
+        $latest_product_image = $latest_product_image_setting
+            ? uploaded_asset($latest_product_image_setting)
+            : uploaded_asset($latest_single_product->thumbnail_img);
+    } else {
+        $latest_title = $latest_title ?: 'Skyline Tee';
+        $latest_subtitle = $latest_subtitle ?: 'Unwind in style with Lazy Head T-shirts – comfort meets cool.';
+        $latest_price = $latest_price ?: '₹1999';
+        $latest_link = $latest_link ?: route('search');
+        $latest_product_image = $latest_product_image_setting
+            ? uploaded_asset($latest_product_image_setting)
+            : static_asset('assets/img/demo/demo_thumb_fashion.png');
+    }
+
+    if (!$latest_subtitle) {
+        $latest_subtitle = 'Unwind in style with Lazy Head T-shirts – comfort meets cool.';
+    }
+@endphp
 <div class="latest-wrapper mb-5">
     <div class="latest-bg-split">
         <div class="latest-bg-top"></div>
         <div class="latest-bg-bottom"></div>
     </div>
     <div class="container position-relative z-2">
-        <div class="latest-card-stack">
-            <div class="latest-card-layer-2"></div>
-            <div class="latest-card-layer-1"></div>
-            <div class="latest-card-layer-3">
-                @php
-                    $latest_single_product = filter_products(\App\Models\Product::where('published', 1)->orderBy('created_at', 'desc'))->first();
-                @endphp
-                @if($latest_single_product)
-                    <a href="{{ route('product', $latest_single_product->slug) }}" class="d-block">
-                        <img src="{{ uploaded_asset($latest_single_product->thumbnail_img) }}" alt="{{ $latest_single_product->getTranslation('name') }}" style="height: 250px; object-fit: contain; margin-bottom: 30px;" onerror="this.onerror=null;this.src='{{ static_asset('assets/img/placeholder.jpg') }}';">
-                    </a>
-                    <div class="latest-text-huge">LATEST</div>
-                    <a href="{{ route('product', $latest_single_product->slug) }}" class="btn btn-info btn-lg rounded-0 px-5 text-white fw-700 shadow-sm" style="background-color: #4fc3f7; border-color: #4fc3f7;">SHOP NOW</a>
-                @else
-                    <img src="{{ static_asset('assets/img/demo/demo_thumb_fashion.png') }}" alt="Latest Product" style="height: 250px; object-fit: contain; margin-bottom: 30px;">
-                    <div class="latest-text-huge">LATEST</div>
-                    <a href="{{ route('search') }}" class="btn btn-info btn-lg rounded-0 px-5 text-white fw-700 shadow-sm" style="background-color: #4fc3f7; border-color: #4fc3f7;">SHOP NOW</a>
-                @endif
-            </div>
+        <div class="latest-stage">
+            <div class="latest-stack-card latest-stack-card--back-2"></div>
+            <div class="latest-stack-card latest-stack-card--back-1"></div>
+
+            <a href="{{ $latest_link }}" class="latest-main-card">
+                <div class="latest-product-row">
+                    <div class="latest-product-img">
+                        <img src="{{ $latest_product_image }}" alt="{{ $latest_title }}" onerror="this.onerror=null;this.src='{{ static_asset('assets/img/placeholder.jpg') }}';">
+                    </div>
+                    <div class="latest-product-copy">
+                        <div class="latest-product-title">{{ $latest_title }}</div>
+                        <p class="latest-product-subtitle mb-0">{{ $latest_subtitle }}</p>
+                        <div class="latest-product-price">{{ $latest_price }}</div>
+                    </div>
+                </div>
+            </a>
+
+            <div class="latest-text-huge">LATEST</div>
+            <a href="{{ $latest_link }}" class="btn btn-lg latest-cta-btn">SHOP NOW</a>
         </div>
     </div>
 </div>
