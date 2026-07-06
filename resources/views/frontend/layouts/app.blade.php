@@ -76,6 +76,9 @@
     @if(get_setting('homepage_select') == 'thecore')
     <link rel="stylesheet" href="{{ static_asset('assets/css/thecore.css') }}">
     @endif
+    @if(get_setting('homepage_select') == 'axvero_theme')
+    <link rel="stylesheet" href="{{ static_asset('assets/css/axvero-theme.css') }}">
+    @endif
 
     <script>
         var AIZ = AIZ || {};

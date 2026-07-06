@@ -2,6 +2,9 @@
 
 
 <!-- footer Description -->
+@if (get_setting('homepage_select') == 'axvero_theme')
+    @include('frontend.axvero_theme.partials.footer')
+@else
 @if (get_setting('footer_title') != null || get_setting('footer_description') != null)
     <section class="bg-light border-top border-bottom mt-auto">
         <div class="container py-32px">
@@ -543,6 +546,7 @@
         </div>
     </div>
 </footer>
+@endif
 
 <!-- Mobile bottom nav -->
 <div class="aiz-mobile-bottom-nav d-xl-none fixed-bottom border-top border-sm-bottom border-sm-left border-sm-right mx-auto mb-sm-2" style="background-color: rgb(255 255 255 / 90%)!important;">

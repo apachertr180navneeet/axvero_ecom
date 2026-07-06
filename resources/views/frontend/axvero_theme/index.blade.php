@@ -2,7 +2,7 @@
 
 @section('content')
 @php $lang = get_system_language()->code; @endphp
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
     /* Global resets */
     .h-250px { height: 250px !important; }
@@ -11,12 +11,12 @@
     .text-dark-blue { color: #0f172a; }
     .bg-light-peach { background-color: #fdfbfb; }
 
-    /* 1. Hero Section */
+    /* 1. Hero Section — split: white left + peach-to-navy gradient right */
     .hero-section {
         background: #ffffff;
         position: relative;
         overflow: hidden;
-        min-height: 680px;
+        min-height: 720px;
     }
     .hero-section::before {
         content: '';
@@ -25,7 +25,7 @@
         right: 0;
         width: 50%;
         height: 100%;
-        background: linear-gradient(160deg, #d4a88a 0%, #8b6b8e 38%, #2a3560 100%);
+        background: linear-gradient(180deg, #e8c4a8 0%, #d4a88a 12%, #a67f8e 38%, #5a628f 68%, #2a3560 88%, #1a237e 100%);
         z-index: 0;
     }
     .hero-huge-text {
@@ -35,22 +35,22 @@
         width: 100%;
         text-align: center;
         transform: translate(-50%, -50%);
-        font-size: clamp(56px, 10vw, 168px);
+        font-size: clamp(64px, 11vw, 176px);
         font-family: 'Playfair Display', Georgia, serif;
         font-weight: 700;
-        color: #2b2b2b;
+        color: #3a3a3a;
         z-index: 1;
-        opacity: 0.92;
+        opacity: 0.9;
         white-space: nowrap;
         pointer-events: none;
-        letter-spacing: -3px;
+        letter-spacing: -4px;
         line-height: 1;
     }
     .hero-text {
-        padding: 0 2rem 4.5rem 0;
+        padding: 0 1rem 5rem 0;
         z-index: 4;
         position: relative;
-        max-width: 420px;
+        max-width: 400px;
     }
     .hero-subtitle {
         font-size: 13px;
@@ -63,8 +63,8 @@
         left: 50%;
         bottom: 0;
         transform: translateX(-50%);
-        height: 92%;
-        max-height: 640px;
+        height: 94%;
+        max-height: 680px;
         z-index: 2;
         object-fit: contain;
         pointer-events: none;
@@ -121,18 +121,18 @@
         align-self: flex-end;
     }
     .hero-floating-card.top-left {
-        top: 28%;
-        left: 4%;
-        background: rgba(255, 255, 255, 0.72);
-        border: 1px solid rgba(255, 255, 255, 0.85);
+        top: 20%;
+        left: 20%;
+        background: rgba(255, 255, 255, 0.78);
+        border: 1px solid rgba(255, 255, 255, 0.9);
         box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
     }
     .hero-floating-card.top-left .prod-title,
     .hero-floating-card.top-left .prod-price { color: #333; }
 
     .hero-floating-card.bottom-right {
-        bottom: 22%;
-        right: 6%;
+        bottom: 20%;
+        right: 5%;
         background: linear-gradient(135deg, #4f6fd8 0%, #2f3f8f 100%);
         border: 1px solid rgba(255, 255, 255, 0.25);
         box-shadow: 0 18px 40px rgba(33, 40, 82, 0.35);
@@ -146,19 +146,22 @@
 
     @media (max-width: 991.98px) {
         .hero-section {
-            min-height: 520px;
+            min-height: 560px;
+            background: #ffffff;
         }
         .hero-section::before {
             width: 100%;
-            opacity: 0.35;
+            opacity: 0.45;
         }
         .hero-huge-text {
             font-size: clamp(42px, 12vw, 72px);
             top: 42%;
+            left: 50%;
         }
         .hero-img {
-            height: 70%;
-            opacity: 0.35;
+            left: 50%;
+            height: 72%;
+            opacity: 0.9;
         }
         .hero-floating-card {
             width: 260px;
@@ -166,13 +169,18 @@
         }
         .hero-floating-card.top-left {
             top: auto;
-            bottom: 120px;
+            bottom: 130px;
             left: 12px;
         }
         .hero-floating-card.bottom-right {
             bottom: 24px;
             right: 12px;
         }
+    }
+
+    /* Hide left floating action buttons on Axvero homepage */
+    .aiz-axvero_theme .floating-buttons-section {
+        display: none !important;
     }
 
     /* 2. Category Circles */
@@ -250,149 +258,247 @@
     .product-info { padding: 15px; }
 
     /* 4. Latest Edition Card */
-    .latest-wrapper {
+    .latest-banner-deck {
+        padding: 80px 0 100px;
+        background: #ffffff;
+        overflow: visible;
         position: relative;
-        padding: 70px 0 90px;
-        overflow: hidden;
+        font-family: 'Poppins', sans-serif;
     }
-    .latest-bg-split {
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        z-index: 0;
-    }
-    .latest-bg-top { height: 58%; background: #fff; }
-    .latest-bg-bottom { height: 42%; background: #0c1b33; }
-
-    .latest-stage {
+    .deck-stage {
         position: relative;
-        z-index: 2;
-        max-width: 900px;
-        margin: 0 auto;
-        padding: 0 16px;
+        width: 100%;
+        max-width: 680px;
+        padding-bottom: 120px;
     }
-    .latest-stack-card {
+    .deck-container {
+        position: relative;
+        width: 100%;
+        max-width: 680px;
+        aspect-ratio: 3 / 2;
+        height: auto;
+        margin-bottom: 0;
+        z-index: 5;
+        perspective: 1200px;
+        overflow: visible;
+        padding: 0 24px;
+    }
+    .deck-card {
         position: absolute;
-        left: 50%;
         top: 0;
-        height: 110px;
-        background: #fff;
-        border-radius: 18px;
-        border: 1px solid #ececec;
-        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.06);
+        left: 24px;
+        right: 24px;
+        width: calc(100% - 48px);
+        height: 100%;
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.07);
+        border: 1px solid rgba(0, 0, 0, 0.04);
+        transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
+        transform-origin: center 88%;
+    }
+    .deck-card-back {
         pointer-events: none;
+        box-shadow: 0 14px 42px rgba(0, 0, 0, 0.08);
     }
-    .latest-stack-card--back-2 {
-        width: 78%;
-        transform: translateX(-50%) rotate(-7deg);
+    .deck-card-back-1 {
+        transform: rotate(-11deg);
         z-index: 1;
-        top: 8px;
     }
-    .latest-stack-card--back-1 {
-        width: 84%;
-        transform: translateX(-50%) rotate(5deg);
+    .deck-card-back-2 {
+        transform: rotate(9deg);
         z-index: 2;
-        top: 22px;
     }
-    .latest-main-card {
-        position: relative;
-        z-index: 4;
-        margin-top: 48px;
-        background: #fff;
-        border-radius: 18px;
-        border: 1px solid #e8e8e8;
-        box-shadow: 0 22px 55px rgba(0, 0, 0, 0.1);
-        padding: 28px 32px;
-        text-decoration: none;
-        color: inherit;
-        display: block;
+    .deck-card-front {
+        z-index: 3;
+        cursor: pointer;
+        transform: rotate(0deg);
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.09);
     }
-    .latest-product-row {
+    .deck-container:hover .deck-card-back-1 {
+        transform: rotate(-14deg);
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.1);
+    }
+    .deck-container:hover .deck-card-back-2 {
+        transform: rotate(12deg);
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.1);
+    }
+    .deck-container:hover .deck-card-front {
+        transform: translateY(-6px) rotate(0deg);
+        box-shadow: 0 22px 56px rgba(0, 0, 0, 0.11);
+    }
+    .deck-card-front.is-switching {
+        animation: deckCardSwap 0.45s ease;
+    }
+    @keyframes deckCardSwap {
+        0% { opacity: 1; transform: translateY(0) scale(1); }
+        45% { opacity: 0.35; transform: translateY(10px) scale(0.98); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .deck-card-content {
         display: flex;
         align-items: center;
-        gap: 28px;
+        height: 100%;
+        padding: 30px 40px;
+        gap: 30px;
+        color: inherit;
     }
-    .latest-product-img {
-        flex: 0 0 200px;
-        text-align: center;
+    .deck-product-img {
+        flex: 0 0 45%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-    .latest-product-img img {
-        width: 100%;
-        max-height: 220px;
+    .deck-product-img img {
+        max-height: 100%;
+        max-width: 100%;
         object-fit: contain;
+        transition: transform 0.4s ease;
     }
-    .latest-product-copy {
+    .deck-container:hover .deck-product-img img {
+        transform: scale(1.03);
+    }
+    .deck-product-details {
         flex: 1;
-        text-align: left;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
-    .latest-product-title {
-        font-size: 1.35rem;
+    .deck-product-title {
+        font-family: 'Poppins', sans-serif;
+        font-size: 2.2rem;
         font-weight: 700;
-        color: #111;
-        margin-bottom: 8px;
-        line-height: 1.3;
+        color: #000000;
+        margin-bottom: 12px;
+        line-height: 1.2;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
-    .latest-product-subtitle {
-        font-size: 0.92rem;
-        color: #444;
+    .deck-product-desc {
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 400;
+        color: #4a5568;
         line-height: 1.6;
-        margin-bottom: 18px;
+        margin-bottom: 24px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
-    .latest-product-price {
-        font-size: 1.65rem;
-        font-weight: 800;
-        color: #111;
+    .deck-product-price {
+        font-family: 'Poppins', sans-serif;
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #000000;
         line-height: 1;
     }
-    .latest-text-huge {
+    .deck-bottom-wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 8px;
+        position: relative;
+        z-index: 4;
+        pointer-events: none;
+    }
+    .deck-giant-text {
+        font-size: clamp(5rem, 14vw, 9rem);
+        font-weight: 900;
+        color: #053C6B;
+        letter-spacing: -2px;
+        line-height: 0.92;
+        margin: 0 0 18px 0;
+        padding-top: 0;
+        text-transform: uppercase;
+        font-family: 'Poppins', sans-serif;
+        user-select: none;
+        text-align: center;
         position: relative;
         z-index: 1;
-        text-align: center;
-        font-family: 'Public Sans', sans-serif;
-        font-size: clamp(4.5rem, 14vw, 7.5rem);
-        font-weight: 900;
-        color: #0c1b33;
-        letter-spacing: -3px;
-        line-height: 0.85;
-        margin-top: -36px;
-        margin-bottom: 28px;
-        pointer-events: none;
-        user-select: none;
     }
-    .latest-cta-btn {
-        display: table;
-        margin: 0 auto;
-        background-color: #4fc3f7 !important;
-        border-color: #4fc3f7 !important;
-        color: #fff !important;
+    .deck-btn-getnow {
+        background-color: #4ac7f8;
+        color: #000000;
+        border: none;
+        padding: 12px 64px;
+        font-size: 0.95rem;
         font-weight: 700;
-        border-radius: 0;
-        padding: 12px 48px;
+        font-family: 'Poppins', sans-serif;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(74, 199, 248, 0.3);
+        display: inline-block;
         position: relative;
-        z-index: 5;
+        z-index: 6;
+        pointer-events: auto;
+    }
+    .deck-btn-getnow:hover {
+        background-color: #35b0e0;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(74, 199, 248, 0.4);
+        color: #000000;
         text-decoration: none;
     }
-    .latest-cta-btn:hover {
-        background-color: #3db8ef !important;
-        border-color: #3db8ef !important;
-        color: #fff !important;
-    }
-
-    @media (max-width: 767.98px) {
-        .latest-product-row {
-            flex-direction: column;
-            text-align: center;
+    @media (max-width: 768px) {
+        .latest-banner-deck {
+            padding-bottom: 80px;
         }
-        .latest-product-img {
-            flex: 0 0 auto;
-            width: 100%;
-            max-width: 220px;
+        .deck-stage {
+            max-width: 92%;
+            padding-bottom: 90px;
         }
-        .latest-product-copy {
-            text-align: center;
+        .deck-container {
+            max-width: 100%;
+            aspect-ratio: 3 / 2;
+            height: auto;
+            padding: 0 16px;
         }
-        .latest-text-huge {
-            margin-top: -20px;
-            font-size: clamp(3rem, 18vw, 4.5rem);
+        .deck-card {
+            left: 16px;
+            right: 16px;
+            width: calc(100% - 32px);
+        }
+        .deck-container .deck-card-back-1 {
+            transform: rotate(-9deg);
+        }
+        .deck-container .deck-card-back-2 {
+            transform: rotate(7deg);
+        }
+        .deck-card-content {
+            flex-direction: row;
+            padding: 20px 22px;
+            text-align: left;
+            gap: 16px;
+        }
+        .deck-product-img {
+            flex: 0 0 42%;
+            height: 100%;
+            width: auto;
+        }
+        .deck-product-title {
+            font-size: 1.25rem;
+            margin-bottom: 6px;
+            -webkit-line-clamp: 2;
+        }
+        .deck-product-desc {
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            line-height: 1.5;
+            -webkit-line-clamp: 2;
+        }
+        .deck-product-price {
+            font-size: 1.25rem;
+        }
+        .deck-giant-text {
+            font-size: clamp(3.5rem, 18vw, 5rem);
+        }
+        .deck-bottom-wrapper {
+            margin-top: -14px;
         }
     }
     
@@ -484,7 +590,7 @@
         <img src="{{ $hero_img }}" class="hero-img d-none d-md-block" alt="Fashion Model" onerror="this.onerror=null;this.src='{{ static_asset('assets/img/demo/lady.png') }}';">
 
         <div class="container h-100 position-relative z-2">
-            <div class="row align-items-end h-100" style="min-height: 680px;">
+            <div class="row align-items-end h-100" style="min-height: 720px;">
                 <div class="col-md-5 col-lg-4">
                     <div class="hero-text">
                         <p class="hero-subtitle mb-0">{{ $hero_subtitle }}</p>
@@ -574,62 +680,72 @@
 
 <!-- 4. Latest Edition Card -->
 @php
-    $latest_single_product = filter_products(\App\Models\Product::where('published', 1)->orderBy('created_at', 'desc'))->first();
+    $latest_deck_products = filter_products(
+        \App\Models\Product::where('published', 1)->orderBy('created_at', 'desc')
+    )->limit(3)->get();
+
     $latest_title = get_setting('axvero_latest_title', null, $lang);
     $latest_subtitle = get_setting('axvero_latest_subtitle', null, $lang);
     $latest_price = get_setting('axvero_latest_price', null, $lang);
     $latest_link = get_setting('axvero_latest_link', null, $lang);
     $latest_product_image_setting = get_setting('axvero_latest_product_image', null, $lang);
 
-    if ($latest_single_product) {
-        $latest_title = $latest_title ?: $latest_single_product->getTranslation('name');
-        $latest_price = $latest_price ?: home_discounted_base_price($latest_single_product);
-        $latest_link = $latest_link ?: route('product', $latest_single_product->slug);
-        $latest_product_image = $latest_product_image_setting
-            ? uploaded_asset($latest_product_image_setting)
-            : uploaded_asset($latest_single_product->thumbnail_img);
-    } else {
-        $latest_title = $latest_title ?: 'Skyline Tee';
-        $latest_subtitle = $latest_subtitle ?: 'Unwind in style with Lazy Head T-shirts – comfort meets cool.';
-        $latest_price = $latest_price ?: '₹1999';
-        $latest_link = $latest_link ?: route('search');
-        $latest_product_image = $latest_product_image_setting
-            ? uploaded_asset($latest_product_image_setting)
-            : static_asset('assets/img/demo/demo_thumb_fashion.png');
+    $deck_products = [];
+    foreach ($latest_deck_products as $index => $product) {
+        $deck_products[] = [
+            'title' => ($index === 0 && $latest_title) ? $latest_title : $product->getTranslation('name'),
+            'subtitle' => $latest_subtitle ?: 'Unwind in style with Lazy Head T-shirts – comfort meets cool.',
+            'price' => ($index === 0 && $latest_price) ? $latest_price : home_discounted_base_price($product),
+            'link' => ($index === 0 && $latest_link) ? $latest_link : route('product', $product->slug),
+            'image' => ($index === 0 && $latest_product_image_setting)
+                ? uploaded_asset($latest_product_image_setting)
+                : uploaded_asset($product->thumbnail_img),
+        ];
     }
 
-    if (!$latest_subtitle) {
-        $latest_subtitle = 'Unwind in style with Lazy Head T-shirts – comfort meets cool.';
+    if (empty($deck_products)) {
+        $deck_products[] = [
+            'title' => $latest_title ?: 'Skyline Tee',
+            'subtitle' => $latest_subtitle ?: 'Unwind in style with Lazy Head T-shirts – comfort meets cool.',
+            'price' => $latest_price ?: '₹1999',
+            'link' => $latest_link ?: route('search'),
+            'image' => $latest_product_image_setting
+                ? uploaded_asset($latest_product_image_setting)
+                : static_asset('assets/img/demo/demo_thumb_fashion.png'),
+        ];
     }
+
+    $deck_front = $deck_products[0];
+    $placeholder_img = static_asset('assets/img/placeholder.jpg');
 @endphp
-<div class="latest-wrapper mb-5">
-    <div class="latest-bg-split">
-        <div class="latest-bg-top"></div>
-        <div class="latest-bg-bottom"></div>
-    </div>
-    <div class="container position-relative z-2">
-        <div class="latest-stage">
-            <div class="latest-stack-card latest-stack-card--back-2"></div>
-            <div class="latest-stack-card latest-stack-card--back-1"></div>
-
-            <a href="{{ $latest_link }}" class="latest-main-card">
-                <div class="latest-product-row">
-                    <div class="latest-product-img">
-                        <img src="{{ $latest_product_image }}" alt="{{ $latest_title }}" onerror="this.onerror=null;this.src='{{ static_asset('assets/img/placeholder.jpg') }}';">
-                    </div>
-                    <div class="latest-product-copy">
-                        <div class="latest-product-title">{{ $latest_title }}</div>
-                        <p class="latest-product-subtitle mb-0">{{ $latest_subtitle }}</p>
-                        <div class="latest-product-price">{{ $latest_price }}</div>
+<section class="latest-banner-deck mb-5">
+    <div class="container d-flex flex-column align-items-center">
+        <div class="deck-stage">
+            <div class="deck-container" id="axveroLatestDeck" role="button" tabindex="0" aria-label="View next latest product">
+                <div class="deck-card deck-card-back deck-card-back-1"></div>
+                <div class="deck-card deck-card-back deck-card-back-2"></div>
+                <div class="deck-card deck-card-front" id="axveroLatestDeckFront">
+                    <div class="deck-card-content">
+                        <div class="deck-product-img">
+                            <img id="axveroLatestDeckImage" src="{{ $deck_front['image'] }}" alt="{{ $deck_front['title'] }}" onerror="this.onerror=null;this.src='{{ $placeholder_img }}';">
+                        </div>
+                        <div class="deck-product-details">
+                            <h3 class="deck-product-title" id="axveroLatestDeckTitle">{{ $deck_front['title'] }}</h3>
+                            <p class="deck-product-desc mb-0" id="axveroLatestDeckSubtitle">{{ $deck_front['subtitle'] }}</p>
+                            <div class="deck-product-price" id="axveroLatestDeckPrice">{{ $deck_front['price'] }}</div>
+                        </div>
                     </div>
                 </div>
-            </a>
-
-            <div class="latest-text-huge">LATEST</div>
-            <a href="{{ $latest_link }}" class="btn btn-lg latest-cta-btn">SHOP NOW</a>
+            </div>
+            <div class="deck-bottom-wrapper">
+                <h2 class="deck-giant-text">LATEST</h2>
+                <a href="{{ $deck_front['link'] }}" class="deck-btn-getnow" id="axveroLatestDeckBtn">Get Now</a>
+            </div>
         </div>
     </div>
-</div>
+</section>
+
+<script type="application/json" id="axveroLatestDeckData">@json($deck_products)</script>
 
 <!-- 5. Our Collection -->
 <div class="container mb-5">
@@ -843,6 +959,59 @@
 
 @section('script')
 <script>
-    // Include existing necessary scripts if any
+(function () {
+    const deck = document.getElementById('axveroLatestDeck');
+    const deckFront = document.getElementById('axveroLatestDeckFront');
+    const deckBtn = document.getElementById('axveroLatestDeckBtn');
+    const dataEl = document.getElementById('axveroLatestDeckData');
+    if (!deck || !deckFront || !dataEl) return;
+
+    let products = [];
+    try {
+        products = JSON.parse(dataEl.textContent || '[]');
+    } catch (e) {
+        products = [];
+    }
+    if (products.length < 2) return;
+
+    let activeIndex = 0;
+    const titleEl = document.getElementById('axveroLatestDeckTitle');
+    const subtitleEl = document.getElementById('axveroLatestDeckSubtitle');
+    const priceEl = document.getElementById('axveroLatestDeckPrice');
+    const imageEl = document.getElementById('axveroLatestDeckImage');
+
+    function renderProduct(index) {
+        const product = products[index];
+        if (!product) return;
+        if (titleEl) titleEl.textContent = product.title || '';
+        if (subtitleEl) subtitleEl.textContent = product.subtitle || '';
+        if (priceEl) priceEl.textContent = product.price || '';
+        if (imageEl) {
+            imageEl.src = product.image || '';
+            imageEl.alt = product.title || '';
+        }
+        if (deckBtn) deckBtn.href = product.link || deckBtn.href;
+    }
+
+    function rotateDeck() {
+        activeIndex = (activeIndex + 1) % products.length;
+        deckFront.classList.remove('is-switching');
+        void deckFront.offsetWidth;
+        deckFront.classList.add('is-switching');
+        renderProduct(activeIndex);
+    }
+
+    deck.addEventListener('click', function (event) {
+        if (event.target.closest('#axveroLatestDeckBtn')) return;
+        rotateDeck();
+    });
+
+    deck.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            rotateDeck();
+        }
+    });
+})();
 </script>
 @endsection

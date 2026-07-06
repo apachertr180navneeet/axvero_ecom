@@ -179,7 +179,9 @@
                             <img id="header-logo-preview" src="{{ static_asset('assets/img/logo.png') }}" alt="{{ env('APP_NAME') }}"
                                 class="mw-100 h-80px h-md-80px" height="80">
                         @endif
+                        @if(get_setting('homepage_select') != 'axvero_theme')
                         <span class="ml-2 fs-16 fw-700" style="color: {{ $middleHeaderTextColor }}">{{ env('APP_NAME') }}</span>
+                        @endif
                     </a>
                 </div>
                 <!-- Search Icon for small device -->
