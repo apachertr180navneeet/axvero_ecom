@@ -49,8 +49,8 @@
             @endphp
         @endforeach
 
-      <div class="card-header bg-white pt-4 pb-3 border-0">
-           <h3 class="fs-18 fw-bold mb-1 text-dark">{{ translate('Order Summary') }}</h3>
+      <div class="card-header border-0 pb-0 pt-4 px-4" style="background: transparent;">
+           <h3 class="fs-18 fw-800 mb-1 text-dark" style="letter-spacing: -0.3px;">{{ translate('Order Summary') }}</h3>
             <div class="text-right">
                 <!-- Minimum Order Amount -->
                 @if (get_setting('minimum_order_amount_check') == 1 && $subtotal_for_min_order_amount < get_setting('minimum_order_amount'))
@@ -61,23 +61,23 @@
             </div>
         </div>
 
-        <div class="card-body pt-2">
+        <div class="card-body pt-3 pb-4 px-4">
 
-            <div class="row gutters-5">
+            <div class="row gutters-10 mb-3">
                 <!-- Total Products -->
                 <div class="col-6">
-                   <div class="d-flex align-items-center justify-content-between bg-primary bg-gradient rounded-3 px-3 py-2 shadow-sm">
-                        <span class="fs-13 text-white">{{ translate('Total Products') }}</span>
-                        <span class="fs-13 fw-700 text-white">{{ sprintf("%02d", count($carts)) }}</span>
+                   <div class="d-flex align-items-center justify-content-between rounded-4 px-3 py-3 shadow-sm h-100" style="background: linear-gradient(135deg, #502288, #7a3bc7); border: none;">
+                        <span class="fs-13 text-white fw-500 opacity-80">{{ translate('Total Products') }}</span>
+                        <span class="fs-16 fw-800 text-white">{{ sprintf("%02d", count($carts)) }}</span>
                     </div>
                 </div>
-                    <!-- Total Clubpoint -->
-                    <div class="col-6">
-                        <div class="d-flex align-items-center justify-content-between bg-secondary bg-gradient rounded-3 px-3 py-2 shadow-sm">
-                            <span class="fs-13 text-white">{{ translate('Total Clubpoint') }}</span>
-                            <span class="fs-13 fw-700 text-white">{{ sprintf("%02d", $total_point) }}</span>
-                        </div>
+                <!-- Total Clubpoint -->
+                <div class="col-6">
+                    <div class="d-flex align-items-center justify-content-between rounded-4 px-3 py-3 shadow-sm h-100" style="background: linear-gradient(135deg, #ff6a00, #ff8c3a); border: none;">
+                        <span class="fs-13 text-white fw-500 opacity-80">{{ translate('Club Points') }}</span>
+                        <span class="fs-16 fw-800 text-white">{{ sprintf("%02d", $total_point) }}</span>
                     </div>
+                </div>
             </div>
 
             <input type="hidden" id="sub_total" value="{{ $subtotal }}">

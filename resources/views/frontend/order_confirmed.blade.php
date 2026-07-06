@@ -1,58 +1,16 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-
-    <!-- Steps -->
-    <section class="pt-5 mb-0">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-8 mx-auto">
-                    <div class="row gutters-5 sm-gutters-10">
-                        <div class="col done">
-                            <div class="text-center border border-bottom-6px p-2 text-success">
-                                <i class="la-3x mb-2 las la-shopping-cart"></i>
-                                <h3 class="fs-14 fw-600 d-none d-lg-block">{{ translate('1. My Cart') }}</h3>
-                            </div>
-                        </div>
-                        <div class="col done">
-                            <div class="text-center border border-bottom-6px p-2 text-success">
-                                <i class="la-3x mb-2 las la-map"></i>
-                                <h3 class="fs-14 fw-600 d-none d-lg-block">{{ translate('2. Shipping info') }}
-                                </h3>
-                            </div>
-                        </div>
-                        <div class="col done">
-                            <div class="text-center border border-bottom-6px p-2 text-success">
-                                <i class="la-3x mb-2 las la-truck"></i>
-                                <h3 class="fs-14 fw-600 d-none d-lg-block">{{ translate('3. Delivery info') }}
-                                </h3>
-                            </div>
-                        </div>
-                        <div class="col done">
-                            <div class="text-center border border-bottom-6px p-2 text-success">
-                                <i class="la-3x mb-2 las la-credit-card"></i>
-                                <h3 class="fs-14 fw-600 d-none d-lg-block">{{ translate('4. Payment') }}</h3>
-                            </div>
-                        </div>
-                        <div class="col active">
-                            <div class="text-center border border-bottom-6px p-2 text-primary">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32.001" viewBox="0 0 32 32.001" class="cart-rotate mb-3 mt-1">
-                                    <g id="Group_23976" data-name="Group 23976" transform="translate(-282 -404.889)">
-                                      <path class="cart-ok has-transition" id="Path_28723" data-name="Path 28723" d="M313.283,409.469a1,1,0,0,0-1.414,0l-14.85,14.85-5.657-5.657a1,1,0,1,0-1.414,1.414l6.364,6.364a1,1,0,0,0,1.414,0l.707-.707,14.85-14.849A1,1,0,0,0,313.283,409.469Z" fill="#ffffff"/>
-                                      <g id="LWPOLYLINE">
-                                        <path id="Path_28724" data-name="Path 28724" d="M313.372,416.451,311.72,418.1a14,14,0,1,1-5.556-8.586l1.431-1.431a16,16,0,1,0,5.777,8.365Z" fill="#d43533"/>
-                                      </g>
-                                    </g>
-                                </svg>
-                                <h3 class="fs-14 fw-600 d-none d-lg-block">{{ translate('5. Confirmation') }}
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="container-fluid p-0 mx-auto bg-white position-relative" style="max-width: 480px; min-height: 100vh; box-shadow: 0 0 20px rgba(0,0,0,0.05); padding-bottom: 80px !important;">
+        <!-- Mobile App Header -->
+        <div class="d-flex align-items-center justify-content-between p-3" style="background-color: #502288; color: white; position: sticky; top: 0; z-index: 100;">
+            <div class="d-flex align-items-center gap-3">
+                <h5 class="mb-0 fw-600 fs-16">Order Confirmed</h5>
+            </div>
+            <div>
+                <a href="{{ route('home') }}" class="text-white"><i class="las la-home fs-24"></i></a>
             </div>
         </div>
-    </section>
 
     <!-- Order Confirmation -->
     <section class="py-4">
@@ -321,6 +279,14 @@
             </div>
         </div>
     </section>
+    
+    <!-- Sticky Bottom Bar -->
+    <div class="position-fixed d-flex justify-content-center align-items-center p-3 bg-white" style="bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; box-shadow: 0 -5px 15px rgba(0,0,0,0.05); z-index: 99; border-top-left-radius: 20px; border-top-right-radius: 20px;">
+        <a href="{{ route('home') }}" class="btn text-white fw-700 px-4 py-2 rounded-pill shadow-sm w-100 text-center" style="background-color: #502288; font-size: 15px;">
+            Continue Shopping
+        </a>
+    </div>
+</div>
 @endsection
 
 @section('script')

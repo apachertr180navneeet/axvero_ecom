@@ -2,118 +2,139 @@
 
 @section('content')
 
-    <section class="my-4 gry-bg">
-        <div class="container">
-            <div class="row cols-xs-space cols-sm-space cols-md-space">
-                <div class="col-lg-8">
-                    <form class="form-default" data-toggle="validator" action="{{ route('payment.checkout') }}" role="form" method="POST" id="checkout-form">
-                        @csrf
-                       <input type="hidden" name="is_online_pay" id="is_online_pay" value="{{ $carts->isNotEmpty() ? $carts->first()->is_online_pay : 0 }}">
-
-
-                        <div class="accordion" id="accordioncCheckoutInfo">
-
-                            <!-- Shipping Info -->
-                            <div class="modern-card mb-4">
-                                <div class="card-header border-bottom-0 py-3 py-xl-4" id="headingShippingInfo" type="button" data-toggle="collapse" data-target="#collapseShippingInfo" aria-expanded="true" aria-controls="collapseShippingInfo">
-                                    <div class="d-flex align-items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-                                            <path id="Path_42357" data-name="Path 42357" d="M58,48A10,10,0,1,0,68,58,10,10,0,0,0,58,48ZM56.457,61.543a.663.663,0,0,1-.423.212.693.693,0,0,1-.428-.216l-2.692-2.692.856-.856,2.269,2.269,6-6.043.841.87Z" transform="translate(-48 -48)" fill="#9d9da6"/>
-                                        </svg>
-                                        <span class="ml-2 fs-19 fw-700">{{ translate('Shipping Info') }}</span>
-                                    </div>
-                                    <i class="las la-angle-down fs-18"></i>
-                                </div>
-                                <div id="collapseShippingInfo" class="collapse show" aria-labelledby="headingShippingInfo" data-parent="#accordioncCheckoutInfo">
-                                    <div class="card-body shadow" id="shipping_info">
-                                       @include('frontend.partials.cart.shipping_info', ['address_id' => $address_id])
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Delivery Info -->
-                            <div class="modern-card mb-4" style="overflow: visible !important;">
-                                <div class="card-header border-bottom-0 py-3 py-xl-4" id="headingDeliveryInfo" type="button" data-toggle="collapse" data-target="#collapseDeliveryInfo" aria-expanded="true" aria-controls="collapseDeliveryInfo">
-                                    <div class="d-flex align-items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-                                            <path id="Path_42357" data-name="Path 42357" d="M58,48A10,10,0,1,0,68,58,10,10,0,0,0,58,48ZM56.457,61.543a.663.663,0,0,1-.423.212.693.693,0,0,1-.428-.216l-2.692-2.692.856-.856,2.269,2.269,6-6.043.841.87Z" transform="translate(-48 -48)" fill="#9d9da6"/>
-                                        </svg>
-                                        <span class="ml-2 fs-19 fw-700">{{ translate('Delivery Info') }}</span>
-                                    </div>
-                                    <i class="las la-angle-down fs-18"></i>
-                                </div>
-                                <div id="collapseDeliveryInfo" class="collapse show" aria-labelledby="headingDeliveryInfo" data-parent="#accordioncCheckoutInfo">
-                                    <div class="card-body" id="delivery_info">
-                                        @include('frontend.partials.cart.delivery_info', ['carts' => $carts, 'carrier_list' => $carrier_list, 'shipping_info' => $shipping_info])
-                                    </div>
-                                </div>
-                            </div>
-                                      <!-- Cart Summary -->
-                        <div class="d-lg-none d-block col-lg-4 mt-4 mt-lg-0" id="cart_summary">
-                            @include('frontend.partials.cart.cart_summary', ['proceed' => 0, 'carts' => $carts])
-                        </div> 
-
-                            <!-- Payment Info -->
-                            <div class="modern-card mb-4">
-                                <div class="card-header border-bottom-0 py-3 py-xl-4" id="headingPaymentInfo" type="button" data-toggle="collapse" data-target="#collapsePaymentInfo" aria-expanded="true" aria-controls="collapsePaymentInfo">
-                                    <div class="d-flex align-items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-                                            <path id="Path_42357" data-name="Path 42357" d="M58,48A10,10,0,1,0,68,58,10,10,0,0,0,58,48ZM56.457,61.543a.663.663,0,0,1-.423.212.693.693,0,0,1-.428-.216l-2.692-2.692.856-.856,2.269,2.269,6-6.043.841.87Z" transform="translate(-48 -48)" fill="#9d9da6"/>
-                                        </svg>
-                                        <span class="ml-2 fs-19 fw-700">{{ translate('Payment') }}</span>
-                                    </div>
-                                    <i class="las la-angle-down fs-18"></i>
-                                </div>
-                                <div id="collapsePaymentInfo" class="collapse show" aria-labelledby="headingPaymentInfo" data-parent="#accordioncCheckoutInfo">
-                                    <div class="card-body" id="payment_info">
-                                        @include('frontend.partials.cart.payment_info', ['carts' => $carts, 'total' => $total])
-
-                                        <!-- Agree Box -->
-                                        <div class="pt-2rem px-4 fs-14">
-                                            <label class="aiz-checkbox">
-                                                <input type="checkbox" required id="agree_checkbox" onchange="stepCompletionPaymentInfo()">
-                                                <span class="aiz-square-check"></span>
-                                                <span>{{ translate('I agree to the') }}</span>
-                                            </label>
-                                            <a href="{{ route('terms') }}"
-                                                class="fw-700">{{ translate('terms and conditions') }}</a>,
-                                            <a href="{{ route('returnpolicy') }}"
-                                                class="fw-700">{{ translate('return policy') }}</a> &
-                                            <a href="{{ route('privacypolicy') }}"
-                                                class="fw-700">{{ translate('privacy policy') }}</a>
-                                        </div>
-
-                                        <div class="row align-items-center px-4 pt-3 mb-4">
-                                            <!-- Return to shop -->
-                                            <div class="col-6">
-                                                <a href="{{ route('home') }}" class="btn btn-link fs-14 fw-700 px-0">
-                                                    <i class="las la-arrow-left fs-16"></i>
-                                                    {{ translate('Return to shop') }}
-                                                </a>
-                                            </div>
-                                            <!-- Pay Now -->
-                                            <!--<div class="col-6 text-right">-->
-                                            <!--    <button type="button" onclick="submitOrder(this)" id="submitOrderBtn"-->
-                                            <!--        class="btn btn-primary fs-14 fw-700 rounded-0 px-4">{{ translate('Pay Now') }}</button>-->
-                                            <!--</div>-->
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </form>
-                      <!-- Cart Summary -->
-                <div class="d-none d-lg-block col-lg-4 mt-4 mt-lg-0" id="cart_summary">
-                    @include('frontend.partials.cart.cart_summary', ['proceed' => 0, 'carts' => $carts])
-                </div>
-                </div>
-              
+    <div class="container-fluid p-0 mx-auto bg-light position-relative" style="max-width: 480px; min-height: 100vh; box-shadow: 0 0 20px rgba(0,0,0,0.05); padding-bottom: 80px !important;">
+        <!-- Mobile App Header -->
+        <div class="d-flex align-items-center justify-content-between p-3" style="background-color: #502288; color: white; position: sticky; top: 0; z-index: 100;">
+            <div class="d-flex align-items-center gap-3">
+                <a href="{{ url()->previous() }}" class="text-white" style="color: #ffffff !important;"><i class="las la-arrow-left fs-24" style="color: #ffffff !important;"></i></a>
+                <h5 class="mb-0 fw-600 fs-16 text-white" style="color: #ffffff !important;">Checkout</h5>
             </div>
         </div>
 
-    </section>
+        <div class="text-center mt-3 mb-4">
+            <h2 class="fw-700 text-dark fs-22">Shopping cart</h2>
+        </div>
+
+        <!-- Stepper -->
+        <div class="d-flex justify-content-center align-items-center px-4 mb-4" id="checkout-stepper">
+            <!-- Step 1: Cart -->
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center justify-content-center rounded-circle text-white fw-700 fs-12" style="width: 24px; height: 24px; background-color: #000;">1</div>
+                <span class="ml-2 fw-700 text-dark fs-14">Cart</span>
+            </div>
+            
+            <!-- Divider -->
+            <div class="flex-grow-1 mx-2" style="height: 2px; background-color: #000; max-width: 40px;"></div>
+            
+            <!-- Step 2: Address -->
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center justify-content-center rounded-circle fw-700 fs-12 step-number" id="step2-number" style="width: 24px; height: 24px; background-color: #000; color: #fff;">2</div>
+                <span class="ml-2 fw-700 text-dark fs-14 step-text" id="step2-text">Address</span>
+            </div>
+            
+            <!-- Divider -->
+            <div class="flex-grow-1 mx-2 step-divider" id="step2-divider" style="height: 1px; background-color: #e0e0e0; max-width: 40px;"></div>
+            
+            <!-- Step 3: Payment -->
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center justify-content-center rounded-circle fw-700 fs-12 step-number" id="step3-number" style="width: 24px; height: 24px; background-color: #f5f5f5; color: #888;">3</div>
+                <span class="ml-2 fw-600 fs-14 step-text" id="step3-text" style="color: #a0a0a0;">Payment</span>
+            </div>
+        </div>
+
+        <section class="p-3">
+            <form class="form-default" data-toggle="validator" action="{{ route('payment.checkout') }}" role="form" method="POST" id="checkout-form">
+                @csrf
+                <input type="hidden" name="is_online_pay" id="is_online_pay" value="{{ $carts->isNotEmpty() ? $carts->first()->is_online_pay : 0 }}">
+                
+                <!-- STEP 1: Address -->
+                <div id="step-address">
+                    <h6 class="fs-15 fw-700 text-dark mb-3">Select Delivery Address</h6>
+                    <div id="shipping_info">
+                        @include('frontend.partials.cart.shipping_info', ['address_id' => $address_id])
+                    </div>
+                    
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-block text-white fw-700 py-3 shadow-sm" style="background-color: #000; font-size: 16px; border-radius: 4px;" onclick="goToPaymentStep()">
+                            Continue
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 2: Payment (Includes delivery info implicitly if needed, but UI primarily shows payment) -->
+                <div id="step-payment" class="d-none">
+                    <div class="d-none" id="delivery_info">
+                        @include('frontend.partials.cart.delivery_info', ['carts' => $carts, 'carrier_list' => $carrier_list, 'shipping_info' => $shipping_info])
+                    </div>
+                    
+                    <div id="payment_info">
+                        @include('frontend.partials.cart.payment_info', ['carts' => $carts, 'total' => $total])
+                        
+                        <!-- Agree Box -->
+                        <div class="pt-4 pb-2 fs-13 text-muted px-2">
+                            <label class="aiz-checkbox mb-0 d-flex align-items-center">
+                                <input type="checkbox" required id="agree_checkbox" onchange="stepCompletionPaymentInfo()">
+                                <span class="aiz-square-check mr-2"></span>
+                                <span>{{ translate('I agree to the') }}
+                                <a href="{{ route('terms') }}" class="text-primary fw-600 ml-1">{{ translate('terms and conditions') }}</a>,
+                                <a href="{{ route('returnpolicy') }}" class="text-primary fw-600 mx-1">{{ translate('return policy') }}</a> &
+                                <a href="{{ route('privacypolicy') }}" class="text-primary fw-600 ml-1">{{ translate('privacy policy') }}</a>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+            
+            <div class="d-none" id="cart_summary">
+                @include('frontend.partials.cart.cart_summary', ['proceed' => 0, 'carts' => $carts])
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        function goToPaymentStep() {
+            // Hide Address Step
+            document.getElementById('step-address').classList.add('d-none');
+            // Show Payment Step
+            document.getElementById('step-payment').classList.remove('d-none');
+            
+            // Update Stepper UI for Payment Step
+            document.getElementById('step2-divider').style.backgroundColor = '#000';
+            document.getElementById('step2-divider').style.height = '2px';
+            
+            let step3Num = document.getElementById('step3-number');
+            step3Num.style.backgroundColor = '#000';
+            step3Num.style.color = '#fff';
+            
+            let step3Text = document.getElementById('step3-text');
+            step3Text.style.color = '#000';
+            step3Text.classList.remove('fw-600');
+            step3Text.classList.add('fw-700');
+        }
+        
+        function goToAddressStep() {
+            // Hide Payment Step
+            document.getElementById('step-payment').classList.add('d-none');
+            // Show Address Step
+            document.getElementById('step-address').classList.remove('d-none');
+            
+            // Update Stepper UI back to Address
+            document.getElementById('step2-divider').style.backgroundColor = '#e0e0e0';
+            document.getElementById('step2-divider').style.height = '1px';
+            
+            let step3Num = document.getElementById('step3-number');
+            step3Num.style.backgroundColor = '#f5f5f5';
+            step3Num.style.color = '#888';
+            
+            let step3Text = document.getElementById('step3-text');
+            step3Text.style.color = '#a0a0a0';
+            step3Text.classList.add('fw-600');
+            step3Text.classList.remove('fw-700');
+        }
+    </script>
 @endsection
 
 @section('modal')
@@ -420,11 +441,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
 
                     if (allIsOk) {
-                        $('#checkout-form').submit();
+                        $('#checkout-form')[0].submit();
                     }
                 }
             } else {
-                AIZ.plugins.notify('danger', '{{ translate('You need to agree with our policies') }}');
+                AIZ.plugins.notify('danger', '{{ translate("You need to agree with our policies") }}');
             }
         }
 
@@ -892,6 +913,16 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         
         });
+        
+function stepCompletionPaymentInfo() {
+    if ($('#agree_checkbox').is(':checked')) {
+        $('#submitOrderBtn').prop('disabled', false).css('opacity', '1');
+        return true;
+    } else {
+        $('#submitOrderBtn').prop('disabled', true).css('opacity', '0.6');
+        return false;
+    }
+}
     </script>
     @endif
 

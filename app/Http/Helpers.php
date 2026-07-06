@@ -1346,6 +1346,9 @@ if (!function_exists('static_asset')) {
 if (!function_exists('getBaseURL')) {
     function getBaseURL()
     {
+        if (!isset($_SERVER['HTTP_HOST'])) {
+            return '';
+        }
         $root = '//' . $_SERVER['HTTP_HOST'];
         $root .= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
 

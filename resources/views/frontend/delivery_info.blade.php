@@ -1,60 +1,18 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-
-    <!-- Steps -->
-    <section class="pt-5 mb-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-8 mx-auto">
-                    <div class="row gutters-5 sm-gutters-10">
-                        <div class="col done">
-                            <div class="text-center border border-bottom-6px p-2 text-success">
-                                <i class="la-3x mb-2 las la-shopping-cart"></i>
-                                <h3 class="fs-14 fw-600 d-none d-lg-block">{{ translate('1. My Cart') }}</h3>
-                            </div>
-                        </div>
-                        <div class="col done">
-                            <div class="text-center border border-bottom-6px p-2 text-success">
-                                <i class="la-3x mb-2 las la-map"></i>
-                                <h3 class="fs-14 fw-600 d-none d-lg-block">{{ translate('2. Shipping info') }}
-                                </h3>
-                            </div>
-                        </div>
-                        <div class="col active">
-                            <div class="text-center border border-bottom-6px p-2 text-primary">
-                                <i class="la-3x mb-2 las la-truck cart-animate" style="margin-left: -100px; transition: 2s;"></i>
-                                <h3 class="fs-14 fw-600 d-none d-lg-block">{{ translate('3. Delivery info') }}
-                                </h3>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="text-center border border-bottom-6px p-2">
-                                <i class="la-3x mb-2 opacity-50 las la-credit-card"></i>
-                                <h3 class="fs-14 fw-600 d-none d-lg-block opacity-50">{{ translate('4. Payment') }}</h3>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="text-center border border-bottom-6px p-2">
-                                <i class="la-3x mb-2 opacity-50 las la-check-circle"></i>
-                                <h3 class="fs-14 fw-600 d-none d-lg-block opacity-50">{{ translate('5. Confirmation') }}
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="container-fluid p-0 mx-auto bg-white position-relative" style="max-width: 480px; min-height: 100vh; box-shadow: 0 0 20px rgba(0,0,0,0.05); padding-bottom: 80px !important;">
+        <!-- Mobile App Header -->
+        <div class="d-flex align-items-center justify-content-between p-3" style="background-color: #502288; color: white; position: sticky; top: 0; z-index: 100;">
+            <div class="d-flex align-items-center gap-3">
+                <a href="{{ url()->previous() }}" class="text-white"><i class="las la-arrow-left fs-24"></i></a>
+                <h5 class="mb-0 fw-600 fs-16">Delivery Info</h5>
             </div>
         </div>
-    </section>
 
-    <!-- Delivery Info -->
-    <section class="py-4 gry-bg">
-        <div class="container">
-            <div class="row">
-                <div class="col-xxl-8 col-xl-10 mx-auto">
-                    <div class="border bg-white p-4 mb-4">
-                        <form class="form-default" action="{{ route('checkout.store_delivery_info') }}" role="form" method="POST">
-                            @csrf
+        <section class="p-3">
+            <form class="form-default" action="{{ route('checkout.store_delivery_info') }}" role="form" method="POST">
+                @csrf
                             @php
                                 $admin_products = array();
                                 $seller_products = array();
@@ -407,22 +365,27 @@
                                 @endforeach
                             @endif
 
-                            <div class="pt-4 d-flex justify-content-between align-items-center">
-                                <!-- Return to shop -->
-                                <a href="{{ route('home') }}"  class="btn btn-link fs-14 fw-700 px-0">
-                                    <i class="la la-arrow-left fs-16"></i>
-                                    {{ translate('Return to shop')}}
+                            <!-- Sticky Bottom Bar -->
+                            <div class="position-fixed d-flex justify-content-between align-items-center p-3 bg-white" style="bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; box-shadow: 0 -5px 15px rgba(0,0,0,0.05); z-index: 99; border-top-left-radius: 20px; border-top-right-radius: 20px;">
+                                <a href="{{ route('checkout.shipping_info') }}" class="text-muted fw-600 fs-14">
+                                    <i class="las la-arrow-left"></i> Shipping
                                 </a>
-                                <!-- Continue to Payment -->
-                                <button type="submit" class="btn btn-primary fs-14 fw-700 rounded-0 px-4">{{ translate('Continue to Payment')}}</button>
+                                <button type="submit" class="btn text-white fw-700 px-4 py-2 rounded-pill shadow-sm" style="background-color: #502288; font-size: 15px;">
+                                    Continue <i class="las la-arrow-right fs-18"></i>
+                                </button>
                             </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
+            </form>
+        </section>
+        
+        <style>
+            .aiz-megabox input:checked + .aiz-megabox-elem {
+                border-color: #502288 !important;
+            }
+            .aiz-megabox input:checked + .aiz-megabox-elem .aiz-rounded-check:after {
+                background: #502288 !important;
+            }
+        </style>
+    </div>
 @endsection
 
 @section('script')

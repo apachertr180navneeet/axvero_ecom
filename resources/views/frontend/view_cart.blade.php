@@ -1,11 +1,67 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-    <!-- Cart Details -->
-    <section class="my-4" id="cart-details">
-        @include('frontend.partials.cart.cart_details', ['carts' => $carts])
-    </section>
+    <div class="container-fluid p-0 mx-auto bg-white position-relative" style="max-width: 480px; min-height: 100vh; box-shadow: 0 0 20px rgba(0,0,0,0.05); padding-bottom: 80px !important;">
+        <!-- Mobile App Header -->
+        <div class="d-flex align-items-center justify-content-between p-3" style="background-color: #ffffff; color: #000000; position: sticky; top: 0; z-index: 100;">
+            <div class="d-flex align-items-center">
+                <a href="{{ url()->previous() }}" class="text-dark"><i class="las la-arrow-left fs-24"></i></a>
+            </div>
+            
+            <div class="text-center flex-grow-1">
+                @php
+                    $header_logo = get_setting('header_logo');
+                @endphp
+                @if($header_logo != null)
+                    <img src="{{ uploaded_asset($header_logo) }}" alt="{{ env('APP_NAME') }}" class="mw-100 h-30px h-md-40px">
+                @else
+                    <img src="{{ static_asset('assets/img/logo.png') }}" alt="{{ env('APP_NAME') }}" class="mw-100 h-30px h-md-40px">
+                @endif
+            </div>
 
+            <div class="d-flex align-items-center gap-3 text-dark">
+                <a href="{{ route('search') }}" class="text-dark"><i class="las la-search fs-24"></i></a>
+                <a href="{{ route('wishlists.index') }}" class="text-dark"><i class="lar la-heart fs-24"></i></a>
+                <a href="{{ route('cart') }}" class="text-dark"><i class="las la-shopping-cart fs-24"></i></a>
+            </div>
+        </div>
+        
+        <div class="text-center mt-3 mb-4">
+            <h2 class="fw-700 text-dark fs-22">Shopping cart</h2>
+        </div>
+
+        <!-- Stepper -->
+        <div class="d-flex justify-content-center align-items-center px-4 mb-4">
+            <!-- Step 1: Cart -->
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center justify-content-center rounded-circle text-white fw-700 fs-12" style="width: 24px; height: 24px; background-color: #000;">1</div>
+                <span class="ml-2 fw-700 text-dark fs-14">Cart</span>
+            </div>
+            
+            <!-- Divider -->
+            <div class="flex-grow-1 mx-2" style="height: 2px; background-color: #000; max-width: 40px;"></div>
+            
+            <!-- Step 2: Address -->
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center justify-content-center rounded-circle fw-700 fs-12" style="width: 24px; height: 24px; background-color: #f5f5f5; color: #888;">2</div>
+                <span class="ml-2 fw-600 fs-14" style="color: #a0a0a0;">Address</span>
+            </div>
+            
+            <!-- Divider -->
+            <div class="flex-grow-1 mx-2" style="height: 1px; background-color: #e0e0e0; max-width: 40px;"></div>
+            
+            <!-- Step 3: Payment -->
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center justify-content-center rounded-circle fw-700 fs-12" style="width: 24px; height: 24px; background-color: #f5f5f5; color: #888;">3</div>
+                <span class="ml-2 fw-600 fs-14" style="color: #a0a0a0;">Payment</span>
+            </div>
+        </div>
+
+        <!-- Cart Details -->
+        <section class="my-3 px-3" id="cart-details">
+            @include('frontend.partials.cart.cart_details', ['carts' => $carts])
+        </section>
+    </div>
 @endsection
 
 @section('script')

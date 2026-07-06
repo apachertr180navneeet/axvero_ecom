@@ -43,6 +43,7 @@
     font-weight: 600;
     font-size: 15px;
     display: block;
+    color: #000;
 }
 
 .modern-text small {
@@ -60,7 +61,7 @@
 
 /* Selected state */
 .modern-pay input:checked + .modern-pay-box {
-    border: 2px solid #ff6a00;
+    border: 1px solid #ff6a00;
     background: #fff9f4;
 }
 
@@ -69,39 +70,26 @@
 }
 </style>
 
-<div class="mb-4 d-none">
-    @php
-    $cod_on = 0;
+@php
+    $address = Auth::user()->addresses()->where('id', $address_id ?? 0)->first();
+    $deliver_to = $address ? $address->address : 'Selected Address';
 @endphp
-    <h3 class="fs-16 fw-700 text-dark">
-        {{ translate('Any additional info?') }}
-    </h3>
-    <textarea name="additional_info" rows="5" class="form-control rounded-0"
-        placeholder="{{ translate('Type your text...') }}"></textarea>
-</div>
-<div class="col-xl-4 col-md-6 pb-4">
-    <div class="d-flex align-items-center justify-content-between">
-        <div>
-        
-            <span class="fw-700 text-success fs-13">
-                {{ translate('Extra Discount') }}
-            </span>
-        </div>
 
-      <label class="switch">
-    <input type="checkbox" id="online_pay_toggle" {{ ($carts->isNotEmpty() && $carts->first()->is_online_pay == 1) ? 'checked' : '' }}>
-    <span class="slider round"></span>
-</label>
+<!-- Deliver To Box -->
+<div class="d-flex align-items-center justify-content-between p-3 mb-4" style="border: 1px solid #eee; border-radius: 8px; background-color: #fff;">
+    <div>
+        <div class="fs-12 text-muted mb-1">Deliver to: <span class="fw-700 text-dark">{{ Auth::user()->name }}</span></div>
+        <div class="fs-12 text-muted text-truncate" style="max-width: 200px;">{{ $deliver_to }}</div>
     </div>
+    <button type="button" class="btn text-white px-3 py-1 fw-600 fs-13" style="background-color: #000; border-radius: 4px;" onclick="goToAddressStep()">
+        Change
+    </button>
 </div>
 
-<input type="radio" name="payment_option" value="online_pay" id="online_pay_radio" class="d-none">
-
-
-
-    <div class="row gutters-10">
+<!-- Dynamic Online Payment Methods -->
+<div class="row gutters-10 mt-2">
 @foreach (get_activate_payment_methods() as $payment_method)
-    <div class="col-xl-4 col-md-6">
+    <div class="col-xl-4 col-md-6 mb-3">
         <label class="modern-pay">
             <input value="{{ $payment_method->name }}"
                    type="radio"
@@ -125,63 +113,42 @@
     </div>
 @endforeach
 
-    
-        <!-- Cash Payment -->
-@if (get_setting('cash_payment') == 1)
-    @php
-        $digital = 0;
-        $cod_on = 1;
-        foreach ($carts as $cartItem) {
-            $product = get_single_product($cartItem['product_id']);
-            if ($product['digital'] == 1) {
-                $digital = 1;
-            }
-            if ($product['cash_on_delivery'] == 0) {
-                $cod_on = 0;
-            }
-        }
+<!-- Cash On Delivery -->
+    <div class="col-xl-4 col-md-6 mb-3">
+        <label class="modern-pay">
+            <input value="cash_on_delivery"
+                   type="radio"
+                   name="payment_option"
+                   checked>
 
-        // Agent membership check
-        $hasAgentMembership = false;
-        if (Auth::check()) {
-            $hasAgentMembership = \App\Models\AgentJoin::where('user_id', auth()->id())
-                                    ->where('payment_status', 'success')
-                                    ->exists();
-        }
-    @endphp
-
-
-        <div class="col-xl-4 col-md-6" id="cod_block">
-            <label class="aiz-megabox d-block mb-3">
-                <input value="cash_on_delivery" id="cod_option" class="online_payment" type="radio" name="payment_option">
-                <span class="d-flex align-items-center justify-content-between aiz-megabox-elem rounded-0 p-3">
-                    <span class="d-block fw-400 fs-14">{{ translate('Cash on Delivery') }}</span>
-                    <span class="rounded-1 h-40px w-70px overflow-hidden">
-                        <img src="{{ static_asset('assets/img/cards/cod.png') }}"
-                        class="img-fit h-100">
-                    </span>
-                </span>
-            </label>
-        </div>
-
-
-@endif
-
-        
-        {{-- Bulk Buyer COD Notice --}}
-        @if (Auth::check() && Auth::user()->is_bulk_buyer && $cod_on == 1)
-            <div class="col-12">
-                <div class="alert alert-warning border" style="border-color: #ffc107 !important; background-color: #fff3cd;">
-                    <div class="d-flex align-items-start">
-                        <i class="las la-info-circle fs-20 mr-2" style="color: #856404;"></i>
-                        <div style="color: #856404;">
-                            <strong>{{ translate('Bulk Buyer Notice:') }}</strong>
-                            {{ translate('As a bulk buyer, when you select Cash on Delivery, you will be required to pay 30% advance payment through PayU gateway. The remaining 70% will be paid upon delivery.') }}
-                        </div>
-                    </div>
+            <div class="modern-pay-box">
+                <div class="modern-icon">
+                    <i class="las la-money-bill-alt"></i>
+                </div>
+                <div class="modern-text">
+                    <span>{{ translate('Cash on Delivery') }}</span>
+                    <small>Pay when you receive</small>
+                </div>
+                <div class="modern-check">
+                    <i class="las la-check-circle"></i>
                 </div>
             </div>
-        @endif
+        </label>
+    </div>
+    
+    {{-- Bulk Buyer COD Notice --}}
+    @if (Auth::check() && Auth::user()->is_bulk_buyer)
+        <div class="alert alert-warning border mt-2 mb-3" style="border-color: #ffc107 !important; background-color: #fff3cd; border-radius: 8px;">
+            <div class="d-flex align-items-start">
+                <i class="las la-info-circle fs-20 mr-2" style="color: #856404;"></i>
+                <div style="color: #856404; font-size: 13px;">
+                    <strong>{{ translate('Bulk Buyer Notice:') }}</strong>
+                    {{ translate('As a bulk buyer, when you select Cash on Delivery, you will be required to pay 30% advance payment through PayU gateway. The remaining 70% will be paid upon delivery.') }}
+                </div>
+            </div>
+        </div>
+    @endif
+</div>
 
         @if (Auth::check())
             <!-- Offline Payment -->

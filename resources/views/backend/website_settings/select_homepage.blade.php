@@ -152,6 +152,25 @@
 							</span>
 						</div>
 					</div>
+
+					<!-- Home axvero_theme -->
+					<div class="col-xxl-3 col-lg-4 col-sm-6 my-3">
+						<label class="aiz-megabox d-block mb-3">
+							<input value="axvero_theme" type="radio" name="homepage_select" @if(get_setting('homepage_select') == 'axvero_theme') checked @endif>
+							<span class="d-block aiz-megabox-elem rounded-0 img-overlay">
+								<div class="h-350px w-100 overflow-hidden bg-light d-flex align-items-center justify-content-center">
+									<span class="fw-bold fs-16 text-muted">Axvero Theme</span>
+								</div>
+							</span>
+						</label>
+						<div class="d-flex flex-wrap justify-content-between align-items-center">
+							<span class="fs-14 fw-500 text-dark">{{ translate('Homepage 8 - Axvero Theme') }}</span>
+							<span>
+								<a href="javascript:void(0);" class="btn btn-xs btn-danger rounded-0"
+									onclick="alert('No preview image yet.')">{{ translate('View') }}</a>
+							</span>
+						</div>
+					</div>
 				</div>
 				<div class="row bg-light p-3 mt-5">
 					<div class="col-md-8 d-none d-md-block">

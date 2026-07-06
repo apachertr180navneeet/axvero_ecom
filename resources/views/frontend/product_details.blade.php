@@ -56,33 +56,25 @@
 @endsection
 
 @section('content')
-    <section class="mb-4 pt-3">
-        <div class="container">
-            <div class="modern-card p-4 py-3">
-                
-                <nav aria-label="breadcrumb">
-    <ol class="breadcrumb mb-0 bg-transparent p-0" style="font-size:15px;">
-        <li class="breadcrumb-item">
-            <a href="{{ url('/') }}" class="text-decoration-none text-dark">
-                Home
-            </a>
-        </li>
-
-        @if(isset($detailedProduct->category))
-            <li class="breadcrumb-item">
-                <a href="{{ url('collection/'.$detailedProduct->category->slug) }}"
-                   class="text-decoration-none text-dark">
-                    {{ $detailedProduct->category->name }}
+    <div class="container-fluid p-0 mx-auto bg-white position-relative" style="max-width: 480px; min-height: 100vh; box-shadow: 0 0 20px rgba(0,0,0,0.05); padding-bottom: 80px !important;">
+        <!-- Mobile App Header -->
+        <div class="d-flex align-items-center justify-content-between p-3" style="background-color: #502288; color: white; position: sticky; top: 0; z-index: 100;">
+            <div class="d-flex align-items-center gap-3">
+                <a href="{{ url()->previous() }}" class="text-white"><i class="las la-arrow-left fs-24"></i></a>
+                <h5 class="mb-0 fw-600 fs-16">Details</h5>
+            </div>
+            <div class="d-flex gap-3">
+                <a href="{{ route('cart') }}" class="text-white position-relative">
+                    <i class="las la-shopping-cart fs-24"></i>
+                    @if(Session::has('cart') && count(Session::get('cart')) > 0)
+                        <span class="badge badge-primary badge-circle position-absolute" style="top: -5px; right: -5px; font-size: 10px; padding: 3px 5px; background: #e74c3c;">{{ count(Session::get('cart')) }}</span>
+                    @endif
                 </a>
-            </li>
-        @endif
-
-        <li class="breadcrumb-item active fw-semibold"
-            style="color:#d10024; max-width:400px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
-            {{ $detailedProduct->name }}
-        </li>
-    </ol>
-</nav>
+            </div>
+        </div>
+        
+        <section class="mb-4">
+            <div>
                 <div class="row mt-4">
                     <!-- Product Image Gallery -->
                     <div class="col-xl-5 col-lg-6 mb-4">
@@ -187,9 +179,26 @@
             @endif
         </div>
     </section>
+            </div>
+        </div>
+    </section>
 
+    <!-- The original bottom include is kept but inside the wrapper -->
     @include('frontend.smart_bar')
 
+    <!-- Sticky Bottom Bar for Add to Cart -->
+    <div class="position-fixed d-flex justify-content-between align-items-center p-3 bg-white" style="bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; box-shadow: 0 -5px 15px rgba(0,0,0,0.05); z-index: 99;">
+        <div>
+            <div class="fs-12 text-muted fw-600">Total Price</div>
+            <div class="fs-20 fw-900 text-dark">{{ home_discounted_base_price($detailedProduct) }}</div>
+        </div>
+        <div>
+            <button type="button" class="btn text-white fw-700 px-4 py-2 d-flex align-items-center gap-2 rounded-pill" style="background-color: #502288; font-size: 15px;" onclick="addToCart()">
+                <i class="las la-shopping-cart fs-20"></i> Add to Cart
+            </button>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('modal')

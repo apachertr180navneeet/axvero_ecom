@@ -24,10 +24,9 @@
             @if ($detailedProduct->digital == 0)
                 @foreach ($detailedProduct->stocks as $key => $stock)
                     @if ($stock->image != null)
-                        <div class="carousel-box img-zoom rounded-0" style="">
-                            <img class="img-fluid lazyload mx-auto" style=""
-                                src="{{ static_asset('assets/img/placeholder.jpg') }}"
-                                data-src="{{ uploaded_asset($stock->image) }}"
+                        <div class="carousel-box c-pointer rounded-0 lightbox-item">
+                            <img class="img-fluid mw-100 mx-auto"
+                                src="{{ uploaded_asset($stock->image) }}"
                                 onerror="this.onerror=null;this.src='{{ static_asset('assets/img/placeholder.jpg') }}';">
                         </div>
                     @endif
@@ -36,7 +35,7 @@
 
            @if ($photos && count($photos) == 1)
                 <div class="carousel-box img-zoom rounded-0 lightbox-item position-relative" style="height: 100%">
-                    <img class="img-fluid lightbox-source h-full lazyload mx-auto" style="height: 450px;"
+                    <img class="img-fluid lightbox-source h-full mx-auto" style="height: 450px;"
                         src="{{ uploaded_asset($photos[0]) }}"
                         onerror="this.onerror=null;this.src='{{ static_asset('assets/img/placeholder.jpg') }}';">
 
@@ -51,9 +50,8 @@
             @else
                 @foreach ($photos as $key => $photo)
                     <div class="carousel-box img-zoom rounded-0 lightbox-item position-relative" style="height: 100%">
-                        <img class="img-fluid lightbox-source h-full lazyload mx-auto" style="height: 450px;"
-                            src="{{ static_asset('assets/img/placeholder.jpg') }}"
-                            data-src="{{ uploaded_asset($photo) }}"
+                        <img class="img-fluid lightbox-source h-full mx-auto" style="height: 450px;"
+                            src="{{ uploaded_asset($photo) }}"
                             onerror="this.onerror=null;this.src='{{ static_asset('assets/img/placeholder.jpg') }}';">
 
                         <!-- Bottom-left enlarge button -->
@@ -133,10 +131,9 @@
             @if ($detailedProduct->digital == 0)
                 @foreach ($detailedProduct->stocks as $key => $stock)
                     @if ($stock->image != null)
-                        <div class="carousel-box c-pointer rounded-0" data-variation="{{ $stock->variant }}">
-                            <img class="lazyload mw-100 size-60px mx-auto border p-1"
-                                src="{{ static_asset('assets/img/placeholder.jpg') }}"
-                                data-src="{{ uploaded_asset($stock->image) }}"
+                        <div class="carousel-box c-pointer rounded-0 lightbox-item">
+                            <img class="img-fluid mw-100 mx-auto"
+                                src="{{ uploaded_asset($stock->image) }}"
                                 onerror="this.onerror=null;this.src='{{ static_asset('assets/img/placeholder.jpg') }}';">
                         </div>
                     @endif
@@ -145,17 +142,16 @@
 
             @foreach ($photos as $key => $photo)
                 <div class="carousel-box c-pointer rounded-0">
-                    <img class="lazyload mw-100 size-60px mx-auto border p-1"
-                        src="{{ static_asset('assets/img/placeholder.jpg') }}" data-src="{{ uploaded_asset($photo) }}"
+                    <img class="mw-100 size-60px mx-auto border p-1"
+                        src="{{ uploaded_asset($photo) }}"
                         onerror="this.onerror=null;this.src='{{ static_asset('assets/img/placeholder.jpg') }}';">
                 </div>
             @endforeach
 
             @foreach ($short_video as $index => $video)
                 <div class="carousel-box c-pointer rounded-0 position-relative" data-variation="short-video">
-                    <img class="lazyload mw-100 size-60px mx-auto border p-1"
-                        src="{{ static_asset('assets/img/placeholder.jpg') }}"
-                        data-src="{{ $detailedProduct->short_video_thumbnail
+                    <img class="mw-100 size-60px mx-auto border p-1"
+                        src="{{ $detailedProduct->short_video_thumbnail
                             ? uploaded_asset(
                                 count($short_video_thumb) == count($short_video) ? $short_video_thumb[$index] : $short_video_thumb[0],
                             )
