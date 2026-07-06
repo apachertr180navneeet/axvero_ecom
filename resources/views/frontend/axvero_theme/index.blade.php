@@ -179,7 +179,7 @@
     }
 
     /* Hide left floating action buttons on Axvero homepage */
-    .aiz-axvero_theme .floating-buttons-section {
+    .aiz-main-wrapper.aiz-axvero_theme ~ .floating-buttons-section {
         display: none !important;
     }
 

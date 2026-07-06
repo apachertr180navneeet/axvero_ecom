@@ -4,19 +4,24 @@
 
 <section class="axvero-footer text-light">
     <div class="container">
-        <div class="axvero-footer-top d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
-            <a href="{{ route('home') }}" class="axvero-footer-logo d-inline-block">
-                @if ($footer_logo != null)
-                    <img class="lazyload" src="{{ static_asset('assets/img/placeholder-rect.jpg') }}" data-src="{{ uploaded_asset($footer_logo) }}" alt="{{ env('APP_NAME') }}">
-                @else
-                    <img src="{{ static_asset('assets/img/logo.png') }}" alt="{{ env('APP_NAME') }}">
-                @endif
-            </a>
+        <div class="row axvero-footer-top align-items-center">
+            <div class="col-lg-4 col-md-6">
+                <a href="{{ route('home') }}" class="axvero-footer-logo d-inline-block">
+                    @if ($footer_logo != null)
+                        <img class="lazyload" src="{{ static_asset('assets/img/placeholder-rect.jpg') }}" data-src="{{ uploaded_asset($footer_logo) }}" alt="{{ env('APP_NAME') }}">
+                    @else
+                        <img src="{{ static_asset('assets/img/logo.png') }}" alt="{{ env('APP_NAME') }}">
+                    @endif
+                </a>
+            </div>
+
+            <div class="col-lg-4 d-none d-lg-block"></div>
 
             @if (get_setting('show_social_links'))
-            <div class="axvero-footer-social text-md-right mt-4 mt-md-0">
-                <h5 class="axvero-footer-label mb-3">{{ translate('Follow Us') }}</h5>
-                <ul class="list-inline social colored mb-0">
+            <div class="col-lg-4 col-md-6">
+                <div class="axvero-footer-social text-md-right mt-4 mt-lg-0">
+                    <h5 class="axvero-footer-label">{{ translate('Follow Us') }}</h5>
+                    <ul class="list-inline social colored mb-0">
                     @if (!empty(get_setting('facebook_link')))
                         <li class="list-inline-item mr-2">
                             <a href="{{ get_setting('facebook_link') }}" target="_blank" class="facebook"><i class="lab la-facebook-f"></i></a>
@@ -32,7 +37,8 @@
                             <a href="{{ get_setting('youtube_link') }}" target="_blank" class="youtube"><i class="lab la-youtube"></i></a>
                         </li>
                     @endif
-                </ul>
+                    </ul>
+                </div>
             </div>
             @endif
         </div>
