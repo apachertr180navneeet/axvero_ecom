@@ -576,7 +576,6 @@ class ProductController extends Controller
                     return back();
                 }
             }
-        }
 
         $product = $this->productService->update($request->except([
             '_token',
@@ -893,7 +892,6 @@ class ProductController extends Controller
                             continue;
                         }
                     }
-                }
 
                 $product->published = 1;
                 $product->save();
@@ -903,6 +901,7 @@ class ProductController extends Controller
             return 1;
         }
     }
+    
 
     public function updateProductApproval(Request $request)
     {
