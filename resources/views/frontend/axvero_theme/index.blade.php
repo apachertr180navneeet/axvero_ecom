@@ -1653,6 +1653,192 @@
             }
         }
 
+        /* 13. Featured Footwear */
+        .axvero-footwear-section {
+            padding: 80px 0;
+            background-color: #fff;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .axvero-footwear-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 15px;
+        }
+
+        .axvero-footwear-title-area {
+            display: flex;
+            align-items: baseline;
+            gap: 20px;
+        }
+
+        .axvero-footwear-title-main {
+            font-size: 2.2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #000;
+            margin: 0;
+        }
+
+        .axvero-footwear-view-all {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #000;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        .axvero-footwear-nav-arrows {
+            display: flex;
+            gap: 12px;
+        }
+
+        .axvero-footwear-nav-arrow {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .axvero-footwear-nav-arrow.prev {
+            background-color: #9fb3d9;
+            color: #fff;
+        }
+
+        .axvero-footwear-nav-arrow.next {
+            background-color: #426cb4;
+            color: #fff;
+        }
+
+        .axvero-footwear-layout-container {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 40px;
+        }
+
+        .axvero-footwear-sidebar-tabs {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .axvero-footwear-tab-btn {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-align: center;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: 1px solid #d1d5db;
+            background: #fff;
+            color: #000;
+        }
+
+        .axvero-footwear-tab-btn.active {
+            background-color: #003366;
+            color: #fff;
+            border-color: #003366;
+        }
+
+        .axvero-footwear-slider-wrapper {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .axvero-footwear-products-track {
+            display: flex;
+            gap: 24px;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .axvero-footwear-product-card {
+            flex: 0 0 calc((100% - 48px) / 3);
+            display: flex;
+            flex-direction: column;
+            text-decoration: none !important;
+            color: inherit;
+        }
+
+        .axvero-footwear-card-img-wrapper {
+            width: 100%;
+            aspect-ratio: 1;
+            overflow: hidden;
+            margin-bottom: 14px;
+            background: #f3f4f6;
+        }
+
+        .axvero-footwear-card-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.45s ease;
+        }
+
+        .axvero-footwear-product-card:hover .axvero-footwear-card-img-wrapper img {
+            transform: scale(1.05);
+        }
+
+        .axvero-footwear-card-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .axvero-footwear-card-title {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #000;
+            margin: 0;
+            line-height: 1.25;
+        }
+
+        .axvero-footwear-card-price {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #000;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 991px) {
+            .axvero-footwear-product-card {
+                flex: 0 0 calc((100% - 24px) / 2);
+            }
+
+            .axvero-footwear-layout-container {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .axvero-footwear-sidebar-tabs {
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            .axvero-footwear-tab-btn {
+                width: auto;
+                min-width: 120px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .axvero-footwear-product-card {
+                flex: 0 0 100%;
+            }
+        }
+
         /* 10. Categories (plants style) */
         .axvero-categories-plants-section {
             background-color: #fff;
@@ -1794,12 +1980,14 @@
             background-color: #fff;
             font-family: 'Poppins', sans-serif;
         }
+
         .axvero-home-decor-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 24px;
         }
+
         .axvero-home-decor-title {
             font-size: 2.2rem;
             font-weight: 800;
@@ -1811,11 +1999,13 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
+
         .axvero-home-decor-sparkle {
             color: #4270c1;
             font-size: 2.2rem;
             line-height: 1;
         }
+
         .axvero-home-decor-all-btn {
             font-size: 0.9rem;
             font-weight: 600;
@@ -1827,17 +2017,20 @@
             transition: background-color 0.2s ease, border-color 0.2s ease;
             white-space: nowrap;
         }
+
         .axvero-home-decor-all-btn:hover {
             background-color: #f5f5f5;
             border-color: #2a254b;
             color: #2a254b;
             text-decoration: none;
         }
+
         .axvero-home-decor-products-bg {
             background-color: #f6f6f6;
             padding: 30px;
             border-radius: 8px;
         }
+
         .axvero-home-decor-product-card {
             display: flex;
             flex-direction: column;
@@ -1845,6 +2038,7 @@
             text-decoration: none;
             color: inherit;
         }
+
         .axvero-home-decor-img-container {
             width: 100%;
             aspect-ratio: 4 / 5;
@@ -1853,6 +2047,7 @@
             border-radius: 4px;
             background: #fff;
         }
+
         .axvero-home-decor-img-container img {
             width: 100%;
             height: 100%;
@@ -1860,9 +2055,11 @@
             transition: transform 0.45s ease;
             display: block;
         }
+
         .axvero-home-decor-product-card:hover .axvero-home-decor-img-container img {
             transform: scale(1.05);
         }
+
         .axvero-home-decor-product-title {
             font-size: 1.15rem;
             font-weight: 600;
@@ -1870,6 +2067,7 @@
             margin: 0 0 4px 0;
             line-height: 1.25;
         }
+
         .axvero-home-decor-product-price {
             font-size: 0.95rem;
             color: #555;
@@ -1907,12 +2105,358 @@
             position: relative;
         }
 
-        /* 11. Dark Banner Section */
-        .dark-interior-banner {
-            background: #252342;
-            color: white;
+        /* 12. Decor Story (replaces dark banner) */
+        .axvero-decor-story-section {
+            padding: 10px 0 24px 0;
+            background-color: #fff;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .axvero-decor-story-text-card {
+            background-color: #2a254b;
+            color: #fff;
+            padding: 28px;
+            height: 100%;
             display: flex;
-            min-height: 350px;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-radius: 8px;
+            height: 320px;
+            min-height: 320px;
+            max-height: 320px;
+            overflow: hidden;
+        }
+
+        .axvero-decor-story-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            line-height: 1.25;
+        }
+
+        .axvero-decor-story-desc {
+            font-size: 0.92rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.45;
+            max-width: 440px;
+            margin: 0;
+        }
+
+        .axvero-decor-story-btn {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.15);
+            border: none;
+            border-radius: 4px;
+            padding: 12px 32px;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .axvero-decor-story-btn:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .axvero-decor-story-img-card {
+            height: 320px;
+            min-height: 320px;
+            max-height: 320px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+            background: #f3f4f6;
+        }
+
+        .axvero-decor-story-img-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        @media (max-width: 991px) {
+            .axvero-decor-story-text-card {
+                padding: 22px;
+                height: 260px;
+                min-height: 260px;
+                max-height: 260px;
+            }
+
+            .axvero-decor-story-img-card {
+                height: 260px;
+                min-height: 260px;
+                max-height: 260px;
+            }
+
+            .axvero-decor-story-title {
+                font-size: 1.5rem;
+            }
+
+            .axvero-decor-story-desc {
+                margin-bottom: 30px;
+            }
+        }
+
+        /* 14. Special Offers (xampp style) */
+        .axvero-special-offers-section {
+            padding: 80px 0;
+            background-color: #fff;
+            overflow: visible;
+        }
+        .axvero-special-offers-banner-wrapper {
+            position: relative;
+            width: 100%;
+            height: 380px;
+            background-color: #fff;
+            overflow: visible;
+        }
+        .axvero-special-offers-bg-partition {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            border-radius: 24px;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .axvero-bg-part-blue { flex: 1; background-color: #dbfaff; }
+        .axvero-bg-part-cream { flex: 1; background-color: #fff2d5; }
+        .axvero-bg-part-pink { flex: 1; background-color: #fbf0ff; }
+        .axvero-special-offers-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+        .axvero-floating-item-left {
+            position: absolute;
+            left: 4%;
+            top: -40px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: center;
+        }
+        .axvero-shoe-card-white {
+            background-color: #fff;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .axvero-shoe-card-white img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transform: rotate(-10deg);
+        }
+        .axvero-pill-badge-yellow {
+            background-color: #ffe082;
+            color: #004d40;
+            border-radius: 12px;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(255, 224, 130, 0.3);
+        }
+        .axvero-center-text-group {
+            position: absolute;
+            left: 50%;
+            top: 42%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 100%;
+            max-width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .axvero-coming-soon-tag {
+            color: #d32f2f;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-bottom: 6px;
+            display: inline-block;
+        }
+        .axvero-special-offers-main-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3.4rem, 7.2vw, 5.6rem);
+            font-weight: 700;
+            letter-spacing: -1px;
+            color: #554f3b;
+            margin: 0;
+            line-height: 0.95;
+            white-space: nowrap;
+        }
+        .axvero-floating-red-heel {
+            position: absolute;
+            top: 42px;
+            width: min(78vw, 860px);
+            height: auto;
+            filter: drop-shadow(0 20px 40px rgba(211, 47, 47, 0.25));
+            z-index: 5;
+            pointer-events: none;
+            transition: transform 0.3s ease;
+        }
+        .axvero-special-offers-banner-wrapper:hover .axvero-floating-red-heel {
+            transform: translateY(-8px) scale(1.02);
+        }
+        .axvero-floating-item-right {
+            position: absolute;
+            right: 5%;
+            bottom: -35px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: flex-end;
+        }
+        .axvero-floating-pink-handbag {
+            width: 170px;
+            height: auto;
+            filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.12));
+            transform: rotate(5deg);
+        }
+
+        /* 15. Summer Outer Week */
+        .axvero-campaign-section {
+            padding: 90px 0;
+            background-color: #1f2648;
+            color: #fff;
+            overflow: hidden;
+            position: relative;
+            font-family: 'Poppins', sans-serif;
+        }
+        .axvero-campaign-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 550px;
+            position: relative;
+            padding: 0 15px;
+        }
+        .axvero-campaign-top-label {
+            position: absolute;
+            left: 15px;
+            top: 0;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            opacity: 0.6;
+        }
+        .axvero-campaign-line-deco {
+            position: absolute;
+            left: 15px;
+            right: 15px;
+            top: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1;
+        }
+        .axvero-deco-num {
+            font-size: 1.25rem;
+            font-weight: 300;
+            color: #fff;
+            opacity: 0.6;
+        }
+        .axvero-deco-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 20%, rgba(255,255,255,0.2) 80%, rgba(255,255,255,0) 100%);
+            margin: 0 25px;
+        }
+        .axvero-campaign-backdrop-text {
+            position: absolute;
+            left: 50%;
+            top: 48%;
+            transform: translate(-50%, -50%);
+            font-size: 26rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.05);
+            line-height: 1;
+            user-select: none;
+            z-index: 1;
+        }
+        .axvero-campaign-body-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .axvero-campaign-model-cutout {
+            position: absolute;
+            bottom: 0;
+            left: 49%;
+            transform: translateX(-50%);
+            width: 470px;
+            height: auto;
+            z-index: 2;
+        }
+        .axvero-campaign-model-cutout img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            object-position: center bottom;
+            display: block;
+        }
+        .axvero-campaign-heading-group {
+            position: relative;
+            text-align: center;
+            z-index: 3;
+            pointer-events: none;
+        }
+        .axvero-heading-sub {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 4rem;
+            font-weight: 400;
+            color: #fff;
+            line-height: 1.1;
+            display: block;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .axvero-heading-main {
+            font-size: 5.6rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 0.9;
+            letter-spacing: 2px;
+            margin: 0;
+            text-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+        }
+        .axvero-campaign-shop-btn {
+            position: absolute;
+            right: 15px;
+            bottom: 0;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 4px;
+            padding: 12px 28px;
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            z-index: 3;
+        }
+        .axvero-campaign-shop-btn:hover {
+            background-color: #fff;
+            color: #1f2648;
+            border-color: #fff;
+            text-decoration: none;
         }
 
         /* 12. Lower Promo Squares */
@@ -2455,6 +2999,61 @@
         </section>
     @endif
 
+    <!-- 11. Home Decor -->
+    @php
+        $home_decor_products = filter_products(
+            \App\Models\Product::where('published', 1)
+                ->whereHas('categories.category_translations', function ($query) {
+                    $query->where('name', 'like', '%decor%');
+                })
+                ->orderBy('num_of_sale', 'desc'),
+        )
+            ->limit(4)
+            ->get();
+
+        if ($home_decor_products->count() == 0) {
+            $home_decor_products = filter_products(
+                \App\Models\Product::where('published', 1)->orderBy('created_at', 'desc'),
+            )
+                ->limit(4)
+                ->get();
+        }
+
+        $home_decor_title = get_setting('axvero_home_decor_title', null, $lang) ?: 'Home Decor';
+        $home_decor_btn_text = get_setting('axvero_home_decor_btn_text', null, $lang) ?: 'All Collections';
+        $home_decor_btn_link = get_setting('axvero_home_decor_btn_link', null, $lang) ?: route('search');
+    @endphp
+    <section class="axvero-home-decor-section mb-5">
+        <div class="container-fluid px-4 px-md-5">
+            <div class="axvero-home-decor-header">
+                <h2 class="axvero-home-decor-title">
+                    <span class="axvero-home-decor-sparkle">&#10059;</span> {{ $home_decor_title }}
+                </h2>
+                <a href="{{ $home_decor_btn_link }}" class="axvero-home-decor-all-btn">{{ $home_decor_btn_text }}</a>
+            </div>
+
+            <div class="axvero-home-decor-products-bg">
+                <div class="row g-4">
+                    @foreach ($home_decor_products as $product)
+                        <div class="col-6 col-md-3">
+                            <a href="{{ route('product', $product->slug) }}" class="axvero-home-decor-product-card">
+                                <div class="axvero-home-decor-img-container">
+                                    <img src="{{ uploaded_asset($product->thumbnail_img) }}"
+                                        alt="{{ $product->getTranslation('name') }}"
+                                        onerror="this.onerror=null;this.src='{{ static_asset('assets/img/placeholder.jpg') }}';" />
+                                </div>
+                                <h4 class="axvero-home-decor-product-title">
+                                    {{ \Illuminate\Support\Str::limit($product->getTranslation('name'), 28) }}
+                                </h4>
+                                <p class="axvero-home-decor-product-price">{{ home_discounted_base_price($product) }}</p>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </section>
+
     {{-- <!-- 10. Square Categories (hidden as requested) -->
     <div class="container mb-5">
         <div class="section-title">
@@ -2484,107 +3083,248 @@
         </div>
     </div> --}}
 
-    <!-- 11. Dark Banner Section -->
-    <div class="container mb-5">
-        @php
-            $banner_product = filter_products(\App\Models\Product::where('published', 1)->orderBy('created_at', 'desc'))
-                ->skip(4)
-                ->first();
-        @endphp
-        <div class="dark-interior-banner rounded overflow-hidden">
-            <div class="row no-gutters w-100">
-                <div class="col-md-6 d-flex flex-column justify-content-center p-5">
-                    <div class="fs-12 text-uppercase mb-2" style="letter-spacing: 2px;">New Collection</div>
-                    <h2 class="fw-800 mb-4" style="font-family: 'Playfair Display', serif;">
-                        {{ $banner_product ? $banner_product->getTranslation('name') : 'ELEVATE YOUR SPACE' }}</h2>
-                    <p class="mb-4 opacity-70">Discover our premium new collections today.</p>
-                    <div>
-                        <a href="{{ $banner_product ? route('product', $banner_product->slug) : route('search') }}"
-                            class="btn btn-outline-light text-white rounded-0 px-4">EXPLORE</a>
+    <!-- 12. Decor Story (below Home Decor) -->
+    @php
+        $decor_story_product = filter_products(
+            \App\Models\Product::where('published', 1)->orderBy('created_at', 'desc'),
+        )
+            ->skip(4)
+            ->first();
+
+        $decor_story_title = get_setting('axvero_decor_story_title', null, $lang) ?: 'It started with a small idea';
+        $decor_story_desc =
+            get_setting('axvero_decor_story_desc', null, $lang) ?:
+            'A global brand with local beginnings, our story began in a small studio and grew into curated collections for every home.';
+        $decor_story_btn_text = get_setting('axvero_decor_story_btn_text', null, $lang) ?: 'View collection';
+        $decor_story_btn_link = get_setting('axvero_decor_story_btn_link', null, $lang) ?: route('search');
+        $decor_story_img = $decor_story_product
+            ? uploaded_asset($decor_story_product->thumbnail_img)
+            : static_asset('assets/img/placeholder.jpg');
+    @endphp
+    <section class="axvero-decor-story-section mb-5">
+        <div class="container-fluid px-4 px-md-5">
+            <div class="row g-4 align-items-stretch">
+                <div class="col-lg-6">
+                    <div class="axvero-decor-story-text-card">
+                        <div>
+                            <h3 class="axvero-decor-story-title">{{ $decor_story_title }}</h3>
+                            <p class="axvero-decor-story-desc">{{ $decor_story_desc }}</p>
+                        </div>
+                        <a href="{{ $decor_story_btn_link }}"
+                            class="axvero-decor-story-btn">{{ $decor_story_btn_text }}</a>
                     </div>
                 </div>
-                <div class="col-md-6 bg-white d-flex align-items-center justify-content-center">
-                    @if ($banner_product)
-                        <img src="{{ uploaded_asset($banner_product->thumbnail_img) }}"
-                            class="w-100 h-100 object-fit-contain p-4" style="min-height: 350px; max-height: 400px;"
+                <div class="col-lg-6">
+                    <div class="axvero-decor-story-img-card">
+                        <img src="{{ $decor_story_img }}" alt="Decor story"
                             onerror="this.onerror=null;this.src='{{ static_asset('assets/img/placeholder.jpg') }}';">
-                    @else
-                        <img src="{{ static_asset('assets/img/demo/demo_thumb_automobile.png') }}"
-                            class="w-100 h-100 object-fit-cover" style="min-height: 350px;">
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 12. Square Promo Grid -->
-    <div class="container mb-5">
-        <div class="section-title">
-            <span>NEW ARRIVALS</span>
-            <div class="d-flex gap-2"></div>
-        </div>
-        <div class="row gutters-10">
-            @php
-                $promo_bg = ['#f4fdf8', '#f8f4fd', '#fdf4f4', '#f4f9fd'];
-                $new_arrivals = filter_products(
-                    \App\Models\Product::where('published', 1)->orderBy('created_at', 'desc'),
-                )
-                    ->limit(4)
-                    ->get();
-            @endphp
-            @foreach ($new_arrivals as $key => $product)
-                <div class="col-6 col-md-3 mb-3">
-                    <a href="{{ route('product', $product->slug) }}"
-                        class="d-block promo-square d-flex flex-column align-items-center justify-content-center text-decoration-none"
-                        style="background-color: {{ $promo_bg[$key % 4] }}; height: 250px;">
-                        <img src="{{ uploaded_asset($product->thumbnail_img) }}"
-                            style="max-height: 60%; max-width: 80%; object-fit: contain;"
-                            onerror="this.onerror=null;this.src='{{ static_asset('assets/img/placeholder.jpg') }}';">
-                        <div class="mt-3 text-dark fw-600 text-truncate px-3 w-100 text-center">
-                            {{ $product->getTranslation('name') }}</div>
-                    </a>
-                </div>
-            @endforeach
-        </div>
-    </div>
-
-    <!-- 13. Lower Banners -->
-    <div class="container mb-5">
-        <div class="row gutters-10">
-            <div class="col-md-12 mb-3">
-                <div class="d-flex align-items-center justify-content-between p-4 px-md-5 rounded"
-                    style="background: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);">
-                    <div>
-                        <div class="btn btn-warning btn-sm rounded-0 fw-700 mb-2">NEW OFFERS</div>
-                        <h2 class="fw-800 text-dark mb-0" style="font-family: 'Playfair Display', serif;">Special Offers
-                        </h2>
-                    </div>
-                    <img src="{{ static_asset('assets/img/demo/demo_thumb_fashion.png') }}"
-                        style="max-height: 150px; object-fit: contain;">
-                    <a href="{{ route('search') }}"
-                        class="btn btn-light rounded-0 fw-700 shadow-sm d-none d-md-inline-block">SHOP NOW</a>
-                </div>
-            </div>
-
-            <div class="col-md-12 mb-3">
-                <div class="d-flex align-items-center justify-content-center p-5 rounded position-relative overflow-hidden"
-                    style="background: #252342; min-height: 300px;">
-                    <div class="position-absolute z-1"
-                        style="font-size: 15rem; font-weight: 900; color: rgba(255,255,255,0.05); top: -20px; text-align: center; width: 100%;">
-                        70</div>
-                    <div class="position-relative z-2 text-center text-white w-100">
-                        <img src="{{ static_asset('assets/img/demo/demo_thumb_fashion.png') }}" class="mx-auto"
-                            style="height: 250px; object-fit: contain; position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%); z-index: 3;">
-                        <h2 class="fw-800 mb-0 position-relative z-4"
-                            style="font-family: 'Playfair Display', serif; letter-spacing: 5px; color: rgba(255,255,255,0.8);">
-                            UP TO 70% OFF</h2>
-                        <h3 class="fw-400 position-relative z-4 text-uppercase mt-2" style="letter-spacing: 2px;">
-                            OUTERWEAR</h3>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+
+    <!-- 13. Featured Footwear -->
+    @php
+        $footwear_men_products = filter_products(
+            \App\Models\Product::where('published', 1)
+                ->whereHas('categories.category_translations', function ($query) {
+                    $query
+                        ->where('name', 'like', '%footwear%')
+                        ->orWhere('name', 'like', '%shoe%')
+                        ->orWhere('name', 'like', '%sneaker%')
+                        ->where('name', 'like', '%men%');
+                })
+                ->orderBy('num_of_sale', 'desc'),
+        )
+            ->limit(8)
+            ->get();
+
+        $footwear_women_products = filter_products(
+            \App\Models\Product::where('published', 1)
+                ->whereHas('categories.category_translations', function ($query) {
+                    $query
+                        ->where('name', 'like', '%footwear%')
+                        ->orWhere('name', 'like', '%shoe%')
+                        ->orWhere('name', 'like', '%sneaker%')
+                        ->where('name', 'like', '%women%');
+                })
+                ->orderBy('num_of_sale', 'desc'),
+        )
+            ->limit(8)
+            ->get();
+
+        if ($footwear_men_products->count() == 0) {
+            $footwear_men_products = filter_products(
+                \App\Models\Product::where('published', 1)
+                    ->whereHas('categories.category_translations', function ($query) {
+                        $query
+                            ->where('name', 'like', '%footwear%')
+                            ->orWhere('name', 'like', '%shoe%')
+                            ->orWhere('name', 'like', '%sneaker%');
+                    })
+                    ->orderBy('num_of_sale', 'desc'),
+            )
+                ->limit(8)
+                ->get();
+        }
+        if ($footwear_women_products->count() == 0) {
+            $footwear_women_products = filter_products(
+                \App\Models\Product::where('published', 1)
+                    ->whereHas('categories.category_translations', function ($query) {
+                        $query
+                            ->where('name', 'like', '%footwear%')
+                            ->orWhere('name', 'like', '%shoe%')
+                            ->orWhere('name', 'like', '%sneaker%');
+                    })
+                    ->orderBy('created_at', 'desc'),
+            )
+                ->limit(8)
+                ->get();
+        }
+        if ($footwear_men_products->count() == 0) {
+            $footwear_men_products = filter_products(
+                \App\Models\Product::where('published', 1)->orderBy('num_of_sale', 'desc'),
+            )
+                ->limit(8)
+                ->get();
+        }
+        if ($footwear_women_products->count() == 0) {
+            $footwear_women_products = filter_products(
+                \App\Models\Product::where('published', 1)->orderBy('created_at', 'desc'),
+            )
+                ->limit(8)
+                ->get();
+        }
+    @endphp
+    <section class="axvero-footwear-section mb-5">
+        <div class="container-fluid px-4 px-md-5">
+            <div class="axvero-footwear-header">
+                <div class="axvero-footwear-title-area">
+                    <h2 class="axvero-footwear-title-main">Featured Footwear</h2>
+                    <a href="{{ route('search') }}" class="axvero-footwear-view-all">View All</a>
+                </div>
+                <div class="axvero-footwear-nav-arrows">
+                    <button class="axvero-footwear-nav-arrow prev" id="axveroFootwearPrevBtn" aria-label="Previous">
+                        <i class="las la-angle-left"></i>
+                    </button>
+                    <button class="axvero-footwear-nav-arrow next" id="axveroFootwearNextBtn" aria-label="Next">
+                        <i class="las la-angle-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="axvero-footwear-layout-container">
+                <div class="axvero-footwear-sidebar-tabs">
+                    <button class="axvero-footwear-tab-btn active" data-footwear-category="men">Men</button>
+                    <button class="axvero-footwear-tab-btn" data-footwear-category="women">Women</button>
+                </div>
+
+                <div class="axvero-footwear-slider-wrapper">
+                    <div class="axvero-footwear-products-track" id="axveroFootwearProductsTrack">
+                        @foreach ($footwear_men_products as $product)
+                            <a href="{{ route('product', $product->slug) }}"
+                                class="axvero-footwear-product-card footwear-men-item">
+                                <div class="axvero-footwear-card-img-wrapper">
+                                    <img src="{{ uploaded_asset($product->thumbnail_img) }}"
+                                        alt="{{ $product->getTranslation('name') }}"
+                                        onerror="this.onerror=null;this.src='{{ static_asset('assets/img/placeholder.jpg') }}';" />
+                                </div>
+                                <div class="axvero-footwear-card-details">
+                                    <h3 class="axvero-footwear-card-title">
+                                        {{ \Illuminate\Support\Str::limit($product->getTranslation('name'), 24) }}</h3>
+                                    <span
+                                        class="axvero-footwear-card-price">{{ home_discounted_base_price($product) }}</span>
+                                </div>
+                            </a>
+                        @endforeach
+
+                        @foreach ($footwear_women_products as $product)
+                            <a href="{{ route('product', $product->slug) }}"
+                                class="axvero-footwear-product-card footwear-women-item" style="display: none;">
+                                <div class="axvero-footwear-card-img-wrapper">
+                                    <img src="{{ uploaded_asset($product->thumbnail_img) }}"
+                                        alt="{{ $product->getTranslation('name') }}"
+                                        onerror="this.onerror=null;this.src='{{ static_asset('assets/img/placeholder.jpg') }}';" />
+                                </div>
+                                <div class="axvero-footwear-card-details">
+                                    <h3 class="axvero-footwear-card-title">
+                                        {{ \Illuminate\Support\Str::limit($product->getTranslation('name'), 24) }}</h3>
+                                    <span
+                                        class="axvero-footwear-card-price">{{ home_discounted_base_price($product) }}</span>
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 14. Special Offers -->
+    <section class="axvero-special-offers-section mb-5">
+        <div class="container px-4 px-md-0">
+            <div class="axvero-special-offers-banner-wrapper">
+                <div class="axvero-special-offers-bg-partition">
+                    <div class="axvero-bg-part-blue"></div>
+                    <div class="axvero-bg-part-cream"></div>
+                    <div class="axvero-bg-part-pink"></div>
+                </div>
+
+                <div class="axvero-special-offers-content">
+                    <div class="axvero-floating-item-left">
+                        <div class="axvero-shoe-card-white">
+                            <img src="{{ static_asset('assets/img/demo/Heelsss.png') }}" alt="Beige Heels"
+                                onerror="this.onerror=null;this.src='{{ static_asset('assets/img/placeholder.jpg') }}';" />
+                        </div>
+                        <div class="axvero-pill-badge-yellow">75% Off Soon</div>
+                    </div>
+
+                    <div class="axvero-center-text-group">
+                        <span class="axvero-coming-soon-tag">COMING SOON</span>
+                        <h2 class="axvero-special-offers-main-heading">Special Offers</h2>
+                        <img src="{{ static_asset('assets/img/demo/Heels.png') }}" alt="Red High Heel" class="axvero-floating-red-heel"
+                            onerror="this.onerror=null;this.src='{{ static_asset('assets/img/placeholder.jpg') }}';" />
+                    </div>
+
+                    <div class="axvero-floating-item-right">
+                        <div class="axvero-pill-badge-yellow">75% Off Soon</div>
+                        <img src="{{ static_asset('assets/img/demo/HandBag.png') }}" alt="Pink Handbag" class="axvero-floating-pink-handbag"
+                            onerror="this.onerror=null;this.src='{{ static_asset('assets/img/placeholder.jpg') }}';" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 15. Summer Outer Week -->
+    <section class="axvero-campaign-section mb-5">
+        <div class="axvero-campaign-container">
+            <span class="axvero-campaign-top-label">SUMMER OUTER WEEK</span>
+
+            <div class="axvero-campaign-line-deco">
+                <span class="axvero-deco-num">10.8</span>
+                <div class="axvero-deco-line"></div>
+                <span class="axvero-deco-num">10.8</span>
+            </div>
+
+            <div class="axvero-campaign-backdrop-text">70%</div>
+
+            <div class="axvero-campaign-body-wrapper">
+                <div class="axvero-campaign-model-cutout">
+                    <img src="{{ static_asset('assets/img/demo/image.png') }}" alt="Summer Outer Week Model"
+                        onerror="this.onerror=null;this.src='{{ static_asset('assets/img/placeholder.jpg') }}';" />
+                </div>
+
+                <div class="axvero-campaign-heading-group">
+                    <span class="axvero-heading-sub">Summer</span>
+                    <h2 class="axvero-heading-main">OUTER<br>WEEK</h2>
+                </div>
+            </div>
+
+            <a href="{{ route('search') }}" class="axvero-campaign-shop-btn">Shop online <i class="las la-arrow-right"></i></a>
+        </div>
+    </section>
 
     <!-- Hidden containers for remaining dynamic sections to prevent JS errors -->
     <div id="section_featured" class="d-none"></div>
@@ -2752,6 +3492,93 @@
 
             nextBtn.addEventListener('click', function() {
                 const items = track.querySelectorAll('.' + currentCategory + '-item');
+                const visibleCount = getVisibleCardsCount();
+                const maxIndex = Math.max(0, items.length - visibleCount);
+                if (currentIndex < maxIndex) {
+                    currentIndex++;
+                    updateSlider();
+                }
+            });
+
+            switchCategory('men');
+            window.addEventListener('resize', updateSlider);
+        })();
+    </script>
+    <script>
+        (function() {
+            const track = document.getElementById('axveroFootwearProductsTrack');
+            const prevBtn = document.getElementById('axveroFootwearPrevBtn');
+            const nextBtn = document.getElementById('axveroFootwearNextBtn');
+            const tabBtns = document.querySelectorAll('.axvero-footwear-tab-btn');
+            if (!track || !prevBtn || !nextBtn || !tabBtns.length) return;
+
+            let currentCategory = 'men';
+            let currentIndex = 0;
+
+            function getVisibleCardsCount() {
+                const width = window.innerWidth;
+                if (width <= 576) return 1;
+                if (width <= 991) return 2;
+                return 3;
+            }
+
+            function updateSlider() {
+                const items = track.querySelectorAll('.footwear-' + currentCategory + '-item');
+                const visibleCount = getVisibleCardsCount();
+                const maxIndex = Math.max(0, items.length - visibleCount);
+                if (currentIndex > maxIndex) currentIndex = maxIndex;
+
+                prevBtn.style.opacity = currentIndex === 0 ? '0.5' : '1';
+                prevBtn.style.pointerEvents = currentIndex === 0 ? 'none' : 'auto';
+                nextBtn.style.opacity = currentIndex >= maxIndex ? '0.5' : '1';
+                nextBtn.style.pointerEvents = currentIndex >= maxIndex ? 'none' : 'auto';
+
+                if (items.length > 0) {
+                    const cardWidth = items[0].getBoundingClientRect().width;
+                    const gap = 24;
+                    const shift = currentIndex * (cardWidth + gap);
+                    track.style.transform = 'translateX(-' + shift + 'px)';
+                } else {
+                    track.style.transform = 'translateX(0)';
+                }
+            }
+
+            function switchCategory(category) {
+                currentCategory = category;
+                currentIndex = 0;
+
+                const allItems = track.querySelectorAll('.axvero-footwear-product-card');
+                allItems.forEach(function(item) {
+                    if (item.classList.contains('footwear-' + category + '-item')) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                tabBtns.forEach(function(btn) {
+                    btn.classList.toggle('active', btn.getAttribute('data-footwear-category') === category);
+                });
+
+                track.style.transform = 'translateX(0)';
+                setTimeout(updateSlider, 50);
+            }
+
+            tabBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    switchCategory(this.getAttribute('data-footwear-category'));
+                });
+            });
+
+            prevBtn.addEventListener('click', function() {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateSlider();
+                }
+            });
+
+            nextBtn.addEventListener('click', function() {
+                const items = track.querySelectorAll('.footwear-' + currentCategory + '-item');
                 const visibleCount = getVisibleCardsCount();
                 const maxIndex = Math.max(0, items.length - visibleCount);
                 if (currentIndex < maxIndex) {
