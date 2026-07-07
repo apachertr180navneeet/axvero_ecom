@@ -11,12 +11,23 @@
     .text-dark-blue { color: #0f172a; }
     .bg-light-peach { background-color: #fdfbfb; }
 
-    /* 1. Hero Section — split: white left + peach-to-navy gradient right */
+    /* 1. Hero Section — full-width split: white left + peach-to-navy gradient right */
+    .axvero-hero-fullbleed {
+        width: 100vw;
+        max-width: 100vw;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        overflow-x: clip;
+    }
     .hero-section {
         background: #ffffff;
         position: relative;
         overflow: hidden;
-        min-height: 720px;
+        min-height: 85vh;
+        width: 100%;
     }
     .hero-section::before {
         content: '';
@@ -25,7 +36,7 @@
         right: 0;
         width: 50%;
         height: 100%;
-        background: linear-gradient(180deg, #e8c4a8 0%, #d4a88a 12%, #a67f8e 38%, #5a628f 68%, #2a3560 88%, #1a237e 100%);
+        background: linear-gradient(180deg, #F5CCB4 0%, #031556 100%);
         z-index: 0;
     }
     .hero-huge-text {
@@ -33,6 +44,7 @@
         top: 48%;
         left: 50%;
         width: 100%;
+        max-width: 100vw;
         text-align: center;
         transform: translate(-50%, -50%);
         font-size: clamp(64px, 11vw, 176px);
@@ -40,17 +52,25 @@
         font-weight: 700;
         color: #3a3a3a;
         z-index: 1;
-        opacity: 0.9;
+        opacity: 0.92;
         white-space: nowrap;
         pointer-events: none;
         letter-spacing: -4px;
         line-height: 1;
     }
+    .hero-inner {
+        min-height: 85vh;
+        display: flex;
+        align-items: flex-end;
+        position: relative;
+        z-index: 2;
+        padding-bottom: 56px;
+    }
     .hero-text {
-        padding: 0 1rem 5rem 0;
+        padding: 0 1rem 0 0;
         z-index: 4;
         position: relative;
-        max-width: 400px;
+        max-width: 420px;
     }
     .hero-subtitle {
         font-size: 13px;
@@ -58,13 +78,33 @@
         line-height: 1.85;
         margin-bottom: 1.75rem;
     }
+    .hero-btn-shop {
+        display: inline-block;
+        padding: 12px 28px;
+        background: linear-gradient(90deg, #293868 0%, #031556 100%);
+        border: none;
+        color: #ffffff;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        text-decoration: none;
+        border-radius: 0;
+        box-shadow: 0 8px 24px rgba(3, 21, 86, 0.25);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .hero-btn-shop:hover {
+        color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 12px 28px rgba(26, 35, 126, 0.45);
+    }
     .hero-img {
         position: absolute;
         left: 50%;
         bottom: 0;
         transform: translateX(-50%);
         height: 94%;
-        max-height: 680px;
+        max-height: 720px;
         z-index: 2;
         object-fit: contain;
         pointer-events: none;
@@ -121,8 +161,8 @@
         align-self: flex-end;
     }
     .hero-floating-card.top-left {
-        top: 20%;
-        left: 20%;
+        top: 22%;
+        left: 30%;
         background: rgba(255, 255, 255, 0.78);
         border: 1px solid rgba(255, 255, 255, 0.9);
         box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
@@ -131,8 +171,8 @@
     .hero-floating-card.top-left .prod-price { color: #333; }
 
     .hero-floating-card.bottom-right {
-        bottom: 20%;
-        right: 5%;
+        bottom: 22%;
+        right: 8%;
         background: linear-gradient(135deg, #4f6fd8 0%, #2f3f8f 100%);
         border: 1px solid rgba(255, 255, 255, 0.25);
         box-shadow: 0 18px 40px rgba(33, 40, 82, 0.35);
@@ -152,6 +192,10 @@
         .hero-section::before {
             width: 100%;
             opacity: 0.45;
+        }
+        .hero-inner {
+            min-height: 560px;
+            padding-bottom: 32px;
         }
         .hero-huge-text {
             font-size: clamp(42px, 12vw, 72px);
@@ -183,34 +227,108 @@
         display: none !important;
     }
 
-    /* 2. Category Circles */
-    .cat-circle-wrap {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        text-decoration: none !important;
-        color: #333;
+    /* 2. Shop by Category — premium vertical cards */
+    .home-premium-categories {
+        padding: 60px 0;
+        background: #ffffff;
     }
-    .cat-circle {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
+    .categories-flex-row {
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        padding-bottom: 15px;
+        margin-bottom: -15px;
+        -webkit-overflow-scrolling: touch;
+    }
+    .categories-flex-row::-webkit-scrollbar {
+        display: none;
+    }
+    .category-flex-item {
+        flex: 0 0 calc(100% / 7 - 11px);
+        min-width: 160px;
+        scroll-snap-align: start;
+    }
+    .premium-cat-card {
+        position: relative;
+        aspect-ratio: 3 / 4;
         overflow: hidden;
-        margin-bottom: 10px;
-        background: #f8f9fa;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        cursor: pointer;
+        background: #000;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
     }
-    .cat-circle img {
+    .premium-cat-card img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.3s ease;
+        display: block;
+        transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
-    .cat-circle-wrap:hover .cat-circle img {
-        transform: scale(1.1);
+    .premium-cat-card:hover img {
+        transform: scale(1.08);
+    }
+    .premium-cat-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+        text-align: center;
+        transition: background 0.4s ease;
+    }
+    .premium-cat-card:hover .premium-cat-overlay {
+        background: rgba(0, 0, 0, 0.6);
+    }
+    .premium-cat-title {
+        color: #ffffff;
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: 1.3rem;
+        font-weight: 500;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        transition: transform 0.4s ease;
+    }
+    .premium-cat-card:hover .premium-cat-title {
+        transform: translateY(-5px);
+    }
+    .premium-cat-btn {
+        background: #ffffff;
+        color: #1a1a2e;
+        border: none;
+        padding: 6px 14px;
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        transition: all 0.4s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    }
+    .premium-cat-card:hover .premium-cat-btn {
+        background: #1a1a2e;
+        color: #ffffff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+    @media (max-width: 1200px) {
+        .category-flex-item {
+            flex: 0 0 calc(25% - 10px);
+        }
+    }
+    @media (max-width: 768px) {
+        .category-flex-item {
+            flex: 0 0 calc(45% - 8px);
+        }
+        .premium-cat-title {
+            font-size: 1.15rem;
+            letter-spacing: 1.5px;
+        }
     }
     
     /* Section Headers */
@@ -583,18 +701,18 @@
     $hero_btn_link = get_setting('axvero_hero_btn_link', null, $lang) ?: route('search');
     $latest_hero_products = filter_products(\App\Models\Product::where('published', 1)->orderBy('created_at', 'desc'))->limit(2)->get();
 @endphp
-<div class="container-fluid px-0 mb-5">
+<div class="axvero-hero-fullbleed mb-5">
     <div class="hero-section">
         <div class="hero-huge-text">{{ $hero_title }}</div>
 
         <img src="{{ $hero_img }}" class="hero-img d-none d-md-block" alt="Fashion Model" onerror="this.onerror=null;this.src='{{ static_asset('assets/img/demo/lady.png') }}';">
 
-        <div class="container h-100 position-relative z-2">
-            <div class="row align-items-end h-100" style="min-height: 720px;">
+        <div class="container-fluid px-4 px-lg-5 hero-inner">
+            <div class="row w-100">
                 <div class="col-md-5 col-lg-4">
                     <div class="hero-text">
                         <p class="hero-subtitle mb-0">{{ $hero_subtitle }}</p>
-                        <a href="{{ $hero_btn_link }}" class="btn btn-primary px-4 py-2 rounded-0 shadow-sm fw-600 mt-4 d-inline-block" style="background-color: #293868; border-color: #293868;">{{ $hero_btn_text }}</a>
+                        <a href="{{ $hero_btn_link }}" class="hero-btn-shop mt-4">{{ $hero_btn_text }}</a>
                     </div>
                 </div>
             </div>
@@ -630,27 +748,32 @@
     </div>
 </div>
 
-<!-- 2. Category Circles -->
-<div class="container mb-5">
-    <div class="row gutters-10 justify-content-center">
-        @foreach (get_level_zero_categories()->take(8) as $key => $category)
-        <div class="col-6 col-sm-4 col-md-3 col-lg-auto mb-3">
-            <a href="{{ route('products.category', $category->slug) }}" class="cat-circle-wrap">
-                <div class="cat-circle shadow-sm">
-                    @if ($category->banner)
-                        <img src="{{ uploaded_asset($category->banner) }}" alt="{{ $category->getTranslation('name') }}" onerror="this.onerror=null;this.src='{{ static_asset('assets/img/demo/demo_thumb_fashion.png') }}';">
-                    @elseif (isset($category->catIcon->file_name))
-                        <img src="{{ my_asset($category->catIcon->file_name) }}" alt="{{ $category->getTranslation('name') }}" onerror="this.onerror=null;this.src='{{ static_asset('assets/img/demo/demo_thumb_fashion.png') }}';">
-                    @else
-                        <img src="{{ static_asset('assets/img/demo/demo_thumb_fashion.png') }}" alt="{{ $category->getTranslation('name') }}">
-                    @endif
-                </div>
-                <div class="fs-14 fw-600 mt-2 text-dark">{{ $category->getTranslation('name') }}</div>
-            </a>
+<!-- 2. Shop by Category -->
+<section class="home-premium-categories mb-5">
+    <div class="container-fluid px-3 px-lg-5">
+        <div class="categories-flex-row">
+            @foreach (get_level_zero_categories()->take(7) as $category)
+            <div class="category-flex-item">
+                <a href="{{ route('products.category', $category->slug) }}" class="d-block text-decoration-none">
+                    <div class="premium-cat-card">
+                        @if ($category->banner)
+                            <img src="{{ uploaded_asset($category->banner) }}" alt="{{ $category->getTranslation('name') }}" onerror="this.onerror=null;this.src='{{ static_asset('assets/img/demo/demo_thumb_fashion.png') }}';">
+                        @elseif (isset($category->catIcon->file_name))
+                            <img src="{{ my_asset($category->catIcon->file_name) }}" alt="{{ $category->getTranslation('name') }}" onerror="this.onerror=null;this.src='{{ static_asset('assets/img/demo/demo_thumb_fashion.png') }}';">
+                        @else
+                            <img src="{{ static_asset('assets/img/demo/demo_thumb_fashion.png') }}" alt="{{ $category->getTranslation('name') }}">
+                        @endif
+                        <div class="premium-cat-overlay">
+                            <h3 class="premium-cat-title">{{ strtoupper($category->getTranslation('name')) }}</h3>
+                            <span class="premium-cat-btn d-inline-block">Shop Now</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            @endforeach
         </div>
-        @endforeach
     </div>
-</div>
+</section>
 
 <!-- 3. New Products Grid 1 -->
 <div class="container mb-5">
