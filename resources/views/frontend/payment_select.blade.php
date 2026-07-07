@@ -27,6 +27,22 @@
                                     placeholder="{{ translate('Type your text...') }}"></textarea>
                             </div>
 
+                            <!-- Agree Box -->
+                            <div class="pt-3 px-4 pb-2 fs-14">
+                                <label class="aiz-checkbox mb-0">
+                                    <input type="checkbox" required id="agree_checkbox">
+                                    <span class="aiz-square-check mr-2"></span>
+                                    <span>{{ translate('I agree to the') }}
+                                    <a href="{{ route('terms') }}"
+                                        class="fw-700">{{ translate('terms and conditions') }}</a>,
+                                    <a href="{{ route('returnpolicy') }}"
+                                        class="fw-700">{{ translate('return policy') }}</a> &
+                                    <a href="{{ route('privacypolicy') }}"
+                                        class="fw-700">{{ translate('privacy policy') }}</a>
+                                    </span>
+                                </label>
+                            </div>
+
                             <div class="card-header p-4 border-bottom-0">
                                 <h3 class="fs-16 fw-700 text-dark mb-0">
                                     {{ translate('Select a payment option') }}
@@ -573,20 +589,7 @@
                                 @endif
                             </div>
 
-                            <!-- Agree Box -->
-                            <div class="pt-3 px-4 fs-14">
-                                <label class="aiz-checkbox">
-                                    <input type="checkbox" required id="agree_checkbox">
-                                    <span class="aiz-square-check"></span>
-                                    <span>{{ translate('I agree to the') }}</span>
-                                </label>
-                                <a href="{{ route('terms') }}"
-                                    class="fw-700">{{ translate('terms and conditions') }}</a>,
-                                <a href="{{ route('returnpolicy') }}"
-                                    class="fw-700">{{ translate('return policy') }}</a> &
-                                <a href="{{ route('privacypolicy') }}"
-                                    class="fw-700">{{ translate('privacy policy') }}</a>
-                            </div>
+
 
                             <!-- Sticky Bottom Bar -->
                             <div class="position-fixed d-flex justify-content-between align-items-center p-3 bg-white" style="bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; box-shadow: 0 -5px 15px rgba(0,0,0,0.05); z-index: 99; border-top-left-radius: 20px; border-top-right-radius: 20px;">
