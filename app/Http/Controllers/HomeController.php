@@ -700,8 +700,16 @@ class HomeController extends Controller
 
     public function all_brands(Request $request)
     {
-        $brands = Brand::all();
-        return view('frontend.all_brand', compact('brands'));
+        $brands = Brand::withCount('products')->get();
+        $top_brands = Brand::where('top', 1)->take(4)->get();
+        $categories = class_exists('\App\Models\Category') ? \App\Models\Category::where('level', 0)->take(5)->get() : collect();
+
+        // Group brands by their first letter
+        $grouped_brands = $brands->sortBy('name')->groupBy(function ($item, $key) {
+            return strtoupper(substr(trim($item->name), 0, 1));
+        });
+
+        return view('frontend.all_brand', compact('brands', 'top_brands', 'categories', 'grouped_brands'));
     }
 
     public function home_settings(Request $request)
