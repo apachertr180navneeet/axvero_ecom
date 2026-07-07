@@ -15,6 +15,7 @@ use App\Models\Country;
 use App\Models\Product;
 use App\Models\User;
 use App\Utility\EmailUtility;
+use App\Utility\VerifyUtility;
 use App\Utility\NotificationUtility;
 use Session;
 use Auth;
@@ -285,7 +286,7 @@ class CheckoutController extends Controller
 
         // Sending email verification Notification
         if ($isEmailVerificationEnabled == 1) {
-            EmailUtility::email_verification($user, 'customer');
+            VerifyUtility::sendVerificationCode($user, 'customer');
         }
 
         // Customer Account Opening Email to Admin

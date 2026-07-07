@@ -8,6 +8,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\OTPVerificationController;
+use App\Utility\VerifyUtility;
 
 class VerificationController extends Controller
 {
@@ -38,9 +39,9 @@ class VerificationController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('auth');
+        $this->middleware('auth');
         $this->middleware('signed')->only('verify');
-        $this->middleware('throttle:6,1')->only('verify', 'resend');
+        $this->middleware('throttle:6,1')->only('verify', 'resend', 'verifyCode');
     }
 
     /**
@@ -63,6 +64,37 @@ class VerificationController extends Controller
         }
     }
 
+    protected function verificationResultView(string $type)
+    {
+        return view('auth.'.get_setting('authentication_layout_select').'.verify_email_result', compact('type'));
+    }
+
+    /**
+     * Verify the email using a 6-digit OTP code.
+     */
+    public function verifyCode(Request $request)
+    {
+        $request->validate([
+            'verification_code' => 'required|digits:6',
+        ]);
+
+        $user = $request->user();
+
+        if ($user->hasVerifiedEmail()) {
+            return $this->verificationResultView('success');
+        }
+
+        if ((string) $user->verification_code === (string) $request->verification_code) {
+            $user->email_verified_at = Carbon::now();
+            $user->verification_code = null;
+            $user->save();
+            offerUserWelcomeCoupon();
+
+            return $this->verificationResultView('success');
+        }
+
+        return $this->verificationResultView('failed');
+    }
 
     /**
      * Resend the email verification notification.
@@ -76,28 +108,45 @@ class VerificationController extends Controller
             return redirect($this->redirectPath());
         }
 
-        $request->user()->sendEmailVerificationNotification();
+        try {
+            VerifyUtility::sendVerificationCode(
+                $request->user(),
+                $request->user()->user_type == 'seller' ? 'seller' : 'customer'
+            );
+        } catch (\Exception $e) {
+            flash(translate('Something went wrong. Please try again later.'))->error();
+            return back();
+        }
 
         return back()->with('resent', true);
     }
 
     public function verification_confirmation($code){
         $user = User::where('verification_code', $code)->first();
+
+        if ($user == null) {
+            try {
+                $user = User::find(decrypt($code));
+            } catch (\Exception $e) {
+                $user = null;
+            }
+        }
+
         if($user != null){
             $user->email_verified_at = Carbon::now();
+            $user->verification_code = null;
             $user->save();
             auth()->login($user, true);
             offerUserWelcomeCoupon();
-            flash(translate('Your email has been verified successfully'))->success();
-        }
-        else {
-            flash(translate('Sorry, we could not verifiy you. Please try again'))->error();
+
+            return $this->verificationResultView('success');
         }
 
-        if($user->user_type == 'seller') {
-            return redirect()->route('seller.dashboard');
+        if (auth()->check()) {
+            return $this->verificationResultView('failed');
         }
 
-        return redirect()->route('dashboard');
+        flash(translate('Sorry, we could not verifiy you. Please try again'))->error();
+        return redirect()->route('user.login');
     }
 }

@@ -12,7 +12,6 @@
             AIZ.plugins.notify('danger', '{{ translate("Please enter your email or phone number") }}');
             return;
         }
-        let emailPhoneDiv = $('#emailOrPhoneDiv'); 
         let codeGroup = $('#verification_code').closest('.form-group');
 
         let originalText = $(btn).html();
@@ -29,8 +28,8 @@
             } else if (data.status == 1) {
                 AIZ.plugins.notify('success', `${data.message}`);
 
-                emailPhoneDiv.addClass('d-none');
-                codeGroup.removeClass('d-none').addClass('d-block');
+                codeGroup.removeClass('d-none');
+                $(btn).prop('disabled', true).text('{{ translate("Sent") }}');
             } else {
                 AIZ.plugins.notify('danger', `${data.message}`);
             }
@@ -45,6 +44,7 @@
     const codeInput = document.getElementById('verification_code');
     const verifyBtn = document.getElementById('verifyOtpBtn');
 
+    if (codeInput && verifyBtn) {
     //realtime validation
     codeInput.addEventListener('input', function() {
         
@@ -83,6 +83,7 @@
             verifyBtn.innerHTML = '<i class="las la-lg la-arrow-right"></i>';
         }
     });
+    }
 
    
 </script>

@@ -1,340 +1,877 @@
 @extends('auth.layouts.authentication')
 
+@php
+    $has_social = get_setting('google_login') == 1 || get_setting('facebook_login') == 1 || get_setting('twitter_login') == 1 || get_setting('apple_login') == 1;
+@endphp
+
+@section('css')
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+@endsection
+
 @section('content')
 <style>
-    .auth-bg {
-        background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+    body {
+        margin: 0;
+        overflow-x: hidden;
     }
-    .auth-card {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(255,255,255,0.5);
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-        border-radius: 24px;
-        padding: 3rem;
+
+    .axvero-login-page {
+        font-family: 'Poppins', sans-serif;
+        display: flex;
+        min-height: 100vh;
+        position: relative;
+        background: #5fb2e5;
+        overflow: hidden;
+    }
+
+    .axvero-login-scene {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: #5fb2e5;
+        overflow: hidden;
+    }
+
+    .axvero-login-brand {
+        position: absolute;
+        top: 32px;
+        left: 40px;
+        z-index: 5;
+        display: inline-block;
+        line-height: 0;
+    }
+
+    .axvero-login-brand img {
+        max-height: 72px;
+        width: auto;
+        object-fit: contain;
+        mix-blend-mode: lighten;
+    }
+
+    .axvero-login-hero-wrap {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 58%;
+        overflow: hidden;
+        background: #5fb2e5;
+        z-index: 2;
+    }
+
+    .axvero-login-hero-image {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 108%;
+        height: 100%;
+        min-height: 100vh;
+        object-fit: cover;
+        object-position: 42% bottom;
+        transform: translateX(10%);
+        pointer-events: none;
+        user-select: none;
+    }
+
+    .axvero-login-panel-col {
         position: relative;
         z-index: 10;
+        margin-left: auto;
+        width: 48%;
+        min-width: 440px;
+        max-width: 620px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: stretch;
+        min-height: 100vh;
+        padding: 0;
+        background: linear-gradient(
+            160deg,
+            rgba(121, 188, 232, 0.55) 0%,
+            rgba(142, 176, 230, 0.5) 28%,
+            rgba(176, 164, 222, 0.55) 58%,
+            rgba(201, 187, 233, 0.6) 100%
+        );
+        overflow: hidden;
     }
-    .auth-input {
-        border-radius: 14px !important;
-        border: 1.5px solid #e2e8f0;
-        padding: 0.85rem 1.25rem;
-        background-color: #f8fafc;
-        transition: all 0.3s ease;
-        font-size: 14px;
+
+    .axvero-login-panel-col::before,
+    .axvero-login-panel-col::after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        pointer-events: none;
+        z-index: 0;
     }
-    .auth-input:focus {
-        border-color: #3b82f6;
-        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
-        background-color: #ffffff;
+
+    .axvero-login-panel-col::before {
+        width: 260px;
+        height: 260px;
+        background: rgba(255, 220, 120, 0.5);
+        top: 6%;
+        right: 10%;
     }
-    .auth-btn {
-        border-radius: 14px;
-        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-        border: none;
-        padding: 0.85rem;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(37, 99, 235, 0.25);
-        color: #fff !important;
+
+    .axvero-login-panel-col::after {
+        width: 280px;
+        height: 280px;
+        background: rgba(180, 140, 235, 0.45);
+        bottom: 8%;
+        left: -5%;
     }
-    .auth-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+
+    .axvero-login-glass {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        margin: 0;
+        border-radius: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 2.5rem 0;
+        z-index: 3;
+        isolation: isolate;
     }
-    .auth-btn:disabled {
-        background: #cbd5e1;
-        box-shadow: none;
-        transform: none;
-        cursor: not-allowed;
+
+    .axvero-login-glass-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        border-radius: 0;
+        background: linear-gradient(
+            165deg,
+            rgba(255, 255, 255, 0.16) 0%,
+            rgba(195, 220, 255, 0.1) 40%,
+            rgba(215, 200, 245, 0.14) 100%
+        );
+        backdrop-filter: blur(48px);
+        -webkit-backdrop-filter: blur(48px);
+        border-left: 1px solid rgba(255, 255, 255, 0.28);
+        pointer-events: none;
     }
-    .auth-link {
-        color: #64748b;
-        transition: color 0.2s ease;
-        text-decoration: none;
+
+    .axvero-login-glass-bg::before,
+    .axvero-login-glass-bg::after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(64px);
+        pointer-events: none;
     }
-    .auth-link:hover {
-        color: #3b82f6;
-        text-decoration: underline;
+
+    .axvero-login-glass-bg::before {
+        width: 220px;
+        height: 220px;
+        background: rgba(255, 210, 110, 0.35);
+        top: 10%;
+        right: 5%;
+        left: auto;
     }
-    .social-btn {
-        border-radius: 50% !important;
-        width: 48px;
-        height: 48px;
+
+    .axvero-login-glass-bg::after {
+        width: 240px;
+        height: 240px;
+        background: rgba(120, 220, 160, 0.28);
+        bottom: 12%;
+        left: -8%;
+    }
+
+    .axvero-login-glass-blob {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        background: rgba(230, 140, 200, 0.32);
+        border-radius: 50%;
+        filter: blur(60px);
+        bottom: 18%;
+        left: 12%;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .axvero-login-inner {
+        position: relative;
+        z-index: 20;
+        width: 100%;
+        max-width: 560px;
+        margin: 0 auto;
+        padding: 3rem 3rem 2.5rem;
+        flex-shrink: 0;
+    }
+
+    .axvero-login-close {
+        position: absolute;
+        top: 24px;
+        right: 28px;
+        z-index: 30;
+        width: 32px;
+        height: 32px;
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        background: #fff;
-        border: 1px solid #e2e8f0;
-        color: #475569;
-        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 18px;
+        text-decoration: none;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        background: rgba(255, 255, 255, 0.1);
+        transition: background 0.2s ease, color 0.2s ease;
     }
-    .social-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        border-color: #cbd5e1;
+
+    .axvero-login-close:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        text-decoration: none;
     }
-    .img-wrapper {
+
+    .axvero-login-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding-right: 0;
+    }
+
+    .axvero-login-title {
+        font-size: 1.85rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 0.45rem;
+        line-height: 1.3;
+    }
+
+    .axvero-login-subtitle {
+        font-size: 0.84rem;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.92);
+        margin-bottom: 0;
+        line-height: 1.55;
+        max-width: 320px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .axvero-login-label {
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    .axvero-login-field {
         position: relative;
-        overflow: hidden;
+        margin-bottom: 1rem;
     }
-    .img-wrapper::after {
-        content: '';
+
+    .axvero-reg-row {
+        display: flex;
+        gap: 1rem;
+        margin-top: 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .axvero-reg-col {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
+    .axvero-login-input-wrap {
+        position: relative;
+    }
+
+    .axvero-login-input-wrap .field-icon {
         position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: linear-gradient(to right, rgba(0,0,0,0.05), rgba(0,0,0,0.3));
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1rem;
         pointer-events: none;
+        z-index: 2;
     }
-    .decorative-shape {
+
+    .axvero-login-input-wrap .axvero-login-password-toggle {
         position: absolute;
-        border-radius: 50%;
-        filter: blur(60px);
-        z-index: 1;
-        opacity: 0.6;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1.05rem;
+        cursor: pointer;
+        z-index: 2;
+        line-height: 1;
     }
-    .shape-1 {
-        width: 300px; height: 300px;
-        background: rgba(59, 130, 246, 0.3);
-        top: -100px; right: -50px;
+
+    .axvero-login-input {
+        width: 100%;
+        border-radius: 10px !important;
+        border: 1px solid rgba(255, 255, 255, 0.55) !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+        color: #fff !important;
+        padding: 0.72rem 2.5rem 0.72rem 2.5rem !important;
+        font-size: 0.84rem !important;
+        height: 46px;
+        transition: border-color 0.2s ease, background 0.2s ease;
+        box-sizing: border-box;
     }
-    .shape-2 {
-        width: 250px; height: 250px;
-        background: rgba(139, 92, 246, 0.2);
-        bottom: -50px; left: -50px;
+
+    .axvero-login-input.axvero-login-input-plain {
+        padding-left: 1rem !important;
+        padding-right: 2.5rem !important;
     }
-    .divider {
+
+    .axvero-login-input::placeholder {
+        color: rgba(255, 255, 255, 0.45);
+    }
+
+    .axvero-login-input:focus {
+        border-color: rgba(255, 255, 255, 0.75) !important;
+        background: rgba(255, 255, 255, 0.14) !important;
+        box-shadow: none !important;
+        outline: none;
+    }
+
+    .axvero-login-input.is-invalid {
+        border-color: #ff8a8a !important;
+    }
+
+    .axvero-login-form .form-group {
+        margin-bottom: 0;
+    }
+
+    .axvero-verify-group {
+        display: flex;
+        gap: 0.5rem;
+        align-items: stretch;
+    }
+
+    .axvero-verify-group .registration-iti,
+    .axvero-verify-group .axvero-login-input-wrap,
+    .axvero-verify-group > .flex-grow-1 {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .axvero-verify-btn {
+        flex-shrink: 0;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.55);
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+        font-size: 0.72rem;
+        font-weight: 600;
+        padding: 0 0.85rem;
+        height: 46px;
+        white-space: nowrap;
+        transition: background 0.2s ease;
+    }
+
+    .axvero-verify-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+    }
+
+    .axvero-verify-btn.disabled {
+        opacity: 0.7;
+        pointer-events: none;
+        background: rgba(255, 255, 255, 0.22);
+    }
+
+    #verificationCodeGroup .axvero-login-input {
+        letter-spacing: 0.2em;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .axvero-login-inner .iti {
+        width: 100%;
+        display: block;
+    }
+
+    .axvero-login-inner .iti__flag-container {
+        z-index: 3;
+    }
+
+    .axvero-login-inner .iti--separate-dial-code .iti__selected-flag {
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 10px 0 0 10px;
+        height: 46px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .axvero-login-inner .iti--separate-dial-code .iti__selected-dial-code {
+        color: rgba(255, 255, 255, 0.9);
+        margin-right: 4px;
+    }
+
+    .axvero-login-inner .registration-iti .axvero-login-input {
+        height: 46px !important;
+        padding-left: 6.75rem !important;
+        padding-right: 1rem !important;
+    }
+
+    #emailOrPhoneDiv {
+        margin-top: 0.25rem;
+    }
+
+    .axvero-login-terms {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 0.76rem;
+        line-height: 1.45;
+        margin-bottom: 1rem;
+        cursor: pointer;
+    }
+
+    .axvero-login-terms input[type="checkbox"] {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 16px;
+        height: 16px;
+        margin-top: 2px;
+        border: 1.5px solid rgba(255, 255, 255, 0.85);
+        border-radius: 3px;
+        background: transparent;
+        cursor: pointer;
+        flex-shrink: 0;
+    }
+
+    .axvero-login-terms input[type="checkbox"]:checked {
+        background: #fff;
+        border-color: #fff;
+    }
+
+    .axvero-login-terms a {
+        color: #fff;
+        font-weight: 600;
+        text-decoration: underline;
+        margin-left: 0.2rem;
+    }
+
+    .axvero-login-btn-primary {
+        width: 100%;
+        border: none;
+        border-radius: 10px;
+        background: #fff;
+        color: #1f2937;
+        font-weight: 700;
+        font-size: 0.92rem;
+        padding: 0.8rem 1rem;
+        height: 46px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    }
+
+    .axvero-login-btn-primary:hover:not(:disabled) {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+        color: #1a1a2e;
+    }
+
+    .axvero-login-btn-primary:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+    }
+
+    .axvero-login-btn-ghost {
         display: flex;
         align-items: center;
-        text-align: center;
-        color: #94a3b8;
-        font-size: 13px;
+        justify-content: center;
+        width: 100%;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.65);
+        background: rgba(255, 255, 255, 0.08);
+        color: #fff;
+        font-size: 0.86rem;
+        font-weight: 600;
+        padding: 0.75rem 1rem;
+        height: 46px;
+        text-decoration: none;
+        transition: background 0.2s ease, border-color 0.2s ease;
+        box-sizing: border-box;
     }
-    .divider::before, .divider::after {
+
+    .axvero-login-btn-ghost:hover {
+        background: rgba(255, 255, 255, 0.14);
+        border-color: rgba(255, 255, 255, 0.75);
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .axvero-login-divider {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        margin: 1rem 0;
+        color: rgba(255, 255, 255, 0.75);
+        font-size: 0.76rem;
+    }
+
+    .axvero-login-divider::before,
+    .axvero-login-divider::after {
         content: '';
         flex: 1;
-        border-bottom: 1px solid #e2e8f0;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.28);
     }
-    .divider:not(:empty)::before { margin-right: .5em; }
-    .divider:not(:empty)::after { margin-left: .5em; }
+
+    .axvero-login-social-row {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: nowrap;
+        width: 100%;
+    }
+
+    .axvero-social-btn {
+        flex: 1 1 0;
+        min-width: 0;
+        min-height: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.35rem;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.55);
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        font-size: 0.72rem;
+        font-weight: 600;
+        padding: 0 0.35rem;
+        text-decoration: none;
+        transition: background 0.2s ease, border-color 0.2s ease;
+        white-space: nowrap;
+        box-sizing: border-box;
+    }
+
+    .axvero-social-btn:hover {
+        background: rgba(255, 255, 255, 0.14);
+        border-color: rgba(255, 255, 255, 0.75);
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .axvero-social-icon {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+        display: block;
+    }
+
+    .axvero-login-register {
+        text-align: center;
+        margin-top: 1.1rem;
+        font-size: 0.8rem;
+        color: #fff;
+        line-height: 1.5;
+    }
+
+    .axvero-login-register a {
+        color: #1a237e;
+        font-weight: 700;
+        text-decoration: none;
+        margin-left: 0.15rem;
+    }
+
+    .axvero-login-register a:hover {
+        color: #0d1545;
+        text-decoration: underline;
+    }
+
+    .invalid-feedback {
+        color: #ffc9c9 !important;
+        font-size: 0.75rem;
+    }
+
+    @media (max-width: 991.98px) {
+        .axvero-login-page {
+            flex-direction: column;
+        }
+
+        .axvero-login-scene {
+            position: relative;
+            height: 38vh;
+            min-height: 280px;
+            flex-shrink: 0;
+        }
+
+        .axvero-login-hero-wrap {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .axvero-login-hero-image {
+            left: 50%;
+            transform: translateX(-50%);
+            min-height: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center bottom;
+        }
+
+        .axvero-login-panel-col {
+            width: 100%;
+            min-width: 0;
+            max-width: none;
+            margin-left: 0;
+            min-height: auto;
+            flex: 1;
+            background: linear-gradient(160deg, #79bce8 0%, #b0a4de 58%, #c9bbe9 100%);
+        }
+
+        .axvero-login-glass {
+            min-height: auto;
+            border-radius: 28px 28px 0 0;
+            justify-content: flex-start;
+            padding: 0;
+        }
+
+        .axvero-login-glass-bg {
+            border-radius: 28px 28px 0 0;
+            border-left: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.32);
+        }
+
+        .axvero-login-inner {
+            padding: 2.25rem 1.75rem 2rem;
+            max-width: 100%;
+        }
+
+        .axvero-login-brand {
+            left: 20px;
+            top: 18px;
+        }
+
+        .axvero-login-brand img {
+            max-height: 56px;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .axvero-reg-row {
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .axvero-login-inner {
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
+        }
+
+        .axvero-login-title {
+            font-size: 1.4rem;
+        }
+
+        .axvero-login-social-row {
+            gap: 0.35rem;
+        }
+
+        .axvero-social-btn {
+            font-size: 0.68rem;
+        }
+    }
 </style>
 
-    <!-- aiz-main-wrapper -->
-    <div class="aiz-main-wrapper d-flex flex-column justify-content-center auth-bg">
-        <section class="overflow-hidden" style="min-height:100vh;">
-            <div class="row" style="min-height: 100vh;">
-                <!-- Left Side Image-->
-                <div class="col-xxl-6 col-lg-6 d-none d-lg-block p-0">
-                    <div class="h-100 img-wrapper">
-                        <img src="{{ uploaded_asset(get_setting('customer_register_page_image')) }}" alt="" class="img-fit h-100 w-100" style="object-fit: cover;">
-                    </div>
+<!-- aiz-main-wrapper -->
+<div class="axvero-login-page">
+    <!-- Left Side Image-->
+    <div class="axvero-login-scene">
+        <div class="axvero-login-hero-wrap">
+            <img
+                src="{{ static_asset('assets/img/demo/login_image.png') }}"
+                alt="{{ translate('Customer Register Page Image') }}"
+                class="axvero-login-hero-image"
+            >
+        </div>
+        <!-- Site Icon -->
+        <a href="{{ route('home') }}" class="axvero-login-brand">
+            <img src="{{ static_asset('assets/img/demo/AXVERO.png') }}" alt="{{ translate('Site Icon') }}">
+        </a>
+    </div>
+
+    <!-- Right Side -->
+    <div class="axvero-login-panel-col">
+        <div class="axvero-login-glass">
+            <div class="axvero-login-glass-bg"></div>
+            <div class="axvero-login-glass-blob"></div>
+
+            <a href="{{ route('home') }}" class="axvero-login-close" aria-label="{{ translate('Close') }}">
+                <i class="las la-times"></i>
+            </a>
+
+            <div class="axvero-login-inner">
+                <!-- Titles -->
+                <div class="axvero-login-header">
+                    <h1 class="axvero-login-title">{{ translate('Join Us Today') }}</h1>
+                    <p class="axvero-login-subtitle">{{ translate('Join us and start your journey') }}</p>
                 </div>
-                
-                <!-- Right Side -->
-                <div class="col-xxl-6 col-lg-6 d-flex align-items-center justify-content-center position-relative py-5 py-lg-0">
-                    <div class="decorative-shape shape-1"></div>
-                    <div class="decorative-shape shape-2"></div>
-                    
-                    <div class="col-sm-10 col-md-8 col-xl-8">
-                        <div class="auth-card my-4 my-lg-0">
-                            <!-- Site Icon -->
-                            <div class="mb-4 text-center">
-                                <a href="{{ route('home') }}">
-                                    <img src="{{ uploaded_asset(get_setting('site_icon')) }}" alt="{{ translate('Site Icon')}}" height="45">
-                                </a>
+
+                <!-- Register form -->
+                <form class="axvero-login-form" id="reg-form" role="form" action="{{ route('register') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="referral_code" value="{{ request('referral_code') }}">
+
+                    <!-- Name -->
+                    <div class="form-group axvero-login-field">
+                        <label for="name" class="axvero-login-label">{{ translate('Full Name') }}</label>
+                        <div class="axvero-login-input-wrap">
+                            <i class="las la-user field-icon"></i>
+                            <input type="text" class="form-control axvero-login-input {{ $errors->has('name') ? ' is-invalid' : '' }}" value="{{ old('name') }}" placeholder="{{ translate('John Doe') }}" name="name" id="name">
+                        </div>
+                        @if ($errors->has('name'))
+                            <span class="invalid-feedback d-block" role="alert">
+                                <strong>{{ $errors->first('name') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+
+                    <!-- Email or Phone -->
+                    <div id="emailOrPhoneDiv">
+                        <div class="form-group phone-form-group axvero-login-field">
+                            <label for="phone-code" class="axvero-login-label">{{ translate('Phone') }}</label>
+                            <div class="registration-iti">
+                                <input type="tel" phone-number id="phone-code" class="form-control axvero-login-input {{ $errors->has('phone') ? ' is-invalid' : '' }}" value="{{ old('phone') }}" placeholder="" name="phone" autocomplete="off">
                             </div>
-                            
-                            <!-- Titles -->
-                            <div class="text-center mb-4">
-                                <h1 class="fs-28 fw-700 text-dark mb-1">{{ translate('Create an Account')}}</h1>
-                                <p class="fs-14 text-secondary">{{ translate('Join us and start your journey')}}</p>
+                        </div>
+
+                        <div class="form-group email-form-group axvero-login-field">
+                            <label for="signinAddonEmail" class="axvero-login-label">{{ translate('Email') }}</label>
+                            <div class="axvero-login-input-wrap">
+                                <i class="las la-envelope field-icon"></i>
+                                <input type="email" class="form-control axvero-login-input {{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" placeholder="{{ translate('Email address') }}" name="email" id="signinAddonEmail" autocomplete="off">
                             </div>
-                            
-                            <!-- Register form -->
-                            <form id="reg-form" role="form" action="{{ route('register') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="referral_code" value="{{ request('referral_code') }}">
-                                
-                                <!-- Name -->
-                                <div class="form-group mb-3">
-                                    <label for="name" class="fs-13 fw-600 text-dark mb-2">{{  translate('Full Name') }}</label>
-                                    <input type="text" class="form-control auth-input {{ $errors->has('name') ? ' is-invalid' : '' }}" value="{{ old('name') }}" placeholder="{{  translate('John Doe') }}" name="name">
-                                    @if ($errors->has('name'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('name') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                                
-                                <!-- Email or Phone -->
-                                <div>
-                                    <div id="emailOrPhoneDiv">
-                                        <div class="form-group phone-form-group mb-3 ">
-                                            <label for="phone" class="fs-13 fw-600 text-dark mb-2">{{ translate('Phone') }}</label>
-                                            <div class="input-group registration-iti">
-                                                <input type="tel" phone-number id="phone-code" class="form-control auth-input {{ $errors->has('phone') ? ' is-invalid' : '' }}" value="{{ old('phone') }}" placeholder="" name="phone" autocomplete="off">
-                                                @if(get_setting('customer_registration_verify') == '1')
-                                                <div class="input-group-append">
-                                                    <button class="btn btn-outline-primary" type="button" id="sendOtpPhoneBtn" onclick="sendVerificationCode(this)">
-                                                        {{ translate('Verify') }} 
-                                                    </button>
-                                                </div>
-                                                @endif
-                                            </div>
-                                        </div>
-                                
-                                        <input type="hidden" id="country_code" name="country_code" value="">
-                                
-                                        <div class="form-group email-form-group mb-3">
-                                            <label for="email" class="fs-13 fw-600 text-dark mb-2">{{ translate('Email') }}</label>
-                                            <div class="input-group">
-                                                <input type="email" class="form-control auth-input {{ $errors->has('email') ? ' is-invalid' : '' }} " value="{{ old('email') }}" placeholder="{{ translate('johndoe@example.com') }}" name="email" id="signinAddonEmail" autocomplete="off">
-                                                @if(get_setting('customer_registration_verify') == '1')
-                                                <div class="input-group-append">
-                                                    <button class="btn btn-outline-primary ms-2" type="button" id="sendOtpBtn" onclick="sendVerificationCode(this)">
-                                                        {{ translate('Verify') }} 
-                                                    </button>
-                                                </div>
-                                                @endif
-                                            </div>
-                                            @if ($errors->has('email'))
-                                                <span class="invalid-feedback d-block" role="alert">
-                                                    <strong>{{ $errors->first('email') }}</strong>
-                                                </span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="form-group mb-3 d-none">
-                                        <label class="fs-13 fw-600 text-dark mb-2" for="verification_code">{{ translate('Verification Code') }}</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control auth-input @error('verification_code') is-invalid @enderror" name="code" id="verification_code" placeholder="{{ translate('Verification Code') }}" maxlength="6">
-                                            <div class="input-group-append">
-                                                <span class="btn btn-primary" id="verifyOtpBtn">
-                                                    <i class="las la-arrow-right"></i> 
-                                                </span>
-                                            </div>
-                                            @error('otp')
-                                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="row">
-                                    <!-- password -->
-                                    <div class="col-md-6 form-group mb-3">
-                                        <label for="password" class="fs-13 fw-600 text-dark mb-2">{{  translate('Password') }}</label>
-                                        <div class="position-relative">
-                                            <input type="password" class="form-control auth-input {{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="{{  translate('Password') }}" name="password">
-                                            <i class="password-toggle las la-eye" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #94a3b8; font-size: 1.2rem;"></i>
-                                        </div>
-                                        @if ($errors->has('password'))
-                                            <span class="invalid-feedback d-block" role="alert">
-                                                <strong>{{ $errors->first('password') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-
-                                    <!-- password Confirm -->
-                                    <div class="col-md-6 form-group mb-3">
-                                        <label for="password_confirmation" class="fs-13 fw-600 text-dark mb-2">{{  translate('Confirm Password') }}</label>
-                                        <div class="position-relative">
-                                            <input type="password" class="form-control auth-input" placeholder="{{  translate('Confirm Password') }}" name="password_confirmation">
-                                            <i class="password-toggle las la-eye" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #94a3b8; font-size: 1.2rem;"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="text-right mb-3 mt-n2">
-                                    <span class="fs-12 text-secondary">{{ translate('Password must contain at least 6 digits') }}</span>
-                                </div>
-
-                                <!-- Recaptcha -->
-                                @if(get_setting('google_recaptcha') == 1 && get_setting('recaptcha_customer_register') == 1)
-                                    @if ($errors->has('g-recaptcha-response'))
-                                        <span class="border invalid-feedback rounded p-2 mb-3 bg-danger text-white d-block" role="alert">
-                                            <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
-                                        </span>
-                                    @endif
-                                @endif
-
-                                <!-- Terms and Conditions -->
-                                <div class="mb-4">
-                                    <label class="aiz-checkbox mb-0">
-                                        <input type="checkbox" name="checkbox_example_1" required>
-                                        <span class="fs-13 fw-500 text-secondary ms-2">{{ translate('By signing up you agree to our ')}} <a href="{{ route('terms') }}" class="fw-600 auth-link">{{ translate('terms and conditions') }}</a>.</span>
-                                        <span class="aiz-square-check"></span>
-                                    </label>
-                                </div>
-
-                                <!-- Submit Button -->
-                                <button type="submit" class="btn auth-btn btn-block w-100 fs-15" id="createAccountBtn">{{  translate('Create Account') }}</button>
-                            </form>
-                            
-                            <!-- Social Login -->
-                            @if(get_setting('google_login') == 1 || get_setting('facebook_login') == 1 || get_setting('twitter_login') == 1 || get_setting('apple_login') == 1)
-                                <div class="divider my-4">{{ translate('Or Join With')}}</div>
-                                <div class="d-flex justify-content-center gap-3">
-                                    @if (get_setting('facebook_login') == 1)
-                                        <a href="{{ route('social.login', ['provider' => 'facebook']) }}" class="social-btn mx-2" title="Facebook">
-                                            <i class="lab la-facebook-f" style="color: #1877F2;"></i>
-                                        </a>
-                                    @endif
-                                    @if (get_setting('twitter_login') == 1)
-                                        <a href="{{ route('social.login', ['provider' => 'twitter']) }}" class="social-btn mx-2" title="Twitter">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#1DA1F2" viewBox="0 0 16 16">
-                                                <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/>
-                                            </svg>
-                                        </a>
-                                    @endif
-                                    @if(get_setting('google_login') == 1)
-                                        <a href="{{ route('social.login', ['provider' => 'google']) }}" class="social-btn mx-2" title="Google">
-                                            <i class="lab la-google" style="color: #DB4437;"></i>
-                                        </a>
-                                    @endif
-                                    @if (get_setting('apple_login') == 1)
-                                        <a href="{{ route('social.login', ['provider' => 'apple']) }}" class="social-btn mx-2" title="Apple">
-                                            <i class="lab la-apple" style="color: #000;"></i>
-                                        </a>
-                                    @endif
-                                </div>
+                            @if ($errors->has('email'))
+                                <span class="invalid-feedback d-block" role="alert">
+                                    <strong>{{ $errors->first('email') }}</strong>
+                                </span>
                             @endif
+                        </div>
 
-                            <!-- Log In -->
-                            <div class="text-center mt-4 pt-2">
-                                <p class="fs-14 text-secondary mb-0">
-                                    {{ translate('Already have an account?')}}
-                                    <a href="{{ route('user.login') }}" class="fw-700 text-primary auth-link ms-1">{{ translate('Log In')}}</a>
-                                </p>
+                        <input type="hidden" id="country_code" name="country_code" value="">
+                    </div>
+
+                    <div class="axvero-reg-row">
+                        <!-- password -->
+                        <div class="axvero-reg-col">
+                            <div class="form-group axvero-login-field">
+                                <label for="password" class="axvero-login-label">{{ translate('Password') }}</label>
+                                <div class="axvero-login-input-wrap">
+                                    <input type="password" class="form-control axvero-login-input axvero-login-input-plain {{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="{{ translate('Password') }}" name="password" id="password">
+                                    <i class="las la-eye axvero-login-password-toggle password-toggle"></i>
+                                </div>
+                                @if ($errors->has('password'))
+                                    <span class="invalid-feedback d-block" role="alert">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- password Confirm -->
+                        <div class="axvero-reg-col">
+                            <div class="form-group axvero-login-field">
+                                <label for="password_confirmation" class="axvero-login-label">{{ translate('Confirm Password') }}</label>
+                                <div class="axvero-login-input-wrap">
+                                    <input type="password" class="form-control axvero-login-input axvero-login-input-plain {{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}" placeholder="{{ translate('Confirm Password') }}" name="password_confirmation" id="password_confirmation">
+                                    <i class="las la-eye axvero-login-password-toggle password-toggle"></i>
+                                </div>
+                                @if ($errors->has('password_confirmation'))
+                                    <span class="invalid-feedback d-block" role="alert">
+                                        <strong>{{ $errors->first('password_confirmation') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
                     </div>
+
+                    <!-- Recaptcha -->
+                    @if(get_setting('google_recaptcha') == 1 && get_setting('recaptcha_customer_register') == 1)
+                        @if ($errors->has('g-recaptcha-response'))
+                            <span class="invalid-feedback d-block rounded p-2 mb-3" role="alert" style="background: rgba(220,53,69,0.25);">
+                                <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+                            </span>
+                        @endif
+                    @endif
+
+                    <!-- Terms and Conditions -->
+                    <label class="axvero-login-terms">
+                        <input type="checkbox" name="checkbox_example_1" required>
+                        <span>{{ translate('By signing up you agree to our') }} <a href="{{ route('terms') }}">{{ translate('terms and conditions') }}</a>.</span>
+                    </label>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="axvero-login-btn-primary" id="createAccountBtn" disabled>{{ translate('Create Account') }}</button>
+                </form>
+
+                <div class="axvero-login-divider">{{ translate('Or') }}</div>
+
+                <a href="{{ route('home') }}" class="axvero-login-btn-ghost">{{ translate('Continue as Guest') }}</a>
+
+                <!-- Social Login -->
+                @if ($has_social)
+                    <div class="axvero-login-divider">{{ translate('Or Join With') }}</div>
+                    <div class="axvero-login-social-row">
+                        @if (get_setting('google_login') == 1)
+                            <a href="{{ route('social.login', ['provider' => 'google']) }}" class="axvero-social-btn" title="Google">
+                                <svg class="axvero-social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                                </svg>
+                                <span>Google</span>
+                            </a>
+                        @endif
+                        @if (get_setting('facebook_login') == 1)
+                            <a href="{{ route('social.login', ['provider' => 'facebook']) }}" class="axvero-social-btn" title="Facebook">
+                                <svg class="axvero-social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12S0 5.446 0 12.073c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.543c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                </svg>
+                                <span>Facebook</span>
+                            </a>
+                        @endif
+                        @if (get_setting('apple_login') == 1)
+                            <a href="{{ route('social.login', ['provider' => 'apple']) }}" class="axvero-social-btn" title="Apple">
+                                <svg class="axvero-social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path fill="#ffffff" d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+                                </svg>
+                                <span>Apple</span>
+                            </a>
+                        @endif
+                        @if (get_setting('twitter_login') == 1)
+                            <a href="{{ route('social.login', ['provider' => 'twitter']) }}" class="axvero-social-btn" title="Twitter">
+                                <svg class="axvero-social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true">
+                                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                </svg>
+                                <span>X</span>
+                            </a>
+                        @endif
+                    </div>
+                @endif
+
+                <!-- Log In -->
+                <div class="axvero-login-register">
+                    <span>{{ translate('Already have an account?') }}</span>
+                    <a href="{{ route('user.login') }}">{{ translate('Log In') }}</a>
                 </div>
             </div>
-        </section>
+        </div>
     </div>
+</div>
 @endsection
 
 @section('script')
-    <script type="text/javascript">
-        // Custom password toggle logic
-        document.querySelectorAll('.password-toggle').forEach(function(toggle) {
-            toggle.addEventListener('click', function() {
-                var input = this.previousElementSibling;
-                if(input.type === 'password') {
-                    input.type = 'text';
-                    this.classList.remove('la-eye');
-                    this.classList.add('la-eye-slash');
-                } else {
-                    input.type = 'password';
-                    this.classList.remove('la-eye-slash');
-                    this.classList.add('la-eye');
-                }
-            });
-        });
-    </script>
-    
     @if(get_setting('google_recaptcha') == 1 && get_setting('recaptcha_customer_register') == 1)
         <script src="https://www.google.com/recaptcha/api.js?render={{ env('CAPTCHA_KEY') }}"></script>
         <script type="text/javascript">
@@ -353,28 +890,25 @@
             });
         </script>
     @endif
-    @include('auth.verifyEmailOrPhone')
 
     <script>
-        const regVerifyRequired = {{get_setting('customer_registration_verify') ? 'true' : 'false' }};
-        const createBtn   = $('#createAccountBtn');
-        const termsCheckbox = $('input[name="checkbox_example_1"]');
-        
+        const createBtn = document.getElementById('createAccountBtn');
+        const termsCheckbox = document.querySelector('input[name="checkbox_example_1"]');
+
         function toggleCreateBtn() {
-            const termsChecked = termsCheckbox.is(':checked');
-            const regVerified  = regVerifyRequired ? (typeof verifyBtn !== 'undefined' && verifyBtn && verifyBtn.classList.contains('disabled')) : true;
-            let enableBtn = false;
-            if (regVerifyRequired) {
-                enableBtn = termsChecked && regVerified;
-            } else {
-                enableBtn = termsChecked;
+            if (!createBtn) {
+                return;
             }
-            createBtn.prop('disabled', !enableBtn);
+
+            createBtn.disabled = !(termsCheckbox && termsCheckbox.checked);
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            toggleCreateBtn(); 
-            termsCheckbox.on('change', toggleCreateBtn); 
+            toggleCreateBtn();
+
+            if (termsCheckbox) {
+                termsCheckbox.addEventListener('change', toggleCreateBtn);
+            }
         });
     </script>
 @endsection

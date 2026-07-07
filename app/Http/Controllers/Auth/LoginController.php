@@ -271,6 +271,15 @@ class LoginController extends Controller
      */
     public function authenticated()
     {
+        if (
+            get_setting('email_verification') == 1
+            && auth()->user()->email != null
+            && ! auth()->user()->hasVerifiedEmail()
+            && auth()->user()->user_type == 'customer'
+        ) {
+            return redirect()->route('verification.notice');
+        }
+
         if (session('temp_user_id') != null) {
             if(auth()->user()->user_type == 'customer'){
                 Cart::where('temp_user_id', session('temp_user_id'))
