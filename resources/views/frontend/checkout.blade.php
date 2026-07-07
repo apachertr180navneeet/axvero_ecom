@@ -1,84 +1,152 @@
 @extends('frontend.layouts.app')
 
 @section('content')
+    <style>
+        .axvero-checkout-page {
+            min-height: 100vh;
+            background: #f8f9fa;
+        }
 
-    <div class="container-fluid p-0 mx-auto bg-light position-relative" style="max-width: 480px; min-height: 100vh; box-shadow: 0 0 20px rgba(0,0,0,0.05); padding-bottom: 80px !important;">
-        <!-- Mobile App Header -->
-        <div class="d-flex align-items-center justify-content-between p-3" style="background-color: #502288; color: white; position: sticky; top: 0; z-index: 100;">
-            <div class="d-flex align-items-center gap-3">
-                <a href="{{ url()->previous() }}" class="text-white" style="color: #ffffff !important;"><i class="las la-arrow-left fs-24" style="color: #ffffff !important;"></i></a>
-                <h5 class="mb-0 fw-600 fs-16 text-white" style="color: #ffffff !important;">Checkout</h5>
-            </div>
-        </div>
+        .axvero-checkout-shell {
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
 
-        <div class="text-center mt-3 mb-4">
-            <h2 class="fw-700 text-dark fs-22">Shopping cart</h2>
-        </div>
+        @media (max-width: 991.98px) {
+            .axvero-checkout-shell {
+                max-width: 480px;
+                margin-left: auto;
+                margin-right: auto;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+            }
+        }
 
-        <!-- Stepper -->
-        <div class="d-flex justify-content-center align-items-center px-4 mb-4" id="checkout-stepper">
-            <!-- Step 1: Cart -->
-            <div class="d-flex align-items-center">
-                <div class="d-flex align-items-center justify-content-center rounded-circle text-white fw-700 fs-12" style="width: 24px; height: 24px; background-color: #000;">1</div>
-                <span class="ml-2 fw-700 text-dark fs-14">Cart</span>
-            </div>
-            
-            <!-- Divider -->
-            <div class="flex-grow-1 mx-2" style="height: 2px; background-color: #000; max-width: 40px;"></div>
-            
-            <!-- Step 2: Address -->
-            <div class="d-flex align-items-center">
-                <div class="d-flex align-items-center justify-content-center rounded-circle fw-700 fs-12 step-number" id="step2-number" style="width: 24px; height: 24px; background-color: #000; color: #fff;">2</div>
-                <span class="ml-2 fw-700 text-dark fs-14 step-text" id="step2-text">Address</span>
-            </div>
-            
-            <!-- Divider -->
-            <div class="flex-grow-1 mx-2 step-divider" id="step2-divider" style="height: 1px; background-color: #e0e0e0; max-width: 40px;"></div>
-            
-            <!-- Step 3: Payment -->
-            <div class="d-flex align-items-center">
-                <div class="d-flex align-items-center justify-content-center rounded-circle fw-700 fs-12 step-number" id="step3-number" style="width: 24px; height: 24px; background-color: #f5f5f5; color: #888;">3</div>
-                <span class="ml-2 fw-600 fs-14 step-text" id="step3-text" style="color: #a0a0a0;">Payment</span>
-            </div>
-        </div>
+        @media (min-width: 992px) {
+            .axvero-checkout-shell {
+                max-width: 100%;
+                padding-bottom: 2rem;
+            }
 
-        <section class="p-3">
-            <form class="form-default" data-toggle="validator" action="{{ route('payment.checkout') }}" role="form" method="POST" id="checkout-form">
-                @csrf
-                <input type="hidden" name="is_online_pay" id="is_online_pay" value="{{ $carts->isNotEmpty() ? $carts->first()->is_online_pay : 0 }}">
-                
-                <!-- STEP 1: Address -->
-                <div id="step-address">
-                    <h6 class="fs-15 fw-700 text-dark mb-3">Select Delivery Address</h6>
-                    <div id="shipping_info">
-                        @include('frontend.partials.cart.shipping_info', ['address_id' => $address_id])
-                    </div>
-                    
-                    <div class="mt-4">
-                        <button type="button" class="btn btn-block text-white fw-700 py-3 shadow-sm" style="background-color: #000; font-size: 16px; border-radius: 4px;" onclick="goToPaymentStep()">
-                            Continue
-                        </button>
-                    </div>
+            .axvero-checkout-stepper .step-divider {
+                max-width: 80px !important;
+            }
+
+            .checkout-summary-sidebar {
+                position: sticky;
+                top: 120px;
+            }
+        }
+    </style>
+
+    <div class="axvero-checkout-page">
+        <div class="axvero-checkout-shell mx-auto bg-light position-relative w-100">
+            <!-- Mobile App Header -->
+            <div class="d-lg-none d-flex align-items-center justify-content-between p-3"
+                style="background-color: #502288; color: white; position: sticky; top: 0; z-index: 100;">
+                <div class="d-flex align-items-center gap-3">
+                    <a href="{{ url()->previous() }}" class="text-white" style="color: #ffffff !important;"><i
+                            class="las la-arrow-left fs-24" style="color: #ffffff !important;"></i></a>
+                    <h5 class="mb-0 fw-600 fs-16 text-white" style="color: #ffffff !important;">Checkout</h5>
+                </div>
+            </div>
+
+            <div class="text-center mt-3 mb-4 d-lg-none">
+                <h2 class="fw-700 text-dark fs-22">Shopping cart</h2>
+            </div>
+            <div class="d-none d-lg-block container py-4">
+                <h1 class="fw-700 text-dark fs-28 mb-0">Checkout</h1>
+            </div>
+
+            <!-- Stepper -->
+            <div class="d-flex justify-content-center align-items-center px-4 mb-4 axvero-checkout-stepper container-lg"
+                id="checkout-stepper">
+                <!-- Step 1: Cart -->
+                <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center justify-content-center rounded-circle text-white fw-700 fs-12"
+                        style="width: 24px; height: 24px; background-color: #000;">1</div>
+                    <span class="ml-2 fw-700 text-dark fs-14">Cart</span>
                 </div>
 
-                <!-- STEP 2: Payment (Includes delivery info implicitly if needed, but UI primarily shows payment) -->
-                <div id="step-payment" class="d-none">
-                    <div class="d-none" id="delivery_info">
-                        @include('frontend.partials.cart.delivery_info', ['carts' => $carts, 'carrier_list' => $carrier_list, 'shipping_info' => $shipping_info])
-                    </div>
-                    
-                    <div id="payment_info">
-                        @include('frontend.partials.cart.payment_info', ['carts' => $carts, 'total' => $total])
-                    </div>
+                <div class="flex-grow-1 mx-2 step-divider"
+                    style="height: 2px; background-color: #000; max-width: 40px;"></div>
+
+                <!-- Step 2: Address -->
+                <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center justify-content-center rounded-circle fw-700 fs-12 step-number"
+                        id="step2-number"
+                        style="width: 24px; height: 24px; background-color: #000; color: #fff;">2</div>
+                    <span class="ml-2 fw-700 text-dark fs-14 step-text" id="step2-text">Address</span>
                 </div>
 
-            </form>
-            
-            <div class="d-none" id="cart_summary">
-                @include('frontend.partials.cart.cart_summary', ['proceed' => 0, 'carts' => $carts])
-            </div>
-        </section>
+                <div class="flex-grow-1 mx-2 step-divider" id="step2-divider"
+                    style="height: 1px; background-color: #e0e0e0; max-width: 40px;"></div>
 
+                <!-- Step 3: Payment -->
+                <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center justify-content-center rounded-circle fw-700 fs-12 step-number"
+                        id="step3-number"
+                        style="width: 24px; height: 24px; background-color: #f5f5f5; color: #888;">3</div>
+                    <span class="ml-2 fw-600 fs-14 step-text" id="step3-text"
+                        style="color: #a0a0a0;">Payment</span>
+                </div>
+            </div>
+
+            <div class="container-fluid px-lg-4">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <section class="p-3 p-lg-0">
+                            <form class="form-default" data-toggle="validator" action="{{ route('payment.checkout') }}"
+                                role="form" method="POST" id="checkout-form">
+                                @csrf
+                                <input type="hidden" name="is_online_pay" id="is_online_pay"
+                                    value="{{ $carts->isNotEmpty() ? $carts->first()->is_online_pay : 0 }}">
+
+                                <!-- STEP 1: Address -->
+                                <div id="step-address">
+                                    <h6 class="fs-15 fw-700 text-dark mb-3">Select Delivery Address</h6>
+                                    <div id="shipping_info">
+                                        @include('frontend.partials.cart.shipping_info', ['address_id' => $address_id])
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <button type="button"
+                                            class="btn btn-block text-white fw-700 py-3 shadow-sm"
+                                            style="background-color: #000; font-size: 16px; border-radius: 4px;"
+                                            onclick="goToPaymentStep()">
+                                            Continue
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- STEP 2: Payment -->
+                                <div id="step-payment" class="d-none">
+                                    <div class="d-none" id="delivery_info">
+                                        @include('frontend.partials.cart.delivery_info', [
+                                            'carts' => $carts,
+                                            'carrier_list' => $carrier_list,
+                                            'shipping_info' => $shipping_info,
+                                        ])
+                                    </div>
+
+                                    <div id="payment_info">
+                                        @include('frontend.partials.cart.payment_info', [
+                                            'carts' => $carts,
+                                            'total' => $total,
+                                        ])
+                                    </div>
+                                </div>
+                            </form>
+                        </section>
+                    </div>
+
+                    <div class="col-lg-4 d-none d-lg-block">
+                        <div class="checkout-summary-sidebar px-lg-0 px-3" id="cart_summary">
+                            @include('frontend.partials.cart.cart_summary', ['proceed' => 0, 'carts' => $carts])
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
