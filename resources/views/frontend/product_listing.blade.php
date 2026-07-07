@@ -46,12 +46,13 @@
 @section('content')
 
     <section class="mb-1">
-        <div class="container sm-px-0 pt-1">
+        <div class="container-fluid sm-px-0 pt-1 px-xl-4 px-2">
             <form class="" id="search-form" action="" method="GET">
-                <div class="row">
+                <input type="hidden" name="product_type" value="{{ $product_type ?? 'general_product' }}">
+                <div class="row axv-listing-scroll-layout">
 
                     <!-- Sidebar Filters -->
-                    <div class="col-xl-3">
+                    <div class="col-xl-3 axv-listing-sidebar-col">
                         <div class="aiz-filter-sidebar collapse-sidebar-wrap sidebar-xl sidebar-right z-1035">
                             <div class="overlay overlay-fixed dark c-pointer" data-toggle="class-toggle"
                                 data-target=".aiz-filter-sidebar" data-same=".filter-sidebar-thumb"></div>
@@ -357,37 +358,146 @@
                     </div>
 
                     <!-- Contents -->
-                    <div class="col-xl-9">
-                        <div class="product-tab mt-2">
-                            @php
-                                $activeClasses = 'bg-soft-dark text-white';
-                                $inActiveClasses = 'preorder-border-dashed  text-muted  fw-600';
-                            @endphp
-                            <div class="p-0 aiz-radio-inline">
-                                <label class="aiz-megabox pl-0 mr-2 " data-toggle="tooltip"
-                                    data-title="{{ translate('General Products') }}">
-                                    <input type="radio" name="product_type" value="general_product"
-                                        onchange="filter(event)">
-                                    <span id="product_type_badge_general"
-                                        class="badge badge-inline fs-12 p-3 rounded-3 preorder-border-dashed my-2 text-muted  fw-600">
-                                        {{ translate('General Products') }}
-                                        <span class="badge badge-inline bg-soft-dark fs-12  p-1 rounded-3 text-white"
-                                            style="background: {{ translate('General Products') }};"></span>
-                                    </span>
-                                </label>
-                                <label class="aiz-megabox pl-0 " data-toggle="tooltip"
-                                    data-title="{{ translate('Preorder Products') }}">
-                                    <input type="radio" name="product_type" value="preorder_product"
-                                        onchange="filter(event)">
-                                    <span id="product_type_badge_preorder"
-                                        class="badge badge-inline fs-12 p-3 rounded-3  preorder-border-dashed my-2 text-muted  fw-600">
-                                        {{ translate('Preorder Products') }}
-                                        <span class="badge badge-inline bg-soft-dark fs-12  my-2 p-1 rounded-3 text-white"
-                                            style="background: {{ translate('Preorder Products') }};"></span>
-                                    </span>
-                                </label>
+                    <div class="col-xl-9 axv-listing-products-col">
+                        <div class="axv-listing-offer-card mb-3">
+                            <div class="axv-listing-offer-content">
+                                <p class="axv-listing-offer-kicker mb-2">Shop wit us!</p>
+                                <h2 class="axv-listing-offer-title mb-3">Get 40% Off for<br>all iteams</h2>
+                                <a href="{{ route('flash-deals') }}" class="axv-listing-offer-cta">Shop Now <span>&#8594;</span></a>
+                            </div>
+                            <div class="axv-listing-offer-image">
+                                <img src="{{ static_asset('assets/img/demo/wepik-photo-mode.png') }}" alt="Offer model">
                             </div>
                         </div>
+
+                        <style>
+                            @media (min-width: 1200px) {
+                                .axv-listing-scroll-layout {
+                                    align-items: flex-start;
+                                }
+                                .axv-listing-sidebar-col {
+                                    align-self: stretch;
+                                }
+                                .axv-listing-sidebar-col .aiz-filter-sidebar {
+                                    position: static !important;
+                                    z-index: 1 !important;
+                                    height: 100%;
+                                }
+                                .axv-listing-sidebar-col .aiz-filter-sidebar .collapse-sidebar {
+                                    position: sticky;
+                                    top: 120px;
+                                    max-height: calc(100vh - 130px);
+                                    overflow-y: auto;
+                                    overflow-x: hidden;
+                                    z-index: 1;
+                                }
+                            }
+                            .axv-listing-offer-card {
+                                background: #efeff2;
+                                border-radius: 26px;
+                                padding: 22px 28px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: space-between;
+                                min-height: 260px;
+                                gap: 28px;
+                            }
+                            .axv-listing-offer-content {
+                                max-width: 55%;
+                            }
+                            .axv-listing-offer-kicker {
+                                font-size: 18px;
+                                line-height: 1.25;
+                                font-weight: 500;
+                                color: #0c1631;
+                            }
+                            .axv-listing-offer-title {
+                                font-size: 54px;
+                                line-height: 1.15;
+                                font-weight: 700;
+                                color: #0c1631;
+                            }
+                            .axv-listing-offer-cta {
+                                font-size: 18px;
+                                line-height: 1.2;
+                                font-weight: 700;
+                                color: #0c1631;
+                                text-decoration: none;
+                                display: inline-flex;
+                                align-items: center;
+                                gap: 8px;
+                                margin-top: 8px;
+                            }
+                            .axv-listing-offer-cta:hover {
+                                color: #0c1631;
+                                text-decoration: none;
+                            }
+                            .axv-listing-offer-image {
+                                width: 45%;
+                                display: flex;
+                                justify-content: flex-end;
+                                align-items: flex-end;
+                                height: 250px;
+                            }
+                            .axv-listing-offer-image img {
+                                height: 100%;
+                                width: auto;
+                                max-width: 100%;
+                                object-fit: contain;
+                                object-position: center bottom;
+                                display: block;
+                            }
+                            @media (max-width: 1199px) {
+                                .axv-listing-offer-kicker {
+                                    font-size: 16px;
+                                }
+                                .axv-listing-offer-title {
+                                    font-size: 34px;
+                                }
+                                .axv-listing-offer-cta {
+                                    font-size: 16px;
+                                }
+                            }
+                            @media (max-width: 767px) {
+                                .axv-listing-offer-card {
+                                    flex-direction: row;
+                                    align-items: center;
+                                    justify-content: space-between;
+                                    padding: 18px 20px;
+                                    border-radius: 18px;
+                                    min-height: 0;
+                                    gap: 14px;
+                                }
+                                .axv-listing-offer-content,
+                                .axv-listing-offer-image {
+                                    max-width: none;
+                                }
+                                .axv-listing-offer-content {
+                                    width: 58%;
+                                }
+                                .axv-listing-offer-kicker {
+                                    font-size: 14px;
+                                }
+                                .axv-listing-offer-title {
+                                    font-size: 22px;
+                                    margin-bottom: 10px !important;
+                                }
+                                .axv-listing-offer-cta {
+                                    font-size: 14px;
+                                    margin-top: 0;
+                                }
+                                .axv-listing-offer-image {
+                                    width: 42%;
+                                    justify-content: center;
+                                    height: 170px;
+                                }
+                                .axv-listing-offer-image img {
+                                    height: 100%;
+                                    max-height: none;
+                                }
+                            }
+                        </style>
+
                         <!-- Breadcrumb -->
                         <ul class="breadcrumb mb-0 bg-transparent py-0 px-0 mt-2 d-flex align-items-center">
                             <li class=" has-transition opacity-50 hov-opacity-100">
@@ -509,40 +619,12 @@
                                 </div>
 
 
-                                <div class="d-flex gap-2 mb-3 " style="gap: 8px;">
-                                    <button type="button" class="btn-col-filter view-2-hide" data-cols="2">
-                                        <div class="block_btn"></div>
-                                        <div class="block_btn"></div>
-                                    </button>
-
-                                    <button type="button" class="btn-col-filter view-3-hide"data-cols="3">
-                                        <div class="block_btn"></div>
-                                        <div class="block_btn"></div>
-                                        <div class="block_btn"></div>
-                                    </button>
-
-                                    <div class="btn-col-filter view-4-hide" data-cols="4">
-                                        <div class="block_btn"></div>
-                                        <div class="block_btn"></div>
-                                        <div class="block_btn"></div>
-                                        <div class="block_btn"></div>
-                                    </div>
-
-                                    <div class="btn-col-filter view-6-hide" data-cols="6">
-                                        <div class="block_btn"></div>
-                                        <div class="block_btn"></div>
-                                        <div class="block_btn"></div>
-                                        <div class="block_btn"></div>
-                                        <div class="block_btn"></div>
-                                        <div class="block_btn"></div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
 
                         <!-- Products -->
                         <div class="px-3">
-                            <div class="row g-3 row-cols-xxl-4 row-cols-xl-3 row-cols-lg-4 row-cols-md-3 row-cols-2"
+                            <div class="row g-3 row-cols-xxl-6 row-cols-xl-6 row-cols-lg-4 row-cols-md-3 row-cols-2"
                                 id="products-row">
                                 {{-- @foreach ($products as $key => $product)
                                     <div class="col border-right border-bottom has-transition hov-shadow-out z-1 ">
@@ -574,6 +656,9 @@
         let category_page_first_time = true;
         let brand_page_first_time = true;
         let session_data_first_time = true;
+        let currentPage = 1;
+        let lastPage = 1;
+        let isLoadingProducts = false;
 
         function filter(e) {
             // alert("working or not")
@@ -607,7 +692,9 @@
             filter_data();
         }
 
-        function filter_data(page = 1) {
+        function filter_data(page = 1, append = false) {
+            if (isLoadingProducts) return;
+            isLoadingProducts = true;
             $("#search_product_count").hide();
             $("#searching_product").show();
             var formData = $('#search-form').serialize();
@@ -681,17 +768,28 @@
                     // alert(JSON.stringify(response))
                     $("#search_product_count").show();
                     $("#searching_product").hide();
-                    $('#products-row').html(response.product_html);
-                    $('#pagination').html(response.pagination_html);
+                    if (append) {
+                        $('#products-row').append(response.product_html);
+                    } else {
+                        $('#products-row').html(response.product_html);
+                    }
+                    $('#pagination').empty().hide();
                     $('#total_product_count').text(response.total_product_count);
+                    currentPage = response.current_page || page;
+                    lastPage = response.last_page || page;
 
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
+                    if (!append) {
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                    }
                 },
                 error: function(xhr, status, error) {
                     console.error('Error:', error);
+                },
+                complete: function() {
+                    isLoadingProducts = false;
                 }
             });
         }
@@ -763,6 +861,19 @@
                 $row.addClass('row-cols-md-' + colValue);
                 $row.addClass('row-cols-2');
 
+            });
+
+            $(window).on('scroll', function() {
+                if (isLoadingProducts) return;
+                if (currentPage >= lastPage) return;
+
+                const scrollTop = $(window).scrollTop();
+                const windowHeight = $(window).height();
+                const documentHeight = $(document).height();
+
+                if (scrollTop + windowHeight >= documentHeight - 220) {
+                    filter_data(currentPage + 1, true);
+                }
             });
         });
     </script>

@@ -487,6 +487,8 @@ class SearchController extends Controller
                 'total_product_count' => $products->total(),
                 'product_html' => $product_html,
                 'pagination_html' => $pagination_html,
+                'current_page' => $products->currentPage(),
+                'last_page' => $products->lastPage(),
             ]);
         }
 
@@ -592,6 +594,8 @@ class SearchController extends Controller
             'total_product_count' => $products->total(),
             'product_html' => $product_html,
             'pagination_html' => $pagination_html,
+            'current_page' => $products->currentPage(),
+            'last_page' => $products->lastPage(),
         ]);
     }
 

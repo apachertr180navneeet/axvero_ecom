@@ -114,7 +114,19 @@
                     @endif
                 </div>
 
-                <!-- Add to cart buttons are hidden here since they are in the bottom sticky bar -->
+                <!-- Desktop add to cart -->
+                <div class="d-none d-xl-flex flex-wrap gap-2 mb-4">
+                    <button type="button" class="btn text-white fw-700 px-4 py-2 rounded-pill add-to-cart"
+                        style="background-color: #502288;" onclick="addToCart()">
+                        <i class="las la-shopping-cart fs-18"></i> {{ translate('Add to cart') }}
+                    </button>
+                    <button type="button" class="btn btn-outline-primary fw-700 px-4 py-2 rounded-pill buy-now"
+                        onclick="buyNow()">
+                        {{ translate('Buy Now') }}
+                    </button>
+                </div>
+
+                <!-- Hidden triggers for mobile sticky bar -->
                 <div class="d-none">
                     <button type="button" class="add-to-cart" onclick="addToCart()">Add to cart</button>
                     <button type="button" class="buy-now" onclick="buyNow()">Buy Now</button>
