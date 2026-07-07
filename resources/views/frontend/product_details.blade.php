@@ -96,6 +96,126 @@
             </div>
         </div>
 
+        <div class="container-fluid px-xl-4 px-2">
+            <div class="axv-listing-offer-card mb-3 mt-xl-3 mt-2">
+                <div class="axv-listing-offer-content">
+                    <p class="axv-listing-offer-kicker mb-2">Shop wit us!</p>
+                    <h2 class="axv-listing-offer-title mb-3">Get 40% Off for<br>all iteams</h2>
+                    <a href="{{ route('flash-deals') }}" class="axv-listing-offer-cta">Shop Now <span>&#8594;</span></a>
+                </div>
+                <div class="axv-listing-offer-image">
+                    <img src="{{ static_asset('assets/img/demo/wepik-photo-mode.png') }}" alt="Offer model">
+                </div>
+            </div>
+
+            <style>
+                .axv-listing-offer-card {
+                    background: #efeff2;
+                    border-radius: 26px;
+                    padding: 22px 28px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    min-height: 260px;
+                    gap: 28px;
+                }
+                .axv-listing-offer-content {
+                    max-width: 55%;
+                }
+                .axv-listing-offer-kicker {
+                    font-size: 18px;
+                    line-height: 1.25;
+                    font-weight: 500;
+                    color: #0c1631;
+                }
+                .axv-listing-offer-title {
+                    font-size: 54px;
+                    line-height: 1.15;
+                    font-weight: 700;
+                    color: #0c1631;
+                }
+                .axv-listing-offer-cta {
+                    font-size: 18px;
+                    line-height: 1.2;
+                    font-weight: 700;
+                    color: #0c1631;
+                    text-decoration: none;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 8px;
+                    margin-top: 8px;
+                }
+                .axv-listing-offer-cta:hover {
+                    color: #0c1631;
+                    text-decoration: none;
+                }
+                .axv-listing-offer-image {
+                    width: 45%;
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: flex-end;
+                    height: 250px;
+                }
+                .axv-listing-offer-image img {
+                    height: 100%;
+                    width: auto;
+                    max-width: 100%;
+                    object-fit: contain;
+                    object-position: center bottom;
+                    display: block;
+                }
+                @media (max-width: 1199px) {
+                    .axv-listing-offer-kicker {
+                        font-size: 16px;
+                    }
+                    .axv-listing-offer-title {
+                        font-size: 34px;
+                    }
+                    .axv-listing-offer-cta {
+                        font-size: 16px;
+                    }
+                }
+                @media (max-width: 767px) {
+                    .axv-listing-offer-card {
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: space-between;
+                        padding: 18px 20px;
+                        border-radius: 18px;
+                        min-height: 0;
+                        gap: 14px;
+                    }
+                    .axv-listing-offer-content,
+                    .axv-listing-offer-image {
+                        max-width: none;
+                    }
+                    .axv-listing-offer-content {
+                        width: 58%;
+                    }
+                    .axv-listing-offer-kicker {
+                        font-size: 14px;
+                    }
+                    .axv-listing-offer-title {
+                        font-size: 22px;
+                        margin-bottom: 10px !important;
+                    }
+                    .axv-listing-offer-cta {
+                        font-size: 14px;
+                        margin-top: 0;
+                    }
+                    .axv-listing-offer-image {
+                        width: 42%;
+                        justify-content: center;
+                        height: 170px;
+                    }
+                    .axv-listing-offer-image img {
+                        height: 100%;
+                        max-height: none;
+                    }
+                }
+            </style>
+        </div>
+
         <section class="mb-4">
             <div class="container-fluid px-xl-4 px-2">
                 <div class="row mt-xl-4 mt-2">

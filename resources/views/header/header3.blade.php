@@ -426,7 +426,7 @@
                         </span>
                     @else
                         <!--Login & Registration -->
-                        <span class="d-flex align-items-center nav-user-info ml-3">
+                        <span class="d-flex align-items-center ml-3">
                             <!-- Image -->
                             <span
                                 class="size-40px rounded-circle overflow-hidden border d-flex align-items-center justify-content-center nav-user-img">
@@ -448,6 +448,7 @@
             </div>
         </div>
 
+        @auth
         <!-- Loged in user Menus -->
         <div class="hover-user-top-menu position-absolute top-100 left-0 right-0 z-3">
             <div class="container">
@@ -662,6 +663,7 @@
                 </div>
             </div>
         </div>
+        @endauth
     </div>
 
     <!-- Menu Bar -->

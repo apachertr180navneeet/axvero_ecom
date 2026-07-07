@@ -622,7 +622,7 @@
         }
 
         var userMenuTimeout;
-        $(".nav-user-info, .hover-user-top-menu").on("mouseover", function (event) {
+        $("#nav-user-info, .hover-user-top-menu").on("mouseover", function (event) {
             clearTimeout(userMenuTimeout);
             $(".hover-user-top-menu").addClass('active');
         })

@@ -3591,4 +3591,27 @@
             window.addEventListener('resize', updateSlider);
         })();
     </script>
+
+    @guest
+    <style>
+        .hover-user-top-menu,
+        .hover-user-top-menu.active {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+    </style>
+    @endguest
+@endsection
+
+@section('script')
+    @guest
+    <script>
+        $(function () {
+            $('.nav-user-info, .hover-user-top-menu, #nav-user-info').off('mouseover mouseout');
+            $('.hover-user-top-menu').removeClass('active');
+        });
+    </script>
+    @endguest
 @endsection
