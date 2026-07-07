@@ -42,7 +42,7 @@
                         <!-- Password -->
                         <div class="form-group">
                             <input type="password" name="password" class="form-control h-auto rounded-0 form-control-lg"
-                                placeholder="{{ translate('Password') }}">
+                                placeholder="{{ translate('Password') }}" autocomplete="current-password">
                         </div>
 
                         <!-- Remember Me & Forgot password -->

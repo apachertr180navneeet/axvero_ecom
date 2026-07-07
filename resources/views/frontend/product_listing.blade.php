@@ -366,7 +366,7 @@
                                 <a href="{{ route('flash-deals') }}" class="axv-listing-offer-cta">Shop Now <span>&#8594;</span></a>
                             </div>
                             <div class="axv-listing-offer-image">
-                                <img src="{{ static_asset('assets/img/demo/wepik-photo-mode.png') }}" alt="Offer model">
+                                <img src="{{ static_asset('assets/img/demo/wepik-photo-mode.png.jpeg') }}" alt="Offer model">
                             </div>
                         </div>
 
