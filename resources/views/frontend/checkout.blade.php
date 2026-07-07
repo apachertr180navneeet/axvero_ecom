@@ -69,19 +69,6 @@
                     
                     <div id="payment_info">
                         @include('frontend.partials.cart.payment_info', ['carts' => $carts, 'total' => $total])
-                        
-                        <!-- Agree Box -->
-                        <div class="pt-4 pb-2 fs-13 text-muted px-2">
-                            <label class="aiz-checkbox mb-0 d-flex align-items-center">
-                                <input type="checkbox" required id="agree_checkbox" onchange="stepCompletionPaymentInfo()">
-                                <span class="aiz-square-check mr-2"></span>
-                                <span>{{ translate('I agree to the') }}
-                                <a href="{{ route('terms') }}" class="text-primary fw-600 ml-1">{{ translate('terms and conditions') }}</a>,
-                                <a href="{{ route('returnpolicy') }}" class="text-primary fw-600 mx-1">{{ translate('return policy') }}</a> &
-                                <a href="{{ route('privacypolicy') }}" class="text-primary fw-600 ml-1">{{ translate('privacy policy') }}</a>
-                                </span>
-                            </label>
-                        </div>
                     </div>
                 </div>
 
