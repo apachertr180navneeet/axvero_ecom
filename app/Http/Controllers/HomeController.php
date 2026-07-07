@@ -63,45 +63,45 @@ class HomeController extends Controller
 
 
     public function index()
-{
-    $lang = get_system_language() ? get_system_language()->code : null;
+    {
+        $lang = get_system_language() ? get_system_language()->code : null;
 
-    // Fetch Featured Categories
-    $featured_categories = Cache::rememberForever('featured_categories', function () {
-        return Category::with('bannerImage')->where('featured', 1)->get();
-    });
+        // Fetch Featured Categories
+        $featured_categories = Cache::rememberForever('featured_categories', function () {
+            return Category::with('bannerImage')->where('featured', 1)->get();
+        });
 
-    // Fetch Hot Categories
-    $hot_categories = Cache::rememberForever('hot_categories', function () {
-        return Category::with('bannerImage')->where('hot_category', '1')->get();
-    });
+        // Fetch Hot Categories
+        $hot_categories = Cache::rememberForever('hot_categories', function () {
+            return Category::with('bannerImage')->where('hot_category', '1')->get();
+        });
 
-    // Hardcoded category IDs (replace these with actual category IDs)
-    $categoryIds = [4, 5, 8, 9, 335]; // Multiple category IDs
+        // Hardcoded category IDs (replace these with actual category IDs)
+        $categoryIds = [4, 5, 8, 9, 335]; // Multiple category IDs
         $categories = collect(); // Collection to store results
 
-    foreach ($categoryIds as $categoryId) {
-    $category = Category::with([
-        'products' => function($query) {
-            $query->where('published', 1);
-            $query->orderBy('created_at', 'desc')->take(10); // Fetch latest 10 products
-        },
-        'bestSellingProducts' => function($query) {
-            $query->orderBy('num_of_sale', 'desc')->take(10); // Fetch best selling 10 products
+        foreach ($categoryIds as $categoryId) {
+            $category = Category::with([
+                'products' => function ($query) {
+                    $query->where('published', 1);
+                    $query->orderBy('created_at', 'desc')->take(10); // Fetch latest 10 products
+                },
+                'bestSellingProducts' => function ($query) {
+                    $query->orderBy('num_of_sale', 'desc')->take(10); // Fetch best selling 10 products
+                }
+            ])
+                ->where('id', $categoryId)
+                // Process each category separately
+                ->first();
+
+            // Add the category to the collection
+            $categories->push($category);
         }
-    ])
-    ->where('id', $categoryId)
-    // Process each category separately
-    ->first();
 
-    // Add the category to the collection
-    $categories->push($category);
+
+        // Pass the data to the view
+        return view('frontend.' . get_setting('homepage_select') . '.index', compact('featured_categories', 'hot_categories', 'categories', 'lang'));
     }
-
-
-    // Pass the data to the view
-    return view('frontend.' . get_setting('homepage_select') . '.index', compact('featured_categories', 'hot_categories', 'categories', 'lang'));
-}
 
 
     public function load_todays_deal_section()
@@ -114,7 +114,7 @@ class HomeController extends Controller
     {
         $limit = 12;
         if ($request->has('page') && is_numeric($request->page)) {
-            $limit=18;
+            $limit = 18;
             $page = max(1, (int)$request->page);
             $offset = ($page - 1) * $limit;
 
@@ -160,40 +160,40 @@ class HomeController extends Controller
     public function load_preorder_featured_products_section()
     {
         try {
-            $preorder_products = PreorderProduct::where('is_published', 1)->where('is_featured',1)
-            ->where(function ($query) {
-                $query->whereHas('user', function ($q) {
-                    $q->where('user_type', 'admin');
-                })->orWhereHas('user.shop', function ($q) {
-                    $q->where('verification_status', 1);
-                });
-            })
-            ->latest()
-            ->limit(12)
-            ->get();
+            $preorder_products = PreorderProduct::where('is_published', 1)->where('is_featured', 1)
+                ->where(function ($query) {
+                    $query->whereHas('user', function ($q) {
+                        $q->where('user_type', 'admin');
+                    })->orWhereHas('user.shop', function ($q) {
+                        $q->where('verification_status', 1);
+                    });
+                })
+                ->latest()
+                ->limit(12)
+                ->get();
         } catch (\Exception $e) {
             $preorder_products = collect();
         }
         return view('frontend.' . get_setting('homepage_select') . '.partials.preorder_products_section', compact('preorder_products'));
     }
 
-public function getRecentProducts(Request $request)
-{
-    $ids = $request->ids;
+    public function getRecentProducts(Request $request)
+    {
+        $ids = $request->ids;
 
-    $products = \App\Models\Product::whereIn('id', $ids)
-        ->where('published', 1)
-        ->get()
-        ->map(function ($product) {
-            return [
-                'slug'  => $product->slug,
-                'name'  => $product->getTranslation('name'),
-                'image' => uploaded_asset($product->thumbnail_img),
-            ];
-        });
+        $products = \App\Models\Product::whereIn('id', $ids)
+            ->where('published', 1)
+            ->get()
+            ->map(function ($product) {
+                return [
+                    'slug'  => $product->slug,
+                    'name'  => $product->getTranslation('name'),
+                    'image' => uploaded_asset($product->thumbnail_img),
+                ];
+            });
 
-    return response()->json($products);
-}
+        return response()->json($products);
+    }
 
     public function login()
     {
@@ -212,7 +212,8 @@ public function getRecentProducts(Request $request)
     }
 
 
-    public function verifyRegEmailorPhone(){
+    public function verifyRegEmailorPhone()
+    {
         $type = 'customer';
         if (Auth::check()) {
             if ((Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'seller')) {
@@ -260,9 +261,9 @@ public function getRecentProducts(Request $request)
         $email = null;
         $phone = null;
         if (Route::currentRouteName() == 'affiliate.registration') {
-            return view('auth.' . get_setting('authentication_layout_select') . '.affiliate_registration', compact('email','phone'));
+            return view('auth.' . get_setting('authentication_layout_select') . '.affiliate_registration', compact('email', 'phone'));
         }
-        return view('auth.' . get_setting('authentication_layout_select') . '.user_registration', compact('email','phone'));
+        return view('auth.' . get_setting('authentication_layout_select') . '.user_registration', compact('email', 'phone'));
     }
 
     public function cart_login(Request $request)
@@ -386,131 +387,131 @@ public function getRecentProducts(Request $request)
         return view('frontend.track_order');
     }
 
-public function product(Request $request, $slug)
-{
-    if (!Auth::check()) {
-        session(['link' => url()->current()]);
-    }
-
-    $detailedProduct = Product::with('reviews', 'brand', 'stocks', 'user', 'user.shop')
-        ->where('auction_product', 0)
-        ->where('slug', $slug)
-        ->where('approved', 1)
-        ->first();
-
-    if ($detailedProduct != null && $detailedProduct->published) {
-        if ((get_setting('vendor_system_activation') != 1) && $detailedProduct->added_by == 'seller') {
-            abort(404);
+    public function product(Request $request, $slug)
+    {
+        if (!Auth::check()) {
+            session(['link' => url()->current()]);
         }
 
-        if ($detailedProduct->added_by == 'seller' && $detailedProduct->user->banned == 1) {
-            abort(404);
-        }
+        $detailedProduct = Product::with('reviews', 'brand', 'stocks', 'user', 'user.shop')
+            ->where('auction_product', 0)
+            ->where('slug', $slug)
+            ->where('approved', 1)
+            ->first();
 
-        if ($detailedProduct->wholesale_product == 1) {
-            abort(404);
-        }
-
-        $product_queries = ProductQuery::where('product_id', $detailedProduct->id)
-            ->where('customer_id', '!=', Auth::id())
-            ->latest('id')
-            ->paginate(3);
-
-        $total_query = ProductQuery::where('product_id', $detailedProduct->id)->count();
-
-        $reviews = $detailedProduct->reviews()
-            ->where('status', 1)
-            ->orderBy('created_at', 'desc')
-            ->paginate(3);
-
-        // Pagination using Ajax
-        if (request()->ajax()) {
-            if ($request->type == 'query') {
-                return Response::json(View::make('frontend.partials.product_query_pagination', array('product_queries' => $product_queries))->render());
+        if ($detailedProduct != null && $detailedProduct->published) {
+            if ((get_setting('vendor_system_activation') != 1) && $detailedProduct->added_by == 'seller') {
+                abort(404);
             }
-            if ($request->type == 'review') {
-                return Response::json(View::make('frontend.product_details.reviews', array('reviews' => $reviews))->render());
+
+            if ($detailedProduct->added_by == 'seller' && $detailedProduct->user->banned == 1) {
+                abort(404);
             }
-        }
 
-        // Review status
-        $review_status = 0;
-        $order_id = '';
-        if (Auth::check()) {
-            $OrderDetail = OrderDetail::with(['order' => function ($q) {
-                $q->where('user_id', Auth::id());
-            }])->where('product_id', $detailedProduct->id)
-              ->where('delivery_status', 'delivered')
-              ->first();
-            $review_status = $OrderDetail ? 1 : 0;
-            $order_id = $OrderDetail->order->id ?? null;
-        }
+            if ($detailedProduct->wholesale_product == 1) {
+                abort(404);
+            }
 
-        if ($request->has('product_referral_code')) {
-            try {
-                $affiliate_validation_time = \App\Models\AffiliateConfig::where('type', 'validation_time')->first();
-                $cookie_minute = 30 * 24;
-                if ($affiliate_validation_time) {
-                    $cookie_minute = $affiliate_validation_time->value * 60;
+            $product_queries = ProductQuery::where('product_id', $detailedProduct->id)
+                ->where('customer_id', '!=', Auth::id())
+                ->latest('id')
+                ->paginate(3);
+
+            $total_query = ProductQuery::where('product_id', $detailedProduct->id)->count();
+
+            $reviews = $detailedProduct->reviews()
+                ->where('status', 1)
+                ->orderBy('created_at', 'desc')
+                ->paginate(3);
+
+            // Pagination using Ajax
+            if (request()->ajax()) {
+                if ($request->type == 'query') {
+                    return Response::json(View::make('frontend.partials.product_query_pagination', array('product_queries' => $product_queries))->render());
                 }
-                \Cookie::queue('product_referral_code', $request->product_referral_code, $cookie_minute);
-                \Cookie::queue('referred_product_id', $detailedProduct->id, $cookie_minute);
-
-                $referred_by_user = User::where('referral_code', $request->product_referral_code)->first();
-
-                if ($referred_by_user) {
-                    $affiliateController = new AffiliateController;
-                    $affiliateController->processAffiliateStats($referred_by_user->id, 1, 0, 0, 0);
+                if ($request->type == 'review') {
+                    return Response::json(View::make('frontend.product_details.reviews', array('reviews' => $reviews))->render());
                 }
-            } catch (\Exception $e) {
             }
+
+            // Review status
+            $review_status = 0;
+            $order_id = '';
+            if (Auth::check()) {
+                $OrderDetail = OrderDetail::with(['order' => function ($q) {
+                    $q->where('user_id', Auth::id());
+                }])->where('product_id', $detailedProduct->id)
+                    ->where('delivery_status', 'delivered')
+                    ->first();
+                $review_status = $OrderDetail ? 1 : 0;
+                $order_id = $OrderDetail->order->id ?? null;
+            }
+
+            if ($request->has('product_referral_code')) {
+                try {
+                    $affiliate_validation_time = \App\Models\AffiliateConfig::where('type', 'validation_time')->first();
+                    $cookie_minute = 30 * 24;
+                    if ($affiliate_validation_time) {
+                        $cookie_minute = $affiliate_validation_time->value * 60;
+                    }
+                    \Cookie::queue('product_referral_code', $request->product_referral_code, $cookie_minute);
+                    \Cookie::queue('referred_product_id', $detailedProduct->id, $cookie_minute);
+
+                    $referred_by_user = User::where('referral_code', $request->product_referral_code)->first();
+
+                    if ($referred_by_user) {
+                        $affiliateController = new AffiliateController;
+                        $affiliateController->processAffiliateStats($referred_by_user->id, 1, 0, 0, 0);
+                    }
+                } catch (\Exception $e) {
+                }
+            }
+
+            $sessionId = session()->getId();
+            lastViewedProducts($detailedProduct->id, $sessionId);
+
+            $recentIds = session()->get('recent_products', []);
+            $recentProducts = Product::whereIn('id', $recentIds)
+                ->where('published', 1)
+                ->get();
+
+            // ✅ Same category ke top selling products (current product exclude)
+            $topSellingProducts = filter_products(
+                Product::where('category_id', $detailedProduct->category_id)
+                    ->where('id', '!=', $detailedProduct->id)
+                    ->where('published', 1)
+                    ->where('approved', 1)
+            )
+                ->orderBy('num_of_sale', 'desc')
+                ->take(10)
+                ->get();
+
+            // ✅ Same category ke similar products (current product exclude)
+            $similarProducts = filter_products(
+                Product::where('category_id', $detailedProduct->category_id)
+                    ->where('id', '!=', $detailedProduct->id)
+                    ->where('published', 1)
+                    ->where('approved', 1)
+            )
+                ->latest()
+                ->take(10)
+                ->get();
+
+            return view('frontend.product_details', compact(
+                'detailedProduct',
+                'recentProducts',
+                'product_queries',
+                'total_query',
+                'reviews',
+                'review_status',
+                'order_id',
+                'topSellingProducts',   // ← ye hai?
+                'similarProducts'
+            ));
         }
 
-        $sessionId = session()->getId();
-        lastViewedProducts($detailedProduct->id, $sessionId);
-
-        $recentIds = session()->get('recent_products', []);
-        $recentProducts = Product::whereIn('id', $recentIds)
-            ->where('published', 1)
-            ->get();
-
-        // ✅ Same category ke top selling products (current product exclude)
-        $topSellingProducts = filter_products(
-            Product::where('category_id', $detailedProduct->category_id)
-                ->where('id', '!=', $detailedProduct->id)
-                ->where('published', 1)
-                ->where('approved', 1)
-        )
-        ->orderBy('num_of_sale', 'desc')
-        ->take(10)
-        ->get();
-
-        // ✅ Same category ke similar products (current product exclude)
-        $similarProducts = filter_products(
-            Product::where('category_id', $detailedProduct->category_id)
-                ->where('id', '!=', $detailedProduct->id)
-                ->where('published', 1)
-                ->where('approved', 1)
-        )
-        ->latest()
-        ->take(10)
-        ->get();
-
-        return view('frontend.product_details', compact(
-            'detailedProduct',
-            'recentProducts',
-            'product_queries',
-            'total_query',
-            'reviews',
-            'review_status',
-            'order_id',
-           'topSellingProducts',   // ← ye hai?
-             'similarProducts'
-        ));
+        abort(404);
     }
-
-    abort(404);
-}
     public function shop($slug)
     {
         if (get_setting('vendor_system_activation') != 1) {
@@ -610,7 +611,7 @@ public function product(Request $request, $slug)
                     $conditions = array_merge($conditions, ['brand_id' => $brand_id]);
                 }
 
-                $products = PreorderProduct::where('is_published',1)->where('user_id' , $shop->user->id);
+                $products = PreorderProduct::where('is_published', 1)->where('user_id', $shop->user->id);
 
                 if ($request->has('is_available') && $request->is_available !== null) {
                     $availability = $request->is_available;
@@ -633,7 +634,6 @@ public function product(Request $request, $slug)
                     $is_available = $availability;
                 } else {
                     $is_available = null;
-
                 }
 
 
@@ -671,7 +671,7 @@ public function product(Request $request, $slug)
 
                 $products = $products->paginate(24)->appends(request()->query());
 
-                return view('frontend.seller_shop', compact('shop', 'type', 'products', 'selected_categories', 'min_price', 'max_price', 'brand_id', 'sort_by', 'rating','is_available'));
+                return view('frontend.seller_shop', compact('shop', 'type', 'products', 'selected_categories', 'min_price', 'max_price', 'brand_id', 'sort_by', 'rating', 'is_available'));
             }
 
             return view('frontend.seller_shop', compact('shop', 'type'));
@@ -686,17 +686,17 @@ public function product(Request $request, $slug)
     //     // dd($categories);
     //     return view('frontend.all_category', compact('categories'));
     // }
-    
-    
-public function all_categories(Request $request)
-{
-    $categories = Category::where('parent_id', 0)
-        ->with('childrenCategories')
-        ->orderBy('order_level', 'desc')
-        ->get();
 
-    return view('frontend.all_category', compact('categories'));
-}
+
+    public function all_categories(Request $request)
+    {
+        $categories = Category::where('parent_id', 0)
+            ->with('childrenCategories')
+            ->orderBy('order_level', 'desc')
+            ->get();
+
+        return view('frontend.all_category', compact('categories'));
+    }
 
     public function all_brands(Request $request)
     {
@@ -798,21 +798,21 @@ public function all_categories(Request $request)
         ) {
             $discount_applicable = true;
         }
-// ===== APPLY DISCOUNT =====
-if ($discount_applicable) {
-    if ($product->discount_type == 'percent') {
-        $price -= ($price * $product->discount) / 100;
-    } elseif ($product->discount_type == 'amount') {
-        $price -= $product->discount;
-    }
-}
+        // ===== APPLY DISCOUNT =====
+        if ($discount_applicable) {
+            if ($product->discount_type == 'percent') {
+                $price -= ($price * $product->discount) / 100;
+            } elseif ($product->discount_type == 'amount') {
+                $price -= $product->discount;
+            }
+        }
 
-// Safety check
-if ($price < 0) {
-    $price = 0;
-}
+        // Safety check
+        if ($price < 0) {
+            $price = 0;
+        }
 
-       
+
         // taxes
         foreach ($product->taxes as $product_tax) {
             if ($product_tax->tax_type == 'percent') {
@@ -874,30 +874,30 @@ if ($price < 0) {
 
 
 
-//     public function get_category_items(Request $request)
-// {
-//     if(auth()->check() && auth()->user()->user_type == 'seller') {
+    //     public function get_category_items(Request $request)
+    // {
+    //     if(auth()->check() && auth()->user()->user_type == 'seller') {
 
-//         $categories = Category::where('id', $request->id)
-//             ->where('listing_for', 1)
-//             ->with(['childrenCategories' => function ($query) {
-//                 $query->where('listing_for', 1);
-//             }])
-//             ->firstOrFail();
+    //         $categories = Category::where('id', $request->id)
+    //             ->where('listing_for', 1)
+    //             ->with(['childrenCategories' => function ($query) {
+    //                 $query->where('listing_for', 1);
+    //             }])
+    //             ->firstOrFail();
 
-//     } else {
+    //     } else {
 
-//         $categories = Category::where('id', $request->id)
-//             ->where('listing_for', 0)
-//             ->with(['childrenCategories' => function ($query) {
-//                 $query->where('listing_for', 0);
-//             }])
-//             ->firstOrFail();
+    //         $categories = Category::where('id', $request->id)
+    //             ->where('listing_for', 0)
+    //             ->with(['childrenCategories' => function ($query) {
+    //                 $query->where('listing_for', 0);
+    //             }])
+    //             ->firstOrFail();
 
-//     }
+    //     }
 
-//     return view('frontend.partials.category_elements', compact('categories'));
-// }
+    //     return view('frontend.partials.category_elements', compact('categories'));
+    // }
 
 
     public function premium_package_index()
@@ -1006,12 +1006,12 @@ if ($price < 0) {
             } else {
                 flash(translate("Password and confirm password didn't match"))->warning();
                 $email = $user->email;
-                return view('auth.'.get_setting('authentication_layout_select').'.reset_password', compact('email'));
+                return view('auth.' . get_setting('authentication_layout_select') . '.reset_password', compact('email'));
             }
         } else {
             flash(translate("Verification code mismatch"))->error();
             $email = $request->email;
-            return view('auth.'.get_setting('authentication_layout_select').'.reset_password', compact('email'));
+            return view('auth.' . get_setting('authentication_layout_select') . '.reset_password', compact('email'));
         }
     }
 
@@ -1085,11 +1085,11 @@ if ($price < 0) {
         $sql_path = $request->file('sql_file')->store('uploads', 'local');
 
         $zip = new ZipArchive;
-        $zip->open(base_path('public/'.$upload_path));
+        $zip->open(base_path('public/' . $upload_path));
         $zip->extractTo('public/uploads/all');
 
         $zip1 = new ZipArchive;
-        $zip1->open(base_path('public/'.$sql_path));
+        $zip1->open(base_path('public/' . $sql_path));
         $zip1->extractTo('public/uploads');
 
         Artisan::call('cache:clear');
@@ -1099,7 +1099,7 @@ if ($price < 0) {
 
     public function sendRegVerificationCode(Request $request)
     {
-         $request->validate([
+        $request->validate([
             'g-recaptcha-response' => [
                 Rule::when(get_setting('google_recaptcha') == 1 && get_setting('recaptcha_customer_mail_verification') == 1, ['required', new Recaptcha()], ['sometimes'])
             ],
@@ -1109,7 +1109,7 @@ if ($price < 0) {
         $phone = $request->phone != null ? '+' . $request->country_code . $request->phone : null;
 
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            if (User::where('email', $email)->first() != null) {                
+            if (User::where('email', $email)->first() != null) {
                 return response()->json(['status' => 0, 'message' => translate('Email already exists.')]);
             }
         } elseif (User::where('phone', $phone)->first() != null) {
@@ -1127,7 +1127,7 @@ if ($price < 0) {
             try {
                 EmailUtility::email_verification_for_registration_customer('email_verification_for_registration_customer', $email, $verificationCode);
             } catch (\Exception $e) {
-                 return response()->json(['status' => 0, 'message' => $e->getMessage()]);  // ← ADD KARO
+                return response()->json(['status' => 0, 'message' => $e->getMessage()]);  // ← ADD KARO
                 $success = 0;
             }
         } else {
@@ -1138,10 +1138,11 @@ if ($price < 0) {
                     $sms_body       = str_replace('[[code]]', $verificationCode, $sms_body);
                     $sms_body       = str_replace('[[site_name]]', env('APP_NAME'), $sms_body);
                     $template_id    = $sms_template->template_id;
-                    
+
                     (new SendSmsService())->sendSMS($phone, env('APP_NAME'), $sms_body, $template_id);
                 }
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {
+            }
         }
 
         // if ($success) {
@@ -1179,7 +1180,7 @@ if ($price < 0) {
     public function regVerifyCodeConfirmation(Request $request)
     {
         $email = isset($request->email) ? $request->email : null;
-         $phone = $request->phone != null ? '+' . $request->country_code . $request->phone : null;
+        $phone = $request->phone != null ? '+' . $request->country_code . $request->phone : null;
 
         $customerVerification = RegistrationVerificationCode::where('code', $request->verification_code);
         $customerVerification = $request->email != null ?
@@ -1221,9 +1222,5 @@ if ($price < 0) {
             $response['message'] = $e->getMessage();
         }
         return json_encode($response);
-
-
-
     }
-
 }
