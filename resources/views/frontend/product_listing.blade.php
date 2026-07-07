@@ -309,8 +309,7 @@
                                 @endif
 
                                 <!-- Attributes for preorder product -->
-                                <div
-                                    class="modern-card mb-3 mt-3 preorder-time-show display-none">
+                                <div class="modern-card mb-3 mt-3 preorder-time-show display-none">
                                     <div class="fs-16 fw-700 p-3">
                                         <a href="#"
                                             class="dropdown-toggle text-dark filter-section collapsed d-flex align-items-center justify-content-between"
@@ -359,37 +358,36 @@
 
                     <!-- Contents -->
                     <div class="col-xl-9">
-                            <div class="product-tab mt-2">
-                                @php
-                                    $activeClasses = 'bg-soft-dark text-white';
-                                    $inActiveClasses = 'preorder-border-dashed  text-muted  fw-600';
-                                @endphp
-                                <div class="p-0 aiz-radio-inline">
-                                    <label class="aiz-megabox pl-0 mr-2 " data-toggle="tooltip"
-                                        data-title="{{ translate('General Products') }}">
-                                        <input type="radio" name="product_type" value="general_product"
-                                            onchange="filter(event)">
-                                        <span id="product_type_badge_general"
-                                            class="badge badge-inline fs-12 p-3 rounded-3 preorder-border-dashed my-2 text-muted  fw-600">
-                                            {{ translate('General Products') }}
-                                            <span class="badge badge-inline bg-soft-dark fs-12  p-1 rounded-3 text-white"
-                                                style="background: {{ translate('General Products') }};"></span>
-                                        </span>
-                                    </label>
-                                    <label class="aiz-megabox pl-0 " data-toggle="tooltip"
-                                        data-title="{{ translate('Preorder Products') }}">
-                                        <input type="radio" name="product_type" value="preorder_product"
-                                            onchange="filter(event)">
-                                        <span id="product_type_badge_preorder"
-                                            class="badge badge-inline fs-12 p-3 rounded-3  preorder-border-dashed my-2 text-muted  fw-600">
-                                            {{ translate('Preorder Products') }}
-                                            <span
-                                                class="badge badge-inline bg-soft-dark fs-12  my-2 p-1 rounded-3 text-white"
-                                                style="background: {{ translate('Preorder Products') }};"></span>
-                                        </span>
-                                    </label>
-                                </div>
+                        <div class="product-tab mt-2">
+                            @php
+                                $activeClasses = 'bg-soft-dark text-white';
+                                $inActiveClasses = 'preorder-border-dashed  text-muted  fw-600';
+                            @endphp
+                            <div class="p-0 aiz-radio-inline">
+                                <label class="aiz-megabox pl-0 mr-2 " data-toggle="tooltip"
+                                    data-title="{{ translate('General Products') }}">
+                                    <input type="radio" name="product_type" value="general_product"
+                                        onchange="filter(event)">
+                                    <span id="product_type_badge_general"
+                                        class="badge badge-inline fs-12 p-3 rounded-3 preorder-border-dashed my-2 text-muted  fw-600">
+                                        {{ translate('General Products') }}
+                                        <span class="badge badge-inline bg-soft-dark fs-12  p-1 rounded-3 text-white"
+                                            style="background: {{ translate('General Products') }};"></span>
+                                    </span>
+                                </label>
+                                <label class="aiz-megabox pl-0 " data-toggle="tooltip"
+                                    data-title="{{ translate('Preorder Products') }}">
+                                    <input type="radio" name="product_type" value="preorder_product"
+                                        onchange="filter(event)">
+                                    <span id="product_type_badge_preorder"
+                                        class="badge badge-inline fs-12 p-3 rounded-3  preorder-border-dashed my-2 text-muted  fw-600">
+                                        {{ translate('Preorder Products') }}
+                                        <span class="badge badge-inline bg-soft-dark fs-12  my-2 p-1 rounded-3 text-white"
+                                            style="background: {{ translate('Preorder Products') }};"></span>
+                                    </span>
+                                </label>
                             </div>
+                        </div>
                         <!-- Breadcrumb -->
                         <ul class="breadcrumb mb-0 bg-transparent py-0 px-0 mt-2 d-flex align-items-center">
                             <li class=" has-transition opacity-50 hov-opacity-100">

@@ -16,6 +16,7 @@ use App\Models\PreorderProductCategory;
 use App\Models\ProductCategory;
 use App\Utility\CategoryUtility;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Schema;
 
 class SearchController extends Controller
 {
@@ -36,6 +37,9 @@ class SearchController extends Controller
         $brand = null;
 
         $conditions = [];
+        $hasPreorderModels = class_exists(PreorderProduct::class) && class_exists(PreorderProductCategory::class);
+        $hasPreorderTables = Schema::hasTable('preorder_products') && Schema::hasTable('preorder_product_categories');
+        $canUsePreorder = $hasPreorderModels && $hasPreorderTables;
 
         $attributes = Attribute::with('attribute_values')->get();
 
@@ -71,7 +75,7 @@ class SearchController extends Controller
 
 
         if ($request->product_type == 'preorder_product') {
-            if (\Illuminate\Support\Facades\Schema::hasTable('preorder_products')) {
+            if ($canUsePreorder) {
                 $products = PreorderProduct::where('is_published', 1);
                 $products = filter_preorder_product($products);
                 if ($category_id != null) {
@@ -200,26 +204,30 @@ class SearchController extends Controller
         // return $categories;
         
         try {
-            $preorder_products = PreorderProduct::where('is_published', 1);
-            $preorder_products_ids = filter_preorder_product($preorder_products)->pluck('id');
+            if ($canUsePreorder) {
+                $preorder_products = PreorderProduct::where('is_published', 1);
+                $preorder_products_ids = filter_preorder_product($preorder_products)->pluck('id');
 
-            $preorder_productCountsSubCategory = PreorderProductCategory::select('category_id')
-                ->selectRaw('COUNT(preorder_product_id) as count')
-                ->whereIn('preorder_product_id', $preorder_products_ids)
-                ->groupBy('category_id')
-                ->pluck('count', 'category_id');
+                $preorder_productCountsSubCategory = PreorderProductCategory::select('category_id')
+                    ->selectRaw('COUNT(preorder_product_id) as count')
+                    ->whereIn('preorder_product_id', $preorder_products_ids)
+                    ->groupBy('category_id')
+                    ->pluck('count', 'category_id');
 
-            $preorder_allCategories = Category::with('childrenCategories', 'coverImage')
-                ->orderBy('order_level', 'desc')
-                ->where('level', 0)
-                ->get();
+                $preorder_allCategories = Category::with('childrenCategories', 'coverImage')
+                    ->orderBy('order_level', 'desc')
+                    ->where('level', 0)
+                    ->get();
 
-            foreach ($preorder_allCategories as $category1) {
-                $this->categoryProductCount($category1, $preorder_productCountsSubCategory);
+                foreach ($preorder_allCategories as $category1) {
+                    $this->categoryProductCount($category1, $preorder_productCountsSubCategory);
+                }
+
+                $preorder_categories = $preorder_allCategories;
+            } else {
+                $preorder_categories = [];
             }
-
-            $preorder_categories = $preorder_allCategories;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $preorder_categories = [];
         }
         //################# category product count end here #################
@@ -329,6 +337,9 @@ class SearchController extends Controller
         $categories = [];
 
         $conditions = [];
+        $hasPreorderModels = class_exists(\App\Models\PreorderProduct::class) && class_exists(\App\Models\PreorderProductCategory::class);
+        $hasPreorderTables = Schema::hasTable('preorder_products') && Schema::hasTable('preorder_product_categories');
+        $canUsePreorder = $hasPreorderModels && $hasPreorderTables;
 
         $attributes = Attribute::with('attribute_values')->get();
 
@@ -349,7 +360,7 @@ class SearchController extends Controller
         }
 
         // return $colors;
-        if ($request->product_type == 'preorder_product' && \Illuminate\Support\Facades\Schema::hasTable('preorder_products')) {
+        if ($request->product_type == 'preorder_product' && $canUsePreorder) {
             $products = PreorderProduct::where('is_published', 1);
 
             if (count($category_list_preorder) > 0) {
@@ -657,7 +668,11 @@ class SearchController extends Controller
 
         $shops = Shop::whereIn('user_id', verified_sellers_id())->where('name', 'like', '%' . $query . '%')->get()->take(3);
 
-        if (addon_is_activated('preorder')) {
+        if (
+            addon_is_activated('preorder') &&
+            class_exists(\App\Models\PreorderProduct::class) &&
+            Schema::hasTable('preorder_products')
+        ) {
             $preorder_products =  PreorderProduct::where('is_published', 1)
                 ->where(function ($queryBuilder) use ($query) {
                     $queryBuilder->where('product_name', 'like', '%' . $query . '%')
