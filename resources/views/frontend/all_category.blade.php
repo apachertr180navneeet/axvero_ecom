@@ -58,8 +58,12 @@
                         <div class="d-flex align-items-center">
                             <!-- Category Icon -->
                             <div class="category-icon-box bg-primary text-white mr-3 mr-md-4 d-flex align-items-center justify-content-center shadow-sm p-2">
-                                @if($category->banner)
-                                    <img src="{{ uploaded_asset($category->banner) }}" alt="{{ $category->getTranslation('name') }}" class="img-fit h-100 w-100" style="object-fit: contain;" onerror="this.onerror=null;this.outerHTML='<i class=\'las la-tags fs-24\'></i>';">
+                                @php
+                                    $mainIcon = $category->icon ? $category->icon : $category->banner;
+                                @endphp
+                                @if($mainIcon)
+                                    <img src="{{ uploaded_asset($mainIcon) }}" alt="{{ $category->getTranslation('name') }}" class="img-fit h-100 w-100" style="object-fit: contain;" onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='block';">
+                                    <i class="las la-tags fs-24" style="display: none;"></i>
                                 @else
                                     <i class="las la-tags fs-24"></i>
                                 @endif
@@ -96,7 +100,8 @@
                                             <div class="d-flex justify-content-between align-items-start mb-2">
                                                 <a href="{{ route('products.category', $child_category->slug) }}" class="text-dark fw-600 fs-14 hov-text-primary d-flex align-items-center flex-grow-1">
                                                     @if($child_category->icon)
-                                                        <img src="{{ uploaded_asset($child_category->icon) }}" class="size-20px mr-2" style="object-fit: contain;" onerror="this.onerror=null;this.outerHTML='<i class=\'las la-tag text-primary opacity-60 fs-18 mr-2\'></i>';">
+                                                        <img src="{{ uploaded_asset($child_category->icon) }}" class="size-20px mr-2" style="object-fit: contain;" onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='inline-block';">
+                                                        <i class="las la-tag text-primary opacity-60 fs-18 mr-2" style="display: none;"></i>
                                                     @else
                                                         <i class="las la-tag text-primary opacity-60 fs-18 mr-2"></i>
                                                     @endif

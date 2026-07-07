@@ -7,6 +7,10 @@
 /public/assets
 /public/storage
 /public/uploads
+/public/app-translations
+public/uploads.zip
+_public_html.zip
+public/all
 /storage/*.key
 /storage/debugbar
 /vendor
@@ -20,7 +24,6 @@ npm-debug.log
 yarn-error.log
 .DS_Store
 .idea/
-/public/*
 updates/
 composer.lock
 *.lock
@@ -30,13 +33,8 @@ ecommerce.zip
 install.zip
 /nbproject/private/
 /nbproject
-/public/app-translations
-public/uploads.zip
 eomshopping_backup.zip
-_public_html.zip
 .env
-public/all
 /storage/logs/*
 /storage/framework/views/*
 /storage/*
-
