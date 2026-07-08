@@ -4,7 +4,11 @@
         <div class="col-lg-6">
             <div class="row gutters-10 flex-row-reverse">
                 @php
-                    $photos = explode(',',$product->photos);
+                    $photos = explode(',', $product->photos);
+                    $photos = array_filter($photos, function($val) { return !empty(trim($val)); });
+                    if (empty($photos) && $product->thumbnail_img) {
+                        $photos[] = $product->thumbnail_img;
+                    }
                 @endphp
                 <div class="col">
                     <div class="aiz-carousel product-gallery" data-nav-for='.product-gallery-thumb' data-fade='true' data-auto-height='true'>

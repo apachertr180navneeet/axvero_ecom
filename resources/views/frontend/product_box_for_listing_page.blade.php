@@ -59,10 +59,8 @@
                 }
             @endphp
             
-            <button class="btn btn-outline-primary flex-grow-1 @if (in_array($product->id, $cart_added)) active @endif" style="font-size: 12px; padding: 6px;"
-                @if ($hasOptions) onclick="showAddToCartModal({{ $product->id }})" 
-                @else @if (Auth::check() || get_Setting('guest_checkout_activation') == 1) onclick="addToCartSingleProduct({{ $product->id }})" @else onclick="showLoginModal()" @endif 
-                @endif>
+            <button type="button" class="btn btn-outline-primary flex-grow-1 @if (in_array($product->id, $cart_added)) active @endif" style="font-size: 12px; padding: 6px;"
+                onclick="showAddToCartModal({{ $product->id }})">
                 <i class="las la-shopping-cart"></i> {{ translate('Add to Cart') }}
             </button>
             <a href="{{ $product_url }}" class="btn btn-primary flex-grow-1" style="font-size: 12px; padding: 6px;">

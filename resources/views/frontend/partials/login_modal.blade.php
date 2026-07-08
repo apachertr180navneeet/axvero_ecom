@@ -13,16 +13,8 @@
                     <form class="form-default" role="form" action="{{ route('cart.login.submit') }}" method="POST">
                         @csrf
 
-                            <!-- Phone -->
-                            <div class="form-group phone-form-group mb-1">
-                                <input type="tel" id="phone-code"
-                                    class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}"
-                                    value="{{ old('phone') }}" placeholder="" name="phone" autocomplete="off">
-                            </div>
-                            <!-- Country Code -->
-                            <input type="hidden" name="country_code" value="">
                             <!-- Email -->
-                            <div class="form-group email-form-group mb-1 d-none">
+                            <div class="form-group mb-1">
                                 <input type="email"
                                     class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}"
                                     value="{{ old('email') }}" placeholder="{{ translate('Email') }}" name="email"
@@ -32,11 +24,6 @@
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
                                 @endif
-                            </div>
-                            <!-- Use Email Instead -->
-                            <div class="form-group text-right">
-                                <button class="btn btn-link p-0 text-primary" type="button"
-                                    onclick="toggleEmailPhone(this)"><i>*{{ translate('Use Email Instead') }}</i></button>
                             </div>
 
                         <!-- Password -->

@@ -564,17 +564,46 @@
                             <!-- Right: Sort & Filter -->
                             <div class="d-flex align-items-center" style="gap: 12px;">
                                 <!-- Sort By -->
-                                <div class="d-flex align-items-center position-relative bg-white border rounded-pill px-3" style="border-color: #e2e5ec !important; height: 38px; min-width: 130px;">
+                                <style>
+                                    .custom-sort-select .bootstrap-select > .dropdown-toggle {
+                                        background: transparent !important;
+                                        border: none !important;
+                                        box-shadow: none !important;
+                                        padding-left: 0 !important;
+                                        font-weight: 600 !important;
+                                        color: #111 !important;
+                                        outline: none !important;
+                                    }
+                                    .custom-sort-select .bootstrap-select > .dropdown-menu {
+                                        border-radius: 12px !important;
+                                        border: 1px solid #e2e5ec !important;
+                                        box-shadow: 0 8px 20px rgba(0,0,0,0.08) !important;
+                                        padding: 8px 0 !important;
+                                        margin-top: 8px !important;
+                                    }
+                                    .custom-sort-select .bootstrap-select .dropdown-menu li a {
+                                        font-size: 14px !important;
+                                        padding: 8px 20px !important;
+                                        color: #444 !important;
+                                        font-weight: 500 !important;
+                                    }
+                                    .custom-sort-select .bootstrap-select .dropdown-menu li a:hover, 
+                                    .custom-sort-select .bootstrap-select .dropdown-menu li.selected a,
+                                    .custom-sort-select .bootstrap-select .dropdown-menu li.active a {
+                                        background-color: #f8f9fa !important;
+                                        color: #111 !important;
+                                    }
+                                </style>
+                                <div class="custom-sort-select d-flex align-items-center position-relative bg-white border rounded-pill px-3" style="border-color: #e2e5ec !important; height: 38px; min-width: 140px;">
                                     <select id="select_option"
-                                        class="form-control form-control-sm border-0 bg-transparent text-dark fw-600 shadow-none px-0 w-100"
-                                        name="sort_by" onchange="filter(event)" style="appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 20px; outline: none; font-size: 14px;">
-                                        <option value="">{{ translate('Sort by') }}</option>
+                                        class="form-control aiz-selectpicker"
+                                        name="sort_by" onchange="filter(event)" data-minimum-results-for-search="Infinity">
+                                        <option value="" disabled hidden selected>{{ translate('Sort by') }}</option>
                                         <option value="newest" @isset($sort_by) @if ($sort_by == 'newest') selected @endif @endisset>{{ translate('Newest') }}</option>
                                         <option value="oldest" @isset($sort_by) @if ($sort_by == 'oldest') selected @endif @endisset>{{ translate('Oldest') }}</option>
                                         <option value="price-asc" @isset($sort_by) @if ($sort_by == 'price-asc') selected @endif @endisset>{{ translate('Price low to high') }}</option>
                                         <option value="price-desc" @isset($sort_by) @if ($sort_by == 'price-desc') selected @endif @endisset>{{ translate('Price high to low') }}</option>
                                     </select>
-                                    <i class="las la-angle-down position-absolute text-dark" style="right: 12px; pointer-events: none;"></i>
                                 </div>
 
                                 <!-- Filter Button -->
@@ -1100,4 +1129,5 @@
         };
     </script>
 
+    </script>
 @endsection
