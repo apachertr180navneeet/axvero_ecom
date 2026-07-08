@@ -482,6 +482,17 @@ class SearchController extends Controller
             ])->render();
 
 
+            $banner_url = static_asset('assets/img/demo/wepik-photo-mode.png.jpeg');
+            if (count($category_list_preorder) > 0 && ($cat = \App\Models\Category::find($category_list_preorder[0])) && $cat->banner) {
+                $banner_url = uploaded_asset($cat->banner);
+            } elseif ($category_id != null && ($cat = \App\Models\Category::find($category_id)) && $cat->banner) {
+                $banner_url = uploaded_asset($cat->banner);
+            } elseif ($brand_id != null && ($brand = \App\Models\Brand::find($brand_id)) && $brand->logo) {
+                $banner_url = uploaded_asset($brand->logo);
+            } elseif ($products->first() && $products->first()->thumbnail_img) {
+                $banner_url = uploaded_asset($products->first()->thumbnail_img);
+            }
+
             return response()->json([
                 'success' => true,
                 'total_product_count' => $products->total(),
@@ -489,6 +500,7 @@ class SearchController extends Controller
                 'pagination_html' => $pagination_html,
                 'current_page' => $products->currentPage(),
                 'last_page' => $products->lastPage(),
+                'banner_url' => $banner_url,
             ]);
         }
 
@@ -589,6 +601,17 @@ class SearchController extends Controller
             'last' => $products->lastPage()
         ])->render();
 
+        $banner_url = static_asset('assets/img/demo/wepik-photo-mode.png.jpeg');
+        if (count($category_list) > 0 && ($cat = \App\Models\Category::find($category_list[0])) && $cat->banner) {
+            $banner_url = uploaded_asset($cat->banner);
+        } elseif ($category_id != null && ($cat = \App\Models\Category::find($category_id)) && $cat->banner) {
+            $banner_url = uploaded_asset($cat->banner);
+        } elseif ($brand_id != null && ($brand = \App\Models\Brand::find($brand_id)) && $brand->logo) {
+            $banner_url = uploaded_asset($brand->logo);
+        } elseif ($products->first() && $products->first()->thumbnail_img) {
+            $banner_url = uploaded_asset($products->first()->thumbnail_img);
+        }
+
         return response()->json([
             'success' => true,
             'total_product_count' => $products->total(),
@@ -596,6 +619,7 @@ class SearchController extends Controller
             'pagination_html' => $pagination_html,
             'current_page' => $products->currentPage(),
             'last_page' => $products->lastPage(),
+            'banner_url' => $banner_url,
         ]);
     }
 

@@ -366,7 +366,15 @@
                                 <a href="{{ route('flash-deals') }}" class="axv-listing-offer-cta">Shop Now <span>&#8594;</span></a>
                             </div>
                             <div class="axv-listing-offer-image">
-                                <img src="{{ static_asset('assets/img/demo/wepik-photo-mode.png.jpeg') }}" alt="Offer model">
+                                @if(isset($category_id) && $category->banner != null)
+                                    <img src="{{ uploaded_asset($category->banner) }}" alt="{{ $category->getTranslation('name') }}">
+                                @elseif(isset($brand_id) && get_single_brand($brand_id)->logo != null)
+                                    <img src="{{ uploaded_asset(get_single_brand($brand_id)->logo) }}" alt="{{ get_single_brand($brand_id)->getTranslation('name') }}">
+                                @elseif(isset($products) && $products->first() && $products->first()->thumbnail_img != null)
+                                    <img src="{{ uploaded_asset($products->first()->thumbnail_img) }}" alt="Offer model">
+                                @else
+                                    <img src="{{ static_asset('assets/img/demo/wepik-photo-mode.png.jpeg') }}" alt="Offer model">
+                                @endif
                             </div>
                         </div>
 
@@ -777,6 +785,10 @@
                     $('#total_product_count').text(response.total_product_count);
                     currentPage = response.current_page || page;
                     lastPage = response.last_page || page;
+
+                    if (response.banner_url) {
+                        $('.axv-listing-offer-image img').attr('src', response.banner_url);
+                    }
 
                     if (!append) {
                         window.scrollTo({

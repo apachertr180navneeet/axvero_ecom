@@ -382,13 +382,22 @@
         }
 
         @media (max-width: 768px) {
-            .category-flex-item {
-                flex: 0 0 calc(45% - 8px);
+            .categories-flex-row {
+                flex-wrap: wrap;
+                overflow-x: visible;
+                gap: 8px;
             }
-
+            .category-flex-item {
+                flex: 0 0 calc(25% - 6px);
+                min-width: 0;
+            }
             .premium-cat-title {
-                font-size: 1.15rem;
-                letter-spacing: 1.5px;
+                font-size: 0.6rem;
+                letter-spacing: 0;
+                margin-bottom: 0;
+            }
+            .premium-cat-btn {
+                display: none !important;
             }
         }
 
@@ -1649,7 +1658,10 @@
 
         @media (max-width: 576px) {
             .axvero-trending-product-card {
-                flex: 0 0 100%;
+                flex: 0 0 calc(50% - 8px);
+            }
+            .axvero-trending-card-title {
+                font-size: 0.8rem;
             }
         }
 
@@ -1835,7 +1847,10 @@
 
         @media (max-width: 576px) {
             .axvero-footwear-product-card {
-                flex: 0 0 100%;
+                flex: 0 0 calc(25% - 12px);
+            }
+            .axvero-footwear-card-title {
+                font-size: 0.6rem;
             }
         }
 
@@ -2546,7 +2561,7 @@
     <section class="home-premium-categories mb-5">
         <div class="container-fluid px-3 px-lg-5">
             <div class="categories-flex-row">
-                @foreach (get_level_zero_categories()->take(7) as $category)
+                @foreach (get_level_zero_categories()->take(8) as $category)
                     <div class="category-flex-item">
                         <a href="{{ route('products.category', $category->slug) }}" class="d-block text-decoration-none">
                             <div class="premium-cat-card">
@@ -2594,7 +2609,7 @@
 
             <div class="axvero-new-products-slider">
                 <div class="aiz-carousel gutters-10 axvero-new-products-carousel" data-items="4" data-xl-items="4"
-                    data-lg-items="4" data-md-items="2" data-sm-items="2" data-xs-items="1" data-arrows="false"
+                    data-lg-items="4" data-md-items="2" data-sm-items="2" data-xs-items="2" data-arrows="false"
                     data-dots="false">
                     @php
                         $new_products = filter_products(
@@ -3035,7 +3050,7 @@
             <div class="axvero-home-decor-products-bg">
                 <div class="row g-4">
                     @foreach ($home_decor_products as $product)
-                        <div class="col-6 col-md-3">
+                        <div class="col-3">
                             <a href="{{ route('product', $product->slug) }}" class="axvero-home-decor-product-card">
                                 <div class="axvero-home-decor-img-container">
                                     <img src="{{ uploaded_asset($product->thumbnail_img) }}"
