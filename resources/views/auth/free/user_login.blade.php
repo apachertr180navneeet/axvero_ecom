@@ -215,18 +215,18 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        color: rgba(255, 255, 255, 0.9);
+        color: #1f2937;
         font-size: 18px;
         text-decoration: none;
         border-radius: 8px;
-        border: 1px solid rgba(255, 255, 255, 0.35);
-        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        background: rgba(0, 0, 0, 0.05);
         transition: background 0.2s ease, color 0.2s ease;
     }
 
     .axvero-login-close:hover {
-        background: rgba(255, 255, 255, 0.2);
-        color: #fff;
+        background: rgba(0, 0, 0, 0.1);
+        color: #1f2937;
         text-decoration: none;
     }
 
@@ -239,7 +239,7 @@
     .axvero-login-title {
         font-size: 1.85rem;
         font-weight: 700;
-        color: #fff;
+        color: #1f2937;
         margin-bottom: 0.45rem;
         line-height: 1.3;
     }
@@ -247,7 +247,7 @@
     .axvero-login-subtitle {
         font-size: 0.84rem;
         font-weight: 400;
-        color: rgba(255, 255, 255, 0.92);
+        color: #4b5563;
         margin-bottom: 0;
         line-height: 1.55;
         max-width: 320px;
@@ -258,7 +258,7 @@
     .axvero-login-label {
         font-size: 0.78rem;
         font-weight: 600;
-        color: #fff;
+        color: #374151;
         margin-bottom: 0.5rem;
         display: block;
     }
@@ -277,7 +277,7 @@
         left: 14px;
         top: 50%;
         transform: translateY(-50%);
-        color: rgba(255, 255, 255, 0.7);
+        color: #6b7280;
         font-size: 1rem;
         pointer-events: none;
         z-index: 2;
@@ -288,7 +288,7 @@
         right: 14px;
         top: 50%;
         transform: translateY(-50%);
-        color: rgba(255, 255, 255, 0.7);
+        color: #6b7280;
         font-size: 1.05rem;
         cursor: pointer;
         z-index: 2;
@@ -298,9 +298,9 @@
     .axvero-login-input {
         width: 100%;
         border-radius: 10px !important;
-        border: 1px solid rgba(255, 255, 255, 0.55) !important;
-        background: rgba(255, 255, 255, 0.1) !important;
-        color: #fff !important;
+        border: 1px solid rgba(0, 0, 0, 0.15) !important;
+        background: rgba(255, 255, 255, 0.5) !important;
+        color: #1f2937 !important;
         padding: 0.72rem 2.5rem 0.72rem 2.5rem !important;
         font-size: 0.84rem !important;
         height: 46px;
@@ -314,12 +314,12 @@
     }
 
     .axvero-login-input::placeholder {
-        color: rgba(255, 255, 255, 0.45);
+        color: rgba(31, 41, 55, 0.45);
     }
 
     .axvero-login-input:focus {
-        border-color: rgba(255, 255, 255, 0.75) !important;
-        background: rgba(255, 255, 255, 0.14) !important;
+        border-color: rgba(0, 0, 0, 0.3) !important;
+        background: rgba(255, 255, 255, 0.8) !important;
         box-shadow: none !important;
         outline: none;
     }
@@ -366,7 +366,7 @@
         display: flex;
         align-items: center;
         gap: 0.45rem;
-        color: rgba(255, 255, 255, 0.88);
+        color: #374151;
         font-size: 0.8rem;
         margin: 0;
         cursor: pointer;
@@ -377,16 +377,16 @@
         -webkit-appearance: none;
         width: 16px;
         height: 16px;
-        border: 1.5px solid rgba(255, 255, 255, 0.85);
+        border: 1.5px solid rgba(0, 0, 0, 0.3);
         border-radius: 3px;
-        background: transparent;
+        background: rgba(255, 255, 255, 0.5);
         cursor: pointer;
         flex-shrink: 0;
     }
 
     .axvero-login-remember input[type="checkbox"]:checked {
-        background: #fff;
-        border-color: #fff;
+        background: #1f2937;
+        border-color: #1f2937;
     }
 
     .axvero-login-link {
@@ -429,9 +429,9 @@
         justify-content: center;
         width: 100%;
         border-radius: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.65);
-        background: rgba(255, 255, 255, 0.08);
-        color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        background: rgba(0, 0, 0, 0.02);
+        color: #1f2937;
         font-size: 0.86rem;
         font-weight: 600;
         padding: 0.75rem 1rem;
@@ -442,9 +442,9 @@
     }
 
     .axvero-login-btn-ghost:hover {
-        background: rgba(255, 255, 255, 0.14);
-        border-color: rgba(255, 255, 255, 0.75);
-        color: #fff;
+        background: rgba(0, 0, 0, 0.05);
+        border-color: rgba(0, 0, 0, 0.3);
+        color: #1f2937;
         text-decoration: none;
     }
 
@@ -453,7 +453,7 @@
         align-items: center;
         gap: 0.65rem;
         margin: 1rem 0;
-        color: rgba(255, 255, 255, 0.75);
+        color: #6b7280;
         font-size: 0.76rem;
     }
 
@@ -462,7 +462,7 @@
         content: '';
         flex: 1;
         height: 1px;
-        background: rgba(255, 255, 255, 0.28);
+        background: rgba(0, 0, 0, 0.1);
     }
 
     .axvero-login-social-row {
@@ -483,9 +483,9 @@
         justify-content: center;
         gap: 0.35rem;
         border-radius: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.55);
-        background: rgba(255, 255, 255, 0.1);
-        color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        background: rgba(0, 0, 0, 0.02);
+        color: #1f2937;
         font-size: 0.72rem;
         font-weight: 600;
         line-height: 1;
@@ -498,9 +498,9 @@
     }
 
     .axvero-social-btn:hover {
-        background: rgba(255, 255, 255, 0.14);
-        border-color: rgba(255, 255, 255, 0.75);
-        color: #fff;
+        background: rgba(0, 0, 0, 0.05);
+        border-color: rgba(0, 0, 0, 0.3);
+        color: #1f2937;
         text-decoration: none;
     }
 
@@ -529,7 +529,7 @@
         text-align: center;
         margin-top: 1.1rem;
         font-size: 0.8rem;
-        color: #fff;
+        color: #374151;
         line-height: 1.5;
     }
 
