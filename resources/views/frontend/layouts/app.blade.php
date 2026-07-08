@@ -908,9 +908,6 @@
                         }
                         else{
                             $('#addToCart-modal-body').html(null);
-                            $('.c-preloader').hide();
-                            $('#modal-size').removeClass('modal-lg');
-                            $('#addToCart-modal-body').html(data.modal_view);
                         }
                     }
                });
