@@ -551,82 +551,37 @@
                         </ul>
 
                         <!-- Top Filters -->
-                        <div class="text-left mb-3">
-                            <div class="row gutters-5 flex-wrap align-items-center">
-                                <div class="col-lg col-10">
-                                    <h1 class="fs-18 fs-md-20 fw-700 text-dark line-height_0_7">
-                                        @if (isset($category_id))
-                                            {{-- {{ $category_search->getTranslation('name') }} --}}
-                                            {{ translate('Showing results') }}
-                                        @elseif(isset($query))
-                                            {{ translate('Search result for ') }} "{{ $query }}"
-                                        @else
-                                            {{ translate('Showing results') }}
-                                        @endif
-                                    </h1>
-                                    <div class="fs-12 display-none" id="search_product_count"><span class="fw-bold"
-                                            id="total_product_count">{{ $products->total() }}</span><span
-                                            class="product-name-color "> Products Found</span></div>
-                                    <div class="display-none fs-12 product-name-color" id="searching_product">searching..
-                                    </div>
-                                    <input type="hidden" name="keyword" value="{{ $query }}">
-                                </div>
-                                <div class="col-2 col-lg-auto d-xl-none mb-lg-3 text-right">
-                                    <button type="button" class="btn btn-icon p-0" data-toggle="class-toggle"
-                                        data-target=".aiz-filter-sidebar">
-                                        <i class="la la-filter la-2x"></i>
-                                    </button>
-                                </div>
+                        <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
+                            <!-- Left: Results count -->
+                            <div class="d-flex align-items-center mb-2 mb-md-0" id="search_product_count">
+                                <span class="fs-15 text-secondary mr-1" style="color: #6c757d;">{{ translate('Showing') }}</span>
+                                <span class="fs-15 fw-bold text-dark mx-1" id="total_product_count">{{ $products->total() }}</span>
+                                <span class="fs-15 text-secondary ml-1" style="color: #6c757d;">{{ translate('results') }}</span>
+                                <input type="hidden" name="keyword" value="{{ $query ?? '' }}">
+                            </div>
+                            <div class="display-none fs-14 ml-2 text-muted" id="searching_product">{{ translate('searching..') }}</div>
 
-                                <div class="col-6 col-lg-auto mb-3 w-lg-200px d-flex align-items-center gap-2">
-                                    <div id="select_option_svg">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="17.5" height="13.5"
-                                            viewBox="0 0 17.5 13.5">
-                                            <g id="Group_38743" data-name="Group 38743"
-                                                transform="translate(-3444 2590)">
-                                                <g id="Group_38742" data-name="Group 38742"
-                                                    transform="translate(2089 -2895)">
-                                                    <path id="Path_45144" data-name="Path 45144"
-                                                        d="M20.522,10.663a.75.75,0,0,1-1.061-.016l-2.712-2.8V18a.75.75,0,0,1-1.5,0V7.851l-2.712,2.8A.75.75,0,1,1,11.462,9.6l4-4.125a.75.75,0,0,1,1.077,0l4,4.125A.75.75,0,0,1,20.522,10.663Z"
-                                                        transform="translate(1351.75 299.75)" fill="#aaa"
-                                                        fill-rule="evenodd" />
-                                                    <path id="Path_45145" data-name="Path 45145"
-                                                        d="M12.522,13.337a.75.75,0,0,0-1.061.016l-2.712,2.8V6a.75.75,0,0,0-1.5,0V16.149l-2.712-2.8A.75.75,0,0,0,3.462,14.4l4,4.125a.75.75,0,0,0,1.077,0l4-4.125A.75.75,0,0,0,12.522,13.337Z"
-                                                        transform="translate(1351.75 299.75)" fill="#111"
-                                                        fill-rule="evenodd" />
-                                                    <path id="Path_45144-2" data-name="Path 45144"
-                                                        d="M20.522,10.663a.75.75,0,0,1-1.061-.016l-2.712-2.8V18a.75.75,0,0,1-1.5,0V7.851l-2.712,2.8A.75.75,0,1,1,11.462,9.6l4-4.125a.75.75,0,0,1,1.077,0l4,4.125A.75.75,0,0,1,20.522,10.663Z"
-                                                        transform="translate(1351.75 299.75)" fill="#aaa"
-                                                        fill-rule="evenodd" />
-                                                    <path id="Path_45145-2" data-name="Path 45145"
-                                                        d="M12.522,13.337a.75.75,0,0,0-1.061.016l-2.712,2.8V6a.75.75,0,0,0-1.5,0V16.149l-2.712-2.8A.75.75,0,0,0,3.462,14.4l4,4.125a.75.75,0,0,0,1.077,0l4-4.125A.75.75,0,0,0,12.522,13.337Z"
-                                                        transform="translate(1351.75 299.75)" fill="#111"
-                                                        fill-rule="evenodd" />
-                                                </g>
-                                            </g>
-                                        </svg>
-                                    </div>
+                            <!-- Right: Sort & Filter -->
+                            <div class="d-flex align-items-center" style="gap: 12px;">
+                                <!-- Sort By -->
+                                <div class="d-flex align-items-center position-relative bg-white border rounded-pill px-3" style="border-color: #e2e5ec !important; height: 38px; min-width: 130px;">
                                     <select id="select_option"
-                                        class="form-control select_btn_border_none form-control-sm text-center border-0 form-control-sm aiz-selectpicker rounded-0 "
-                                        name="sort_by" onchange="filter(event)">
-                                        <option value="">
-                                            {{ translate('Sort by') }}</option>
-                                        <option value="newest"
-                                            @isset($sort_by) @if ($sort_by == 'newest') selected @endif @endisset>
-                                            {{ translate('Newest') }}</option>
-                                        <option value="oldest"
-                                            @isset($sort_by) @if ($sort_by == 'oldest') selected @endif @endisset>
-                                            {{ translate('Oldest') }}</option>
-                                        <option value="price-asc"
-                                            @isset($sort_by) @if ($sort_by == 'price-asc') selected @endif @endisset>
-                                            {{ translate('Price low to high') }}</option>
-                                        <option value="price-desc"
-                                            @isset($sort_by) @if ($sort_by == 'price-desc') selected @endif @endisset>
-                                            {{ translate('Price high to low') }}</option>
+                                        class="form-control form-control-sm border-0 bg-transparent text-dark fw-600 shadow-none px-0 w-100"
+                                        name="sort_by" onchange="filter(event)" style="appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 20px; outline: none; font-size: 14px;">
+                                        <option value="">{{ translate('Sort by') }}</option>
+                                        <option value="newest" @isset($sort_by) @if ($sort_by == 'newest') selected @endif @endisset>{{ translate('Newest') }}</option>
+                                        <option value="oldest" @isset($sort_by) @if ($sort_by == 'oldest') selected @endif @endisset>{{ translate('Oldest') }}</option>
+                                        <option value="price-asc" @isset($sort_by) @if ($sort_by == 'price-asc') selected @endif @endisset>{{ translate('Price low to high') }}</option>
+                                        <option value="price-desc" @isset($sort_by) @if ($sort_by == 'price-desc') selected @endif @endisset>{{ translate('Price high to low') }}</option>
                                     </select>
+                                    <i class="las la-angle-down position-absolute text-dark" style="right: 12px; pointer-events: none;"></i>
                                 </div>
 
-
+                                <!-- Filter Button -->
+                                <button type="button" class="btn btn-dark rounded-pill d-flex align-items-center fw-600 px-3 d-xl-none" data-toggle="class-toggle" data-target=".aiz-filter-sidebar" style="height: 38px; gap: 6px; font-size: 14px;">
+                                    {{ translate('Filters') }}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-white"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+                                </button>
                             </div>
                         </div>
 

@@ -46,5 +46,28 @@
                     style="font-size: clamp(15px, 0.95vw, 18px); line-height: 1.1;">{{ home_discounted_base_price($product) }}</span>
             </div>
         </div>
+
+        <div class="mt-2 d-flex flex-wrap gap-2" style="gap: 8px;">
+            @php
+                $colors = is_string($product->colors) ? json_decode($product->colors, true) : $product->colors;
+                $attributes = is_string($product->attributes) ? json_decode($product->attributes, true) : $product->attributes;
+                $hasOptions = (is_array($colors) && count($colors) > 0) || (is_array($attributes) && count($attributes) > 0);
+                $cart_added = [];
+                $carts = get_user_cart();
+                if (count($carts) > 0) {
+                    $cart_added = $carts->pluck('product_id')->toArray();
+                }
+            @endphp
+            
+            <button class="btn btn-outline-primary flex-grow-1 @if (in_array($product->id, $cart_added)) active @endif" style="font-size: 12px; padding: 6px;"
+                @if ($hasOptions) onclick="showAddToCartModal({{ $product->id }})" 
+                @else @if (Auth::check() || get_Setting('guest_checkout_activation') == 1) onclick="addToCartSingleProduct({{ $product->id }})" @else onclick="showLoginModal()" @endif 
+                @endif>
+                <i class="las la-shopping-cart"></i> {{ translate('Add to Cart') }}
+            </button>
+            <a href="{{ $product_url }}" class="btn btn-primary flex-grow-1" style="font-size: 12px; padding: 6px;">
+                {{ translate('Buy Now') }}
+            </a>
+        </div>
     </div>
 </div>
