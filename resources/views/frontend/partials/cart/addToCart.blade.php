@@ -9,6 +9,14 @@
                     if (empty($photos) && $product->thumbnail_img) {
                         $photos[] = $product->thumbnail_img;
                     }
+                    
+                    $total_images = count($photos);
+                    foreach ($product->stocks as $stock) {
+                        if ($stock->image != null) {
+                            $total_images++;
+                        }
+                    }
+                    $thumb_items = $total_images < 5 ? $total_images : 5;
                 @endphp
                 <div class="col">
                     <div class="aiz-carousel product-gallery" data-nav-for='.product-gallery-thumb' data-fade='true' data-auto-height='true'>
@@ -33,7 +41,7 @@
                     </div>
                 </div>
                 <div class="col-auto w-90px">
-                    <div class="aiz-carousel carousel-thumb product-gallery-thumb" data-items='5' data-nav-for='.product-gallery' data-vertical='true' data-focus-select='true'>
+                    <div class="aiz-carousel carousel-thumb product-gallery-thumb" data-items='{{ $thumb_items }}' data-nav-for='.product-gallery' data-vertical='true' data-focus-select='true'>
                         @foreach ($photos as $key => $photo)
                         <div class="carousel-box c-pointer border rounded-0">
                             <img class="lazyload mw-100 size-60px mx-auto"
