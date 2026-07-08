@@ -7,15 +7,15 @@
         </div>
     @endif
 
-    <div class="d-flex justify-content-between align-items-start mb-2">
+    <div class="d-flex flex-wrap justify-content-between align-items-start mb-2" style="gap: 15px;">
         <!-- Product Name -->
-        <h1 class="fs-22 fw-800 text-dark mb-0" style="font-family: 'Inter', sans-serif; line-height: 1.3; max-width: 65%;">
+        <h1 class="fs-22 fs-xl-28 fw-800 text-dark mb-0 flex-grow-1" style="font-family: 'Inter', sans-serif; line-height: 1.3; max-width: 70%;">
             {{ $detailedProduct->getTranslation('name') }}
         </h1>
         
         @if ($detailedProduct->auction_product != 1 && $detailedProduct->digital == 0)
         <!-- Quantity -->
-        <div class="d-flex align-items-center bg-light rounded-pill px-1 py-1" style="border: 1px solid #e2e5ec;">
+        <div class="d-flex align-items-center bg-light rounded-pill px-1 py-1" style="border: 1px solid #e2e5ec; flex-shrink: 0;">
             <button class="btn btn-icon btn-sm rounded-circle d-flex align-items-center justify-content-center bg-white shadow-sm" type="button" data-type="minus" data-field="quantity" disabled="" style="width: 28px; height: 28px; border: 1px solid #eee;">
                 <i class="las la-minus text-dark fs-12"></i>
             </button>
@@ -45,14 +45,23 @@
         @endif
     </div>
 
+    <!-- Desktop Price (Hidden on mobile/tablet because of sticky bar) -->
+    <div class="d-none d-xl-flex align-items-center gap-2 mb-4">
+        <strong class="fs-24 fw-900 text-dark">{{ home_discounted_base_price($detailedProduct) }}</strong>
+        @if (home_base_price($detailedProduct) != home_discounted_base_price($detailedProduct))
+            <del class="text-muted fs-16 ml-2">{{ home_base_price($detailedProduct) }}</del>
+        @endif
+    </div>
+
     <!-- Short Description -->
     <div class="mb-4 fs-14 text-muted" style="line-height: 1.5;">
         @php
-            $short_desc = strip_tags($detailedProduct->getTranslation('description'));
-            $short_desc = \Illuminate\Support\Str::limit($short_desc, 120, '...');
+            $desc_html = $detailedProduct->getTranslation('description');
+            $desc_text = trim(preg_replace('/\s+/', ' ', strip_tags(str_replace(['<', '>'], [' <', '> '], $desc_html))));
+            $short_desc = \Illuminate\Support\Str::limit($desc_text, 120, '...');
         @endphp
         {{ $short_desc }}
-        <a href="#descCollapse" data-toggle="collapse" class="text-dark fw-700" onclick="setTimeout(()=> { document.querySelector('#descCollapse').closest('.product-box').classList.add('active'); }, 300); document.querySelector('#descCollapse').scrollIntoView({behavior: 'smooth'});">Read More. . .</a>
+        <a href="#descCollapse" data-toggle="collapse" class="text-dark fw-700" onclick="setTimeout(()=> { document.querySelector('#descCollapse').closest('.product-box').classList.add('active'); }, 300); document.querySelector('#descCollapse').scrollIntoView({behavior: 'smooth', block: 'center'});">Read More. . .</a>
     </div>
 
     @if ($detailedProduct->auction_product != 1)
@@ -156,4 +165,9 @@
             margin: 0;
         }
     </style>
+
+    <!-- Product Accordions (Description, Shipping, Return) -->
+    <div class="mt-4">
+        @include('frontend.product_details.description')
+    </div>
 </div>

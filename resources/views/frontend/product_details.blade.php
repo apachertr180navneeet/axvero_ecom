@@ -222,9 +222,6 @@
                 <!-- Reviews & Ratings -->
                 @include('frontend.product_details.review_section')
                 
-                <!-- Description, Video, Downloads -->
-                @include('frontend.product_details.description')
-                
                 <!-- Product Query -->
                 @include('frontend.product_details.product_queries')
             @else
@@ -236,9 +233,6 @@
                         
                         <!-- Reviews & Ratings -->
                         @include('frontend.product_details.review_section')
-
-                        <!-- Description, Video, Downloads -->
-                        @include('frontend.product_details.description')
                         
                         <!-- Frequently Bought products -->
 
@@ -306,7 +300,7 @@
             </div>
         </section>
 
-        @include('frontend.smart_bar')
+
 
         <!-- Sticky Bottom Bar for Add to Cart (mobile only) -->
         <div class="d-xl-none position-fixed d-flex justify-content-between align-items-center p-3 bg-white border-top"
