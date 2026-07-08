@@ -363,17 +363,21 @@
                             <div class="axv-listing-offer-content">
                                 <p class="axv-listing-offer-kicker mb-2">Shop wit us!</p>
                                 <h2 class="axv-listing-offer-title mb-3">Get 40% Off for<br>all iteams</h2>
-                                <a href="{{ route('flash-deals') }}" class="axv-listing-offer-cta">Shop Now <span>&#8594;</span></a>
+                                <a href="{{ route('flash-deals') }}" class="axv-listing-offer-cta">Shop Now
+                                    <span>&#8594;</span></a>
                             </div>
                             <div class="axv-listing-offer-image">
-                                @if(isset($category_id) && $category->banner != null)
-                                    <img src="{{ uploaded_asset($category->banner) }}" alt="{{ $category->getTranslation('name') }}">
+                                @if (isset($category_id) && $category->banner != null)
+                                    <img src="{{ uploaded_asset($category->banner) }}"
+                                        alt="{{ $category->getTranslation('name') }}">
                                 @elseif(isset($brand_id) && get_single_brand($brand_id)->logo != null)
-                                    <img src="{{ uploaded_asset(get_single_brand($brand_id)->logo) }}" alt="{{ get_single_brand($brand_id)->getTranslation('name') }}">
+                                    <img src="{{ uploaded_asset(get_single_brand($brand_id)->logo) }}"
+                                        alt="{{ get_single_brand($brand_id)->getTranslation('name') }}">
                                 @elseif(isset($products) && $products->first() && $products->first()->thumbnail_img != null)
                                     <img src="{{ uploaded_asset($products->first()->thumbnail_img) }}" alt="Offer model">
                                 @else
-                                    <img src="{{ static_asset('assets/img/demo/wepik-photo-mode.png.jpeg') }}" alt="Offer model">
+                                    <img src="{{ static_asset('assets/img/demo/wepik-photo-mode.png.jpeg') }}"
+                                        alt="Offer model">
                                 @endif
                             </div>
                         </div>
@@ -383,14 +387,17 @@
                                 .axv-listing-scroll-layout {
                                     align-items: flex-start;
                                 }
+
                                 .axv-listing-sidebar-col {
                                     align-self: stretch;
                                 }
+
                                 .axv-listing-sidebar-col .aiz-filter-sidebar {
                                     position: static !important;
                                     z-index: 1 !important;
                                     height: 100%;
                                 }
+
                                 .axv-listing-sidebar-col .aiz-filter-sidebar .collapse-sidebar {
                                     position: sticky;
                                     top: 120px;
@@ -400,6 +407,7 @@
                                     z-index: 1;
                                 }
                             }
+
                             .axv-listing-offer-card {
                                 background: #efeff2;
                                 border-radius: 26px;
@@ -410,21 +418,25 @@
                                 min-height: 260px;
                                 gap: 28px;
                             }
+
                             .axv-listing-offer-content {
                                 max-width: 55%;
                             }
+
                             .axv-listing-offer-kicker {
                                 font-size: 18px;
                                 line-height: 1.25;
                                 font-weight: 500;
                                 color: #0c1631;
                             }
+
                             .axv-listing-offer-title {
                                 font-size: 54px;
                                 line-height: 1.15;
                                 font-weight: 700;
                                 color: #0c1631;
                             }
+
                             .axv-listing-offer-cta {
                                 font-size: 18px;
                                 line-height: 1.2;
@@ -436,10 +448,12 @@
                                 gap: 8px;
                                 margin-top: 8px;
                             }
+
                             .axv-listing-offer-cta:hover {
                                 color: #0c1631;
                                 text-decoration: none;
                             }
+
                             .axv-listing-offer-image {
                                 width: 45%;
                                 display: flex;
@@ -447,6 +461,7 @@
                                 align-items: flex-end;
                                 height: 250px;
                             }
+
                             .axv-listing-offer-image img {
                                 height: 100%;
                                 width: auto;
@@ -455,17 +470,21 @@
                                 object-position: center bottom;
                                 display: block;
                             }
+
                             @media (max-width: 1199px) {
                                 .axv-listing-offer-kicker {
                                     font-size: 16px;
                                 }
+
                                 .axv-listing-offer-title {
                                     font-size: 34px;
                                 }
+
                                 .axv-listing-offer-cta {
                                     font-size: 16px;
                                 }
                             }
+
                             @media (max-width: 767px) {
                                 .axv-listing-offer-card {
                                     flex-direction: row;
@@ -476,29 +495,36 @@
                                     min-height: 0;
                                     gap: 14px;
                                 }
+
                                 .axv-listing-offer-content,
                                 .axv-listing-offer-image {
                                     max-width: none;
                                 }
+
                                 .axv-listing-offer-content {
                                     width: 58%;
                                 }
+
                                 .axv-listing-offer-kicker {
                                     font-size: 14px;
                                 }
+
                                 .axv-listing-offer-title {
                                     font-size: 22px;
                                     margin-bottom: 10px !important;
                                 }
+
                                 .axv-listing-offer-cta {
                                     font-size: 14px;
                                     margin-top: 0;
                                 }
+
                                 .axv-listing-offer-image {
                                     width: 42%;
                                     justify-content: center;
                                     height: 170px;
                                 }
+
                                 .axv-listing-offer-image img {
                                     height: 100%;
                                     max-height: none;
@@ -554,18 +580,22 @@
                         <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
                             <!-- Left: Results count -->
                             <div class="d-flex align-items-center mb-2 mb-md-0" id="search_product_count">
-                                <span class="fs-15 text-secondary mr-1" style="color: #6c757d;">{{ translate('Showing') }}</span>
-                                <span class="fs-15 fw-bold text-dark mx-1" id="total_product_count">{{ $products->total() }}</span>
-                                <span class="fs-15 text-secondary ml-1" style="color: #6c757d;">{{ translate('results') }}</span>
+                                <span class="fs-15 text-secondary mr-1"
+                                    style="color: #6c757d;">{{ translate('Showing') }}</span>
+                                <span class="fs-15 fw-bold text-dark mx-1"
+                                    id="total_product_count">{{ $products->total() }}</span>
+                                <span class="fs-15 text-secondary ml-1"
+                                    style="color: #6c757d;">{{ translate('results') }}</span>
                                 <input type="hidden" name="keyword" value="{{ $query ?? '' }}">
                             </div>
-                            <div class="display-none fs-14 ml-2 text-muted" id="searching_product">{{ translate('searching..') }}</div>
+                            <div class="display-none fs-14 ml-2 text-muted" id="searching_product">
+                                {{ translate('searching..') }}</div>
 
                             <!-- Right: Sort & Filter -->
                             <div class="d-flex align-items-center" style="gap: 12px;">
                                 <!-- Sort By -->
                                 <style>
-                                    .custom-sort-select .bootstrap-select > .dropdown-toggle {
+                                    .custom-sort-select .bootstrap-select>.dropdown-toggle {
                                         background: transparent !important;
                                         border: none !important;
                                         box-shadow: none !important;
@@ -574,42 +604,61 @@
                                         color: #111 !important;
                                         outline: none !important;
                                     }
-                                    .custom-sort-select .bootstrap-select > .dropdown-menu {
+
+                                    .custom-sort-select .bootstrap-select>.dropdown-menu {
                                         border-radius: 12px !important;
                                         border: 1px solid #e2e5ec !important;
-                                        box-shadow: 0 8px 20px rgba(0,0,0,0.08) !important;
+                                        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08) !important;
                                         padding: 8px 0 !important;
                                         margin-top: 8px !important;
                                     }
+
                                     .custom-sort-select .bootstrap-select .dropdown-menu li a {
                                         font-size: 14px !important;
                                         padding: 8px 20px !important;
                                         color: #444 !important;
                                         font-weight: 500 !important;
                                     }
-                                    .custom-sort-select .bootstrap-select .dropdown-menu li a:hover, 
+
+                                    .custom-sort-select .bootstrap-select .dropdown-menu li a:hover,
                                     .custom-sort-select .bootstrap-select .dropdown-menu li.selected a,
                                     .custom-sort-select .bootstrap-select .dropdown-menu li.active a {
                                         background-color: #f8f9fa !important;
                                         color: #111 !important;
                                     }
                                 </style>
-                                <div class="custom-sort-select d-flex align-items-center position-relative bg-white border rounded-pill px-3" style="border-color: #e2e5ec !important; height: 38px; min-width: 140px;">
-                                    <select id="select_option"
-                                        class="form-control aiz-selectpicker"
-                                        name="sort_by" onchange="filter(event)" data-minimum-results-for-search="Infinity">
-                                        <option value="" disabled hidden selected>{{ translate('Sort by') }}</option>
-                                        <option value="newest" @isset($sort_by) @if ($sort_by == 'newest') selected @endif @endisset>{{ translate('Newest') }}</option>
-                                        <option value="oldest" @isset($sort_by) @if ($sort_by == 'oldest') selected @endif @endisset>{{ translate('Oldest') }}</option>
-                                        <option value="price-asc" @isset($sort_by) @if ($sort_by == 'price-asc') selected @endif @endisset>{{ translate('Price low to high') }}</option>
-                                        <option value="price-desc" @isset($sort_by) @if ($sort_by == 'price-desc') selected @endif @endisset>{{ translate('Price high to low') }}</option>
+                                <div class="custom-sort-select d-flex align-items-center position-relative bg-white border rounded-pill px-3"
+                                    style="border-color: #e2e5ec !important; height: 38px; min-width: 140px;">
+                                    <select id="select_option" class="form-control aiz-selectpicker" name="sort_by"
+                                        onchange="filter(event)" data-minimum-results-for-search="Infinity">
+                                        <option value="" disabled hidden selected>{{ translate('Sort by') }}
+                                        </option>
+                                        <option value="newest"
+                                            @isset($sort_by) @if ($sort_by == 'newest') selected @endif @endisset>
+                                            {{ translate('Newest') }}</option>
+                                        <option value="oldest"
+                                            @isset($sort_by) @if ($sort_by == 'oldest') selected @endif @endisset>
+                                            {{ translate('Oldest') }}</option>
+                                        <option value="price-asc"
+                                            @isset($sort_by) @if ($sort_by == 'price-asc') selected @endif @endisset>
+                                            {{ translate('Price low to high') }}</option>
+                                        <option value="price-desc"
+                                            @isset($sort_by) @if ($sort_by == 'price-desc') selected @endif @endisset>
+                                            {{ translate('Price high to low') }}</option>
                                     </select>
                                 </div>
 
                                 <!-- Filter Button -->
-                                <button type="button" class="btn btn-dark rounded-pill d-flex align-items-center fw-600 px-3 d-xl-none" data-toggle="class-toggle" data-target=".aiz-filter-sidebar" style="height: 38px; gap: 6px; font-size: 14px;">
+                                <button type="button"
+                                    class="btn btn-dark rounded-pill d-flex align-items-center fw-600 px-3 d-xl-none"
+                                    data-toggle="class-toggle" data-target=".aiz-filter-sidebar"
+                                    style="height: 38px; gap: 6px; font-size: 14px;">
                                     {{ translate('Filters') }}
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-white"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                        viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1"
+                                        stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                                        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                                    </svg>
                                 </button>
                             </div>
                         </div>

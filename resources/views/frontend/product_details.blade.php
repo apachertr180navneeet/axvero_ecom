@@ -8,18 +8,17 @@
 
 @section('meta')
     @php
-        $availability = "out of stock";
+        $availability = 'out of stock';
         $qty = 0;
-        if($detailedProduct->variant_product) {
+        if ($detailedProduct->variant_product) {
             foreach ($detailedProduct->stocks as $key => $stock) {
                 $qty += $stock->qty;
             }
-        }
-        else {
+        } else {
             $qty = optional($detailedProduct->stocks->first())->qty;
         }
-        if($qty > 0){
-            $availability = "in stock";
+        if ($qty > 0) {
+            $availability = 'in stock';
         }
     @endphp
     <!-- Schema.org markup for Google+ -->
@@ -32,7 +31,8 @@
     <meta name="twitter:site" content="@publisher_handle">
     <meta name="twitter:title" content="{{ $detailedProduct->meta_title }}">
     <meta name="twitter:description" content="{{ $detailedProduct->meta_description }}">
-    <meta name="twitter:creator" content="@author_handle">
+    <meta name="twitter:creator"
+        content="@author_handle">
     <meta name="twitter:image" content="https://kactto.com/uploads/all/p2jgTo0PYictPm70zRh4rs3dq8odmeo46Xu02a36.png">
     <meta name="twitter:data1" content="{{ single_price($detailedProduct->unit_price) }}">
     <meta name="twitter:label1" content="Price">
@@ -57,22 +57,134 @@
 
 @section('content')
     <style>
+        /* Prevent mobile horizontal scroll */
+        html, body {
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+
         .axv-product-details-wrap {
             background: #fff;
             min-height: 100vh;
-            padding-bottom: 80px;
+            padding-bottom: 24px;
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100%;
         }
-        @media (max-width: 1199.98px) {
+
+        @media (max-width: 991.98px) {
             .axv-product-details-wrap {
                 max-width: 480px;
                 margin: 0 auto;
                 box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+                padding-bottom: 40px;
+                overflow-x: hidden;
+            }
+
+            /* Keep site header from overflowing narrow mobile screen */
+            .aiz-main-wrapper,
+            .aiz-header,
+            header,
+            .top-navbar,
+            .logo-bar-area,
+            .container,
+            .container-fluid {
+                max-width: 100% !important;
+                overflow-x: hidden;
+            }
+
+            /* Hide prev/next arrows on mobile */
+            .product-gallery .slick-prev,
+            .product-gallery .slick-next,
+            .product-gallery-carousel .slick-prev,
+            .product-gallery-carousel .slick-next {
+                display: none !important;
+            }
+
+            /* Hide enlarge button on mobile */
+            .wd-show-product-gallery-wrap {
+                display: none !important;
+            }
+
+            /* Dots below image on mobile */
+            .product-gallery-carousel {
+                padding-bottom: 30px !important;
+            }
+            .product-gallery-carousel .slick-dots {
+                position: absolute;
+                bottom: 4px !important;
+                left: 0;
+                right: 0;
+                width: 100%;
+                display: flex !important;
+                justify-content: center;
+                align-items: center;
+                gap: 6px;
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+            .product-gallery-carousel .slick-dots li {
+                width: 8px;
+                height: 8px;
+                margin: 0;
+                display: inline-flex;
+            }
+            .product-gallery-carousel .slick-dots li button {
+                width: 8px;
+                height: 8px;
+                padding: 0;
+                background: #bbb;
+                border-radius: 50%;
+                border: none;
+                font-size: 0;
+                line-height: 0;
+                cursor: pointer;
+                opacity: 0.5;
+                display: block;
+            }
+            .product-gallery-carousel .slick-dots li.slick-active button {
+                background: #502288;
+                opacity: 1;
+                width: 20px;
+                border-radius: 4px;
+            }
+            .product-gallery-carousel .slick-dots li button:before {
+                display: none;
+            }
+
+            .product-gallery,
+            .product-gallery-carousel,
+            .sticky-top.z-3.row {
+                overflow: hidden;
+                max-width: 100%;
+            }
+
+            .axv-listing-offer-card {
+                overflow: hidden;
+                max-width: 100%;
+            }
+
+            .row.gutters-16 {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+            }
+
+            .row.gutters-16 > [class*="col-"] {
+                padding-left: 8px !important;
+                padding-right: 8px !important;
             }
         }
-        @media (min-width: 1200px) {
+
+        @media (min-width: 992px) {
             .axv-product-details-wrap {
                 max-width: 100%;
                 padding-bottom: 24px;
+            }
+
+            /* Hide dots on desktop */
+            .product-gallery-carousel .slick-dots {
+                display: none !important;
             }
         }
     </style>
@@ -88,7 +200,7 @@
                     <a href="{{ route('flash-deals') }}" class="axv-listing-offer-cta">Shop Now <span>&#8594;</span></a>
                 </div>
                 <div class="axv-listing-offer-image">
-                    <img src="{{ static_asset('assets/img/demo/wepik-photo-mode.png.jpeg') }}" alt="Offer model">
+                    <img src="{{ static_asset('assets/img/demo/wepik-photo-mode.png') }}" alt="Offer model">
                 </div>
             </div>
 
@@ -164,37 +276,45 @@
                         flex-direction: row;
                         align-items: center;
                         justify-content: space-between;
-                        padding: 18px 20px;
+                        padding: 14px 14px;
                         border-radius: 18px;
                         min-height: 0;
-                        gap: 14px;
+                        gap: 10px;
+                        overflow: hidden;
+                        width: 100%;
+                        box-sizing: border-box;
                     }
                     .axv-listing-offer-content,
                     .axv-listing-offer-image {
                         max-width: none;
+                        min-width: 0;
                     }
                     .axv-listing-offer-content {
                         width: 58%;
+                        flex: 1 1 auto;
                     }
                     .axv-listing-offer-kicker {
-                        font-size: 14px;
+                        font-size: 13px;
                     }
                     .axv-listing-offer-title {
-                        font-size: 22px;
-                        margin-bottom: 10px !important;
+                        font-size: 18px;
+                        margin-bottom: 8px !important;
+                        word-break: break-word;
                     }
                     .axv-listing-offer-cta {
-                        font-size: 14px;
+                        font-size: 13px;
                         margin-top: 0;
                     }
                     .axv-listing-offer-image {
-                        width: 42%;
+                        width: 38%;
                         justify-content: center;
-                        height: 170px;
+                        height: 140px;
+                        flex-shrink: 0;
                     }
                     .axv-listing-offer-image img {
                         height: 100%;
                         max-height: none;
+                        max-width: 100%;
                     }
                 }
             </style>
@@ -219,28 +339,29 @@
         <section class="mb-4">
             <div class="container-fluid px-xl-4 px-2">
             @if ($detailedProduct->auction_product)
-                <!-- Reviews & Ratings -->
-                @include('frontend.product_details.review_section')
+                <!-- Reviews & Ratings (desktop only) -->
+                <div class="d-none d-lg-block">
+                    @include('frontend.product_details.review_section')
+                </div>
                 
                 <!-- Product Query -->
                 @include('frontend.product_details.product_queries')
             @else
-                <div class="row gutters-16">
-                    <!-- Left side -->
-                  
-                    <!-- Right side -->
-                    <div class="col-lg-12">
-                        
-                        <!-- Reviews & Ratings -->
+                <div class="row gutters-16 align-items-start">
+                    <!-- Left side: smaller review panel (desktop only) -->
+                    <div class="col-lg-4 mb-3 mb-lg-0 d-none d-lg-block">
                         @include('frontend.product_details.review_section')
-                        
-                        <!-- Frequently Bought products -->
+                    </div>
 
-                        <!-- Product Query -->
+                    <!-- Right side: description blocks -->
+                    <div class="col-12 col-lg-8">
+                        @include('frontend.product_details.description')
+                    </div>
+                </div>
+
+                <div class="row gutters-16 mt-3">
+                    <div class="col-12">
                         @include('frontend.product_details.product_queries')
-                        
-                      
-
                     </div>
                 </div>
                 
@@ -263,7 +384,7 @@
     @endphp
     @if (count($lastViewedProducts) > 0)
         <section class="my-2 my-md-3">
-            <div class="container">
+            <div class="container-fluid px-xl-4 px-2">
                 <!-- Top Section -->
                 <div class="d-flex mb-2 mb-md-3 align-items-baseline justify-content-between">
                     <!-- Title -->
@@ -277,11 +398,11 @@
                     </div>
                 </div>
                 <!-- Product Section -->
-                <div class="px-sm-3">
-                    <div class="aiz-carousel slick-left sm-gutters-16 arrow-none" data-items="6" data-xl-items="5" data-lg-items="4"  data-md-items="3" data-sm-items="2" data-xs-items="2" data-arrows='true' data-infinite='false'>
+                <div class="px-sm-2">
+                    <div class="aiz-carousel slick-left sm-gutters-16 arrow-none" data-items="7" data-xl-items="6" data-lg-items="5"  data-md-items="3" data-sm-items="2" data-xs-items="2" data-arrows='true' data-infinite='false'>
                         @foreach ($lastViewedProducts as $key => $lastViewedProduct)
-                            <div class="carousel-box px-3 position-relative has-transition hov-animate-outline border-right border-top border-bottom @if($key == 0) border-left @endif">
-                                @include('frontend.'.get_setting('homepage_select').'.partials.last_view_product_box_1',['product' => $lastViewedProduct->product])
+                            <div class="carousel-box px-2 position-relative">
+                                @include('frontend.product_box_for_listing_page', ['product' => $lastViewedProduct->product])
                             </div>
                         @endforeach
                     </div>
@@ -301,20 +422,6 @@
         </section>
 
 
-
-        <!-- Sticky Bottom Bar for Add to Cart (mobile only) -->
-        <div class="d-xl-none position-fixed d-flex justify-content-between align-items-center p-3 bg-white border-top"
-            style="bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; box-shadow: 0 -5px 15px rgba(0,0,0,0.05); z-index: 99;">
-            <div>
-                <div class="fs-20 fw-900 text-dark">{{ home_discounted_base_price($detailedProduct) }}</div>
-            </div>
-            <div>
-                <button type="button" class="btn text-white fw-700 px-4 py-2 d-flex align-items-center justify-content-center gap-2"
-                    style="background-color: #000; font-size: 15px; border-radius: 4px; min-width: 140px;" onclick="addToCart()">
-                    Add to cart
-                </button>
-            </div>
-        </div>
     </div>
 @endsection
 
@@ -378,7 +485,7 @@
     </div>
 
     <!-- Bid Modal -->
-    @if($detailedProduct->auction_product == 1)
+    @if ($detailedProduct->auction_product == 1)
         @php 
             $highest_bid = $detailedProduct->bids->max('amount');
             $min_bid_amount = $highest_bid != null ? $highest_bid+1 : $detailedProduct->starting_bid;
@@ -388,7 +495,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">{{ translate('Bid For Product') }} <small>({{ translate('Min Bid Amount: ').$min_bid_amount }})</small> </h5>
+                        <h5 class="modal-title" id="exampleModalLabel">{{ translate('Bid For Product') }} <small>({{ translate('Min Bid Amount: ') . $min_bid_amount }})</small> </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         </button>
                     </div>
@@ -398,12 +505,12 @@
                             <input type="hidden" name="product_id" value="{{ $detailedProduct->id }}">
                             <div class="form-group">
                                 <label class="form-label">
-                                    {{translate('Place Bid Price')}}
+                                    {{ translate('Place Bid Price') }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <div class="form-group">
                                     <input type="number" step="0.01" class="form-control form-control-sm" name="amount" min="{{ $min_bid_amount }}" placeholder="{{ translate('Enter Amount') }}" required>
-                                    @if($gst_rate != null)
+                                    @if ($gst_rate != null)
                                         <small class="text-danger">{{ translate('An') }} {{ $gst_rate }}% {{ translate('GST will be applied if you win the bid and proceed with the purchase') }}</small>
                                     @endif
                                 </div>
@@ -439,7 +546,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 </div>
                 <div class="modal-body c-scrollbar-light">
-                    @if($detailedProduct->warranty_note_id != null)
+                    @if ($detailedProduct->warranty_note_id != null)
                         <p>{{ $detailedProduct->warrantyNote->getTranslation('description') }}</p>
                     @endif
                 </div>
@@ -456,7 +563,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 </div>
                 <div class="modal-body c-scrollbar-light">
-                    @if($detailedProduct->refund_note_id != null)
+                    @if ($detailedProduct->refund_note_id != null)
                         <p>{{ $detailedProduct->refundNote->getTranslation('description') }}</p>
                     @endif
                 </div>
@@ -491,8 +598,55 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
     <script type="text/javascript">
+        function updateMobileVariantPrice(data) {
+            if (!data) return;
+
+            var qty = parseInt($('#option-choice-form input[name="quantity"]').val() || 1, 10);
+            if (data.unit_price) {
+                $('#axv_mobile_price').html(data.unit_price);
+            } else if (data.price) {
+                $('#axv_mobile_price').html(data.price);
+            }
+
+            if (qty > 1 && data.price) {
+                $('#axv_mobile_qty_total').removeClass('d-none').html(data.price);
+            } else {
+                $('#axv_mobile_qty_total').addClass('d-none').html('');
+            }
+
+            if (data.original_price && data.discount_percent > 0) {
+                $('#axv_mobile_mrp').html(data.original_price);
+                $('#axv_mobile_mrp_wrap').removeClass('d-none');
+                $('#axv_mobile_off').removeClass('d-none').html(data.discount_percent + '% off');
+            } else if (data.discount_percent > 0) {
+                $('#axv_mobile_off').removeClass('d-none').html(data.discount_percent + '% off');
+            } else {
+                $('#axv_mobile_off').addClass('d-none');
+            }
+
+            // Keep chosen_price for system compatibility, never show raw box on mobile layout
+            $('#option-choice-form #chosen_price_div').addClass('d-none');
+        }
+
         $(document).ready(function() {
+            // Ensure first size is selected
+            $('#option-choice-form input[type="radio"]').each(function() {
+                var name = $(this).attr('name');
+                if (!$('#option-choice-form input[name="' + name + '"]:checked').length) {
+                    $('#option-choice-form input[name="' + name + '"]').first().prop('checked', true);
+                }
+            });
+
             getVariantPrice();
+        });
+
+        // Sync mobile price whenever variant-price AJAX responds
+        $(document).ajaxSuccess(function(event, xhr, settings) {
+            if (!settings.url || settings.url.indexOf('variant-price') === -1) return;
+            try {
+                var data = xhr.responseJSON || JSON.parse(xhr.responseText);
+                updateMobileVariantPrice(data);
+            } catch (e) {}
         });
 
         function CopyToClipboard(e) {
@@ -580,7 +734,7 @@ document.addEventListener("DOMContentLoaded", function () {
             @if (isCustomer() || isSeller())
                 $('#bid_for_detail_product').modal('show');
           	@elseif (isAdmin())
-                AIZ.plugins.notify('warning', '{{ translate("Sorry, Only customers & Sellers can Bid.") }}');
+                AIZ.plugins.notify('warning', '{{ translate('Sorry, Only customers & Sellers can Bid.') }}');
             @else
                 $('#login_modal').modal('show');
             @endif
@@ -601,55 +755,38 @@ document.addEventListener("DOMContentLoaded", function () {
                         AIZ.extra.inputRating();
                     });
                 @else
-                    AIZ.plugins.notify('warning', '{{ translate("Sorry, You need to buy this product to give review.") }}');
+                    AIZ.plugins.notify('warning', '{{ translate('Sorry, You need to buy this product to give review.') }}');
                 @endif
             @elseif (Auth::check() && !isCustomer())
-                AIZ.plugins.notify('warning', '{{ translate("Sorry, Only customers can give review.") }}');
+                AIZ.plugins.notify('warning', '{{ translate('Sorry, Only customers can give review.') }}');
             @else
-                $('#login_modal').modal('show');
-            @endif
+                $('#login_modal').modal('show'); @endif
         }
 
         function showSizeChartDetail(id, name){
             $('#size-chart-show-modal .modal-title').html('');
             $('#size-chart-show-modal .modal-body').html('');
             if (id == 0) {
-                AIZ.plugins.notify('warning', '{{ translate("Sorry, There is no size guide found for this product.") }}');
+                AIZ.plugins.notify('warning', '{{ translate('Sorry, There is no size guide found for this product.') }}');
                 return false;
             }
             $.ajax({
                 type: "GET",
-                url: "{{ route('size-charts-show', '') }}/"+id,
-                data: {},
-                success: function(data) {
-                    $('#size-chart-show-modal .modal-title').html(name);
-                    $('#size-chart-show-modal .modal-body').html(data);
-                    $('#size-chart-show-modal').modal('show');
-                }
+        url: "{{ route('size-charts-show', '') }}/" +id, data: {}, success: function(data) { $('#size-chart-show-modal
+        .modal-title').html(name); $('#size-chart-show-modal .modal-body').html(data);
+        $('#size-chart-show-modal').modal('show'); } }); } function getRandomNumber(min, max) { return
+        Math.floor(Math.random() * (max - min + 1)) + min; } function updateViewerCount() { const
+        countElement=document.querySelector('#live-product-viewing-visitors .count'); const
+        min=parseInt(`{{ get_setting('min_custom_product_visitors') }}`); const
+        max=parseInt(`{{ get_setting('max_custom_product_visitors') }}`); const randomNumber=getRandomNumber(min, max);
+        countElement.textContent=randomNumber; const randomTime=getRandomNumber(5000, 10000); setTimeout(updateViewerCount,
+        randomTime); } </script>
+    @if (get_setting('show_custom_product_visitors') == 1)
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                updateViewerCount();
             });
-        }
-
-        function getRandomNumber(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-
-        function updateViewerCount() {
-            const countElement = document.querySelector('#live-product-viewing-visitors .count');
-            const min = parseInt(`{{ get_setting('min_custom_product_visitors') }}`);
-            const max = parseInt(`{{ get_setting('max_custom_product_visitors') }}`);
-            const randomNumber = getRandomNumber(min, max);
-            countElement.textContent = randomNumber;
-            const randomTime = getRandomNumber(5000, 10000);
-            setTimeout(updateViewerCount, randomTime);
-        }
-        
-    </script>
-    @if(get_setting('show_custom_product_visitors')==1)
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            updateViewerCount();
-        });
-    </script>
+        </script>
     @endif
 
 @endsection

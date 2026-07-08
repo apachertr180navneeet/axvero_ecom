@@ -1,10 +1,20 @@
 <style>
-    
-
+    @media (min-width: 992px) {
+        .product-gallery-thumb .slick-list,
+        .product-gallery-thumb .slick-track {
+            height: auto !important;
+        }
+        .product-gallery-thumb .carousel-box {
+            padding-bottom: 0 !important;
+        }
+        .sticky-top.z-3.row {
+            padding-bottom: 0 !important;
+        }
+    }
 </style>
 
 
-<div class="sticky-top z-3 row gutters-10">
+<div class="sticky-top z-3 row gutters-10" style="max-width:100%; overflow:hidden; margin-left:0; margin-right:0;">
     @php
         $photos = $detailedProduct->photos != null ? explode(',', $detailedProduct->photos) : [];
 
@@ -20,7 +30,7 @@
     <div class="col-12" style="">
         <div style="width: 100%;    align-items: center; justify-content: center; display: flex;"
             class=" aiz-carousel product-gallery arrow-inactive-transparent arrow-lg-none product-gallery-carousel"
-            data-nav-for='.product-gallery-thumb' data-fade='true' data-auto-height='true' data-arrows='true'>
+            data-nav-for='.product-gallery-thumb' data-fade='true' data-auto-height='true' data-arrows='true' data-dots='true'>
             @if ($detailedProduct->digital == 0)
                 @foreach ($detailedProduct->stocks as $key => $stock)
                     @if ($stock->image != null)
@@ -123,10 +133,10 @@
 
         </div>
     </div>
-    <div class="col-12 mt-3 d-none d-lg-block scroll-x">
+    <div class="col-12 mt-2 d-none d-lg-block scroll-x" style="padding-bottom: 0;">
         <div class="aiz-carousel half-outside-arrow product-gallery-thumb" data-items='7'
             data-nav-for='.product-gallery' data-focus-select='true' data-arrows='true' data-vertical='false'
-            data-auto-height='true'>
+            data-auto-height='false'>
 
             @if ($detailedProduct->digital == 0)
                 @foreach ($detailedProduct->stocks as $key => $stock)

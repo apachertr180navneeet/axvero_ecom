@@ -2035,8 +2035,8 @@ if (!function_exists('lastViewedProducts')) {
         $lastViewedProduct->touch();
 
         $lastViewedProductsCount = LastViewedProduct::where('session_id', $user_id)->count();
-        if($lastViewedProductsCount > 12) {
-            $deleteRow = $lastViewedProductsCount - 12;
+        if($lastViewedProductsCount > 20) {
+            $deleteRow = $lastViewedProductsCount - 20;
             LastViewedProduct::where('session_id', $user_id)->take($deleteRow)->delete();
         }
     }

@@ -483,7 +483,7 @@ class HomeController extends Controller
                     ->where('approved', 1)
             )
                 ->orderBy('num_of_sale', 'desc')
-                ->take(10)
+                ->take(20)
                 ->get();
 
             // ✅ Same category ke similar products (current product exclude)
@@ -494,7 +494,7 @@ class HomeController extends Controller
                     ->where('approved', 1)
             )
                 ->latest()
-                ->take(10)
+                ->take(20)
                 ->get();
 
             return view('frontend.product_details', compact(
@@ -833,8 +833,27 @@ class HomeController extends Controller
         $price += $tax;
         $price += ($price * $product->gst_rate) / 100;
 
+        $unit_price = $price;
+        $original_unit = $product_stock->price;
+        foreach ($product->taxes as $product_tax) {
+            if ($product_tax->tax_type == 'percent') {
+                $original_unit += ($product_stock->price * $product_tax->tax) / 100;
+            } elseif ($product_tax->tax_type == 'amount') {
+                $original_unit += $product_tax->tax;
+            }
+        }
+        $original_unit += ($product_stock->price * $product->gst_rate) / 100;
+
+        $discount_percent = 0;
+        if ($original_unit > 0 && $unit_price < $original_unit) {
+            $discount_percent = round((($original_unit - $unit_price) / $original_unit) * 100);
+        }
+
         return array(
             'price' => single_price($price * $request->quantity),
+            'unit_price' => single_price($unit_price),
+            'original_price' => single_price($original_unit),
+            'discount_percent' => $discount_percent,
             'quantity' => $quantity,
             'digital' => $product->digital,
             'variation' => $str,

@@ -1,4 +1,4 @@
-<div class="product-accordion mb-4">
+<div class="product-accordion mb-3">
 
     <!-- Description -->
     <div class="product-box">
@@ -7,7 +7,7 @@
             <i class="toggle-icon las la-angle-up text-muted"></i>
         </div>
 
-        <div id="descCollapse" class="collapse">
+        <div id="descCollapse" class="collapse show">
             <div class="product-body aiz-editor-data">
                 {!! $detailedProduct->getTranslation('description') !!}
             </div>
@@ -143,49 +143,80 @@
 
 
 <style>
-    
-    .product-accordion {
+.product-accordion {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .product-box {
     width: 100%;
-    border-bottom: 1px solid #e2e2e2;
+    border-radius: 14px;
+    border: 1px solid #e8e8ee;
     background: #ffffff;
     overflow: hidden;
-    transition: 0.3s ease;
+    transition: box-shadow 0.25s ease;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
 }
-.product-box:first-child {
-    border-top: 1px solid #e2e2e2;
+
+.product-box:hover {
+    box-shadow: 0 4px 14px rgba(0,0,0,0.09);
 }
 
 .product-header {
-    padding: 18px 0;
+    padding: 16px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
-    transition: 0.3s ease;
+    color: #222;
+    background: #fff;
+    border-radius: 14px;
 }
 
-.product-header:hover {
-    background: #fafafa;
+.product-box .collapse.show ~ .product-header,
+.product-header[aria-expanded="true"] {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .product-body {
-    padding: 0 0 20px 0;
+    padding: 0 20px 18px 20px;
+    background: #fff;
 }
 
 .toggle-icon {
     font-style: normal;
     font-size: 14px;
     transition: transform 0.3s ease;
+    color: #888;
 }
 
 .product-box.active .toggle-icon {
     transform: rotate(180deg);
 }
-    
+
+@media (max-width: 1199.98px) {
+    .product-accordion {
+        gap: 10px;
+    }
+    .product-box {
+        border-radius: 12px;
+        background: #fff;
+        border: 1px solid #e8e8ee;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .product-header {
+        padding: 14px 16px;
+        background: #fff;
+        border-radius: 12px;
+    }
+    .product-body {
+        padding: 0 16px 14px 16px;
+        background: #fff;
+    }
+}
 </style>
 
 <script>
