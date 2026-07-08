@@ -4,7 +4,7 @@
     <style>
         .axvero-checkout-page {
             min-height: 100vh;
-            background: #f8f9fa;
+            background: #fff;
         }
 
         .axvero-checkout-shell {
@@ -31,7 +31,7 @@
                 max-width: 80px !important;
             }
 
-            .checkout-summary-sidebar {
+            .cart-summary-sidebar {
                 position: sticky;
                 top: 120px;
             }
@@ -39,7 +39,7 @@
     </style>
 
     <div class="axvero-checkout-page">
-        <div class="axvero-checkout-shell mx-auto bg-light position-relative w-100">
+        <div class="axvero-checkout-shell mx-auto bg-white position-relative w-100">
             <!-- Mobile App Header -->
             <div class="d-lg-none d-flex align-items-center justify-content-between p-3"
                 style="background-color: #502288; color: white; position: sticky; top: 0; z-index: 100;">
@@ -51,7 +51,7 @@
             </div>
 
             <div class="text-center mt-3 mb-4 d-lg-none">
-                <h2 class="fw-700 text-dark fs-22">Shopping cart</h2>
+                <h2 class="fw-700 text-dark fs-22">Checkout</h2>
             </div>
             <div class="d-none d-lg-block container py-4">
                 <h1 class="fw-700 text-dark fs-28 mb-0">Checkout</h1>
@@ -91,24 +91,55 @@
                 </div>
             </div>
 
-            <div class="container-fluid px-lg-4">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <section class="p-3 p-lg-0">
-                            <form class="form-default" data-toggle="validator" action="{{ route('payment.checkout') }}"
-                                role="form" method="POST" id="checkout-form">
-                                @csrf
-                                <input type="hidden" name="is_online_pay" id="is_online_pay"
-                                    value="{{ $carts->isNotEmpty() ? $carts->first()->is_online_pay : 0 }}">
+            <section class="my-3 px-3 px-lg-4" id="checkout-details">
+                <div class="checkout-items-wrapper pb-5 mb-lg-0 mb-5" style="background-color: #ffffff;">
+                    <div class="container-fluid px-0">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <form class="form-default" data-toggle="validator" action="{{ route('payment.checkout') }}"
+                                    role="form" method="POST" id="checkout-form">
+                                    @csrf
+                                    <input type="hidden" name="is_online_pay" id="is_online_pay"
+                                        value="{{ $carts->isNotEmpty() ? $carts->first()->is_online_pay : 0 }}">
 
-                                <!-- STEP 1: Address -->
-                                <div id="step-address">
-                                    <h6 class="fs-15 fw-700 text-dark mb-3">Select Delivery Address</h6>
-                                    <div id="shipping_info">
-                                        @include('frontend.partials.cart.shipping_info', ['address_id' => $address_id])
+                                    <!-- STEP 1: Address -->
+                                    <div id="step-address">
+                                        <h6 class="fs-15 fw-700 text-dark mb-3 px-lg-0 px-2">Select Delivery Address</h6>
+                                        <div id="shipping_info">
+                                            @include('frontend.partials.cart.shipping_info', ['address_id' => $address_id])
+                                        </div>
                                     </div>
 
-                                    <div class="mt-4">
+                                    <!-- STEP 2: Payment -->
+                                    <div id="step-payment" class="d-none px-lg-0 px-2">
+                                        <div class="d-none" id="delivery_info">
+                                            @include('frontend.partials.cart.delivery_info', [
+                                                'carts' => $carts,
+                                                'carrier_list' => $carrier_list,
+                                                'shipping_info' => $shipping_info,
+                                            ])
+                                        </div>
+
+                                        <div id="payment_info">
+                                            @include('frontend.partials.cart.payment_info', [
+                                                'carts' => $carts,
+                                                'total' => $total,
+                                            ])
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="cart-summary-sidebar px-lg-0 px-3">
+                                    <div id="cart_summary">
+                                        @include('frontend.partials.cart.cart_summary', [
+                                            'proceed' => 0,
+                                            'carts' => $carts,
+                                            'style' => 'cart',
+                                        ])
+                                    </div>
+                                    <div class="mt-3" id="sidebar-continue-btn">
                                         <button type="button"
                                             class="btn btn-block text-white fw-700 py-3 shadow-sm"
                                             style="background-color: #000; font-size: 16px; border-radius: 4px;"
@@ -117,35 +148,11 @@
                                         </button>
                                     </div>
                                 </div>
-
-                                <!-- STEP 2: Payment -->
-                                <div id="step-payment" class="d-none">
-                                    <div class="d-none" id="delivery_info">
-                                        @include('frontend.partials.cart.delivery_info', [
-                                            'carts' => $carts,
-                                            'carrier_list' => $carrier_list,
-                                            'shipping_info' => $shipping_info,
-                                        ])
-                                    </div>
-
-                                    <div id="payment_info">
-                                        @include('frontend.partials.cart.payment_info', [
-                                            'carts' => $carts,
-                                            'total' => $total,
-                                        ])
-                                    </div>
-                                </div>
-                            </form>
-                        </section>
-                    </div>
-
-                    <div class="col-lg-4 d-none d-lg-block">
-                        <div class="checkout-summary-sidebar px-lg-0 px-3" id="cart_summary">
-                            @include('frontend.partials.cart.cart_summary', ['proceed' => 0, 'carts' => $carts])
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
     </div>
 
@@ -153,6 +160,7 @@
         function goToPaymentStep() {
             // Hide Address Step
             document.getElementById('step-address').classList.add('d-none');
+            document.getElementById('sidebar-continue-btn').classList.add('d-none');
             // Show Payment Step
             document.getElementById('step-payment').classList.remove('d-none');
             
@@ -175,6 +183,7 @@
             document.getElementById('step-payment').classList.add('d-none');
             // Show Address Step
             document.getElementById('step-address').classList.remove('d-none');
+            document.getElementById('sidebar-continue-btn').classList.remove('d-none');
             
             // Update Stepper UI back to Address
             document.getElementById('step2-divider').style.backgroundColor = '#e0e0e0';
@@ -328,7 +337,8 @@ input:checked + .slider:before {
                 type: "POST",
                 data: {
                     _token: "{{ csrf_token() }}",
-                    is_online_pay: enableOnlinePay ? 1 : 0
+                    is_online_pay: enableOnlinePay ? 1 : 0,
+                    summary_style: 'cart'
                 },
                 success: function (res) {
                     if (res.success && res.html) {
@@ -610,7 +620,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 _token: AIZ.data.csrf,
                 address_id: id,
                 city_id: city_id,
-                area_id: area_id
+                area_id: area_id,
+                summary_style: 'cart'
             }, function(data) {
                 $('#delivery_info').html(data.delivery_info);
                 $('#cart_summary').html(data.cart_summary);
@@ -759,7 +770,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 type_id: type_id,
                 user_id: user_id,
                 country_id: country_id,
-                city_id: city_id
+                city_id: city_id,
+                summary_style: 'cart'
             }, function(data) {
                 $('#cart_summary').html(data);
                 checkCarrerShippingInfo();
