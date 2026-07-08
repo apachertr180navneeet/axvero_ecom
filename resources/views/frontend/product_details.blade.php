@@ -193,7 +193,8 @@
 
 
         <div class="container-fluid px-xl-4 px-2">
-            <div class="axv-listing-offer-card mb-3 mt-xl-3 mt-2">
+            <br>
+            {{-- <div class="axv-listing-offer-card mb-3 mt-xl-3 mt-2">
                 <div class="axv-listing-offer-content">
                     <p class="axv-listing-offer-kicker mb-2">Shop wit us!</p>
                     <h2 class="axv-listing-offer-title mb-3">Get 40% Off for<br>all iteams</h2>
@@ -202,7 +203,7 @@
                 <div class="axv-listing-offer-image">
                     <img src="{{ static_asset('assets/img/demo/wepik-photo-mode.png') }}" alt="Offer model">
                 </div>
-            </div>
+            </div> --}}
 
             <style>
                 .axv-listing-offer-card {

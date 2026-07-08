@@ -156,26 +156,35 @@
                 </div>
 
 
-                {{-- Mobile: price + Add To Cart below size (updates with selected size) --}}
-                <div class="d-xl-none axv-mobile-buy-row mb-4">
-                    <div class="axv-mobile-buy-left">
-                        <div class="axv-mobile-qty-total d-none mb-1" id="axv_mobile_qty_total"></div>
-                        <div class="d-flex align-items-center flex-wrap">
-                            <span class="axv-mobile-buy-price"
-                                id="axv_mobile_price">{{ home_discounted_base_price($detailedProduct) }}</span>
-                            <span class="axv-mobile-buy-off @if (discount_in_percentage($detailedProduct) <= 0) d-none @endif"
-                                id="axv_mobile_off">
-                                {{ discount_in_percentage($detailedProduct) }}% off
-                            </span>
-                        </div>
-                        <div class="axv-mobile-buy-mrp @if (home_base_price($detailedProduct) == home_discounted_base_price($detailedProduct)) d-none @endif"
-                            id="axv_mobile_mrp_wrap">
-                            MRP <del id="axv_mobile_mrp">{{ home_base_price($detailedProduct) }}</del> Incl. of taxes
+                {{-- Mobile: price + Add To Cart + Buy Now below size --}}
+                <div class="d-xl-none mb-4">
+                    {{-- Price row --}}
+                    <div class="axv-mobile-buy-row mb-3">
+                        <div class="axv-mobile-buy-left">
+                            <div class="axv-mobile-qty-total d-none mb-1" id="axv_mobile_qty_total"></div>
+                            <div class="d-flex align-items-center flex-wrap">
+                                <span class="axv-mobile-buy-price"
+                                    id="axv_mobile_price">{{ home_discounted_base_price($detailedProduct) }}</span>
+                                <span class="axv-mobile-buy-off @if (discount_in_percentage($detailedProduct) <= 0) d-none @endif"
+                                    id="axv_mobile_off">
+                                    {{ discount_in_percentage($detailedProduct) }}% off
+                                </span>
+                            </div>
+                            <div class="axv-mobile-buy-mrp @if (home_base_price($detailedProduct) == home_discounted_base_price($detailedProduct)) d-none @endif"
+                                id="axv_mobile_mrp_wrap">
+                                MRP <del id="axv_mobile_mrp">{{ home_base_price($detailedProduct) }}</del> Incl. of taxes
+                            </div>
                         </div>
                     </div>
-                    <button type="button" class="btn axv-mobile-buy-btn add-to-cart" onclick="addToCart()">
-                        {{ translate('Add To Cart') }}
-                    </button>
+                    {{-- Buttons row --}}
+                    <div class="d-flex flex-wrap" style="gap: 10px;">
+                        <button type="button" class="btn fw-700 add-to-cart axv-add-btn flex-fill" onclick="addToCart()">
+                            {{ translate('Add To Cart') }}
+                        </button>
+                        <button type="button" class="btn fw-700 buy-now axv-buy-btn flex-fill" onclick="buyNow()">
+                            {{ translate('Buy Now') }}
+                        </button>
+                    </div>
                 </div>
 
                 {{-- Desktop qty (uses sibling buttons only; shares same quantity field via data-field) --}}
