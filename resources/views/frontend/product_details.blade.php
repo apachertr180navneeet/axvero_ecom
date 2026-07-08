@@ -78,23 +78,7 @@
     </style>
 
     <div class="axv-product-details-wrap position-relative">
-        <!-- Mobile App Header -->
-        <div class="d-xl-none d-flex align-items-center justify-content-between p-3"
-            style="background-color: #502288; color: white; position: sticky; top: 0; z-index: 100;">
-            <div class="d-flex align-items-center gap-3">
-                <a href="{{ url()->previous() }}" class="text-white"><i class="las la-arrow-left fs-24"></i></a>
-                <h5 class="mb-0 fw-600 fs-16">Details</h5>
-            </div>
-            <div class="d-flex gap-3">
-                <a href="{{ route('cart') }}" class="text-white position-relative">
-                    <i class="las la-shopping-cart fs-24"></i>
-                    @if (Session::has('cart') && count(Session::get('cart')) > 0)
-                        <span class="badge badge-primary badge-circle position-absolute"
-                            style="top: -5px; right: -5px; font-size: 10px; padding: 3px 5px; background: #e74c3c;">{{ count(Session::get('cart')) }}</span>
-                    @endif
-                </a>
-            </div>
-        </div>
+
 
         <div class="container-fluid px-xl-4 px-2">
             <div class="axv-listing-offer-card mb-3 mt-xl-3 mt-2">
@@ -325,16 +309,15 @@
         @include('frontend.smart_bar')
 
         <!-- Sticky Bottom Bar for Add to Cart (mobile only) -->
-        <div class="d-xl-none position-fixed d-flex justify-content-between align-items-center p-3 bg-white"
+        <div class="d-xl-none position-fixed d-flex justify-content-between align-items-center p-3 bg-white border-top"
             style="bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; box-shadow: 0 -5px 15px rgba(0,0,0,0.05); z-index: 99;">
             <div>
-                <div class="fs-12 text-muted fw-600">Total Price</div>
                 <div class="fs-20 fw-900 text-dark">{{ home_discounted_base_price($detailedProduct) }}</div>
             </div>
             <div>
-                <button type="button" class="btn text-white fw-700 px-4 py-2 d-flex align-items-center gap-2 rounded-pill"
-                    style="background-color: #502288; font-size: 15px;" onclick="addToCart()">
-                    <i class="las la-shopping-cart fs-20"></i> Add to Cart
+                <button type="button" class="btn text-white fw-700 px-4 py-2 d-flex align-items-center justify-content-center gap-2"
+                    style="background-color: #000; font-size: 15px; border-radius: 4px; min-width: 140px;" onclick="addToCart()">
+                    Add to cart
                 </button>
             </div>
         </div>

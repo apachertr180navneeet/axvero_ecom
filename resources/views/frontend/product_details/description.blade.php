@@ -3,8 +3,8 @@
     <!-- Description -->
     <div class="product-box">
         <div class="product-header" data-toggle="collapse" data-target="#descCollapse">
-            <span>Description</span>
-            <i class="toggle-icon">+</i>
+            <span class="fs-15 fw-700 text-dark">Description</span>
+            <i class="toggle-icon las la-angle-up text-muted"></i>
         </div>
 
         <div id="descCollapse" class="collapse">
@@ -17,8 +17,8 @@
     <!-- Shipping -->
 <div class="product-box">
     <div class="product-header" data-toggle="collapse" data-target="#shipCollapse">
-        <span>Shipping Description</span>
-        <i class="toggle-icon">+</i>
+        <span class="fs-15 fw-700 text-dark">Shipping Description</span>
+        <i class="toggle-icon las la-angle-up text-muted"></i>
     </div>
 
     <div id="shipCollapse" class="collapse">
@@ -82,8 +82,8 @@
     <!-- Return -->
   <div class="product-box">
     <div class="product-header" data-toggle="collapse" data-target="#returnCollapse">
-        <span>Return Description</span>
-        <i class="toggle-icon">+</i>
+        <span class="fs-15 fw-700 text-dark">Return Description</span>
+        <i class="toggle-icon las la-angle-up text-muted"></i>
     </div>
 
     <div id="returnCollapse" class="collapse">
@@ -150,19 +150,17 @@
 
 .product-box {
     width: 100%;
-    border: 1px solid #e2e2e2;
-    border-radius: 8px;
-    margin-bottom: 15px;
+    border-bottom: 1px solid #e2e2e2;
     background: #ffffff;
     overflow: hidden;
     transition: 0.3s ease;
 }
+.product-box:first-child {
+    border-top: 1px solid #e2e2e2;
+}
 
 .product-header {
-    padding: 16px 20px;
-    font-weight: 600;
-    font-size: 16px;
-    background: #f8f8f8;
+    padding: 18px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -171,32 +169,21 @@
 }
 
 .product-header:hover {
-    background: #f1f1f1;
+    background: #fafafa;
 }
 
 .product-body {
-    padding: 20px;
-    border-top: 1px solid #eee;
-}
-
-.product-box.active {
-    border-color: #6f42c1;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-}
-
-.product-box.active .product-header {
-    background: #f3ecff;
-    color: #6f42c1;
+    padding: 0 0 20px 0;
 }
 
 .toggle-icon {
     font-style: normal;
-    font-size: 18px;
+    font-size: 14px;
     transition: transform 0.3s ease;
 }
 
 .product-box.active .toggle-icon {
-    transform: rotate(45deg);
+    transform: rotate(180deg);
 }
     
 </style>
