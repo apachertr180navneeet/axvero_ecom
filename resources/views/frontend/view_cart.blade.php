@@ -78,8 +78,8 @@
                     <span class="ml-2 fw-700 text-dark fs-14">Cart</span>
                 </div>
 
-                <div class="flex-grow-1 mx-2 step-divider"
-                    style="height: 2px; background-color: #000; max-width: 40px;"></div>
+                <div class="flex-grow-1 mx-2 step-divider" style="height: 2px; background-color: #000; max-width: 40px;">
+                </div>
 
                 <div class="d-flex align-items-center">
                     <div class="d-flex align-items-center justify-content-center rounded-circle fw-700 fs-12"
@@ -87,8 +87,8 @@
                     <span class="ml-2 fw-600 fs-14" style="color: #a0a0a0;">Address</span>
                 </div>
 
-                <div class="flex-grow-1 mx-2 step-divider"
-                    style="height: 1px; background-color: #e0e0e0; max-width: 40px;"></div>
+                <div class="flex-grow-1 mx-2 step-divider" style="height: 1px; background-color: #e0e0e0; max-width: 40px;">
+                </div>
 
                 <div class="d-flex align-items-center">
                     <div class="d-flex align-items-center justify-content-center rounded-circle fw-700 fs-12"
@@ -106,117 +106,118 @@
 @endsection
 
 @section('script')
-<script>
-    const PRODUCT_LIMIT = {{ $productLimit }};
-</script>
-<script>
-$(document).on('click', '.aiz-plus-minus button', function (e) {
-    e.preventDefault();
+    <script>
+        const PRODUCT_LIMIT = {{ $productLimit }};
+    </script>
+    <script>
+        $(document).on('click', '.aiz-plus-minus button', function(e) {
+            e.preventDefault();
 
-    let button = $(this);
-    let input = button.closest('.aiz-plus-minus').find('.input-number');
+            let button = $(this);
+            let input = button.closest('.aiz-plus-minus').find('.input-number');
 
-    let currentQty = parseInt(input.val());
-    let weight = parseFloat(input.data('weight'));
+            let currentQty = parseInt(input.val());
+            let weight = parseFloat(input.data('weight'));
 
-    if (isNaN(currentQty)) currentQty = 1;
+            if (isNaN(currentQty)) currentQty = 1;
 
-    let newQty = currentQty;
+            let newQty = currentQty;
 
-    // PLUS BUTTON
-    if (button.data('type') === 'plus') {
-        newQty = currentQty + 1;
+            // PLUS BUTTON
+            if (button.data('type') === 'plus') {
+                newQty = currentQty + 1;
 
-        if ((newQty * weight) > PRODUCT_LIMIT) {
-            AIZ.plugins.notify(
-                'danger',
-                'You cannot add more of this product as it exceeds the weight limit (' + PRODUCT_LIMIT + ' KG)'
-            );
-            return false;
+                if ((newQty * weight) > PRODUCT_LIMIT) {
+                    AIZ.plugins.notify(
+                        'danger',
+                        'You cannot add more of this product as it exceeds the weight limit (' + PRODUCT_LIMIT +
+                        ' KG)'
+                    );
+                    return false;
+                }
+
+                let totalWeight = getTotalCartWeight() + weight;
+                if (totalWeight > PRODUCT_LIMIT) {
+                    AIZ.plugins.notify(
+                        'danger',
+                        'Total cart weight cannot exceed ' + PRODUCT_LIMIT + ' KG'
+                    );
+                    return false;
+                }
+            }
+
+            if (button.data('type') === 'minus') {
+                if (currentQty > 1) {
+                    newQty = currentQty - 1;
+                } else {
+                    return false;
+                }
+            }
+
+            input.val(newQty);
+            updateQuantity(input.attr('name').match(/\d+/)[0], input[0]);
+        });
+    </script>
+
+    <script>
+        function getTotalCartWeight() {
+            let total = 0;
+
+            $('.input-number').each(function() {
+                let qty = parseInt($(this).val());
+                let weight = parseFloat($(this).data('weight'));
+
+                if (!isNaN(qty) && !isNaN(weight)) {
+                    total += qty * weight;
+                }
+            });
+
+            return total;
         }
+    </script>
 
-        let totalWeight = getTotalCartWeight() + weight;
-        if (totalWeight > PRODUCT_LIMIT) {
-            AIZ.plugins.notify(
-                'danger',
-                'Total cart weight cannot exceed ' + PRODUCT_LIMIT + ' KG'
-            );
-            return false;
-        }
-    }
+    <script>
+        $(document).on('change', '#bulkBuyerToggle', function() {
 
-    if (button.data('type') === 'minus') {
-        if (currentQty > 1) {
-            newQty = currentQty - 1;
-        } else {
-            return false;
-        }
-    }
+            let checkbox = $(this);
+            let is_bulk_buyer = checkbox.is(':checked') ? 1 : 0;
 
-    input.val(newQty);
-    updateQuantity(input.attr('name').match(/\d+/)[0], input[0]);
-});
-</script>
+            let message = is_bulk_buyer ?
+                'Are you sure you want to enable Bulk Buyer?\n30% Online payment will be required.' :
+                'Are you sure you want to disable Bulk Buyer?';
 
-<script>
-function getTotalCartWeight() {
-    let total = 0;
 
-    $('.input-number').each(function () {
-        let qty = parseInt($(this).val());
-        let weight = parseFloat($(this).data('weight'));
+            if (!confirm(message)) {
 
-        if (!isNaN(qty) && !isNaN(weight)) {
-            total += qty * weight;
-        }
-    });
+                checkbox.prop('checked', !checkbox.is(':checked'));
+                return;
+            }
 
-    return total;
-}
-</script>
 
-<script>
-$(document).on('change', '#bulkBuyerToggle', function () {
+            $.ajax({
+                url: "{{ route('cart.update.bulk-buyer') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    is_bulk_buyer: is_bulk_buyer
+                },
+                success: function(res) {
+                    AIZ.plugins.notify('success', res.message);
 
-    let checkbox = $(this);
-    let is_bulk_buyer = checkbox.is(':checked') ? 1 : 0;
 
-    let message = is_bulk_buyer
-        ? 'Are you sure you want to enable Bulk Buyer?\n30% Online payment will be required.'
-        : 'Are you sure you want to disable Bulk Buyer?';
+                    setTimeout(function() {
+                        location.reload();
+                    }, 500);
+                },
+                error: function() {
+                    AIZ.plugins.notify('danger', 'Failed to update bulk buyer');
 
-   
-    if (!confirm(message)) {
-        
-        checkbox.prop('checked', !checkbox.is(':checked'));
-        return;
-    }
+                    checkbox.prop('checked', !checkbox.is(':checked'));
+                }
+            });
 
-    
-     $.ajax({
-        url: "{{ route('cart.update.bulk-buyer') }}",
-        type: "POST",
-        data: {
-            _token: "{{ csrf_token() }}",
-            is_bulk_buyer: is_bulk_buyer
-        },
-        success: function (res) {
-            AIZ.plugins.notify('success', res.message);
-
-          
-            setTimeout(function () {
-                location.reload();
-            }, 500);
-        },
-        error: function () {
-            AIZ.plugins.notify('danger', 'Failed to update bulk buyer');
-
-            checkbox.prop('checked', !checkbox.is(':checked'));
-        }
-    });
-
-});
-</script>
+        });
+    </script>
 
     <script type="text/javascript">
         function removeFromCartView(e, key) {
@@ -246,13 +247,14 @@ $(document).on('change', '#bulkBuyerToggle', function () {
         });
         $(document).on("change", ".check-seller", function() {
             var value = this.value;
-            $('.check-one-'+value+':checkbox').prop('checked', this.checked);
+            $('.check-one-' + value + ':checkbox').prop('checked', this.checked);
             updateCartStatus();
         });
         $(document).on("change", ".check-one[name='id[]']", function(e) {
             e.preventDefault();
             updateCartStatus();
         });
+
         function updateCartStatus() {
             $('.aiz-refresh').addClass('active');
             let product_id = [];
@@ -265,9 +267,9 @@ $(document).on('change', '#bulkBuyerToggle', function () {
                 product_id: product_id
             }, function(data) {
                 $('#cart-details').html(data);
-                 AIZ.extra.plusMinus();
-                 AIZ.plugins.slickCarousel();
-                 AIZ.plugins.zoom();
+                AIZ.extra.plusMinus();
+                AIZ.plugins.slickCarousel();
+                AIZ.plugins.zoom();
                 $('.aiz-refresh').removeClass('active');
             });
         }
@@ -275,8 +277,9 @@ $(document).on('change', '#bulkBuyerToggle', function () {
         // coupon apply
         $(document).on("click", "#coupon-apply", function() {
             @if (Auth::check())
-                @if(Auth::user()->user_type != 'customer')
-                    AIZ.plugins.notify('warning', "{{ translate('Please Login as a customer to apply coupon code.') }}");
+                @if (Auth::user()->user_type != 'customer')
+                    AIZ.plugins.notify('warning',
+                        "{{ translate('Please Login as a customer to apply coupon code.') }}");
                     return false;
                 @endif
 
@@ -292,7 +295,8 @@ $(document).on('change', '#bulkBuyerToggle', function () {
                     contentType: false,
                     processData: false,
                     success: function(data, textStatus, jqXHR) {
-                        AIZ.plugins.notify(data.response_message.response, data.response_message.message);
+                        AIZ.plugins.notify(data.response_message.response, data.response_message
+                            .message);
                         $("#cart_summary").html(data.html);
                     }
                 });
@@ -321,6 +325,5 @@ $(document).on('change', '#bulkBuyerToggle', function () {
                 });
             @endif
         });
-
     </script>
 @endsection

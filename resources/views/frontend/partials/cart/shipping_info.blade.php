@@ -26,63 +26,72 @@
 
 @if (Auth::check())
     <div class="mt-2">
-        @foreach (Auth::user()->addresses as $key => $addr)
+        <ul class="list-group list-group-flush mb-2 px-lg-0 px-2">
+            @foreach (Auth::user()->addresses as $key => $addr)
             @php
                 $city = optional($addr->city);
                 $area_id = $addr->area_id;
                 $has_area_id = !is_null($area_id);
                 $city_status = $city->status;
-                $active_area_exists = $city->areas()->where('status', 1)->exists(); 
+                $active_area_exists = $city->areas()->where('status', 1)->exists();
                 $area_status = $has_area_id ? optional($addr->area)->status : 1;
                 $is_disabled =
                     $city_status === 0 ||
                     ($has_area_id && $area_status === 0) ||
                     ($active_area_exists && !$has_area_id) ||
                     ($addr->state_id == null && get_setting('has_state') == 1);
-                    
-                $addr_title = "Address " . ($key + 1);
-                // Simple heuristic to name Home/Office based on string matching (if no title field exists in DB)
+
+                $addr_title = 'Address ' . ($key + 1);
                 if (stripos($addr->address, 'flat') !== false || stripos($addr->address, 'home') !== false || stripos($addr->address, 'apt') !== false) {
-                    $addr_title = "Home";
+                    $addr_title = 'Home';
                 } elseif (stripos($addr->address, 'office') !== false || stripos($addr->address, 'tower') !== false) {
-                    $addr_title = "Office";
+                    $addr_title = 'Office';
                 }
             @endphp
-            
-            <div class="card border-0 mb-3" style="border: 1px solid #e0e0e0 !important; border-radius: 8px; {{ $is_disabled ? 'opacity: 0.6;' : '' }}">
-                <label class="d-flex flex-column mb-0 p-3" style="cursor: pointer;">
-                    <div class="d-flex align-items-center mb-2">
-                        <input type="radio" name="single_address_id" value="{{ $addr->id }}" {{ $addr->id == $address_id && !$is_disabled ? 'checked' : '' }} {{ $is_disabled ? 'disabled' : '' }} class="mr-2" style="width: 18px; height: 18px; accent-color: #000;">
-                        <span class="fw-700 text-dark fs-15">{{ $addr_title }}</span>
-                    </div>
-                    
-                    <div class="pl-4 ml-1 text-muted fs-13 mb-3" style="line-height: 1.5;">
-                        {{ $addr->address }}<br>
-                        {{ $addr->area ? $addr->area->name . ',' : '' }} {{ $addr->city->name }}, {{ $addr->state && $addr->state->status == 1 ? $addr->state->name . ',' : '' }} {{ optional($addr->country)->name }}<br>
-                        {{ $addr->postal_code ? 'P.O. Box ' . $addr->postal_code : '' }}
-                    </div>
-                    
-                    <div class="pl-4 ml-1 mb-3 text-dark fs-13 fw-600">
-                        Phone: {{ $addr->phone }}
-                    </div>
-                    
-                    <div class="pl-4 ml-1 d-flex gap-2 w-100">
-                        <button type="button" class="btn text-dark fw-600 rounded-pill px-0 flex-grow-1 mr-2" style="background-color: #f0f0f0; font-size: 13px;" onclick="edit_address('{{ $addr->id }}')">
-                            Edit
+
+            <li class="list-group-item px-0 border-0 mb-3 bg-transparent">
+                <div class="bg-white p-3 position-relative"
+                    style="border: 1px solid #f0f0f0; border-radius: 12px; {{ $is_disabled ? 'opacity: 0.6;' : '' }}">
+                    <label class="d-block mb-0" style="cursor: pointer;">
+                        <div class="d-flex align-items-start pr-5">
+                            <input type="radio" name="single_address_id" value="{{ $addr->id }}"
+                                {{ $addr->id == $address_id && !$is_disabled ? 'checked' : '' }}
+                                {{ $is_disabled ? 'disabled' : '' }} class="mr-3 mt-1"
+                                style="width: 18px; height: 18px; accent-color: #000; flex-shrink: 0;">
+                            <div class="flex-grow-1" style="min-width: 0;">
+                                <h6 class="fs-15 fw-700 text-dark mb-2">{{ $addr_title }}</h6>
+                                <div class="fs-13 text-muted mb-2" style="line-height: 1.5;">
+                                    {{ $addr->address }}<br>
+                                    {{ $addr->area ? $addr->area->name . ',' : '' }} {{ $addr->city->name }},
+                                    {{ $addr->state && $addr->state->status == 1 ? $addr->state->name . ',' : '' }}
+                                    {{ optional($addr->country)->name }}<br>
+                                    {{ $addr->postal_code ? 'P.O. Box ' . $addr->postal_code : '' }}
+                                </div>
+                                <div class="fs-13 text-dark fw-600 mb-0">Phone: {{ $addr->phone }}</div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <div class="position-absolute d-flex align-items-center"
+                        style="top: 15px; right: 15px; gap: 12px; z-index: 2;">
+                        <button type="button" class="btn btn-link p-0 text-muted shadow-none"
+                            onclick="event.preventDefault(); edit_address('{{ $addr->id }}')">
+                            <i class="las la-edit fs-18"></i>
                         </button>
-                        <button type="button" class="btn text-dark fw-600 rounded-pill px-0 flex-grow-1" style="background-color: #f0f0f0; font-size: 13px;">
-                            Delete
+                        <button type="button" class="btn btn-link p-0 text-muted shadow-none">
+                            <i class="las la-trash-alt fs-18"></i>
                         </button>
                     </div>
-                </label>
-            </div>
-        @endforeach
-        
-        <div class="d-flex align-items-center mt-4" style="cursor: pointer;" onclick="add_new_address()">
+                </div>
+            </li>
+            @endforeach
+        </ul>
+
+        <div class="d-flex align-items-center px-2 mt-1" style="cursor: pointer;" onclick="add_new_address()">
             <i class="las la-plus fw-800 text-dark fs-18 mr-2"></i>
             <span class="fw-700 text-dark fs-15">Add New Address</span>
         </div>
-        
+
         <input type="hidden" name="checkout_type" value="logged">
     </div>
 

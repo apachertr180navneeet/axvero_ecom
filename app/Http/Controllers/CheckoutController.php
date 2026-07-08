@@ -709,7 +709,12 @@ class CheckoutController extends Controller
 
         $returnHTML = view(
             'frontend.partials.cart.cart_summary',
-            compact('coupon', 'carts', 'proceed')
+            [
+                'coupon' => $coupon,
+                'carts' => $carts,
+                'proceed' => $proceed,
+                'style' => $request->input('summary_style', 'modern'),
+            ]
         )->render();
         return response()->json(array('response_message' => $response_message, 'html' => $returnHTML));
     }
@@ -733,7 +738,12 @@ class CheckoutController extends Controller
 
         // $shipping_info = Address::where('id', $carts[0]['address_id'])->first();
 
-        return view('frontend.partials.cart.cart_summary', compact('coupon', 'carts', 'proceed'));
+        return view('frontend.partials.cart.cart_summary', [
+            'coupon' => $coupon,
+            'carts' => $carts,
+            'proceed' => $proceed,
+            'style' => $request->input('summary_style', 'modern'),
+        ]);
     }
 
     public function order_confirmed()
@@ -829,9 +839,11 @@ class CheckoutController extends Controller
 
         $carts = $carts->fresh();
 
+        $style = $request->input('summary_style', 'modern');
+
         return array(
             'delivery_info' => view('frontend.partials.cart.delivery_info', compact('carts', 'carrier_list', 'shipping_info'))->render(),
-            'cart_summary' => view('frontend.partials.cart.cart_summary', compact('carts', 'proceed'))->render(),
+            'cart_summary' => view('frontend.partials.cart.cart_summary', compact('carts', 'proceed', 'style'))->render(),
             'carrier_count' => count($carrier_list)
         );
     }
@@ -895,7 +907,9 @@ class CheckoutController extends Controller
 
         $carts = $carts->fresh();
 
-        return view('frontend.partials.cart.cart_summary', compact('carts', 'proceed'))->render();
+        $style = $request->input('summary_style', 'modern');
+
+        return view('frontend.partials.cart.cart_summary', compact('carts', 'proceed', 'style'))->render();
     }
 
     public function orderRePayment(Request $request)
@@ -973,7 +987,8 @@ class CheckoutController extends Controller
 
         $html = view('frontend.partials.cart.cart_summary', [
             'carts' => $carts,
-            'proceed' => 0
+            'proceed' => 0,
+            'style' => $request->input('summary_style', 'modern'),
         ])->render();
 
         return response()->json([
