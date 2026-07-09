@@ -225,46 +225,163 @@
 
         @media (max-width: 991.98px) {
             .hero-section {
-                min-height: 560px;
+                min-height: max(520px, 75vh);
                 background: #ffffff;
             }
 
             .hero-section::before {
-                width: 100%;
-                opacity: 0.45;
+                width: 50%;
+                opacity: 1;
             }
 
             .hero-inner {
-                min-height: 560px;
-                padding-bottom: 32px;
+                min-height: max(520px, 75vh);
+                padding-bottom: 28px;
             }
 
             .hero-huge-text {
-                font-size: clamp(42px, 12vw, 72px);
-                top: 42%;
+                font-size: clamp(48px, 14vw, 96px);
+                top: 45%;
                 left: 50%;
+                letter-spacing: -2px;
             }
 
             .hero-img {
                 left: 50%;
-                height: 72%;
-                opacity: 0.9;
+                height: 88%;
+                max-height: 580px;
+                opacity: 1;
+            }
+
+            .hero-text {
+                max-width: 280px;
+            }
+
+            .hero-subtitle {
+                font-size: 11px;
+                line-height: 1.7;
+                display: -webkit-box;
+                -webkit-line-clamp: 4;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+
+            .hero-btn-shop {
+                padding: 10px 22px;
+                font-size: 11px;
             }
 
             .hero-floating-card {
-                width: 260px;
-                padding: 10px;
+                width: 200px;
+                padding: 8px;
+                gap: 10px;
+            }
+
+            .hero-floating-card .prod-img {
+                width: 48px;
+                height: 48px;
+            }
+
+            .hero-floating-card .prod-title {
+                font-size: 11px;
+            }
+
+            .hero-floating-card .prod-price {
+                font-size: 12px;
+            }
+
+            .hero-floating-card .add-btn {
+                width: 22px;
+                height: 22px;
+                font-size: 14px;
             }
 
             .hero-floating-card.top-left {
-                top: auto;
-                bottom: 130px;
-                left: 12px;
+                top: 20%;
+                left: 8%;
+                bottom: auto;
             }
 
             .hero-floating-card.bottom-right {
-                bottom: 24px;
-                right: 12px;
+                bottom: 18%;
+                right: 4%;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .hero-section {
+                min-height: max(480px, 85vh);
+            }
+
+            .hero-inner {
+                min-height: max(480px, 85vh);
+                padding-bottom: 20px;
+            }
+
+            .hero-huge-text {
+                font-size: clamp(36px, 12vw, 52px);
+                top: 42%;
+                letter-spacing: -1px;
+            }
+
+            .hero-img {
+                height: 82%;
+                max-height: 420px;
+            }
+
+            .hero-text {
+                max-width: 55%;
+                padding-right: 0.25rem;
+            }
+
+            .hero-subtitle {
+                font-size: 10px;
+                -webkit-line-clamp: 3;
+                margin-bottom: 1rem;
+            }
+
+            .hero-btn-shop {
+                padding: 9px 18px;
+                font-size: 10px;
+            }
+
+            .hero-floating-card {
+                width: 158px;
+                padding: 6px;
+                gap: 8px;
+            }
+
+            .hero-floating-card .prod-img {
+                width: 38px;
+                height: 38px;
+            }
+
+            .hero-floating-card .prod-title {
+                font-size: 9px;
+            }
+
+            .hero-floating-card .prod-price {
+                font-size: 10px;
+            }
+
+            .hero-floating-card .rating-stars {
+                font-size: 8px !important;
+            }
+
+            .hero-floating-card .add-btn {
+                width: 20px;
+                height: 20px;
+                font-size: 12px;
+            }
+
+            .hero-floating-card.top-left {
+                top: 16%;
+                left: 3%;
+            }
+
+            .hero-floating-card.bottom-right {
+                bottom: 14%;
+                right: 2%;
             }
         }
 
@@ -2507,7 +2624,7 @@
         <div class="hero-section">
             <div class="hero-huge-text">{{ $hero_title }}</div>
 
-            <img src="{{ $hero_img }}" class="hero-img d-none d-md-block" alt="Fashion Model"
+            <img src="{{ $hero_img }}" class="hero-img" alt="Fashion Model"
                 onerror="this.onerror=null;this.src='{{ static_asset('assets/img/demo/lady.png') }}';">
 
             <div class="container-fluid px-4 px-lg-5 hero-inner">
@@ -2523,7 +2640,7 @@
 
             @if (isset($latest_hero_products[0]))
                 <a href="{{ route('product', $latest_hero_products[0]->slug) }}"
-                    class="hero-floating-card top-left text-decoration-none d-none d-md-flex">
+                    class="hero-floating-card top-left text-decoration-none d-flex">
                     <img src="{{ uploaded_asset($latest_hero_products[0]->thumbnail_img) }}" class="prod-img"
                         onerror="this.onerror=null;this.src='{{ static_asset('assets/img/placeholder.jpg') }}';">
                     <div class="prod-info">
@@ -2540,7 +2657,7 @@
 
             @if (isset($latest_hero_products[1]))
                 <a href="{{ route('product', $latest_hero_products[1]->slug) }}"
-                    class="hero-floating-card bottom-right text-decoration-none d-none d-md-flex">
+                    class="hero-floating-card bottom-right text-decoration-none d-flex">
                     <img src="{{ uploaded_asset($latest_hero_products[1]->thumbnail_img) }}" class="prod-img"
                         onerror="this.onerror=null;this.src='{{ static_asset('assets/img/placeholder.jpg') }}';">
                     <div class="prod-info">
