@@ -1,6 +1,16 @@
 @extends('frontend.layouts.app')
 
 @section('content')
+    <style>
+        .all-brands-page {
+            --primary: #000000;
+        }
+        .all-brands-page .btn-primary:hover {
+            background-color: #000000 !important;
+            border-color: #000000 !important;
+        }
+    </style>
+    <div class="all-brands-page">
     <!-- Breadcrumb -->
     <section class="pt-4 mb-4">
         <div class="container text-center text-lg-left">
@@ -28,17 +38,17 @@
             <div class="bg-light rounded-lg p-4 p-md-5 text-center position-relative overflow-hidden" style="background: url('https://picsum.photos/1600/400?random=hero') center/cover no-repeat;">
                 <div class="position-absolute w-100 h-100" style="top: 0; left: 0; background: rgba(255, 255, 255, 0.75);"></div>
                 <div class="position-absolute" style="width: 300px; height: 300px; background: rgba(144, 98, 255, 0.15); filter: blur(50px); top: -50px; left: -50px; border-radius: 50%;"></div>
-                
+
                 <div class="position-relative z-1">
                     <h1 class="fw-700 fs-24 fs-md-36 text-dark mb-3">Discover Top Brands</h1>
                     <p class="fs-14 fs-md-15 text-dark mb-4 mx-auto fw-500" style="max-width: 600px;">Explore 500+ top brands encompassing fashion, beauty, electronics, home, and more.</p>
-                    
+
                     <form action="{{ route('search') }}" method="GET" class="bg-white rounded-pill p-1 shadow-sm d-flex align-items-center mb-4 mx-auto" style="max-width: 500px;">
                         <i class="las la-search text-muted fs-20 ml-3 mr-2"></i>
                         <input type="text" name="keyword" class="form-control border-0 bg-transparent shadow-none fs-14 pl-0" placeholder="Search for your favorite brand...">
                         <button type="submit" class="btn btn-primary rounded-pill px-4 fw-600">Search</button>
                     </form>
-                    
+
                     <div class="d-flex align-items-center justify-content-center flex-wrap fs-13">
                         <span class="text-dark fw-700 mr-2 mb-2">TRENDING:</span>
                         @foreach($top_brands->take(5) as $tb)
@@ -57,18 +67,18 @@
                 <div class="d-flex flex-wrap align-items-center w-100 w-lg-auto mb-3 mb-lg-0">
                     <a href="{{ route('brands.all') }}" class="btn btn-primary rounded-pill btn-sm px-4 fw-600 shadow-sm mr-2 mb-2">All</a>
                     @foreach($categories as $cat)
-                        <a href="{{ route('products.category', $cat->slug) }}" class="btn btn-soft-secondary rounded-pill btn-sm px-3 fw-600 text-dark mr-2 mb-2 hov-bg-primary hov-text-white has-transition">{{ $cat->getTranslation('name') }}</a>
+                        <a href="{{ route('products.category', $cat->slug) }}" class="btn btn-soft-secondary rounded-pill btn-sm px-3 fw-600 text-dark mr-2 mb-2 has-transition">{{ $cat->getTranslation('name') }}</a>
                     @endforeach
-                    
+
                     <div class="border-left mx-3 h-100 d-none d-lg-block" style="border-color: #e2e5ec; height: 20px;"></div>
-                    
+
                     <div class="d-flex flex-wrap mt-2 mt-lg-0">
                         @foreach(range('A', 'Z') as $char)
                             <a href="#brand-{{ $char }}" class="text-secondary px-2 py-1 rounded hov-bg-soft-primary hov-text-primary fw-700 fs-13 mx-1">{{ $char }}</a>
                         @endforeach
                     </div>
                 </div>
-                
+
                 <div class="dropdown mt-2 mt-lg-0 ml-auto">
                     <button class="btn btn-light border btn-sm dropdown-toggle rounded-pill fw-600 px-3 shadow-sm" type="button" data-toggle="dropdown">
                         <span class="text-muted mr-1">Sort by:</span> Popularity
@@ -97,12 +107,12 @@
                     <div class="card rounded-lg overflow-hidden border-0 shadow-sm hov-shadow-lg has-transition position-relative" style="height: 250px;">
                         <div class="position-absolute w-100 h-100" style="background: url('https://picsum.photos/400/300?random={{ $brand->id }}') center/cover;"></div>
                         <div class="position-absolute w-100 h-100" style="background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.8) 100%);"></div>
-                        
+
                         <div class="card-body d-flex flex-column justify-content-between position-relative h-100 p-4">
                             <div class="bg-white rounded d-flex align-items-center justify-content-center shadow-sm p-1" style="width: 44px; height: 44px;">
                                 <img src="{{ uploaded_asset($brand->logo) }}" alt="{{ $brand->name }}" class="mw-100 mh-100 object-fit-contain" style="max-height: 32px; max-width: 32px;">
                             </div>
-                            
+
                             <div class="mt-auto text-white">
                                 <h5 class="fw-700 fs-18 mb-3 text-white">{{ $brand->name }}</h5>
                                 <a href="{{ route('products.brand', $brand->slug) }}" class="btn btn-primary btn-sm rounded-pill px-3 fw-600 fs-12 w-100 shadow-sm">Explore Collection</a>
@@ -123,7 +133,7 @@
                 <h3 class="fw-700 fs-20 mb-0 text-dark">All Brands</h3>
                 <span class="badge badge-inline badge-light border text-secondary ml-3 rounded-pill fs-11 px-2 py-1">{{ $brands->count() }}+ BRANDS</span>
             </div>
-            
+
             @foreach($grouped_brands as $letter => $letter_brands)
             <div class="mb-5" id="brand-{{ $letter }}">
                 <h2 class="fw-700 fs-24 mb-4 border-bottom pb-2 text-primary" style="opacity: 0.8;">{{ $letter }}</h2>
@@ -152,4 +162,5 @@
             @endforeach
         </div>
     </section>
+    </div>
 @endsection

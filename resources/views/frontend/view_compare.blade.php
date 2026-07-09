@@ -2,12 +2,19 @@
 
 @section('content')
 
-    <section class="mb-4 mt-3">
+    <style>
+        .view-compare-page .text-primary,
+        .view-compare-page .hov-text-primary:hover {
+            color: #6A0DAD !important;
+        }
+    </style>
+
+    <section class="view-compare-page mb-4 mt-3">
         <div class="container text-left">
             <div class="bg-white shadow-sm rounded">
                 <div class="py-3 d-flex justify-content-between align-items-center">
                     <div class="fs-16 fs-md-20 fw-700 text-dark">{{ translate('Compare Products')}}</div>
-                    <a href="{{ route('compare.reset') }}" style="text-decoration: none;border-radius: 25px;" class="btn btn-soft-primary btn-sm fs-12 fw-600">{{ translate('Reset Compare List')}}</a>
+                    <a href="{{ route('compare.reset') }}" style="text-decoration: none;background: #6A0DAD;color: #fff;" class="btn btn-sm fs-12 fw-600">{{ translate('Reset Compare List')}}</a>
                 </div>
                 @if(Session::has('compare'))
                     @if(count(Session::get('compare')) > 0)
