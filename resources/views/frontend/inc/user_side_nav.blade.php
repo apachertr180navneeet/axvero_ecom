@@ -1,10 +1,9 @@
 <div class="aiz-user-sidenav-wrap position-relative z-1 rounded-0">
     <div class="aiz-user-sidenav overflow-auto c-scrollbar-light px-4 pb-4">
         <!-- Close button -->
-        <div class="d-xl-none">
-            <button class="btn btn-sm p-2 " data-toggle="class-toggle" data-backdrop="static"
-                data-target=".aiz-mobile-side-nav" data-same=".mobile-side-nav-thumb">
-                <i class="las la-times la-2x"></i>
+        <div class="d-xl-none text-end">
+            <button class="btn btn-sm p-1 border-0" onclick="document.querySelector('.aiz-user-sidenav-wrap').classList.remove('show')">
+                <i class="las la-times fs-5"></i>
             </button>
         </div>
         @php
@@ -16,7 +15,7 @@
             }
         @endphp
         <!-- Customer info -->
-        <div class="p-4 text-center mb-4 border-bottom position-relative">
+        <div class="p-4 text-center mb-4 border-bottom position-relative d-none d-lg-block">
             <!-- Image -->
             <span class="avatar avatar-md mb-3">
                 @if ($user->avatar_original != null)
