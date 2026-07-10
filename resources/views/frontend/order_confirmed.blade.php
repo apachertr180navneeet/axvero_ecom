@@ -1,7 +1,7 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-    <div class="container-fluid p-0 mx-auto bg-white position-relative" style="max-width: 480px; min-height: 100vh; box-shadow: 0 0 20px rgba(0,0,0,0.05); padding-bottom: 80px !important;">
+    <div class="container-fluid p-0 mx-auto bg-white position-relative" style="min-height: 100vh; padding-bottom: 80px !important;">
         <!-- Mobile App Header -->
         <div class="d-flex align-items-center justify-content-between p-3" style="background-color: #502288; color: white; position: sticky; top: 0; z-index: 100;">
             <div class="d-flex align-items-center gap-3">
@@ -16,7 +16,7 @@
     <section class="py-4">
         <div class="container text-left">
             <div class="row">
-                <div class="col-xl-8 mx-auto">
+                <div class="col-xxl-10 col-xl-11 mx-auto">
                     @php
                         $first_order = $combined_order->orders->first()
                     @endphp
@@ -35,7 +35,7 @@
                         <p class="fs-13 text-soft-dark">{{  translate('A copy or your order summary has been sent to') }} <strong>{{ json_decode($first_order->shipping_address)->email }}</strong></p>
                     </div>
                     <!-- Order Summary -->
-                    <div class="mb-4 bg-white p-4 border">
+                    <div class="mb-4 bg-white p-4 border rounded-3 shadow-sm">
                         <h5 class="fw-600 mb-3 fs-16 text-soft-dark pb-2 border-bottom">{{ translate('Order Summary')}}</h5>
                         <div class="row">
                             <div class="col-md-6">
@@ -101,8 +101,8 @@
 
                     <!-- Orders Info -->
                     @foreach ($combined_order->orders as $order)
-                        <div class="card shadow-none border rounded-0">
-                            <div class="card-body">
+                        <div class="card border rounded-3 shadow-sm mb-4">
+                            <div class="card-body p-4">
                                 <!-- Order Code -->
                                 <div class="text-center py-1 mb-4">
                                     <h2 class="h5 fs-20">{{ translate('Order Code:')}} <span class="fw-700 text-primary">{{ $order->code }}</span></h2>
@@ -281,7 +281,7 @@
     </section>
     
     <!-- Sticky Bottom Bar -->
-    <div class="position-fixed d-flex justify-content-center align-items-center p-3 bg-white" style="bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; box-shadow: 0 -5px 15px rgba(0,0,0,0.05); z-index: 99; border-top-left-radius: 20px; border-top-right-radius: 20px;">
+    <div class="position-fixed d-flex justify-content-center align-items-center p-3 bg-white" style="bottom: 0; left: 0; right: 0; box-shadow: 0 -5px 15px rgba(0,0,0,0.05); z-index: 99;">
         <a href="{{ route('home') }}" class="btn text-white fw-700 px-4 py-2 rounded-pill shadow-sm w-100 text-center" style="background-color: #502288; font-size: 15px;">
             Continue Shopping
         </a>

@@ -45,7 +45,7 @@ use App\Models\ManualPaymentMethod;
 use App\Models\SellerPackagePayment;
 use App\Utility\NotificationUtility;
 use App\Http\Resources\V2\CarrierCollection;
-use App\Http\Controllers\ClubPointController;
+
 use App\Http\Controllers\CommissionController;
 use AizPackages\ColorCodeConverter\Services\ColorCodeConverter;
 use App\Models\Address;
@@ -353,7 +353,10 @@ if (!function_exists('cart_product_tax')) {
             $str = $cart_product['variation'];
         }
         $product_stock = $product->stocks->where('variant', $str)->first();
-        $price = $product_stock->price;
+        $price = 0;
+        if ($product_stock) {
+            $price = $product_stock->price;
+        }
 
         //discount calculation
         $discount_applicable = false;
@@ -507,10 +510,13 @@ if (!function_exists('carts_product_discount')) {
             if ($cart_product['variation'] != null) {
                 $str = $cart_product['variation'];
             }
-            $product_stock = $product->stocks->where('variant', $str)->first();
+        $product_stock = $product->stocks->where('variant', $str)->first();
+        $price = 0;
+        if ($product_stock) {
             $price = $product_stock->price;
+        }
 
-            //discount calculation
+        //discount calculation
             $discount_applicable = false;
 
             if ($product->discount_start_date == null) {
@@ -644,7 +650,7 @@ if (!function_exists('home_price')) {
                 $highest_price += $product_tax->tax;
             }
         }
-        
+
         $lowest_price += ($lowest_price * $product->gst_rate) / 100;
         $highest_price += ($highest_price * $product->gst_rate) / 100;
         if ($formatted) {
@@ -1504,8 +1510,8 @@ if (!function_exists('checkout_done')) {
             $order->save();
 
             // Order paid notification to Customer, Seller, & Admin
-            EmailUtility::order_email($order, 'paid'); 
-            
+            EmailUtility::order_email($order, 'paid');
+
             try {
                 NotificationUtility::sendOrderPlacedNotification($order);
                 calculateCommissionAffilationClubPoint($order);
@@ -1648,8 +1654,12 @@ if (!function_exists('calculateCommissionAffilationClubPoint')) {
     {
         (new CommissionController)->calculateCommission($order);
 
-        if ($order->user != null) {
-            (new ClubPointController)->processClubPoints($order);
+        if ($order->user != null && class_exists('App\Http\Controllers\ClubPointController')) {
+            try {
+                (new \App\Http\Controllers\ClubPointController)->processClubPoints($order);
+            } catch (\Throwable $e) {
+                \Log::error("ClubPoint processing failed: " . $e->getMessage());
+            }
         }
 
         // Trigger Affiliate Points processing
@@ -2074,11 +2084,11 @@ if (!function_exists('getLastViewedProducts')) {
 if (!function_exists('get_frequently_bought_products')) {
     function get_frequently_bought_products($product)
     {
-        
+
         $category=$product->category_id;
-        
+
         $products=Product::with('user', 'user.shop')->where('category_id',$category)->where('id','!=',$product->id)->where('published',1)->get();
-        
+
         // $productSelectionType = $product->frequently_bought_selection_type;
         // $fqbProducts = [];
         // if($productSelectionType == 'product'){
@@ -2953,10 +2963,10 @@ if (!function_exists('timezones')) {
 function formatToArray($input) {
     // Remove extra quotes from the string
     $cleanedString = trim($input, '"');
-    
+
     // Split the string by commas to get each element
     $values = explode(',', $cleanedString);
-    
+
     // Filter out "NaN" and non-numeric values, convert to integers
     $result = array_filter($values, function($value) {
         return is_numeric($value);
@@ -2964,7 +2974,7 @@ function formatToArray($input) {
 
     // Convert numeric values to integers
     $result = array_map('intval', $result);
-    
+
     return $result;
 }
 
@@ -2976,7 +2986,7 @@ if (!function_exists('preorder_product_availability_check')) {
         if($product->is_available){
             return true;
         }
-        $publishDate = Carbon::parse($product->available_date); 
+        $publishDate = Carbon::parse($product->available_date);
         if (Carbon::today()->greaterThanOrEqualTo($publishDate)) {
             return true;
         }
@@ -2990,11 +3000,11 @@ if (!function_exists('preorder_fill_color')) {
     function preorder_fill_color($current_order_status, $previous_order_status = 0)
     {
         $color = match (true) {
-            $current_order_status === 2 => '#28a745', 
-            $current_order_status === 3 => '#dc3545', 
-            $current_order_status === 1 || $previous_order_status == 2 => '#FF6002', 
-            $current_order_status === 0 => '#9d9da6', 
-            default => '#000000', 
+            $current_order_status === 2 => '#28a745',
+            $current_order_status === 3 => '#dc3545',
+            $current_order_status === 1 || $previous_order_status == 2 => '#FF6002',
+            $current_order_status === 0 => '#9d9da6',
+            default => '#000000',
         };
         return $color;
     }
@@ -3148,7 +3158,7 @@ if (!function_exists('preorder_payment_type')) {
     }
 }
 
-// preorder product 
+// preorder product
 if (!function_exists('filter_preorder_product')) {
     function filter_preorder_product($products)
     {
@@ -3179,8 +3189,8 @@ function filter_single_preorder_product($product)
         }
         // Return the product if the user is not a seller (e.g., admin)
         return $product;
-    } 
-    
+    }
+
     // If vendor system is not activated, return the product directly
     return $product;
 }
@@ -3243,7 +3253,7 @@ function youtubeVideoId($url)
 if (!function_exists('get_all_sale_alert_products')) {
     function get_all_sale_alert_products() {
         return CustomSaleAlert::with('product')->get()->map(function($alert) {
-            if (!$alert->product) return null; 
+            if (!$alert->product) return null;
 
             return [
                 'id' => $alert->product->id,
@@ -3324,7 +3334,7 @@ if (!function_exists('gst_applicable_product_rate')) {
 }
 
 
-//fetch gst by price and rate 
+//fetch gst by price and rate
 if (!function_exists('get_gst_by_price_and_rate')) {
     function get_gst_by_price_and_rate($price, $gst_rate)
     {
@@ -3426,7 +3436,7 @@ if (! function_exists('preorder_same_state_shipping')) {
 }
 
 
-//get POS discounted gst 
+//get POS discounted gst
 if (!function_exists('pos_cart_product_gst')) {
     function pos_cart_product_gst($cart_product, $product, $discount, $shipping,  $formatted = true)
     {
@@ -3533,6 +3543,3 @@ if (!function_exists('same_state_shipping_pos')) {
         return strtolower(trim($seller_state)) === strtolower(trim($shipping_state));
     }
 }
-
-
-
