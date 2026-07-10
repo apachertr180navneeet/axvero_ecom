@@ -321,7 +321,7 @@ class LoginController extends Controller
             }
         } else {
             if (auth()->user()->is_first_login == 0) {
-                return redirect()->route('agent.join');
+                return redirect()->route('dashboard');
             }
 
             if (session('link') != null) {

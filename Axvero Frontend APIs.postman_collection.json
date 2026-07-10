@@ -1,0 +1,646 @@
+{
+  "info": {
+    "_postman_id": "26b78542-c3e5-4cd8-a421-95b0b2b10778",
+    "name": "Axvero Frontend APIs",
+    "description": "Frontend APIs for React. Home + catalog read routes are public (no System-Key). Auth login/signup/password routes are public. Logout, user, and confirm_code require Bearer token from login/signup.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "28360131",
+    "_collection_link": "https://go.postman.co/collection/28360131-26b78542-c3e5-4cd8-a421-95b0b2b10778?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Home",
+      "item": [
+        {
+          "name": "Trending Now – Men",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v2/home/trending-men?per_page=12&page=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "home",
+                "trending-men"
+              ],
+              "query": [
+                {
+                  "key": "per_page",
+                  "value": "12"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "FrontendHomeController. Category from FRONTEND_HOME_MEN_SLUG or home_categories[0]."
+          },
+          "response": []
+        },
+        {
+          "name": "Trending Now – Women",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v2/home/trending-women?per_page=12&page=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "home",
+                "trending-women"
+              ],
+              "query": [
+                {
+                  "key": "per_page",
+                  "value": "12"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "FrontendHomeController. Category from FRONTEND_HOME_WOMEN_SLUG or home_categories[1]."
+          },
+          "response": []
+        },
+        {
+          "name": "Home Decor",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v2/home/decor?per_page=8&page=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "home",
+                "decor"
+              ],
+              "query": [
+                {
+                  "key": "per_page",
+                  "value": "8"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "FrontendHomeController. Category from FRONTEND_HOME_DECOR_SLUG or home_categories[2]."
+          },
+          "response": []
+        },
+        {
+          "name": "Featured Footwear",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v2/home/footwear?per_page=12&page=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "home",
+                "footwear"
+              ],
+              "query": [
+                {
+                  "key": "per_page",
+                  "value": "12"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "FrontendHomeController. Category from FRONTEND_HOME_FOOTWEAR_SLUG or home_categories[3]."
+          },
+          "response": []
+        },
+        {
+          "name": "Hero / Premium categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v2/home/hero-categories",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "home",
+                "hero-categories"
+              ]
+            },
+            "description": "FrontendHomeController. Categories only (no products). Same payload as Categories Home."
+          },
+          "response": []
+        },
+        {
+          "name": "Categories Home",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v2/categories/home",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "categories",
+                "home"
+              ]
+            },
+            "description": "Public legacy endpoint. Admin home_categories list. Optional query: category_id, slug, limit."
+          },
+          "response": []
+        },
+        {
+          "name": "Products by Category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v2/products/category/{{category_slug}}?per_page=12&page=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "products",
+                "category",
+                "{{category_slug}}"
+              ],
+              "query": [
+                {
+                  "key": "per_page",
+                  "value": "12"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Public legacy endpoint. Paginated products for any category slug."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  const json = pm.response.json();",
+                  "  if (json.access_token) {",
+                  "    pm.collectionVariables.set('access_token', json.access_token);",
+                  "  }",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"czxj8inwx@mozmail.com\",\n    \"password\": \"Test@321\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "FrontendAuthController. Email or phone in `email` field. On success, saves access_token to collection variable automatically."
+          },
+          "response": []
+        },
+        {
+          "name": "Signup",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  const json = pm.response.json();",
+                  "  if (json.access_token) {",
+                  "    pm.collectionVariables.set('access_token', json.access_token);",
+                  "  }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"9999988888\",\n  \"password\": \"123456\",\n  \"password_confirmation\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/auth/signup",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "auth",
+                "signup"
+              ]
+            },
+            "description": "FrontendAuthController. Also accepts legacy `name`, `register_by`, `email_or_phone`. Optional `temp_user_id` to merge guest cart."
+          },
+          "response": []
+        },
+        {
+          "name": "Forgot Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"customer@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/auth/password/forget_request",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "auth",
+                "password",
+                "forget_request"
+              ]
+            },
+            "description": "FrontendAuthController. Sends verification code to email or phone. Also accepts `email_or_phone` and `send_code_by`."
+          },
+          "response": []
+        },
+        {
+          "name": "Confirm Password Reset",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"verification_code\": \"123456\",\n  \"password\": \"newpass123\",\n  \"password_confirmation\": \"newpass123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/auth/password/confirm_reset",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "auth",
+                "password",
+                "confirm_reset"
+              ]
+            },
+            "description": "FrontendAuthController. Reset password using code from forgot-password email/SMS."
+          },
+          "response": []
+        },
+        {
+          "name": "Resend Password Reset Code",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"email\": \"czxj8inwx@mozmail.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/auth/password/resend_code",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "auth",
+                "password",
+                "resend_code"
+              ]
+            },
+            "description": "FrontendAuthController. Resend forgot-password verification code."
+          },
+          "response": []
+        },
+        {
+          "name": "Auth Info by Access Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"access_token\": \"{{access_token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/auth/info",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "auth",
+                "info"
+              ]
+            },
+            "description": "AuthController. Restore session from stored token. No System-Key required."
+          },
+          "response": []
+        },
+        {
+          "name": "Social Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "System-Key",
+                "value": "{{system_key}}",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"provider\": \"google_user_id\",\n  \"social_provider\": \"google\",\n  \"access_token\": \"oauth_access_token\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/auth/social-login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "auth",
+                "social-login"
+              ]
+            },
+            "description": "AuthController. Google/Facebook/Apple/Twitter OAuth. Requires System-Key for mobile app clients."
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/auth/logout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "auth",
+                "logout"
+              ]
+            },
+            "description": "AuthController. Requires Bearer token from login/signup."
+          },
+          "response": []
+        },
+        {
+          "name": "Current User",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/auth/user",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "auth",
+                "user"
+              ]
+            },
+            "description": "AuthController. Returns authenticated user profile. Requires Bearer token."
+          },
+          "response": []
+        },
+        {
+          "name": "Confirm Email / Phone Code",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"verification_code\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/auth/confirm_code",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "auth",
+                "confirm_code"
+              ]
+            },
+            "description": "AuthController. Verify account after signup when email verification is enabled."
+          },
+          "response": []
+        },
+        {
+          "name": "Resend Verification Code",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/auth/resend_code",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "auth",
+                "resend_code"
+              ]
+            },
+            "description": "AuthController. Resend signup verification code. Requires Bearer token."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000"
+    },
+    {
+      "key": "category_slug",
+      "value": "men's fashion"
+    },
+    {
+      "key": "access_token",
+      "value": ""
+    },
+    {
+      "key": "system_key",
+      "value": ""
+    }
+  ]
+}

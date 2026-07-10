@@ -8,13 +8,13 @@
   ),
   'anandsiddharth/laravel-paytm-wallet' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Anand\\LaravelPaytmWallet\\PaytmWalletServiceProvider',
-    ),
     'aliases' => 
     array (
       'PaytmWallet' => 'Anand\\LaravelPaytmWallet\\Facades\\PaytmWallet',
+    ),
+    'providers' => 
+    array (
+      0 => 'Anand\\LaravelPaytmWallet\\PaytmWalletServiceProvider',
     ),
   ),
   'barryvdh/laravel-debugbar' => 
@@ -44,24 +44,24 @@
   ),
   'genealabs/laravel-socialiter' => 
   array (
-    'providers' => 
-    array (
-      0 => '\\GeneaLabs\\LaravelSocialiter\\Providers\\ServiceProvider',
-    ),
     'aliases' => 
     array (
-      'Socialiter' => '\\GeneaLabs\\LaravelSocialiter\\Facades\\Socialiter',
+      'Socialiter' => 'GeneaLabs\\LaravelSocialiter\\Facades\\Socialiter',
+    ),
+    'providers' => 
+    array (
+      0 => 'GeneaLabs\\LaravelSocialiter\\Providers\\ServiceProvider',
     ),
   ),
   'intervention/image' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Intervention\\Image\\ImageServiceProvider',
-    ),
     'aliases' => 
     array (
       'Image' => 'Intervention\\Image\\Facades\\Image',
+    ),
+    'providers' => 
+    array (
+      0 => 'Intervention\\Image\\ImageServiceProvider',
     ),
   ),
   'kingflamez/laravelrave' => 
@@ -77,13 +77,13 @@
   ),
   'laracasts/flash' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Laracasts\\Flash\\FlashServiceProvider',
-    ),
     'aliases' => 
     array (
       'Flash' => 'Laracasts\\Flash\\Flash',
+    ),
+    'providers' => 
+    array (
+      0 => 'Laracasts\\Flash\\FlashServiceProvider',
     ),
   ),
   'laravel/sail' => 
@@ -127,24 +127,24 @@
   ),
   'maatwebsite/excel' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
-    ),
     'aliases' => 
     array (
       'Excel' => 'Maatwebsite\\Excel\\Facades\\Excel',
     ),
+    'providers' => 
+    array (
+      0 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
+    ),
   ),
   'mehedi-iitdu/core-component-repository' => 
   array (
-    'providers' => 
-    array (
-      0 => 'MehediIitdu\\CoreComponentRepository\\CoreComponentRepositoryServiceProvider',
-    ),
     'aliases' => 
     array (
       'CoreComponentRepository' => 'MehediIitdu\\CoreComponentRepository\\CoreComponentRepositoryFacade',
+    ),
+    'providers' => 
+    array (
+      0 => 'MehediIitdu\\CoreComponentRepository\\CoreComponentRepositoryServiceProvider',
     ),
   ),
   'myfatoorah/laravel-package' => 
@@ -188,25 +188,25 @@
   ),
   'sebacarrasco93/laravel-payku' => 
   array (
+    'aliases' => 
+    array (
+      'LaravelPayku' => 'SebaCarrasco93\\LaravelPayku\\Facades\\LaravelPayku',
+    ),
     'providers' => 
     array (
       0 => 'SebaCarrasco93\\LaravelPayku\\LaravelPaykuServiceProvider',
       1 => 'SebaCarrasco93\\LaravelPayku\\RouteServiceProvider',
     ),
-    'aliases' => 
-    array (
-      'LaravelPayku' => 'SebaCarrasco93\\LaravelPayku\\Facades\\LaravelPayku',
-    ),
   ),
   'simplesoftwareio/simple-qrcode' => 
   array (
-    'providers' => 
-    array (
-      0 => 'SimpleSoftwareIO\\QrCode\\QrCodeServiceProvider',
-    ),
     'aliases' => 
     array (
       'QrCode' => 'SimpleSoftwareIO\\QrCode\\Facades\\QrCode',
+    ),
+    'providers' => 
+    array (
+      0 => 'SimpleSoftwareIO\\QrCode\\QrCodeServiceProvider',
     ),
   ),
   'spatie/laravel-ignition' => 
@@ -236,13 +236,13 @@
   ),
   'unicodeveloper/laravel-paystack' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Unicodeveloper\\Paystack\\PaystackServiceProvider',
-    ),
     'aliases' => 
     array (
       'Paystack' => 'Unicodeveloper\\Paystack\\Facades\\Paystack',
+    ),
+    'providers' => 
+    array (
+      0 => 'Unicodeveloper\\Paystack\\PaystackServiceProvider',
     ),
   ),
 );

@@ -1,8 +1,13 @@
 @extends('frontend.layouts.app')
 
 @section('content')
+    <style>
+        .all-categories-page {
+            --primary: #6A0DAD;
+        }
+    </style>
     <!-- Header Section -->
-    <section class="pt-4 mb-4">
+    <section class="pt-4 mb-4 all-categories-page">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 text-center text-lg-left mb-3 mb-lg-0">
@@ -46,7 +51,7 @@
     </section>
 
     <!-- All Categories -->
-    <section class="mb-5 pb-3">
+    <section class="mb-5 pb-3 all-categories-page">
         <div class="container" id="category-list">
             @foreach ($categories as $key => $category)
                 @php

@@ -148,7 +148,7 @@
                         </div>
 
                         <div class="d-grid mt-3">
-                            <button type="submit" class="btn btn-primary btn-lg w-100" id="payBtn">
+                            <button type="submit" class="btn btn-lg w-100" id="payBtn" style="background: #000; border-color: #000; color: #fff;">
                                 Proceed to Pay ₹999
                             </button>
                         </div>
