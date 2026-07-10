@@ -624,7 +624,11 @@ class CheckoutController extends Controller
                 }
             }
             if ($validationDateCheckCondition) {
-                if (($user == null && Session::has('temp_user_id')) || CouponUsage::where('user_id', $user->id)->where('coupon_id', $coupon->id)->first() == null) {
+                if ($coupon->user_limit > 0 && \App\Models\CouponUsage::where('coupon_id', $coupon->id)->count() >= $coupon->user_limit) {
+                    $response_message['response'] = 'warning';
+                    $response_message['message'] = translate('This coupon has reached its maximum usage limit!');
+                }
+                elseif (($user == null && Session::has('temp_user_id')) || CouponUsage::where('user_id', $user->id)->where('coupon_id', $coupon->id)->first() == null) {
                     $coupon_details = json_decode($coupon->details);
 
                     $user_carts = $user != null ?

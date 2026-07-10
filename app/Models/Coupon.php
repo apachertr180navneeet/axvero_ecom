@@ -10,7 +10,7 @@ class Coupon extends Model
     use PreventDemoModeChanges;
 
     protected $fillable = [
-        'user_id', 'type', 'code','details','discount', 'discount_type', 'start_date', 'end_date', 'status'
+        'user_id', 'type', 'code','details','discount', 'discount_type', 'start_date', 'end_date', 'status', 'user_limit'
     ];
 
     public function user(){

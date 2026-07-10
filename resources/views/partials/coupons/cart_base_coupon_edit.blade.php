@@ -48,6 +48,12 @@
       <input type="text" class="form-control aiz-date-range" value="{{ $start_date .' - '. $end_date }}" name="date_range" placeholder="{{ translate('Select Date') }}">
     </div>
 </div>
+<div class="form-group row">
+   <label class="col-lg-3 col-from-label">{{translate('Maximum User Limit')}}</label>
+   <div class="col-lg-9">
+      <input type="number" min="0" step="1" placeholder="{{translate('Maximum User Limit (0 for unlimited)')}}" name="user_limit" class="form-control" value="{{ $coupon->user_limit }}" required>
+   </div>
+</div>
 
 
 <script type="text/javascript">
