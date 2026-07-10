@@ -90,7 +90,7 @@ class FrontendAuthController extends Controller
         if (!Hash::check($request->password, $user->password)) {
             return response()->json([
                 'result' => false,
-                'message' => translate('Unauthorized'),
+                'message' => translate('Email or password not matched'),
                 'user' => null,
             ], 401);
         }

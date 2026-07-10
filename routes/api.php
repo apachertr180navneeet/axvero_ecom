@@ -48,7 +48,41 @@ Route::group(['prefix' => 'v2/auth', 'middleware' => ['app_language']], function
     });
 });
 
+// Frontend cart — no System-Key required (Bearer token or temp_user_id)
+Route::withoutMiddleware([EnsureSystemKey::class])
+    ->prefix('v2/cart')
+    ->controller(FrontendCartController::class)
+    ->group(function () {
+        Route::get('/', 'index');
+        Route::post('add', 'add');
+        Route::post('update-quantity', 'updateQuantity');
+        Route::delete('{id}', 'destroy');
+        Route::get('summary', 'summary');
+        Route::get('count', 'count');
+        Route::post('apply-coupon', 'applyCoupon');
+        Route::post('remove-coupon', 'removeCoupon');
+    });
 
+// Frontend checkout — no System-Key required (Bearer token only)
+Route::withoutMiddleware([EnsureSystemKey::class])
+    ->prefix('v2/checkout')
+    ->controller(FrontendCheckoutController::class)
+    ->group(function () {
+        Route::get('addresses', 'addresses');
+        Route::post('addresses', 'createAddress');
+        Route::post('addresses/update', 'updateAddress');
+        Route::delete('addresses/{id}', 'deleteAddress');
+        Route::post('addresses/{id}/default', 'setDefaultAddress');
+        Route::post('set-address', 'setAddressInCart');
+        Route::get('delivery-info', 'deliveryInfo');
+        Route::post('set-shipping', 'setShipping');
+        Route::post('shipping-cost', 'shippingCost');
+        Route::get('payment-types', 'paymentTypes');
+        Route::post('place-order', 'placeOrder');
+        Route::get('orders', 'orders');
+        Route::get('orders/{id}', 'orderDetails');
+        Route::post('orders/{id}/cancel', 'cancelOrder');
+    });
 
 Route::group(['prefix' => 'v2', 'middleware' => ['app_language']], function () {
 

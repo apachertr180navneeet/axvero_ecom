@@ -1,11 +1,11 @@
 {
   "info": {
-    "_postman_id": "26b78542-c3e5-4cd8-a421-95b0b2b10778",
+    "_postman_id": "13ca06fe-24da-4e91-b3df-405cc565ddce",
     "name": "Axvero Frontend APIs",
     "description": "Frontend APIs for React. Home + catalog read routes are public (no System-Key). Auth login/signup/password routes are public. Logout, user, and confirm_code require Bearer token from login/signup.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "28360131",
-    "_collection_link": "https://go.postman.co/collection/28360131-26b78542-c3e5-4cd8-a421-95b0b2b10778?source=collection_link"
+    "_collection_link": "https://go.postman.co/collection/28360131-13ca06fe-24da-4e91-b3df-405cc565ddce?source=collection_link"
   },
   "item": [
     {
@@ -248,7 +248,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"czxj8inwx@mozmail.com\",\n    \"password\": \"Test@321\"\n}"
+              "raw": "{\n    \"email\": \"czxj8inwx@mozmail.com\",\n    \"password\": \"Test@123\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/v2/auth/login",
@@ -312,7 +312,7 @@
                 "signup"
               ]
             },
-            "description": "FrontendAuthController. Also accepts legacy `name`, `register_by`, `email_or_phone`. Optional `temp_user_id` to merge guest cart."
+            "description": "FrontendAuthController. Also accepts legacy `name`, `register_by`, `email_or_phone`."
           },
           "response": []
         },
@@ -623,6 +623,802 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Checkout",
+      "item": [
+        {
+          "name": "List Addresses",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/checkout/addresses",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "checkout",
+                "addresses"
+              ]
+            },
+            "description": "FrontendCheckoutController.addresses. Returns all saved addresses for the authenticated user."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Address",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"address\": \"123 Main St\",\n    \"country_id\": 1,\n    \"state_id\": 1,\n    \"city_id\": 1,\n    \"postal_code\": \"10001\",\n    \"phone\": \"9999988888\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/checkout/addresses",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "checkout",
+                "addresses"
+              ]
+            },
+            "description": "FrontendCheckoutController.createAddress. Creates a new shipping address."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Address",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"id\": 151,\n    \"address\": \"456 Oak Ave\",\n    \"country_id\": 1,\n    \"state_id\": 1,\n    \"city_id\": 1,\n    \"postal_code\": \"10001\",\n    \"phone\": \"9999988888\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/checkout/addresses/update",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "checkout",
+                "addresses",
+                "update"
+              ]
+            },
+            "description": "FrontendCheckoutController.updateAddress. Updates an existing shipping address."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Address",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/checkout/addresses/{{address_del_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "checkout",
+                "addresses",
+                "{{address_del_id}}"
+              ]
+            },
+            "description": "FrontendCheckoutController.deleteAddress. Deletes a shipping address by ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Set Default Address",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/checkout/addresses/{{def_address_id}}/default",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "checkout",
+                "addresses",
+                "{{def_address_id}}",
+                "default"
+              ]
+            },
+            "description": "FrontendCheckoutController.setDefaultAddress. Sets an address as the default shipping address."
+          },
+          "response": []
+        },
+        {
+          "name": "Set Address in Cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"address_id\": 152\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/checkout/set-address",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "checkout",
+                "set-address"
+              ]
+            },
+            "description": "FrontendCheckoutController.setAddressInCart. Assigns a shipping address to all active cart items."
+          },
+          "response": []
+        },
+        {
+          "name": "Delivery Info",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/checkout/delivery-info",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "checkout",
+                "delivery-info"
+              ]
+            },
+            "description": "FrontendCheckoutController.deliveryInfo. Returns shops with carriers and pickup points per seller."
+          },
+          "response": []
+        },
+        {
+          "name": "Set Shipping",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"owner_id\": 1,\n    \"shipping_type\": \"home_delivery\",\n    \"shipping_id\": 0\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/checkout/set-shipping",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "checkout",
+                "set-shipping"
+              ]
+            },
+            "description": "FrontendCheckoutController.setShipping. Sets shipping type per seller (home_delivery, pickup_point, carrier)."
+          },
+          "response": []
+        },
+        {
+          "name": "Shipping Cost",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/checkout/shipping-cost",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "checkout",
+                "shipping-cost"
+              ]
+            },
+            "description": "FrontendCheckoutController.shippingCost. Calculates and saves shipping costs for all cart items."
+          },
+          "response": []
+        },
+        {
+          "name": "Payment Types",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/checkout/payment-types",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "checkout",
+                "payment-types"
+              ]
+            },
+            "description": "FrontendCheckoutController.paymentTypes. Returns available payment types."
+          },
+          "response": []
+        },
+        {
+          "name": "Place Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"payment_type\": \"cash_on_delivery\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/checkout/place-order",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "checkout",
+                "place-order"
+              ]
+            },
+            "description": "FrontendCheckoutController.placeOrder. Places the order. payment_type: cash_on_delivery, wallet, manual_payment, online."
+          },
+          "response": []
+        },
+        {
+          "name": "Order History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/checkout/orders?per_page=10&page=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "checkout",
+                "orders"
+              ],
+              "query": [
+                {
+                  "key": "per_page",
+                  "value": "10"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "payment_status",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "delivery_status",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "FrontendCheckoutController.orders. Paginated order history with optional filter by payment_status or delivery_status."
+          },
+          "response": []
+        },
+        {
+          "name": "Order Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/checkout/orders/{{order_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "checkout",
+                "orders",
+                "{{order_id}}"
+              ]
+            },
+            "description": "FrontendCheckoutController.orderDetails. Returns full order details with items."
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/checkout/orders/{{order_id}}/cancel",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "checkout",
+                "orders",
+                "{{order_id}}",
+                "cancel"
+              ]
+            },
+            "description": "FrontendCheckoutController.cancelOrder. Cancels an order if it's in pending/unpaid status."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Cart",
+      "item": [
+        {
+          "name": "Get Cart List",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/cart",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "cart"
+              ]
+            },
+            "description": "FrontendCartController.index. Returns cart items grouped by shop. Requires Bearer token."
+          },
+          "response": []
+        },
+        {
+          "name": "Add to Cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"id\": {{product_id}},\n    \"quantity\": 1,\n    \"variant\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/cart/add",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "cart",
+                "add"
+              ]
+            },
+            "description": "FrontendCartController.add. Variant is optional (e.g. 'Black-S'). Requires Bearer token."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Quantity",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"id\": {{cart_item_id}},\n\t\"quantity\": 2\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/cart/update-quantity",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "cart",
+                "update-quantity"
+              ]
+            },
+            "description": "FrontendCartController.updateQuantity. id = cart item ID, quantity = new desired quantity."
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Cart Item",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/cart/{{remove_cart_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "cart",
+                "{{remove_cart_id}}"
+              ]
+            },
+            "description": "FrontendCartController.destroy. Set remove_cart_id variable to the cart item ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Cart Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/cart/summary",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "cart",
+                "summary"
+              ]
+            },
+            "description": "FrontendCartController.summary. Returns sub_total, tax, shipping_cost, discount, grand_total."
+          },
+          "response": []
+        },
+        {
+          "name": "Cart Count",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/cart/count",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "cart",
+                "count"
+              ]
+            },
+            "description": "FrontendCartController.count. Returns number of active cart items."
+          },
+          "response": []
+        },
+        {
+          "name": "Apply Coupon",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"coupon_code\": \"SUMMER10\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/cart/apply-coupon",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "cart",
+                "apply-coupon"
+              ]
+            },
+            "description": "FrontendCartController.applyCoupon. Requires Bearer token."
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Coupon",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/cart/remove-coupon",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v2",
+                "cart",
+                "remove-coupon"
+              ]
+            },
+            "description": "FrontendCartController.removeCoupon. Requires Bearer token."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
     }
   ],
   "variable": [
@@ -641,6 +1437,30 @@
     {
       "key": "system_key",
       "value": ""
+    },
+    {
+      "key": "remove_cart_id",
+      "value": ""
+    },
+    {
+      "key": "address_del_id",
+      "value": ""
+    },
+    {
+      "key": "def_address_id",
+      "value": ""
+    },
+    {
+      "key": "product_id",
+      "value": "48"
+    },
+    {
+      "key": "cart_item_id",
+      "value": ""
+    },
+    {
+      "key": "order_id",
+      "value": "1"
     }
   ]
 }
