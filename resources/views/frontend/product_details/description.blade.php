@@ -70,7 +70,7 @@
             </div>
 
             <p style="margin-top:12px;">
-                <a href="https://kactto.com/return-policy" target="_blank" style="font-weight:600;color:blue">
+                <a href="https://axvero.com/return-policy" target="_blank" style="font-weight:600;color:blue">
                     👁 Read More
                 </a>
             </p>
@@ -100,7 +100,7 @@
 
             <p>
                 To ensure a successful return, the product must have its original tags attached and intact. 
-                If the original tags are missing, KACTTO reserves the right to decline the return request, 
+                If the original tags are missing, axvero reserves the right to decline the return request, 
                 and the product may be sent back to the customer.
             </p>
 
@@ -130,7 +130,7 @@
             </p>
 
             <p style="margin-top:10px;">
-                <a href="https://kactto.com/return-policy" target="_blank" style="font-weight:600;color:blue">
+                <a href="https://axvero.com/return-policy" target="_blank" style="font-weight:600;color:blue">
                     👁 Read More
                 </a>
             </p>

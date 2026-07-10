@@ -24,7 +24,7 @@
     <!-- Schema.org markup for Google+ -->
     <meta itemprop="name" content="{{ $detailedProduct->meta_title }}">
     <meta itemprop="description" content="{{ $detailedProduct->meta_description }}">
-    <meta itemprop="image" content="https://kactto.com/uploads/all/p2jgTo0PYictPm70zRh4rs3dq8odmeo46Xu02a36.png">
+    <meta itemprop="image" content="https://axvero.com/uploads/all/p2jgTo0PYictPm70zRh4rs3dq8odmeo46Xu02a36.png">
 
     <!-- Twitter Card data -->
     <meta name="twitter:card" content="product">
@@ -33,7 +33,7 @@
     <meta name="twitter:description" content="{{ $detailedProduct->meta_description }}">
     <meta name="twitter:creator"
         content="@author_handle">
-    <meta name="twitter:image" content="https://kactto.com/uploads/all/p2jgTo0PYictPm70zRh4rs3dq8odmeo46Xu02a36.png">
+    <meta name="twitter:image" content="https://axvero.com/uploads/all/p2jgTo0PYictPm70zRh4rs3dq8odmeo46Xu02a36.png">
     <meta name="twitter:data1" content="{{ single_price($detailedProduct->unit_price) }}">
     <meta name="twitter:label1" content="Price">
 
@@ -41,7 +41,7 @@
     <meta property="og:title" content="{{ $detailedProduct->meta_title }}" />
     <meta property="og:type" content="og:product" />
     <meta property="og:url" content="{{ route('product', $detailedProduct->slug) }}" />
-    <meta property="og:image" content="https://kactto.com/uploads/all/p2jgTo0PYictPm70zRh4rs3dq8odmeo46Xu02a36.png" />
+    <meta property="og:image" content="https://axvero.com/uploads/all/p2jgTo0PYictPm70zRh4rs3dq8odmeo46Xu02a36.png" />
     <meta property="og:description" content="{{ $detailedProduct->meta_description }}" />
     <meta property="og:site_name" content="{{ get_setting('meta_title') }}" />
     <meta property="og:price:amount" content="{{ single_price($detailedProduct->unit_price) }}" />
