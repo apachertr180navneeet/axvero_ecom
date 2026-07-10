@@ -55,47 +55,46 @@
     <div class="overlay overlay-fixed dark c-pointer" data-toggle="class-toggle" data-target=".aiz-top-menu-sidebar"
         data-same=".hide-top-menu-bar"></div>
     <div class="collapse-sidebar c-scrollbar-light text-left">
-        <div class="d-flex justify-content-between align-items-start p-4">
-            @auth
-                <span class="d-flex align-items-center nav-user-info">
-                    <span class="size-50px rounded-circle overflow-hidden border border-transparent nav-user-img flex-shrink-0">
-                        @if ($user->avatar_original != null)
-                            <img src="{{ $user_avatar }}" class="img-fit h-100" alt="{{ translate('avatar') }}"
-                                onerror="this.onerror=null;this.src='{{ static_asset('assets/img/avatar-place.png') }}';">
-                        @else
-                            <img src="{{ static_asset('assets/img/avatar-place.png') }}" class="image"
-                                alt="{{ translate('avatar') }}"
-                                onerror="this.onerror=null;this.src='{{ static_asset('assets/img/avatar-place.png') }}';">
-                        @endif
-                    </span>
-                    <div class="ml-3">
-                        <h4 class="h5 fs-14 fw-700 text-dark mb-0">{{ $user->name }}</h4>
-                        <small class="text-secondary fs-12">{{ auth()->user()->email }}</small>
-                    </div>
+        <button type="button" class="btn btn-sm p-4 hide-top-menu-bar" data-toggle="class-toggle"
+            data-target=".aiz-top-menu-sidebar">
+            <i class="las la-times la-2x text-primary"></i>
+        </button>
+        @auth
+            <span class="d-flex align-items-center nav-user-info pl-4">
+                <!-- Image -->
+                <span class="size-40px rounded-circle overflow-hidden border border-transparent nav-user-img">
+                    @if ($user->avatar_original != null)
+                        <img src="{{ $user_avatar }}" class="img-fit h-100" alt="{{ translate('avatar') }}"
+                            onerror="this.onerror=null;this.src='{{ static_asset('assets/img/avatar-place.png') }}';">
+                    @else
+                        <img src="{{ static_asset('assets/img/avatar-place.png') }}" class="image"
+                            alt="{{ translate('avatar') }}"
+                            onerror="this.onerror=null;this.src='{{ static_asset('assets/img/avatar-place.png') }}';">
+                    @endif
                 </span>
-            @else
-                <span class="d-flex align-items-center nav-user-info">
-                    <span
-                        class="size-50px rounded-circle overflow-hidden border d-flex align-items-center justify-content-center nav-user-img flex-shrink-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="19.902" height="20.012" viewBox="0 0 19.902 20.012">
-                            <path id="fe2df171891038b33e9624c27e96e367"
-                                d="M15.71,12.71a6,6,0,1,0-7.42,0,10,10,0,0,0-6.22,8.18,1.006,1.006,0,1,0,2,.22,8,8,0,0,1,15.9,0,1,1,0,0,0,1,.89h.11a1,1,0,0,0,.88-1.1,10,10,0,0,0-6.25-8.19ZM12,12a4,4,0,1,1,4-4A4,4,0,0,1,12,12Z"
-                                transform="translate(-2.064 -1.995)" fill="#91919b" />
-                        </svg>
-                    </span>
-                    <div class="ml-3">
-                        <a href="{{ route('user.login') }}"
-                            class="text-reset opacity-60 hov-opacity-100 hov-text-primary fs-12 d-inline-block border-right border-soft-light border-width-2 pr-2">{{ translate('Login') }}</a>
-                        <a href="{{ route('user.registration') }}"
-                            class="text-reset opacity-60 hov-opacity-100 hov-text-primary fs-12 d-inline-block py-2 pl-2">{{ translate('Registration') }}</a>
-                    </div>
+                <!-- Name -->
+                <h4 class="h5 fs-14 fw-700 text-dark ml-2 mb-0">{{ $user->name }}</h4>
+            </span>
+        @else
+            <!--Login & Registration -->
+            <span class="d-flex align-items-center nav-user-info pl-4">
+                <!-- Image -->
+                <span
+                    class="size-40px rounded-circle overflow-hidden border d-flex align-items-center justify-content-center nav-user-img">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="19.902" height="20.012" viewBox="0 0 19.902 20.012">
+                        <path id="fe2df171891038b33e9624c27e96e367"
+                            d="M15.71,12.71a6,6,0,1,0-7.42,0,10,10,0,0,0-6.22,8.18,1.006,1.006,0,1,0,2,.22,8,8,0,0,1,15.9,0,1,1,0,0,0,1,.89h.11a1,1,0,0,0,.88-1.1,10,10,0,0,0-6.25-8.19ZM12,12a4,4,0,1,1,4-4A4,4,0,0,1,12,12Z"
+                            transform="translate(-2.064 -1.995)" fill="#91919b" />
+                    </svg>
                 </span>
-            @endauth
-            {{-- <button type="button" class="btn btn-sm p-0 hide-top-menu-bar" data-toggle="class-toggle"
-                data-target=".aiz-top-menu-sidebar">
-                <i class="las la-times la-2x text-secondary"></i>
-            </button> --}}
-        </div>
+
+                <a href="{{ route('user.login') }}"
+                    class="text-reset opacity-60 hov-opacity-100 hov-text-primary fs-12 d-inline-block border-right border-soft-light border-width-2 pr-2 ml-3">{{ translate('Login') }}</a>
+                <a href="{{ route('user.registration') }}"
+                    class="text-reset opacity-60 hov-opacity-100 hov-text-primary fs-12 d-inline-block py-2 pl-2">{{ translate('Registration') }}</a>
+            </span>
+            
+        @endauth
         <hr>
         <ul class="mb-0 pl-3 pb-3 h-100">
             @if (get_setting('header_menu_labels') != null)
@@ -118,7 +117,7 @@
                     <li class="mr-0">
                         <a href="{{ route('admin.dashboard') }}"
                             class="fs-13 px-3 py-3 w-100 d-inline-block fw-700 text-dark header_menu_links">
-                            <i class="las la-user mr-2 fs-16"></i>{{ translate('My Account') }}
+                            {{ translate('My Account') }}
                         </a>
                     </li>
                 @elseif(optional(Auth::user())->user_type == 'affiliate')
@@ -126,7 +125,7 @@
                     <li class="mr-0">
                         <a href="{{ route('affiliate.user.index') }}" class="fs-13 px-3 py-3 w-100 d-inline-block fw-700 text-dark header_menu_links
                                         {{ areActiveRoutes(['affiliate.user.index'], ' active') }}">
-                            <i class="las la-tachometer-alt mr-2 fs-16"></i>{{ translate('Affiliate Dashboard') }}
+                            {{ translate('Affiliate Dashboard') }}
                         </a>
                     </li>
                 @else
@@ -134,7 +133,7 @@
                     <li class="mr-0">
                         <a href="{{ route('dashboard') }}" class="fs-13 px-3 py-3 w-100 d-inline-block fw-700 text-dark header_menu_links
                                         {{ areActiveRoutes(['dashboard'], ' active') }}">
-                            <i class="las la-user mr-2 fs-16"></i>{{ translate('My Account') }}
+                            {{ translate('My Account') }}
                         </a>
                     </li>
                 @endif
@@ -142,28 +141,28 @@
                     <li class="mr-0">
                         <a href="{{ route('customer.all-notifications') }}" class="fs-13 px-3 py-3 w-100 d-inline-block fw-700 text-dark header_menu_links
                                         {{ areActiveRoutes(['customer.all-notifications'], ' active') }}">
-                            <i class="las la-bell mr-2 fs-16"></i>{{ translate('Notifications') }}
+                            {{ translate('Notifications') }}
                         </a>
                     </li>
                     <li class="mr-0">
                         <a href="{{ route('wishlists.index') }}" class="fs-13 px-3 py-3 w-100 d-inline-block fw-700 text-dark header_menu_links
                                         {{ areActiveRoutes(['wishlists.index'], ' active') }}">
-                            <i class="las la-heart mr-2 fs-16"></i>{{ translate('Wishlist') }}
+                            {{ translate('Wishlist') }}
                         </a>
                     </li>
                     <li class="mr-0">
                         <a href="{{ route('compare') }}" class="fs-13 px-3 py-3 w-100 d-inline-block fw-700 text-dark header_menu_links
                                         {{ areActiveRoutes(['compare'], ' active') }}">
-                            <i class="las la-chart-bar mr-2 fs-16"></i>{{ translate('Compare') }}
+                            {{ translate('Compare') }}
                         </a>
                     </li>
                 @endif
                 <hr>
                 <li class="mr-0">
-                        <a href="{{ route('logout') }}"
-                            class="fs-13 px-3 py-3 w-100 d-inline-block fw-700 text-primary header_menu_links">
-                            <i class="las la-sign-out-alt mr-2 fs-16"></i>{{ translate('Logout') }}
-                        </a>
+                    <a href="{{ route('logout') }}"
+                        class="fs-13 px-3 py-3 w-100 d-inline-block fw-700 text-primary header_menu_links">
+                        {{ translate('Logout') }}
+                    </a>
                 </li>
             @endauth
         </ul>
