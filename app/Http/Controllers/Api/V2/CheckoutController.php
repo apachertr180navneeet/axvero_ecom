@@ -46,6 +46,14 @@ class CheckoutController
             ]);
         }
 
+        // check if coupon has reached its maximum usage limit
+        if ($coupon->user_limit > 0 && \App\Models\CouponUsage::where('coupon_id', $coupon->id)->count() >= $coupon->user_limit) {
+            return response()->json([
+                'result' => false,
+                'message' => translate('This coupon has reached its maximum usage limit!')
+            ]);
+        }
+
         // check if user already used this coupon
         if($user_id != null){
             $is_used = CouponUsage::where('user_id', $user_id)->where('coupon_id', $coupon->id)->first() != null;

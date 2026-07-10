@@ -29,6 +29,12 @@
     </div>
 </div>
 <div class="form-group row">
+   <label class="col-lg-3 col-from-label">{{translate('Maximum User Limit')}}</label>
+   <div class="col-lg-9">
+      <input type="number" min="0" step="1" placeholder="{{translate('Maximum User Limit (0 for unlimited)')}}" name="user_limit" class="form-control" required value="0">
+   </div>
+</div>
+<div class="form-group row">
    <label class="col-lg-3 col-from-label">{{translate('Discount')}}</label>
    <div class="col-lg-7">
       <input type="number" lang="en" min="0" step="0.01" placeholder="{{translate('Discount')}}" name="discount" class="form-control" required>
