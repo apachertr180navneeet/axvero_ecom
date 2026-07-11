@@ -212,6 +212,184 @@
       ]
     },
     {
+      "name": "Search (Header)",
+      "item": [
+        {
+          "name": "Search Suggestions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v2/get-search-suggestions?query_key=shoe&type=product",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "get-search-suggestions"],
+              "query": [
+                { "key": "query_key", "value": "shoe" },
+                { "key": "type", "value": "product", "description": "product, brands, sellers, or empty for search history" }
+              ]
+            },
+            "description": "SearchSuggestionController.getList. Returns suggestions by type (product/brands/sellers) and query_key."
+          },
+          "response": []
+        },
+        {
+          "name": "Product Search",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v2/products/search?name=shoe&per_page=10&page=1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "products", "search"],
+              "query": [
+                { "key": "name", "value": "shoe" },
+                { "key": "per_page", "value": "10" },
+                { "key": "page", "value": "1" },
+                { "key": "sort_key", "value": "", "disabled": true },
+                { "key": "min", "value": "", "disabled": true },
+                { "key": "max", "value": "", "disabled": true },
+                { "key": "categories", "value": "", "disabled": true },
+                { "key": "brands", "value": "", "disabled": true }
+              ]
+            },
+            "description": "ProductController.search. Paginated product search with filters (name, min, max, categories, brands, sort_key)."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Brands",
+      "item": [
+        {
+          "name": "All Brands",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v2/brands?per_page=10&page=1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "brands"],
+              "query": [
+                { "key": "per_page", "value": "10" },
+                { "key": "page", "value": "1" },
+                { "key": "name", "value": "", "disabled": true }
+              ]
+            },
+            "description": "BrandController.index. Paginated brand list with optional name search."
+          },
+          "response": []
+        },
+        {
+          "name": "Top Brands",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v2/brands/top",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "brands", "top"]
+            },
+            "description": "BrandController.top. Cached list of top brands."
+          },
+          "response": []
+        },
+        {
+          "name": "All Brands (flat list)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v2/all-brands",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "all-brands"]
+            },
+            "description": "ProductController.getBrands. Flat list of all brands (no pagination)."
+          },
+          "response": []
+        },
+        {
+          "name": "Products by Brand",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v2/products/brand/{{brand_slug}}?per_page=10&page=1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "products", "brand", "{{brand_slug}}"],
+              "query": [
+                { "key": "per_page", "value": "10" },
+                { "key": "page", "value": "1" }
+              ]
+            },
+            "description": "ProductController.brand. Paginated products by brand slug."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Flash Sale",
+      "item": [
+        {
+          "name": "Active Flash Deals",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v2/flash-deals",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "flash-deals"]
+            },
+            "description": "FlashDealController.index. Active flash deals."
+          },
+          "response": []
+        },
+        {
+          "name": "Flash Deal Banners",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v2/flash-deals-banners",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "flash-deals-banners"]
+            },
+            "description": "FlashDealController.banners. Flash deal banners."
+          },
+          "response": []
+        },
+        {
+          "name": "Flash Deal Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v2/flash-deal-products/{{flash_deal_slug}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "flash-deal-products", "{{flash_deal_slug}}"]
+            },
+            "description": "FlashDealController.products. Products for a flash deal by slug. Note: route param is {id} but controller treats it as slug."
+          },
+          "response": []
+        },
+        {
+          "name": "Flash Deal Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v2/flash-deals/info/{{flash_deal_slug}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "flash-deals", "info", "{{flash_deal_slug}}"]
+            },
+            "description": "FlashDealController.info. Single flash deal details by slug."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Auth",
       "item": [
         {
@@ -1395,6 +1573,450 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Account",
+      "item": [
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/v2/account/profile", "host": ["{{base_url}}"], "path": ["api", "v2", "account", "profile"] },
+            "description": "FrontendAccountController.profile. Returns user profile."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"John Doe\",\n  \"phone\": \"1234567890\",\n  \"password\": \"newsecret\",\n  \"password_confirmation\": \"newsecret\"\n}" },
+            "url": { "raw": "{{base_url}}/api/v2/account/profile", "host": ["{{base_url}}"], "path": ["api", "v2", "account", "profile"] },
+            "description": "FrontendAccountController.updateProfile. name, phone, password (optional)."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Profile Image",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"image\": \"base64_encoded_image_string\",\n  \"filename\": \"avatar.jpg\"\n}" },
+            "url": { "raw": "{{base_url}}/api/v2/account/profile/image", "host": ["{{base_url}}"], "path": ["api", "v2", "account", "profile", "image"] },
+            "description": "FrontendAccountController.updateProfileImage. Base64 image upload."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Account",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{base_url}}/api/v2/account/delete", "host": ["{{base_url}}"], "path": ["api", "v2", "account", "delete"] },
+            "description": "FrontendAccountController.deleteAccount. Deletes user + carts + tokens."
+          },
+          "response": []
+        },
+        {
+          "name": "Counters",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/v2/account/counters", "host": ["{{base_url}}"], "path": ["api", "v2", "account", "counters"] },
+            "description": "FrontendAccountController.counters. Returns cart/wishlist/order counts."
+          },
+          "response": []
+        },
+        {
+          "name": "Check Contact",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/v2/account/check-contact", "host": ["{{base_url}}"], "path": ["api", "v2", "account", "check-contact"] },
+            "description": "FrontendAccountController.checkPhoneAndEmail."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/account/orders?per_page=10&page=1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "account", "orders"],
+              "query": [
+                { "key": "per_page", "value": "10" },
+                { "key": "page", "value": "1" },
+                { "key": "payment_status", "value": "", "disabled": true },
+                { "key": "delivery_status", "value": "", "disabled": true }
+              ]
+            },
+            "description": "FrontendAccountController.orders. Paginated order history."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Order Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/v2/account/orders/{{order_id}}", "host": ["{{base_url}}"], "path": ["api", "v2", "account", "orders", "{{order_id}}"] },
+            "description": "FrontendAccountController.orderDetails."
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{base_url}}/api/v2/account/orders/{{order_id}}/cancel", "host": ["{{base_url}}"], "path": ["api", "v2", "account", "orders", "{{order_id}}", "cancel"] },
+            "description": "FrontendAccountController.cancelOrder. Only pending/unpaid orders."
+          },
+          "response": []
+        },
+        {
+          "name": "Re-Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{base_url}}/api/v2/account/orders/{{order_id}}/re-order", "host": ["{{base_url}}"], "path": ["api", "v2", "account", "orders", "{{order_id}}", "re-order"] },
+            "description": "FrontendAccountController.reOrder. Re-adds past order items to cart."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Wishlist",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/account/wishlist?per_page=10&page=1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "account", "wishlist"],
+              "query": [
+                { "key": "per_page", "value": "10" },
+                { "key": "page", "value": "1" }
+              ]
+            },
+            "description": "FrontendAccountController.wishlist. Paginated wishlist."
+          },
+          "response": []
+        },
+        {
+          "name": "Add to Wishlist",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"product_slug\": \"{{product_slug}}\"\n}" },
+            "url": { "raw": "{{base_url}}/api/v2/account/wishlist/add", "host": ["{{base_url}}"], "path": ["api", "v2", "account", "wishlist", "add"] },
+            "description": "FrontendAccountController.addToWishlist."
+          },
+          "response": []
+        },
+        {
+          "name": "Remove from Wishlist",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/v2/account/wishlist/{{wishlist_id}}", "host": ["{{base_url}}"], "path": ["api", "v2", "account", "wishlist", "{{wishlist_id}}"] },
+            "description": "FrontendAccountController.removeFromWishlist. Deletes by wishlist ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Check Wishlist",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/v2/account/wishlist/check/{{product_slug}}", "host": ["{{base_url}}"], "path": ["api", "v2", "account", "wishlist", "check", "{{product_slug}}"] },
+            "description": "FrontendAccountController.checkWishlist."
+          },
+          "response": []
+        },
+        {
+          "name": "Wallet Balance",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/v2/account/wallet", "host": ["{{base_url}}"], "path": ["api", "v2", "account", "wallet"] },
+            "description": "FrontendAccountController.walletBalance."
+          },
+          "response": []
+        },
+        {
+          "name": "Wallet History",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/account/wallet/history?per_page=10&page=1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "account", "wallet", "history"],
+              "query": [
+                { "key": "per_page", "value": "10" },
+                { "key": "page", "value": "1" }
+              ]
+            },
+            "description": "FrontendAccountController.walletHistory."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Notifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/account/notifications?per_page=20&page=1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "account", "notifications"],
+              "query": [
+                { "key": "per_page", "value": "20" },
+                { "key": "page", "value": "1" }
+              ]
+            },
+            "description": "FrontendAccountController.notifications. Marks all unread as read."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Unread Notifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/account/notifications/unread?per_page=20&page=1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "account", "notifications", "unread"],
+              "query": [
+                { "key": "per_page", "value": "20" },
+                { "key": "page", "value": "1" }
+              ]
+            },
+            "description": "FrontendAccountController.unreadNotifications. Returns count + unread list."
+          },
+          "response": []
+        },
+        {
+          "name": "Mark Notification Read",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{base_url}}/api/v2/account/notifications/{{notification_id}}/read", "host": ["{{base_url}}"], "path": ["api", "v2", "account", "notifications", "{{notification_id}}", "read"] },
+            "description": "FrontendAccountController.markNotificationRead."
+          },
+          "response": []
+        },
+        {
+          "name": "Bulk Delete Notifications",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"notification_ids\": [\"id1\", \"id2\"]\n}" },
+            "url": { "raw": "{{base_url}}/api/v2/account/notifications/bulk-delete", "host": ["{{base_url}}"], "path": ["api", "v2", "account", "notifications", "bulk-delete"] },
+            "description": "FrontendAccountController.bulkDeleteNotifications."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Followed Sellers",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/account/followed-sellers?per_page=10&page=1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "account", "followed-sellers"],
+              "query": [
+                { "key": "per_page", "value": "10" },
+                { "key": "page", "value": "1" }
+              ]
+            },
+            "description": "FrontendAccountController.followedSellers."
+          },
+          "response": []
+        },
+        {
+          "name": "Follow Seller",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{base_url}}/api/v2/account/followed-sellers/{{shop_id}}", "host": ["{{base_url}}"], "path": ["api", "v2", "account", "followed-sellers", "{{shop_id}}"] },
+            "description": "FrontendAccountController.followSeller."
+          },
+          "response": []
+        },
+        {
+          "name": "Unfollow Seller",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/v2/account/followed-sellers/{{shop_id}}", "host": ["{{base_url}}"], "path": ["api", "v2", "account", "followed-sellers", "{{shop_id}}"] },
+            "description": "FrontendAccountController.unfollowSeller."
+          },
+          "response": []
+        },
+        {
+          "name": "Check Follow Seller",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/v2/account/followed-sellers/check/{{shop_id}}", "host": ["{{base_url}}"], "path": ["api", "v2", "account", "followed-sellers", "check", "{{shop_id}}"] },
+            "description": "FrontendAccountController.checkFollowSeller."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Addresses",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/v2/account/addresses", "host": ["{{base_url}}"], "path": ["api", "v2", "account", "addresses"] },
+            "description": "FrontendAccountController.addresses."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Address",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"address\": \"123 Main St\",\n  \"country_id\": 1,\n  \"state_id\": 1,\n  \"city_id\": 1,\n  \"postal_code\": \"10001\",\n  \"phone\": \"1234567890\"\n}" },
+            "url": { "raw": "{{base_url}}/api/v2/account/addresses", "host": ["{{base_url}}"], "path": ["api", "v2", "account", "addresses"] },
+            "description": "FrontendAccountController.createAddress."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Address",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"address\": \"456 Oak Ave\",\n  \"country_id\": 1,\n  \"state_id\": 1,\n  \"city_id\": 1,\n  \"postal_code\": \"10002\",\n  \"phone\": \"0987654321\"\n}" },
+            "url": { "raw": "{{base_url}}/api/v2/account/addresses/{{address_del_id}}", "host": ["{{base_url}}"], "path": ["api", "v2", "account", "addresses", "{{address_del_id}}"] },
+            "description": "FrontendAccountController.updateAddress."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Address",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/v2/account/addresses/{{address_del_id}}", "host": ["{{base_url}}"], "path": ["api", "v2", "account", "addresses", "{{address_del_id}}"] },
+            "description": "FrontendAccountController.deleteAddress."
+          },
+          "response": []
+        },
+        {
+          "name": "Set Default Address",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{base_url}}/api/v2/account/addresses/{{def_address_id}}/default", "host": ["{{base_url}}"], "path": ["api", "v2", "account", "addresses", "{{def_address_id}}", "default"] },
+            "description": "FrontendAccountController.setDefaultAddress."
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "event": [
@@ -1461,6 +2083,30 @@
     {
       "key": "order_id",
       "value": "1"
+    },
+    {
+      "key": "product_slug",
+      "value": "product-slug-here"
+    },
+    {
+      "key": "wishlist_id",
+      "value": ""
+    },
+    {
+      "key": "shop_id",
+      "value": "1"
+    },
+    {
+      "key": "notification_id",
+      "value": ""
+    },
+    {
+      "key": "brand_slug",
+      "value": "brand-slug-here"
+    },
+    {
+      "key": "flash_deal_slug",
+      "value": "flash-deal-slug-here"
     }
   ]
 }
