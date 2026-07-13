@@ -64,8 +64,7 @@ class FrontendAuthController extends Controller
         }
 
         $identifier = $request->email;
-        $user = User::where('user_type', 'customer')
-            ->where(function ($query) use ($identifier) {
+        $user = User::where(function ($query) use ($identifier) {
                 $query->where('email', $identifier)
                     ->orWhere('phone', $identifier);
             })

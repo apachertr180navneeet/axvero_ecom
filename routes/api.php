@@ -561,7 +561,10 @@ Route::group(["prefix" => "v2", "middleware" => ["app_language"]], function () {
     )->only("index");
 
     Route::withoutMiddleware([EnsureSystemKey::class])->group(function () {
-        Route::get("brands/top", "App\Http\Controllers\Api\V2\BrandController@top");
+        Route::get(
+            "brands/top",
+            "App\Http\Controllers\Api\V2\BrandController@top",
+        );
         Route::get("all-brands", [ProductController::class, "getBrands"])->name(
             "allBrands",
         );
@@ -1154,6 +1157,157 @@ Route::group(["prefix" => "v2", "middleware" => ["app_language"]], function () {
             Route::get("file/delete/{id}", "destroy");
         });
 });
+
+// ──────────────────────────────────────────────
+//  ADMIN API — requires Admin Bearer (no System-Key)
+// ──────────────────────────────────────────────
+Route::prefix("v2/admin")
+    ->withoutMiddleware([EnsureSystemKey::class])
+    ->middleware(["auth:sanctum", "admin"])
+    ->group(function () {
+        Route::controller(
+            \App\Http\Controllers\Api\V2\Admin\DashboardController::class,
+        )->group(function () {
+            Route::get("dashboard/stats", "stats");
+            Route::get("dashboard/top-customers", "topCustomers");
+            Route::get("dashboard/top-sellers", "topSellers");
+            Route::get("dashboard/top-categories", "topCategories");
+            Route::get("dashboard/top-brands", "topBrands");
+            Route::get("dashboard/sales-chart", "salesChart");
+            Route::get("dashboard/order-stats", "orderStats");
+        });
+
+        Route::apiResource(
+            "categories",
+            \App\Http\Controllers\Api\V2\Admin\CategoryController::class,
+        )->only(["index", "show", "store", "update", "destroy"]);
+        Route::post("categories/{id}/featured", [
+            \App\Http\Controllers\Api\V2\Admin\CategoryController::class,
+            "toggleFeatured",
+        ]);
+
+        Route::apiResource(
+            "brands",
+            \App\Http\Controllers\Api\V2\Admin\BrandController::class,
+        )->only(["index", "show", "store", "update", "destroy"]);
+
+        Route::get("products", [
+            \App\Http\Controllers\Api\V2\Admin\ProductController::class,
+            "index",
+        ]);
+        Route::get("products/{id}", [
+            \App\Http\Controllers\Api\V2\Admin\ProductController::class,
+            "show",
+        ]);
+        Route::post("products/{id}/published", [
+            \App\Http\Controllers\Api\V2\Admin\ProductController::class,
+            "togglePublished",
+        ]);
+        Route::post("products/{id}/featured", [
+            \App\Http\Controllers\Api\V2\Admin\ProductController::class,
+            "toggleFeatured",
+        ]);
+        Route::post("products/{id}/todays-deal", [
+            \App\Http\Controllers\Api\V2\Admin\ProductController::class,
+            "toggleTodaysDeal",
+        ]);
+        Route::post("products/{id}/approve", [
+            \App\Http\Controllers\Api\V2\Admin\ProductController::class,
+            "approve",
+        ]);
+        Route::delete("products/{id}", [
+            \App\Http\Controllers\Api\V2\Admin\ProductController::class,
+            "destroy",
+        ]);
+
+        Route::get("orders", [
+            \App\Http\Controllers\Api\V2\Admin\OrderController::class,
+            "index",
+        ]);
+        Route::get("orders/{id}", [
+            \App\Http\Controllers\Api\V2\Admin\OrderController::class,
+            "show",
+        ]);
+        Route::post("orders/{id}/delivery-status", [
+            \App\Http\Controllers\Api\V2\Admin\OrderController::class,
+            "updateDeliveryStatus",
+        ]);
+        Route::post("orders/{id}/payment-status", [
+            \App\Http\Controllers\Api\V2\Admin\OrderController::class,
+            "updatePaymentStatus",
+        ]);
+        Route::delete("orders/{id}", [
+            \App\Http\Controllers\Api\V2\Admin\OrderController::class,
+            "destroy",
+        ]);
+
+        Route::get("sellers", [
+            \App\Http\Controllers\Api\V2\Admin\SellerController::class,
+            "index",
+        ]);
+        Route::get("sellers/{id}", [
+            \App\Http\Controllers\Api\V2\Admin\SellerController::class,
+            "show",
+        ]);
+        Route::post("sellers/{id}/approve", [
+            \App\Http\Controllers\Api\V2\Admin\SellerController::class,
+            "approve",
+        ]);
+        Route::post("sellers/{id}/ban", [
+            \App\Http\Controllers\Api\V2\Admin\SellerController::class,
+            "ban",
+        ]);
+        Route::delete("sellers/{id}", [
+            \App\Http\Controllers\Api\V2\Admin\SellerController::class,
+            "destroy",
+        ]);
+        Route::get("sellers/pending-registrations", [
+            \App\Http\Controllers\Api\V2\Admin\SellerController::class,
+            "pendingRegistrations",
+        ]);
+
+        Route::get("customers", [
+            \App\Http\Controllers\Api\V2\Admin\CustomerController::class,
+            "index",
+        ]);
+        Route::get("customers/{id}", [
+            \App\Http\Controllers\Api\V2\Admin\CustomerController::class,
+            "show",
+        ]);
+        Route::post("customers/{id}/ban", [
+            \App\Http\Controllers\Api\V2\Admin\CustomerController::class,
+            "ban",
+        ]);
+        Route::delete("customers/{id}", [
+            \App\Http\Controllers\Api\V2\Admin\CustomerController::class,
+            "destroy",
+        ]);
+
+        Route::get("coupons", [
+            \App\Http\Controllers\Api\V2\Admin\CouponController::class,
+            "index",
+        ]);
+        Route::get("coupons/{id}", [
+            \App\Http\Controllers\Api\V2\Admin\CouponController::class,
+            "show",
+        ]);
+        Route::post("coupons", [
+            \App\Http\Controllers\Api\V2\Admin\CouponController::class,
+            "store",
+        ]);
+        Route::put("coupons/{id}", [
+            \App\Http\Controllers\Api\V2\Admin\CouponController::class,
+            "update",
+        ]);
+        Route::post("coupons/{id}/status", [
+            \App\Http\Controllers\Api\V2\Admin\CouponController::class,
+            "toggleStatus",
+        ]);
+        Route::delete("coupons/{id}", [
+            \App\Http\Controllers\Api\V2\Admin\CouponController::class,
+            "destroy",
+        ]);
+    });
 
 Route::fallback(function () {
     return response()->json([
