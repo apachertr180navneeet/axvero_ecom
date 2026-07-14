@@ -28,7 +28,7 @@ class InstallController extends Controller
     }
 
     public function step2() {
-        return view('installation.step2');
+        return redirect('step3');
     }
 
     public function step3($error = "") {
@@ -46,12 +46,6 @@ class InstallController extends Controller
 
     public function step5() {
         return view('installation.step5');
-    }
-
-    public function purchase_code(Request $request) {
-        Session::put('purchase_code', $request->purchase_code ?? 'bypassed');
-        $this->writeEnvironmentFile('SYSTEM_KEY', $request->system_key ?? 'bypassed');
-        return redirect('step3');
     }
 
     public function system_settings(Request $request) {
@@ -82,13 +76,6 @@ class InstallController extends Controller
         copy($newRouteServiceProvier, $previousRouteServiceProvier);
         //sleep(5);
 
-        if (Session::has('purchase_code')) {
-            $business_settings = new BusinessSetting;
-            $business_settings->type = 'purchase_code';
-            $business_settings->value = Session::get('purchase_code');
-            $business_settings->save();
-            Session::forget('purchase_code');
-        }
         Artisan::call('optimize:clear');
         return view('installation.step6');
     }

@@ -33,13 +33,6 @@
                                 </select>
 							</div>
 						</div>
-						<!-- Purchase Code -->
-						<div class="form-group row">
-							<label class="col-xxl-3 col-from-label fs-13">{{translate('Purchase Code')}} <span class="text-danger">*</span></label>
-							<div class="col-xxl-9">
-								<input type="text" class="form-control" name="purchase_key" placeholder="{{ translate('CodeCanyon Purchase Code') }}" required>
-							</div>
-						</div>
 						<!-- Domain Name -->
 						<div class="form-group row">
 							<label class="col-xxl-3 col-from-label fs-13">{{translate('Domain Name')}} <span class="text-danger">*</span></label>

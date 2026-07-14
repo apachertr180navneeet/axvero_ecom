@@ -668,16 +668,6 @@ class BusinessSettingsController extends Controller
             return back();
         }
 
-        if (! AddonController::isLocalhostDomain()) {
-
-            $check_domain_verification =  AddonController::checkVerification('item', $request->purchase_key);
-            $check_domain_activation =  AddonController::checkActivation('item', $request->purchase_key);
-
-            if (!$check_domain_verification || !$check_domain_activation) {
-                return translate('Please activate your domain at first');
-            }
-        }
-
         // import sql
         $sql_path = base_path('public/demo.sql');
         DB::unprepared(file_get_contents($sql_path));

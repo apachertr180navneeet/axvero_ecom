@@ -68,27 +68,6 @@ class UpdateController extends Controller
 
     public function step1()
     {
-        return view('update.step1');
-    }
-
-    public function purchase_code(Request $request)
-    {
-        $request->purchase_code = $request->purchase_code ?? 'bypassed';
-        $request->system_key = $request->system_key ?? 'bypassed';
-
-        $businessSetting = BusinessSetting::where('type', 'purchase_code')->first();
-        if ($businessSetting) {
-            $businessSetting->value = $request->purchase_code;
-            $businessSetting->save();
-        } else {
-            $business_settings = new BusinessSetting;
-            $business_settings->type = 'purchase_code';
-            $business_settings->value = $request->purchase_code;
-            $business_settings->save();
-        }
-
-        $this->writeEnvironmentFile('SYSTEM_KEY', $request->system_key);
-
         return redirect()->route('update.step2');
     }
 

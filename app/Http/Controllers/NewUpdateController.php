@@ -29,8 +29,6 @@ class NewUpdateController extends Controller
             flash(translate('This action is disabled in demo mode'))->error();
             return back();
         }        
-        $request->purchase_code = $request->purchase_code ?? 'bypassed';
-        $request->system_key = $request->system_key ?? 'bypassed';
         $current_version= get_setting('current_version');
         if (version_compare($current_version, '10.0.0', '<')) {
             flash(translate('Could not update. Please check the compatible version'))->error();
@@ -82,19 +80,6 @@ class NewUpdateController extends Controller
                     DB::unprepared(file_get_contents($sql_path));
                 }
 
-                $businessSetting = BusinessSetting::where('type', 'purchase_code')->first();
-                if ($businessSetting) {
-                    $businessSetting->value = $request->purchase_code;
-                    $businessSetting->save();
-                } else {
-                    $business_settings = new BusinessSetting;
-                    $business_settings->type = 'purchase_code';
-                    $business_settings->value = $request->purchase_code;
-                    $business_settings->save();
-                }
-
-                $this->writeEnvironmentFile('SYSTEM_KEY', $request->system_key);
-
                 Artisan::call('view:clear');
                 Artisan::call('cache:clear');
 
@@ -108,7 +93,6 @@ class NewUpdateController extends Controller
                 // $this->convertColorsName();
                 $this->updatePermission();
                 $updated_version = get_setting('current_version');
-                // Bypassed purchase code validation
 
                 flash(translate('Version updated to: '.$updated_version))->success();
                 return redirect()->route('admin.dashboard');

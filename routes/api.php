@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\V2;
 
-use App\Http\Middleware\EnsureSystemKey;
 use App\Http\Controllers\ShiprocketController as AdminShiprocketController;
 use App\Http\Controllers\Api\V2\FrontendAuthController;
 use App\Http\Controllers\Api\V2\FrontendHomeController;
@@ -14,7 +13,7 @@ Route::get("/shiprocket", function () {
 
 // Shiprocket webhooks — public URL, no System-Key, no throttle.
 // Shiprocket recommends avoiding "shiprocket" in the webhook URL; use tracking-callback in production.
-Route::withoutMiddleware([EnsureSystemKey::class, "throttle:api"])->group(
+Route::withoutMiddleware(["throttle:api"])->group(
     function () {
         Route::match(["get", "post"], "v2/shipping/tracking-callback", [
             AdminShiprocketController::class,
@@ -31,7 +30,7 @@ Route::group(
     ["prefix" => "v2/auth", "middleware" => ["app_language"]],
     function () {
         // Frontend auth — no System-Key required (Bearer token validated directly)
-        Route::withoutMiddleware([EnsureSystemKey::class])
+        Route::withoutMiddleware([])
             ->controller(FrontendAuthController::class)
             ->group(function () {
                 Route::post("login", "login");
@@ -53,7 +52,7 @@ Route::group(
 );
 
 // Frontend cart — no System-Key required (Bearer token or temp_user_id)
-Route::withoutMiddleware([EnsureSystemKey::class])
+Route::withoutMiddleware([])
     ->prefix("v2/cart")
     ->controller(FrontendCartController::class)
     ->group(function () {
@@ -68,7 +67,7 @@ Route::withoutMiddleware([EnsureSystemKey::class])
     });
 
 // Frontend checkout — no System-Key required (Bearer token only)
-Route::withoutMiddleware([EnsureSystemKey::class])
+Route::withoutMiddleware([])
     ->prefix("v2/checkout")
     ->controller(FrontendCheckoutController::class)
     ->group(function () {
@@ -205,7 +204,7 @@ Route::group(["prefix" => "v2", "middleware" => ["app_language"]], function () {
 
     // un banned users
     // Frontend account — no System-Key required (Bearer token only)
-    Route::withoutMiddleware([EnsureSystemKey::class])
+    Route::withoutMiddleware([])
         ->prefix("account")
         ->controller(FrontendAccountController::class)
         ->group(function () {
@@ -541,7 +540,7 @@ Route::group(["prefix" => "v2", "middleware" => ["app_language"]], function () {
     Route::get("get-search-suggestions", [
         SearchSuggestionController::class,
         "getList",
-    ])->withoutMiddleware([EnsureSystemKey::class]);
+    ]);
     Route::get("languages", [LanguageController::class, "getList"]);
 
     Route::controller(CustomerProductController::class)->group(function () {
@@ -560,7 +559,7 @@ Route::group(["prefix" => "v2", "middleware" => ["app_language"]], function () {
         "App\Http\Controllers\Api\V2\BannerController",
     )->only("index");
 
-    Route::withoutMiddleware([EnsureSystemKey::class])->group(function () {
+    Route::withoutMiddleware([])->group(function () {
         Route::get(
             "brands/top",
             "App\Http\Controllers\Api\V2\BrandController@top",
@@ -591,12 +590,12 @@ Route::group(["prefix" => "v2", "middleware" => ["app_language"]], function () {
     Route::get(
         "categories/home",
         "App\Http\Controllers\Api\V2\CategoryController@home",
-    )->withoutMiddleware([EnsureSystemKey::class]);
+    );
 
     // Frontend home sections — public wrappers around categories/home + products/category/{slug}
     Route::controller(FrontendHomeController::class)
         ->prefix("home")
-        ->withoutMiddleware([EnsureSystemKey::class])
+        
         ->group(function () {
             Route::get("trending-men", "trendingMen");
             Route::get("trending-women", "trendingWomen");
@@ -664,7 +663,7 @@ Route::group(["prefix" => "v2", "middleware" => ["app_language"]], function () {
         "products/category/{slug}",
         "App\Http\Controllers\Api\V2\ProductController@categoryProducts",
     )
-        ->withoutMiddleware([EnsureSystemKey::class])
+        
         ->name("api.products.category");
     Route::get(
         "products/sub-category/{id}",
@@ -678,7 +677,7 @@ Route::group(["prefix" => "v2", "middleware" => ["app_language"]], function () {
         "products/brand/{slug}",
         "App\Http\Controllers\Api\V2\ProductController@brand",
     )
-        ->withoutMiddleware([EnsureSystemKey::class])
+        
         ->name("api.products.brand");
     Route::get(
         "products/todays-deal",
@@ -708,7 +707,7 @@ Route::group(["prefix" => "v2", "middleware" => ["app_language"]], function () {
     Route::get(
         "products/search",
         "App\Http\Controllers\Api\V2\ProductController@search",
-    )->withoutMiddleware([EnsureSystemKey::class]);
+    );
     Route::post(
         "products/variant/price",
         "App\Http\Controllers\Api\V2\ProductController@getPrice",
@@ -948,7 +947,7 @@ Route::group(["prefix" => "v2", "middleware" => ["app_language"]], function () {
     //     Route::get('/wholesale/all-products', 'all_wholesale_products')->name('wholesale_products.all');
     // });
 
-    Route::withoutMiddleware([EnsureSystemKey::class])->group(function () {
+    Route::withoutMiddleware([])->group(function () {
         Route::get(
             "flash-deals",
             "App\Http\Controllers\Api\V2\FlashDealController@index",
@@ -989,7 +988,7 @@ Route::group(["prefix" => "v2", "middleware" => ["app_language"]], function () {
         "App\Http\Controllers\Api\V2\ShippingController@pickup_list",
     );
 
-    Route::withoutMiddleware([EnsureSystemKey::class])->group(function () {
+    Route::withoutMiddleware([])->group(function () {
         Route::controller(WholesaleProductController::class)->group(
             function () {
                 Route::get(
@@ -1162,7 +1161,7 @@ Route::group(["prefix" => "v2", "middleware" => ["app_language"]], function () {
 //  ADMIN API — requires Admin Bearer (no System-Key)
 // ──────────────────────────────────────────────
 Route::prefix("v2/admin")
-    ->withoutMiddleware([EnsureSystemKey::class])
+    
     ->middleware(["auth:sanctum", "admin"])
     ->group(function () {
         Route::controller(

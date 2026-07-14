@@ -101,9 +101,8 @@ class AddonController extends Controller
                         $addon->name = $json['name'];
                         $addon->unique_identifier = $json['unique_identifier'];
                         $addon->version = $json['version'];
-                        $addon->activated = 1;
+                        $addon->name = $json['name'];
                         $addon->image = $json['addon_banner'];
-                        $addon->purchase_code = $request->purchase_code;
                         $addon->save();
 
                         // Create new directories.
@@ -198,7 +197,6 @@ class AddonController extends Controller
                         $addon->version = $json['version'];
                         $addon->name = $json['name'];
                         $addon->image = $json['addon_banner'];
-                        $addon->purchase_code = $request->purchase_code;
                         $addon->save();
 
                         flash(translate('This addon is updated successfully'))->success();
@@ -276,43 +274,6 @@ class AddonController extends Controller
 
         return 1;
     }
-
-    public function check_activation( $data){
-        return true;
-    }
-
-    public static function checkVerification( $type, $key){
-        return true;
-    }
-
-    public static function checkActivation( $type, $key){
-        return true;
-    }
-
-
-    public static function sendRequest( $url) {
-        $ch = curl_init();
-        
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPGET, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        
-        $response = curl_exec($ch);
-        curl_close($ch);
-        return $response;
-    }
-
-    public static function script_activation_check($purchase_code) {
-        return true;
-    }
-
-
-    public static function check_registered_addon($purchase_code) {
-        return [$_SERVER['SERVER_NAME']];
-    }
-
 
     public static function normalizeDomain($domain){
             $domain = preg_replace('/^https?:\/\//', '', $domain);
