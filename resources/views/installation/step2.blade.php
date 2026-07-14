@@ -41,11 +41,11 @@
                         @csrf
                         <div class="form-group mb-3">
                             <label for="purchase_code" class="fs-12 fw-500" style="color: #666;">Purchase Code</label>
-                            <input type="text" class="form-control rounded-2 border" style="height: 36px !important;" id="purchase_code" name="purchase_code" placeholder="**** **** **** ****" required>
+                            <input type="text" class="form-control rounded-2 border" style="height: 36px !important;" id="purchase_code" name="purchase_code" placeholder="**** **** **** ****">
                         </div>
                         <div class="form-group">
                             <label for="system_key" class="fs-12 fw-500" style="color: #666;">System Key</label>
-                            <input type="text" class="form-control rounded-2 border" style="height: 36px !important;" id="system_key" name="system_key" placeholder="***************************" required>
+                            <input type="text" class="form-control rounded-2 border" style="height: 36px !important;" id="system_key" name="system_key" placeholder="***************************">
                             <p class="text-right fs-11">After activating the application you will get the system key.</p>
                         </div>
                         <div class="text-center mt-3 pt-4">
