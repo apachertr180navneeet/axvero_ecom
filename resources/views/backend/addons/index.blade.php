@@ -16,9 +16,7 @@
 				</a>
             </div> --}}
             <div class="col mt-3 mt-md-0 text-center text-md-right">
-                <a href="https://activeitzone.com/activation/addon" class="btn btn-primary mb-3 mb-sm-0 mx-3 mx-md-0 mr-lg-3" target="_blank">
-					{{ translate('Activate Addon Link') }}
-				</a>
+
                 <a href="{{ route('addons.create')}}" class="btn btn-primary mx-3 mx-md-0">{{ translate('Install/Update Addon')}}</a>
             </div>
         </div>
