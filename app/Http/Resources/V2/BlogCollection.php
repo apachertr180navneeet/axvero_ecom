@@ -4,6 +4,7 @@ namespace App\Http\Resources\V2;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class BlogCollection extends ResourceCollection
 {
@@ -26,7 +27,7 @@ class BlogCollection extends ResourceCollection
                     'meta_title' => $data->meta_title,
                     'meta_description' => $data->meta_description,
                     'status' => $data->status,
-                    'category' => $data->category->category_name,
+                    'category' => $data->category?->category_name,
                 ];
             })
         ];
@@ -34,9 +35,20 @@ class BlogCollection extends ResourceCollection
 
     public function with($request)
     {
-        return [
+        $response = [
             'success' => true,
-            'status' => 200
+            'status' => 200,
         ];
+
+        if ($this->resource instanceof LengthAwarePaginator) {
+            $response['pagination'] = [
+                'current_page' => $this->resource->currentPage(),
+                'last_page' => $this->resource->lastPage(),
+                'per_page' => $this->resource->perPage(),
+                'total' => $this->resource->total(),
+            ];
+        }
+
+        return $response;
     }
 }

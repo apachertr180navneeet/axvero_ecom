@@ -540,8 +540,8 @@ Route::group(["prefix" => "v2", "middleware" => ["app_language"]], function () {
     Route::get("get-search-suggestions", [
         SearchSuggestionController::class,
         "getList",
-    ]);
-    Route::get("languages", [LanguageController::class, "getList"]);
+    ])->withoutMiddleware([EnsureSystemKey::class]);
+    Route::get("languages", [LanguageController::class, "getList"])->withoutMiddleware([EnsureSystemKey::class]);
 
     Route::controller(CustomerProductController::class)->group(function () {
         Route::get("classified/all", "all");
@@ -576,7 +576,7 @@ Route::group(["prefix" => "v2", "middleware" => ["app_language"]], function () {
     Route::apiResource(
         "business-settings",
         "App\Http\Controllers\Api\V2\BusinessSettingController",
-    )->only("index");
+    )->withoutMiddleware([EnsureSystemKey::class])->only("index");
 
     Route::get(
         "category/info/{slug}",
@@ -619,12 +619,12 @@ Route::group(["prefix" => "v2", "middleware" => ["app_language"]], function () {
     Route::apiResource(
         "colors",
         "App\Http\Controllers\Api\V2\ColorController",
-    )->only("index");
+    )->withoutMiddleware([EnsureSystemKey::class])->only("index");
 
     Route::apiResource(
         "currencies",
         "App\Http\Controllers\Api\V2\CurrencyController",
-    )->only("index");
+    )->withoutMiddleware([EnsureSystemKey::class])->only("index");
 
     Route::apiResource(
         "customers",
@@ -634,7 +634,7 @@ Route::group(["prefix" => "v2", "middleware" => ["app_language"]], function () {
     Route::apiResource(
         "general-settings",
         "App\Http\Controllers\Api\V2\GeneralSettingController",
-    )->only("index");
+    )->withoutMiddleware([EnsureSystemKey::class])->only("index");
 
     Route::apiResource(
         "home-categories",
@@ -787,15 +787,15 @@ Route::group(["prefix" => "v2", "middleware" => ["app_language"]], function () {
     Route::get(
         "policies/seller",
         "App\Http\Controllers\Api\V2\PolicyController@sellerPolicy",
-    )->name("policies.seller");
+    )->withoutMiddleware([EnsureSystemKey::class])->name("policies.seller");
     Route::get(
         "policies/support",
         "App\Http\Controllers\Api\V2\PolicyController@supportPolicy",
-    )->name("policies.support");
+    )->withoutMiddleware([EnsureSystemKey::class])->name("policies.support");
     Route::get(
         "policies/return",
         "App\Http\Controllers\Api\V2\PolicyController@returnPolicy",
-    )->name("policies.return");
+    )->withoutMiddleware([EnsureSystemKey::class])->name("policies.return");
 
     Route::post(
         "get-user-by-access_token",
@@ -805,32 +805,32 @@ Route::group(["prefix" => "v2", "middleware" => ["app_language"]], function () {
     Route::get(
         "cities",
         "App\Http\Controllers\Api\V2\AddressController@getCities",
-    );
+    )->withoutMiddleware([EnsureSystemKey::class]);
     Route::get(
         "states",
         "App\Http\Controllers\Api\V2\AddressController@getStates",
-    );
+    )->withoutMiddleware([EnsureSystemKey::class]);
     Route::get(
         "countries",
         "App\Http\Controllers\Api\V2\AddressController@getCountries",
-    );
+    )->withoutMiddleware([EnsureSystemKey::class]);
 
     Route::get(
         "areas-by-city/{city_id}",
         "App\Http\Controllers\Api\V2\AddressController@getAreasByCity",
-    );
+    )->withoutMiddleware([EnsureSystemKey::class]);
     Route::get(
         "cities-by-state/{state_id}",
         "App\Http\Controllers\Api\V2\AddressController@getCitiesByState",
-    );
+    )->withoutMiddleware([EnsureSystemKey::class]);
     Route::get(
         "cities-by-country/{country_id}",
         "App\Http\Controllers\Api\V2\AddressController@getCitiesByCountry",
-    );
+    )->withoutMiddleware([EnsureSystemKey::class]);
     Route::get(
         "states-by-country/{country_id}",
         "App\Http\Controllers\Api\V2\AddressController@getStatesByCountry",
-    );
+    )->withoutMiddleware([EnsureSystemKey::class]);
 
     // Route::post('coupon/apply', 'App\Http\Controllers\Api\V2\CouponController@apply')->middleware('auth:sanctum');
 
@@ -938,9 +938,9 @@ Route::group(["prefix" => "v2", "middleware" => ["app_language"]], function () {
         "App\Http\Controllers\Api\V2\OfflinePaymentController@submit",
     )->name("api.offline.payment.submit");
 
-    Route::controller(BlogController::class)->group(function () {
-        Route::get("blog-list", "blog_list");
-        Route::get("blog-details/{slug}", "blog_details");
+    Route::controller(BlogFrontendController::class)->group(function () {
+        Route::get("blog-list", "index");
+        Route::get("blog-details/{slug}", "show");
     });
 
     // Route::controller(WholesaleProductController::class)->group(function () {
@@ -970,23 +970,23 @@ Route::group(["prefix" => "v2", "middleware" => ["app_language"]], function () {
     Route::get(
         "addon-list",
         "App\Http\Controllers\Api\V2\ConfigController@addon_list",
-    );
+    )->withoutMiddleware([EnsureSystemKey::class]);
     //Activated social login list
     Route::get(
         "activated-social-login",
         "App\Http\Controllers\Api\V2\ConfigController@activated_social_login",
-    );
+    )->withoutMiddleware([EnsureSystemKey::class]);
 
     //Business Sttings list
     Route::post(
         "business-settings",
         "App\Http\Controllers\Api\V2\ConfigController@business_settings",
-    );
+    )->withoutMiddleware([EnsureSystemKey::class]);
     //Pickup Point list
     Route::get(
         "pickup-list",
         "App\Http\Controllers\Api\V2\ShippingController@pickup_list",
-    );
+    )->withoutMiddleware([EnsureSystemKey::class]);
 
     Route::withoutMiddleware([])->group(function () {
         Route::controller(WholesaleProductController::class)->group(
@@ -1190,10 +1190,14 @@ Route::prefix("v2/admin")
             \App\Http\Controllers\Api\V2\Admin\BrandController::class,
         )->only(["index", "show", "store", "update", "destroy"]);
 
-        Route::get("products", [
-            \App\Http\Controllers\Api\V2\Admin\ProductController::class,
-            "index",
-        ]);
+    Route::get("products", [
+        \App\Http\Controllers\Api\V2\Admin\ProductController::class,
+        "index",
+    ]);
+    Route::post("products", [
+        \App\Http\Controllers\Api\V2\Admin\ProductController::class,
+        "store",
+    ]);
         Route::get("products/{id}", [
             \App\Http\Controllers\Api\V2\Admin\ProductController::class,
             "show",
@@ -1238,6 +1242,18 @@ Route::prefix("v2/admin")
         Route::delete("orders/{id}", [
             \App\Http\Controllers\Api\V2\Admin\OrderController::class,
             "destroy",
+        ]);
+        Route::post("orders/{id}/shipment", [
+            \App\Http\Controllers\Api\V2\Admin\OrderController::class,
+            "createShipment",
+        ]);
+        Route::get("orders/{id}/shipment", [
+            \App\Http\Controllers\Api\V2\Admin\OrderController::class,
+            "trackShipment",
+        ]);
+        Route::get("shipments/pickup-locations", [
+            \App\Http\Controllers\Api\V2\Admin\OrderController::class,
+            "pickupLocations",
         ]);
 
         Route::get("sellers", [

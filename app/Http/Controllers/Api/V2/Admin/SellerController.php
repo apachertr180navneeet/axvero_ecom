@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Shop;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Laravel\Sanctum\PersonalAccessToken;
 
 class SellerController extends Controller
@@ -63,10 +64,15 @@ class SellerController extends Controller
         if (!$seller) {
             return response()->json(['result' => false, 'message' => translate('Seller not found')], 404);
         }
-        $seller->approved = $request->approved ?? 1;
-        $seller->save();
+        $shop = Shop::where('user_id', $seller->id)->first();
+        if (!$shop) {
+            return response()->json(['result' => false, 'message' => translate('Shop not found')], 404);
+        }
+        $shop->verification_status = $request->approved ?? 1;
+        $shop->save();
+        Cache::forget('verified_sellers_id');
 
-        return response()->json(['result' => true, 'message' => translate('Seller approval updated successfully')]);
+        return response()->json(['result' => true, 'message' => translate('Seller approved successfully')]);
     }
 
     public function ban(Request $request, $id)

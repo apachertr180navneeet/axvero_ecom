@@ -1,11 +1,11 @@
-{
+﻿{
     "info": {
-        "_postman_id": "3f79df92-9761-45f9-a397-344cdb31a887",
+        "_postman_id": "2af0cfb8-44af-4358-8f26-fc1d30238eba",
         "name": "Axvero Frontend APIs",
         "description": "Frontend APIs for React. Home + catalog read routes are public (no System-Key). Auth login/signup/password routes are public. Logout, user, and confirm_code require Bearer token from login/signup.",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
         "_exporter_id": "28360131",
-        "_collection_link": "https://go.postman.co/collection/28360131-3f79df92-9761-45f9-a397-344cdb31a887?source=collection_link"
+        "_collection_link": "https://go.postman.co/collection/28360131-2af0cfb8-44af-4358-8f26-fc1d30238eba?source=collection_link"
     },
     "item": [
         {
@@ -230,7 +230,7 @@
                                     }
                                 ],
                                 "url": {
-                                    "raw": "{{base_url}}/api/v2/admin/categories?per_page=20&page=1",
+                                    "raw": "{{base_url}}/api/v2/admin/categories?per_page=20\u0026page=1",
                                     "host": ["{{base_url}}"],
                                     "path": [
                                         "api",
@@ -431,7 +431,7 @@
                                     }
                                 ],
                                 "url": {
-                                    "raw": "{{base_url}}/api/v2/admin/brands?per_page=20&page=1",
+                                    "raw": "{{base_url}}/api/v2/admin/brands?per_page=20\u0026page=1",
                                     "host": ["{{base_url}}"],
                                     "path": ["api", "v2", "admin", "brands"],
                                     "query": [
@@ -590,7 +590,7 @@
                                     }
                                 ],
                                 "url": {
-                                    "raw": "{{base_url}}/api/v2/admin/products?per_page=20&page=1",
+                                    "raw": "{{base_url}}/api/v2/admin/products?per_page=20\u0026page=1",
                                     "host": ["{{base_url}}"],
                                     "path": ["api", "v2", "admin", "products"],
                                     "query": [
@@ -651,6 +651,36 @@
                                         "products",
                                         "{{product_id}}"
                                     ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Create Product",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{access_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"name\": \"New Product\",\n  \"category_id\": 1,\n  \"unit_price\": 499,\n  \"current_stock\": 100,\n  \"unit\": \"pcs\",\n  \"brand_id\": 1,\n  \"description\": \"Product description here\",\n  \"featured\": 1,\n  \"tags\": [\"tag1\",\"tag2\"],\n  \"shipping_type\": \"flat_rate\",\n  \"flat_shipping_cost\": 50,\n  \"min_qty\": 1,\n  \"discount\": 10,\n  \"discount_type\": \"percent\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/api/v2/admin/products",
+                                    "host": ["{{base_url}}"],
+                                    "path": ["api", "v2", "admin", "products"]
                                 }
                             },
                             "response": []
@@ -730,7 +760,7 @@
                             "response": []
                         },
                         {
-                            "name": "Toggle Today's Deal",
+                            "name": "Toggle Today\u0027s Deal",
                             "request": {
                                 "method": "POST",
                                 "header": [
@@ -851,7 +881,7 @@
                                     }
                                 ],
                                 "url": {
-                                    "raw": "{{base_url}}/api/v2/admin/orders?per_page=20&page=1",
+                                    "raw": "{{base_url}}/api/v2/admin/orders?per_page=20\u0026page=1",
                                     "host": ["{{base_url}}"],
                                     "path": ["api", "v2", "admin", "orders"],
                                     "query": [
@@ -911,6 +941,100 @@
                                         "admin",
                                         "orders",
                                         "{{order_id}}"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Create Shipment",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{access_token}}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v2/admin/orders/{{order_id}}/shipment",
+                                    "host": ["{{base_url}}"],
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "admin",
+                                        "orders",
+                                        "{{order_id}}",
+                                        "shipment"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"pickup_location\": \"mock-warehouse\",\n  \"length\": 10,\n  \"breadth\": 10,\n  \"height\": 10\n}"
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Track Shipment",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{access_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v2/admin/orders/{{order_id}}/shipment",
+                                    "host": ["{{base_url}}"],
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "admin",
+                                        "orders",
+                                        "{{order_id}}",
+                                        "shipment"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Pickup Locations",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{access_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v2/admin/shipments/pickup-locations",
+                                    "host": ["{{base_url}}"],
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "admin",
+                                        "shipments",
+                                        "pickup-locations"
                                     ]
                                 }
                             },
@@ -1038,7 +1162,7 @@
                                     }
                                 ],
                                 "url": {
-                                    "raw": "{{base_url}}/api/v2/admin/sellers?per_page=20&page=1",
+                                    "raw": "{{base_url}}/api/v2/admin/sellers?per_page=20\u0026page=1",
                                     "host": ["{{base_url}}"],
                                     "path": ["api", "v2", "admin", "sellers"],
                                     "query": [
@@ -1200,7 +1324,7 @@
                                     }
                                 ],
                                 "url": {
-                                    "raw": "{{base_url}}/api/v2/admin/sellers/pending-registrations?per_page=20&page=1",
+                                    "raw": "{{base_url}}/api/v2/admin/sellers/pending-registrations?per_page=20\u0026page=1",
                                     "host": ["{{base_url}}"],
                                     "path": [
                                         "api",
@@ -1243,7 +1367,7 @@
                                     }
                                 ],
                                 "url": {
-                                    "raw": "{{base_url}}/api/v2/admin/customers?per_page=20&page=1",
+                                    "raw": "{{base_url}}/api/v2/admin/customers?per_page=20\u0026page=1",
                                     "host": ["{{base_url}}"],
                                     "path": ["api", "v2", "admin", "customers"],
                                     "query": [
@@ -1373,7 +1497,7 @@
                                     }
                                 ],
                                 "url": {
-                                    "raw": "{{base_url}}/api/v2/admin/coupons?per_page=20&page=1",
+                                    "raw": "{{base_url}}/api/v2/admin/coupons?per_page=20\u0026page=1",
                                     "host": ["{{base_url}}"],
                                     "path": ["api", "v2", "admin", "coupons"],
                                     "query": [
@@ -1609,7 +1733,7 @@
                                     "host": ["{{base_url}}"],
                                     "path": ["api", "v2", "cart", "add"]
                                 },
-                                "description": "FrontendCartController.add. Variant is optional (e.g. 'Black-S'). Requires Bearer token."
+                                "description": "FrontendCartController.add. Variant is optional (e.g. \u0027Black-S\u0027). Requires Bearer token."
                             },
                             "response": []
                         },
@@ -1972,7 +2096,7 @@
                                     }
                                 ],
                                 "url": {
-                                    "raw": "{{base_url}}/api/v2/account/orders?per_page=10&page=1",
+                                    "raw": "{{base_url}}/api/v2/account/orders?per_page=10\u0026page=1",
                                     "host": ["{{base_url}}"],
                                     "path": ["api", "v2", "account", "orders"],
                                     "query": [
@@ -2112,7 +2236,7 @@
                                     }
                                 ],
                                 "url": {
-                                    "raw": "{{base_url}}/api/v2/account/wishlist?per_page=10&page=1",
+                                    "raw": "{{base_url}}/api/v2/account/wishlist?per_page=10\u0026page=1",
                                     "host": ["{{base_url}}"],
                                     "path": [
                                         "api",
@@ -2265,7 +2389,7 @@
                                     }
                                 ],
                                 "url": {
-                                    "raw": "{{base_url}}/api/v2/account/wallet/history?per_page=10&page=1",
+                                    "raw": "{{base_url}}/api/v2/account/wallet/history?per_page=10\u0026page=1",
                                     "host": ["{{base_url}}"],
                                     "path": [
                                         "api",
@@ -2304,7 +2428,7 @@
                                     }
                                 ],
                                 "url": {
-                                    "raw": "{{base_url}}/api/v2/account/notifications?per_page=20&page=1",
+                                    "raw": "{{base_url}}/api/v2/account/notifications?per_page=20\u0026page=1",
                                     "host": ["{{base_url}}"],
                                     "path": [
                                         "api",
@@ -2342,7 +2466,7 @@
                                     }
                                 ],
                                 "url": {
-                                    "raw": "{{base_url}}/api/v2/account/notifications/unread?per_page=20&page=1",
+                                    "raw": "{{base_url}}/api/v2/account/notifications/unread?per_page=20\u0026page=1",
                                     "host": ["{{base_url}}"],
                                     "path": [
                                         "api",
@@ -2448,7 +2572,7 @@
                                     }
                                 ],
                                 "url": {
-                                    "raw": "{{base_url}}/api/v2/account/followed-sellers?per_page=10&page=1",
+                                    "raw": "{{base_url}}/api/v2/account/followed-sellers?per_page=10\u0026page=1",
                                     "host": ["{{base_url}}"],
                                     "path": [
                                         "api",
@@ -3099,7 +3223,7 @@
                                     }
                                 ],
                                 "url": {
-                                    "raw": "{{base_url}}/api/v2/checkout/orders?per_page=10&page=1",
+                                    "raw": "{{base_url}}/api/v2/checkout/orders?per_page=10\u0026page=1",
                                     "host": ["{{base_url}}"],
                                     "path": ["api", "v2", "checkout", "orders"],
                                     "query": [
@@ -3182,368 +3306,7 @@
                                         "cancel"
                                     ]
                                 },
-                                "description": "FrontendCheckoutController.cancelOrder. Cancels an order if it's in pending/unpaid status."
-                            },
-                            "response": []
-                        }
-                    ]
-                },
-                {
-                    "name": "Auth",
-                    "item": [
-                        {
-                            "name": "Login",
-                            "event": [
-                                {
-                                    "listen": "test",
-                                    "script": {
-                                        "exec": [
-                                            "if (pm.response.code === 200) {",
-                                            "  const json = pm.response.json();",
-                                            "  if (json.access_token) {",
-                                            "    pm.collectionVariables.set('access_token', json.access_token);",
-                                            "  }",
-                                            "}"
-                                        ],
-                                        "type": "text/javascript",
-                                        "packages": {},
-                                        "requests": {}
-                                    }
-                                }
-                            ],
-                            "request": {
-                                "method": "POST",
-                                "header": [
-                                    {
-                                        "key": "Content-Type",
-                                        "value": "application/json"
-                                    },
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    }
-                                ],
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n    \"email\": \"czxj8inwx@mozmail.com\",\n    \"password\": \"Test@123\"\n}"
-                                },
-                                "url": {
-                                    "raw": "{{base_url}}/api/v2/auth/login",
-                                    "host": ["{{base_url}}"],
-                                    "path": ["api", "v2", "auth", "login"]
-                                },
-                                "description": "FrontendAuthController. Email or phone in `email` field. On success, saves access_token to collection variable automatically."
-                            },
-                            "response": []
-                        },
-                        {
-                            "name": "Signup",
-                            "event": [
-                                {
-                                    "listen": "test",
-                                    "script": {
-                                        "type": "text/javascript",
-                                        "exec": [
-                                            "if (pm.response.code === 200) {",
-                                            "  const json = pm.response.json();",
-                                            "  if (json.access_token) {",
-                                            "    pm.collectionVariables.set('access_token', json.access_token);",
-                                            "  }",
-                                            "}"
-                                        ]
-                                    }
-                                }
-                            ],
-                            "request": {
-                                "method": "POST",
-                                "header": [
-                                    {
-                                        "key": "Content-Type",
-                                        "value": "application/json"
-                                    },
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    }
-                                ],
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"9999988888\",\n  \"password\": \"123456\",\n  \"password_confirmation\": \"123456\"\n}"
-                                },
-                                "url": {
-                                    "raw": "{{base_url}}/api/v2/auth/signup",
-                                    "host": ["{{base_url}}"],
-                                    "path": ["api", "v2", "auth", "signup"]
-                                },
-                                "description": "FrontendAuthController. Also accepts legacy `name`, `register_by`, `email_or_phone`."
-                            },
-                            "response": []
-                        },
-                        {
-                            "name": "Forgot Password",
-                            "request": {
-                                "method": "POST",
-                                "header": [
-                                    {
-                                        "key": "Content-Type",
-                                        "value": "application/json"
-                                    },
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    }
-                                ],
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n  \"email\": \"customer@example.com\"\n}"
-                                },
-                                "url": {
-                                    "raw": "{{base_url}}/api/v2/auth/password/forget_request",
-                                    "host": ["{{base_url}}"],
-                                    "path": [
-                                        "api",
-                                        "v2",
-                                        "auth",
-                                        "password",
-                                        "forget_request"
-                                    ]
-                                },
-                                "description": "FrontendAuthController. Sends verification code to email or phone. Also accepts `email_or_phone` and `send_code_by`."
-                            },
-                            "response": []
-                        },
-                        {
-                            "name": "Confirm Password Reset",
-                            "request": {
-                                "method": "POST",
-                                "header": [
-                                    {
-                                        "key": "Content-Type",
-                                        "value": "application/json"
-                                    },
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    }
-                                ],
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n  \"verification_code\": \"123456\",\n  \"password\": \"newpass123\",\n  \"password_confirmation\": \"newpass123\"\n}"
-                                },
-                                "url": {
-                                    "raw": "{{base_url}}/api/v2/auth/password/confirm_reset",
-                                    "host": ["{{base_url}}"],
-                                    "path": [
-                                        "api",
-                                        "v2",
-                                        "auth",
-                                        "password",
-                                        "confirm_reset"
-                                    ]
-                                },
-                                "description": "FrontendAuthController. Reset password using code from forgot-password email/SMS."
-                            },
-                            "response": []
-                        },
-                        {
-                            "name": "Resend Password Reset Code",
-                            "request": {
-                                "method": "POST",
-                                "header": [
-                                    {
-                                        "key": "Content-Type",
-                                        "value": "application/json"
-                                    },
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    }
-                                ],
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n\t\"email\": \"czxj8inwx@mozmail.com\"\n}"
-                                },
-                                "url": {
-                                    "raw": "{{base_url}}/api/v2/auth/password/resend_code",
-                                    "host": ["{{base_url}}"],
-                                    "path": [
-                                        "api",
-                                        "v2",
-                                        "auth",
-                                        "password",
-                                        "resend_code"
-                                    ]
-                                },
-                                "description": "FrontendAuthController. Resend forgot-password verification code."
-                            },
-                            "response": []
-                        },
-                        {
-                            "name": "Auth Info by Access Token",
-                            "request": {
-                                "method": "POST",
-                                "header": [
-                                    {
-                                        "key": "Content-Type",
-                                        "value": "application/json"
-                                    },
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    }
-                                ],
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n  \"access_token\": \"{{access_token}}\"\n}"
-                                },
-                                "url": {
-                                    "raw": "{{base_url}}/api/v2/auth/info",
-                                    "host": ["{{base_url}}"],
-                                    "path": ["api", "v2", "auth", "info"]
-                                },
-                                "description": "AuthController. Restore session from stored token. No System-Key required."
-                            },
-                            "response": []
-                        },
-                        {
-                            "name": "Social Login",
-                            "request": {
-                                "method": "POST",
-                                "header": [
-                                    {
-                                        "key": "Content-Type",
-                                        "value": "application/json"
-                                    },
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    },
-                                    {
-                                        "key": "System-Key",
-                                        "value": "{{system_key}}",
-                                        "disabled": true
-                                    }
-                                ],
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n  \"provider\": \"google_user_id\",\n  \"social_provider\": \"google\",\n  \"access_token\": \"oauth_access_token\"\n}"
-                                },
-                                "url": {
-                                    "raw": "{{base_url}}/api/v2/auth/social-login",
-                                    "host": ["{{base_url}}"],
-                                    "path": [
-                                        "api",
-                                        "v2",
-                                        "auth",
-                                        "social-login"
-                                    ]
-                                },
-                                "description": "AuthController. Google/Facebook/Apple/Twitter OAuth. Requires System-Key for mobile app clients."
-                            },
-                            "response": []
-                        },
-                        {
-                            "name": "Logout",
-                            "request": {
-                                "method": "GET",
-                                "header": [
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    },
-                                    {
-                                        "key": "Authorization",
-                                        "value": "Bearer {{access_token}}"
-                                    }
-                                ],
-                                "url": {
-                                    "raw": "{{base_url}}/api/v2/auth/logout",
-                                    "host": ["{{base_url}}"],
-                                    "path": ["api", "v2", "auth", "logout"]
-                                },
-                                "description": "AuthController. Requires Bearer token from login/signup."
-                            },
-                            "response": []
-                        },
-                        {
-                            "name": "Current User",
-                            "request": {
-                                "method": "GET",
-                                "header": [
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    },
-                                    {
-                                        "key": "Authorization",
-                                        "value": "Bearer {{access_token}}"
-                                    }
-                                ],
-                                "url": {
-                                    "raw": "{{base_url}}/api/v2/auth/user",
-                                    "host": ["{{base_url}}"],
-                                    "path": ["api", "v2", "auth", "user"]
-                                },
-                                "description": "AuthController. Returns authenticated user profile. Requires Bearer token."
-                            },
-                            "response": []
-                        },
-                        {
-                            "name": "Confirm Email / Phone Code",
-                            "request": {
-                                "method": "POST",
-                                "header": [
-                                    {
-                                        "key": "Content-Type",
-                                        "value": "application/json"
-                                    },
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    },
-                                    {
-                                        "key": "Authorization",
-                                        "value": "Bearer {{access_token}}"
-                                    }
-                                ],
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n  \"verification_code\": \"123456\"\n}"
-                                },
-                                "url": {
-                                    "raw": "{{base_url}}/api/v2/auth/confirm_code",
-                                    "host": ["{{base_url}}"],
-                                    "path": [
-                                        "api",
-                                        "v2",
-                                        "auth",
-                                        "confirm_code"
-                                    ]
-                                },
-                                "description": "AuthController. Verify account after signup when email verification is enabled."
-                            },
-                            "response": []
-                        },
-                        {
-                            "name": "Resend Verification Code",
-                            "request": {
-                                "method": "GET",
-                                "header": [
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    },
-                                    {
-                                        "key": "Authorization",
-                                        "value": "Bearer {{access_token}}"
-                                    }
-                                ],
-                                "url": {
-                                    "raw": "{{base_url}}/api/v2/auth/resend_code",
-                                    "host": ["{{base_url}}"],
-                                    "path": ["api", "v2", "auth", "resend_code"]
-                                },
-                                "description": "AuthController. Resend signup verification code. Requires Bearer token."
+                                "description": "FrontendCheckoutController.cancelOrder. Cancels an order if it\u0027s in pending/unpaid status."
                             },
                             "response": []
                         }
@@ -3630,7 +3393,7 @@
                                 "method": "GET",
                                 "header": [],
                                 "url": {
-                                    "raw": "{{base_url}}/api/v2/brands?per_page=10&page=1",
+                                    "raw": "{{base_url}}/api/v2/brands?per_page=10\u0026page=1",
                                     "host": ["{{base_url}}"],
                                     "path": ["api", "v2", "brands"],
                                     "query": [
@@ -3687,7 +3450,7 @@
                                 "method": "GET",
                                 "header": [],
                                 "url": {
-                                    "raw": "{{base_url}}/api/v2/products/brand/{{brand_slug}}?per_page=10&page=1",
+                                    "raw": "{{base_url}}/api/v2/products/brand/{{brand_slug}}?per_page=10\u0026page=1",
                                     "host": ["{{base_url}}"],
                                     "path": [
                                         "api",
@@ -3722,7 +3485,7 @@
                                 "method": "GET",
                                 "header": [],
                                 "url": {
-                                    "raw": "{{base_url}}/api/v2/get-search-suggestions?query_key=shoe&type=product",
+                                    "raw": "{{base_url}}/api/v2/get-search-suggestions?query_key=shoe\u0026type=product",
                                     "host": ["{{base_url}}"],
                                     "path": [
                                         "api",
@@ -3751,7 +3514,7 @@
                                 "method": "GET",
                                 "header": [],
                                 "url": {
-                                    "raw": "{{base_url}}/api/v2/products/search?name=shoe&per_page=10&page=1",
+                                    "raw": "{{base_url}}/api/v2/products/search?name=shoe\u0026per_page=10\u0026page=1",
                                     "host": ["{{base_url}}"],
                                     "path": ["api", "v2", "products", "search"],
                                     "query": [
@@ -3804,12 +3567,12 @@
                     "name": "Home",
                     "item": [
                         {
-                            "name": "Trending Now – Men",
+                            "name": "Trending Now â€“ Men",
                             "request": {
                                 "method": "GET",
                                 "header": [],
                                 "url": {
-                                    "raw": "{{base_url}}/api/v2/home/trending-men?per_page=12&page=1",
+                                    "raw": "{{base_url}}/api/v2/home/trending-men?per_page=12\u0026page=1",
                                     "host": ["{{base_url}}"],
                                     "path": [
                                         "api",
@@ -3833,12 +3596,12 @@
                             "response": []
                         },
                         {
-                            "name": "Trending Now – Women",
+                            "name": "Trending Now â€“ Women",
                             "request": {
                                 "method": "GET",
                                 "header": [],
                                 "url": {
-                                    "raw": "{{base_url}}/api/v2/home/trending-women?per_page=12&page=1",
+                                    "raw": "{{base_url}}/api/v2/home/trending-women?per_page=12\u0026page=1",
                                     "host": ["{{base_url}}"],
                                     "path": [
                                         "api",
@@ -3867,7 +3630,7 @@
                                 "method": "GET",
                                 "header": [],
                                 "url": {
-                                    "raw": "{{base_url}}/api/v2/home/decor?per_page=8&page=1",
+                                    "raw": "{{base_url}}/api/v2/home/decor?per_page=8\u0026page=1",
                                     "host": ["{{base_url}}"],
                                     "path": ["api", "v2", "home", "decor"],
                                     "query": [
@@ -3891,7 +3654,7 @@
                                 "method": "GET",
                                 "header": [],
                                 "url": {
-                                    "raw": "{{base_url}}/api/v2/home/footwear?per_page=12&page=1",
+                                    "raw": "{{base_url}}/api/v2/home/footwear?per_page=12\u0026page=1",
                                     "host": ["{{base_url}}"],
                                     "path": ["api", "v2", "home", "footwear"],
                                     "query": [
@@ -3948,7 +3711,7 @@
                                 "method": "GET",
                                 "header": [],
                                 "url": {
-                                    "raw": "{{base_url}}/api/v2/products/category/{{category_slug}}?per_page=12&page=1",
+                                    "raw": "{{base_url}}/api/v2/products/category/{{category_slug}}?per_page=12\u0026page=1",
                                     "host": ["{{base_url}}"],
                                     "path": [
                                         "api",
@@ -3973,6 +3736,1591 @@
                             "response": []
                         }
                     ]
+                },
+                {
+                    "name": "Home Page",
+                    "item": [
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/products/featured",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "products",
+                                        "featured"
+                                    ]
+                                },
+                                "description": "ProductController.featured.",
+                                "header": []
+                            },
+                            "name": "Featured Products",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/products/todays-deal",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "products",
+                                        "todays-deal"
+                                    ]
+                                },
+                                "description": "ProductController.todaysDeal.",
+                                "header": []
+                            },
+                            "name": "Today\u0027s Deal",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/products/best-seller",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "products",
+                                        "best-seller"
+                                    ]
+                                },
+                                "description": "ProductController.bestSeller.",
+                                "header": []
+                            },
+                            "name": "Best Seller",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/sliders",
+                                    "path": ["api", "v2", "sliders"]
+                                },
+                                "description": "SliderController.sliders.",
+                                "header": []
+                            },
+                            "name": "Sliders",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/banners-one",
+                                    "path": ["api", "v2", "banners-one"]
+                                },
+                                "description": "SliderController.bannerOne.",
+                                "header": []
+                            },
+                            "name": "Banner One",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/banners-two",
+                                    "path": ["api", "v2", "banners-two"]
+                                },
+                                "description": "SliderController.bannerTwo.",
+                                "header": []
+                            },
+                            "name": "Banner Two",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/banners-three",
+                                    "path": ["api", "v2", "banners-three"]
+                                },
+                                "description": "SliderController.bannerThree.",
+                                "header": []
+                            },
+                            "name": "Banner Three",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/banners",
+                                    "path": ["api", "v2", "banners"]
+                                },
+                                "description": "BannerController.index.",
+                                "header": []
+                            },
+                            "name": "Banners",
+                            "response": []
+                        }
+                    ]
+                },
+                {
+                    "name": "Categories Catalog",
+                    "item": [
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "query": [
+                                        {
+                                            "key": "per_page",
+                                            "value": "20"
+                                        },
+                                        {
+                                            "key": "page",
+                                            "value": "1"
+                                        }
+                                    ],
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/categories?per_page=20\u0026page=1",
+                                    "path": ["api", "v2", "categories"]
+                                },
+                                "description": "CategoryController.index. Paginated list of all categories.",
+                                "header": []
+                            },
+                            "name": "All Categories",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/categories/featured",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "categories",
+                                        "featured"
+                                    ]
+                                },
+                                "description": "CategoryController.featured.",
+                                "header": []
+                            },
+                            "name": "Featured Categories",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/categories/top",
+                                    "path": ["api", "v2", "categories", "top"]
+                                },
+                                "description": "CategoryController.top.",
+                                "header": []
+                            },
+                            "name": "Top Categories",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/category/info/{{slug}}",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "category",
+                                        "info",
+                                        "{{slug}}"
+                                    ]
+                                },
+                                "description": "CategoryController.info. Get category details by slug.",
+                                "header": []
+                            },
+                            "name": "Category Info",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/sub-categories/{{category_id}}",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "sub-categories",
+                                        "{{category_id}}"
+                                    ]
+                                },
+                                "description": "SubCategoryController.index. Get sub-categories by parent category ID.",
+                                "header": []
+                            },
+                            "name": "Sub Categories",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/filter/categories",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "filter",
+                                        "categories"
+                                    ]
+                                },
+                                "description": "FilterController.categories. Categories for product filtering.",
+                                "header": []
+                            },
+                            "name": "Filter Categories",
+                            "response": []
+                        }
+                    ]
+                },
+                {
+                    "name": "Products Catalog",
+                    "item": [
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "query": [
+                                        {
+                                            "key": "per_page",
+                                            "value": "10"
+                                        },
+                                        {
+                                            "key": "page",
+                                            "value": "1"
+                                        }
+                                    ],
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/products?per_page=10\u0026page=1",
+                                    "path": ["api", "v2", "products"]
+                                },
+                                "description": "ProductController.index. Paginated product listing.",
+                                "header": []
+                            },
+                            "name": "All Products",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/products/{{slug}}/{{user_id}}",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "products",
+                                        "{{slug}}",
+                                        "{{user_id}}"
+                                    ]
+                                },
+                                "description": "ProductController.product_details. Get product details by slug and user_id.",
+                                "header": []
+                            },
+                            "name": "Product Details",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/products/inhouse",
+                                    "path": ["api", "v2", "products", "inhouse"]
+                                },
+                                "description": "ProductController.inhouse.",
+                                "header": []
+                            },
+                            "name": "In-House Products",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/products/seller/{{seller_id}}",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "products",
+                                        "seller",
+                                        "{{seller_id}}"
+                                    ]
+                                },
+                                "description": "ProductController.seller.",
+                                "header": []
+                            },
+                            "name": "Products by Seller",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/products/sub-category/{{sub_category_id}}",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "products",
+                                        "sub-category",
+                                        "{{sub_category_id}}"
+                                    ]
+                                },
+                                "description": "ProductController.subCategory.",
+                                "header": []
+                            },
+                            "name": "Products by Sub-Category",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/products/sub-sub-category/{{sub_sub_category_id}}",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "products",
+                                        "sub-sub-category",
+                                        "{{sub_sub_category_id}}"
+                                    ]
+                                },
+                                "description": "ProductController.subSubCategory.",
+                                "header": []
+                            },
+                            "name": "Products by Sub-Sub-Category",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/products/digital",
+                                    "path": ["api", "v2", "products", "digital"]
+                                },
+                                "description": "ProductController.digital.",
+                                "header": []
+                            },
+                            "name": "Digital Products",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/products/frequently-bought/{{slug}}",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "products",
+                                        "frequently-bought",
+                                        "{{slug}}"
+                                    ]
+                                },
+                                "description": "ProductController.frequentlyBought.",
+                                "header": []
+                            },
+                            "name": "Frequently Bought",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/products/top-from-seller/{{slug}}",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "products",
+                                        "top-from-seller",
+                                        "{{slug}}"
+                                    ]
+                                },
+                                "description": "ProductController.topFromSeller.",
+                                "header": []
+                            },
+                            "name": "Top Products from Seller",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/products/featured-from-seller/{{seller_id}}",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "products",
+                                        "featured-from-seller",
+                                        "{{seller_id}}"
+                                    ]
+                                },
+                                "description": "ProductController.newFromSeller.",
+                                "header": []
+                            },
+                            "name": "Featured Products from Seller",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "body": {
+                                    "raw": "{\"id\": {{product_id}}, \"variant\": \"\"}",
+                                    "mode": "raw"
+                                },
+                                "method": "POST",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/products/variant/price",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "products",
+                                        "variant",
+                                        "price"
+                                    ]
+                                },
+                                "description": "ProductController.getPrice.",
+                                "header": []
+                            },
+                            "name": "Variant Price",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/reviews/product/{{product_id}}",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "reviews",
+                                        "product",
+                                        "{{product_id}}"
+                                    ]
+                                },
+                                "description": "ReviewController.index.",
+                                "header": []
+                            },
+                            "name": "Product Reviews",
+                            "response": []
+                        }
+                    ]
+                },
+                {
+                    "name": "Shops",
+                    "item": [
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "query": [
+                                        {
+                                            "key": "per_page",
+                                            "value": "10"
+                                        },
+                                        {
+                                            "key": "page",
+                                            "value": "1"
+                                        }
+                                    ],
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/shops?per_page=10\u0026page=1",
+                                    "path": ["api", "v2", "shops"]
+                                },
+                                "description": "ShopController.index. Paginated shop listing.",
+                                "header": []
+                            },
+                            "name": "All Shops",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/shops/details/{{shop_id}}",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "shops",
+                                        "details",
+                                        "{{shop_id}}"
+                                    ]
+                                },
+                                "description": "ShopController.info.",
+                                "header": []
+                            },
+                            "name": "Shop Details",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/shops/products/all/{{shop_id}}?per_page=10\u0026page=1",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "shops",
+                                        "products",
+                                        "all",
+                                        "{{shop_id}}"
+                                    ]
+                                },
+                                "description": "ShopController.allProducts.",
+                                "header": []
+                            },
+                            "name": "Shop All Products",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/shops/products/top/{{shop_id}}?per_page=10\u0026page=1",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "shops",
+                                        "products",
+                                        "top",
+                                        "{{shop_id}}"
+                                    ]
+                                },
+                                "description": "ShopController.topSellingProducts.",
+                                "header": []
+                            },
+                            "name": "Shop Top Selling Products",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/shops/products/featured/{{shop_id}}?per_page=10\u0026page=1",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "shops",
+                                        "products",
+                                        "featured",
+                                        "{{shop_id}}"
+                                    ]
+                                },
+                                "description": "ShopController.featuredProducts.",
+                                "header": []
+                            },
+                            "name": "Shop Featured Products",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/shops/products/new/{{shop_id}}?per_page=10\u0026page=1",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "shops",
+                                        "products",
+                                        "new",
+                                        "{{shop_id}}"
+                                    ]
+                                },
+                                "description": "ShopController.newProducts.",
+                                "header": []
+                            },
+                            "name": "Shop New Products",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/shops/brands/{{shop_id}}",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "shops",
+                                        "brands",
+                                        "{{shop_id}}"
+                                    ]
+                                },
+                                "description": "ShopController.brands.",
+                                "header": []
+                            },
+                            "name": "Shop Brands",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/seller/top",
+                                    "path": ["api", "v2", "seller", "top"]
+                                },
+                                "description": "SellerController.topSellers.",
+                                "header": []
+                            },
+                            "name": "Top Sellers",
+                            "response": []
+                        }
+                    ]
+                },
+                {
+                    "name": "Site Configuration",
+                    "item": [
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/general-settings",
+                                    "path": ["api", "v2", "general-settings"]
+                                },
+                                "description": "GeneralSettingController.index.",
+                                "header": []
+                            },
+                            "name": "General Settings",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "POST",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/business-settings",
+                                    "path": ["api", "v2", "business-settings"]
+                                },
+                                "description": "ConfigController.business_settings.",
+                                "header": []
+                            },
+                            "name": "Business Settings",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/currencies",
+                                    "path": ["api", "v2", "currencies"]
+                                },
+                                "description": "CurrencyController.index.",
+                                "header": []
+                            },
+                            "name": "Currencies",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/colors",
+                                    "path": ["api", "v2", "colors"]
+                                },
+                                "description": "ColorController.index.",
+                                "header": []
+                            },
+                            "name": "Colors",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/languages",
+                                    "path": ["api", "v2", "languages"]
+                                },
+                                "description": "LanguageController.getList.",
+                                "header": []
+                            },
+                            "name": "Languages",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/cities",
+                                    "path": ["api", "v2", "cities"]
+                                },
+                                "description": "AddressController.getCities.",
+                                "header": []
+                            },
+                            "name": "Cities",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/states",
+                                    "path": ["api", "v2", "states"]
+                                },
+                                "description": "AddressController.getStates.",
+                                "header": []
+                            },
+                            "name": "States",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/countries",
+                                    "path": ["api", "v2", "countries"]
+                                },
+                                "description": "AddressController.getCountries.",
+                                "header": []
+                            },
+                            "name": "Countries",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/areas-by-city/{{city_id}}",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "areas-by-city",
+                                        "{{city_id}}"
+                                    ]
+                                },
+                                "description": "AddressController.getAreasByCity.",
+                                "header": []
+                            },
+                            "name": "Areas by City",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/cities-by-state/{{state_id}}",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "cities-by-state",
+                                        "{{state_id}}"
+                                    ]
+                                },
+                                "description": "AddressController.getCitiesByState.",
+                                "header": []
+                            },
+                            "name": "Cities by State",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/cities-by-country/{{country_id}}",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "cities-by-country",
+                                        "{{country_id}}"
+                                    ]
+                                },
+                                "description": "AddressController.getCitiesByCountry.",
+                                "header": []
+                            },
+                            "name": "Cities by Country",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/states-by-country/{{country_id}}",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "states-by-country",
+                                        "{{country_id}}"
+                                    ]
+                                },
+                                "description": "AddressController.getStatesByCountry.",
+                                "header": []
+                            },
+                            "name": "States by Country",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/policies/seller",
+                                    "path": ["api", "v2", "policies", "seller"]
+                                },
+                                "description": "PolicyController.sellerPolicy.",
+                                "header": []
+                            },
+                            "name": "Seller Policy",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/policies/support",
+                                    "path": ["api", "v2", "policies", "support"]
+                                },
+                                "description": "PolicyController.supportPolicy.",
+                                "header": []
+                            },
+                            "name": "Support Policy",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/policies/return",
+                                    "path": ["api", "v2", "policies", "return"]
+                                },
+                                "description": "PolicyController.returnPolicy.",
+                                "header": []
+                            },
+                            "name": "Return Policy",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/pickup-list",
+                                    "path": ["api", "v2", "pickup-list"]
+                                },
+                                "description": "ShippingController.pickup_list.",
+                                "header": []
+                            },
+                            "name": "Pickup List",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/google-recaptcha",
+                                    "path": ["api", "v2", "google-recaptcha"]
+                                },
+                                "description": "Returns Google reCAPTCHA view.",
+                                "header": []
+                            },
+                            "name": "Google Recaptcha",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/addon-list",
+                                    "path": ["api", "v2", "addon-list"]
+                                },
+                                "description": "ConfigController.addon_list.",
+                                "header": []
+                            },
+                            "name": "Addon List",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/activated-social-login",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "activated-social-login"
+                                    ]
+                                },
+                                "description": "ConfigController.activated_social_login.",
+                                "header": []
+                            },
+                            "name": "Activated Social Login",
+                            "response": []
+                        }
+                    ]
+                },
+                {
+                    "name": "Blog",
+                    "item": [
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/blog-list?per_page=10\u0026page=1",
+                                    "path": ["api", "v2", "blog-list"]
+                                },
+                                "description": "BlogController.blog_list.",
+                                "header": [
+                                    {
+                                        "key": "System-Key",
+                                        "value": "{{system_key}}"
+                                    }
+                                ]
+                            },
+                            "name": "Blog List",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/blog-details/{{slug}}",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "blog-details",
+                                        "{{slug}}"
+                                    ]
+                                },
+                                "description": "BlogController.blog_details.",
+                                "header": [
+                                    {
+                                        "key": "System-Key",
+                                        "value": "{{system_key}}"
+                                    }
+                                ]
+                            },
+                            "name": "Blog Details",
+                            "response": []
+                        }
+                    ]
+                },
+                {
+                    "name": "Payments",
+                    "item": [
+                        {
+                            "request": {
+                                "method": "ANY",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/paypal/payment/done",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "paypal",
+                                        "payment",
+                                        "done"
+                                    ]
+                                },
+                                "description": "PayPal success callback",
+                                "header": []
+                            },
+                            "name": "PayPal Done",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "ANY",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/paypal/payment/cancel",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "paypal",
+                                        "payment",
+                                        "cancel"
+                                    ]
+                                },
+                                "description": "PayPal cancel callback",
+                                "header": []
+                            },
+                            "name": "PayPal Cancel",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "ANY",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/stripe/create-checkout-session",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "stripe",
+                                        "create-checkout-session"
+                                    ]
+                                },
+                                "description": "Stripe checkout",
+                                "header": []
+                            },
+                            "name": "Stripe Create Session",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "ANY",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/stripe/payment/callback",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "stripe",
+                                        "payment",
+                                        "callback"
+                                    ]
+                                },
+                                "description": "Stripe callback",
+                                "header": []
+                            },
+                            "name": "Stripe Callback",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "ANY",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/razorpay/pay-with-razorpay",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "razorpay",
+                                        "pay-with-razorpay"
+                                    ]
+                                },
+                                "description": "Razorpay payment",
+                                "header": []
+                            },
+                            "name": "Razorpay Pay",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "ANY",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/paystack/init",
+                                    "path": ["api", "v2", "paystack", "init"]
+                                },
+                                "description": "Paystack init",
+                                "header": []
+                            },
+                            "name": "Paystack Init",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "ANY",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/iyzico/init",
+                                    "path": ["api", "v2", "iyzico", "init"]
+                                },
+                                "description": "Iyzico init",
+                                "header": []
+                            },
+                            "name": "Iyzico Init",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "ANY",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/bkash/api/process",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "bkash",
+                                        "api",
+                                        "process"
+                                    ]
+                                },
+                                "description": "bKash payment process",
+                                "header": []
+                            },
+                            "name": "bKash Process",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "POST",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/offline/payment/submit",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "offline",
+                                        "payment",
+                                        "submit"
+                                    ]
+                                },
+                                "description": "Offline payment",
+                                "header": []
+                            },
+                            "name": "Offline Payment Submit",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "POST",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/payments/pay/wallet",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "payments",
+                                        "pay",
+                                        "wallet"
+                                    ]
+                                },
+                                "description": "Wallet payment",
+                                "header": []
+                            },
+                            "name": "Pay via Wallet",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "POST",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/payments/pay/cod",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "payments",
+                                        "pay",
+                                        "cod"
+                                    ]
+                                },
+                                "description": "COD payment",
+                                "header": []
+                            },
+                            "name": "Pay via COD",
+                            "response": []
+                        },
+                        {
+                            "request": {
+                                "method": "POST",
+                                "url": {
+                                    "host": ["{{base_url}}"],
+                                    "raw": "{{base_url}}/api/v2/payments/pay/manual",
+                                    "path": [
+                                        "api",
+                                        "v2",
+                                        "payments",
+                                        "pay",
+                                        "manual"
+                                    ]
+                                },
+                                "description": "Manual payment",
+                                "header": []
+                            },
+                            "name": "Pay via Manual",
+                            "response": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "Login",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 200) {",
+                                    "  const json = pm.response.json();",
+                                    "  if (json.access_token) {",
+                                    "    pm.collectionVariables.set(\u0027access_token\u0027, json.access_token);",
+                                    "  }",
+                                    "}"
+                                ],
+                                "type": "text/javascript",
+                                "packages": {},
+                                "requests": {}
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"czxj8inwx@mozmail.com\",\n    \"password\": \"Test@123\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v2/auth/login",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v2", "auth", "login"]
+                        },
+                        "description": "FrontendAuthController. Email or phone in `email` field. On success, saves access_token to collection variable automatically."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Signup",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "if (pm.response.code === 200) {",
+                                    "  const json = pm.response.json();",
+                                    "  if (json.access_token) {",
+                                    "    pm.collectionVariables.set(\u0027access_token\u0027, json.access_token);",
+                                    "  }",
+                                    "}"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"9999988888\",\n  \"password\": \"123456\",\n  \"password_confirmation\": \"123456\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v2/auth/signup",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v2", "auth", "signup"]
+                        },
+                        "description": "FrontendAuthController. Also accepts legacy `name`, `register_by`, `email_or_phone`."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Forgot Password",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"customer@example.com\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v2/auth/password/forget_request",
+                            "host": ["{{base_url}}"],
+                            "path": [
+                                "api",
+                                "v2",
+                                "auth",
+                                "password",
+                                "forget_request"
+                            ]
+                        },
+                        "description": "FrontendAuthController. Sends verification code to email or phone. Also accepts `email_or_phone` and `send_code_by`."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Confirm Password Reset",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"verification_code\": \"123456\",\n  \"password\": \"newpass123\",\n  \"password_confirmation\": \"newpass123\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v2/auth/password/confirm_reset",
+                            "host": ["{{base_url}}"],
+                            "path": [
+                                "api",
+                                "v2",
+                                "auth",
+                                "password",
+                                "confirm_reset"
+                            ]
+                        },
+                        "description": "FrontendAuthController. Reset password using code from forgot-password email/SMS."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Resend Password Reset Code",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"email\": \"czxj8inwx@mozmail.com\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v2/auth/password/resend_code",
+                            "host": ["{{base_url}}"],
+                            "path": [
+                                "api",
+                                "v2",
+                                "auth",
+                                "password",
+                                "resend_code"
+                            ]
+                        },
+                        "description": "FrontendAuthController. Resend forgot-password verification code."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Auth Info by Access Token",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"access_token\": \"{{access_token}}\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v2/auth/info",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v2", "auth", "info"]
+                        },
+                        "description": "AuthController. Restore session from stored token. No System-Key required."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Social Login",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "System-Key",
+                                "value": "{{system_key}}",
+                                "disabled": true
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"provider\": \"google_user_id\",\n  \"social_provider\": \"google\",\n  \"access_token\": \"oauth_access_token\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v2/auth/social-login",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v2", "auth", "social-login"]
+                        },
+                        "description": "AuthController. Google/Facebook/Apple/Twitter OAuth. Requires System-Key for mobile app clients."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Logout",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v2/auth/logout",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v2", "auth", "logout"]
+                        },
+                        "description": "AuthController. Requires Bearer token from login/signup."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Current User",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v2/auth/user",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v2", "auth", "user"]
+                        },
+                        "description": "AuthController. Returns authenticated user profile. Requires Bearer token."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Confirm Email / Phone Code",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"verification_code\": \"123456\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v2/auth/confirm_code",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v2", "auth", "confirm_code"]
+                        },
+                        "description": "AuthController. Verify account after signup when email verification is enabled."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Resend Verification Code",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v2/auth/resend_code",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v2", "auth", "resend_code"]
+                        },
+                        "description": "AuthController. Resend signup verification code. Requires Bearer token."
+                    },
+                    "response": []
                 }
             ]
         }
@@ -4004,7 +5352,7 @@
         },
         {
             "key": "category_slug",
-            "value": "men's fashion"
+            "value": "men\u0027s fashion"
         },
         {
             "key": "access_token",
@@ -4012,7 +5360,7 @@
         },
         {
             "key": "system_key",
-            "value": ""
+            "value": "$2y$10$VdQNboBU3zR28ic79QXw1uxCywNgo6aM4EtTJXeJ5NAjXL1mAmIyW"
         },
         {
             "key": "remove_cart_id",
