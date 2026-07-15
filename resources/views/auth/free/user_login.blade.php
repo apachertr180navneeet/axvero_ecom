@@ -683,7 +683,13 @@
             >
         </div>
         <a href="{{ route('home') }}" class="axvero-login-brand">
-            <img src="{{ static_asset('assets/img/demo/AXVERO.png') }}" alt="{{ env('APP_NAME') }}">
+            @if(get_setting('system_logo_white') != null)
+                <img src="{{ uploaded_asset(get_setting('system_logo_white')) }}" alt="{{ env('APP_NAME') }}">
+            @elseif(get_setting('system_logo_black') != null)
+                <img src="{{ uploaded_asset(get_setting('system_logo_black')) }}" alt="{{ env('APP_NAME') }}">
+            @else
+                <img src="{{ static_asset('assets/img/demo/AXVERO.png') }}" alt="{{ env('APP_NAME') }}">
+            @endif
         </a>
     </div>
 
@@ -867,3 +873,4 @@
         </script>
     @endif
 @endsection
+
