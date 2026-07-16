@@ -31,6 +31,9 @@ class ProductController extends Controller
     public function product_details($slug, $user_id)
     {
         $product = Product::where('slug', $slug)->get();
+        if($product->isEmpty()){
+            return response()->json(['message' => 'Product not found'], 404);
+        }
         if(get_setting('last_viewed_product_activation') == 1 && $user_id != null){
             lastViewedProducts($product[0]->id, $user_id);
         }
