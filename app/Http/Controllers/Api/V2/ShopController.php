@@ -6,6 +6,8 @@ use App\Http\Resources\V2\ProductCollection;
 use App\Http\Resources\V2\ProductMiniCollection;
 use App\Http\Resources\V2\ShopCollection;
 use App\Http\Resources\V2\ShopDetailsCollection;
+use App\Http\Resources\V2\Seller\BrandCollection as SellerBrandCollection;
+use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Shop;
 use Illuminate\Http\Request;
@@ -31,7 +33,14 @@ class ShopController extends Controller
 
     public function info($id)
     {
-        return new ShopDetailsCollection(Shop::where('slug', $id)->first());
+        $shop = Shop::where('slug', $id)->first();
+        if (!$shop && is_numeric($id)) {
+            $shop = Shop::find((int) $id);
+        }
+        if (!$shop) {
+            return response()->json(['result' => false, 'message' => 'Shop not found'], 404);
+        }
+        return new ShopDetailsCollection($shop);
     }
 
     public function shopOfUser($id)
@@ -74,5 +83,18 @@ class ShopController extends Controller
 
     public function brands($id)
     {
+        $shop = Shop::find($id);
+        if (!$shop) {
+            return response()->json(['result' => false, 'message' => 'Shop not found'], 404);
+        }
+
+        $brandIds = Product::where('user_id', $shop->user_id)
+            ->where('published', 1)
+            ->whereNotNull('brand_id')
+            ->pluck('brand_id')
+            ->unique();
+
+        $brands = Brand::whereIn('id', $brandIds)->get();
+        return SellerBrandCollection::collection($brands);
     }
 }
