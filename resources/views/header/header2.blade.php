@@ -36,7 +36,7 @@
 
                     <!-- Currency Switcher -->
                     @if (get_setting('show_currency_switcher') == 'on')
-                        <li class="list-inline-item dropdown ml-auto ml-lg-0 mr-0 currency-visibility" id="currency-change">
+                        <li class="list-inline-item dropdown ml-auto ml-lg-0 mr-3 currency-visibility" id="currency-change">
                             @php
                                 $system_currency = get_system_currency();
                             @endphp
@@ -58,6 +58,42 @@
                             </ul>
                         </li>
                     @endif
+
+                    <li class="list-inline-item dropdown d-lg-none ml-0 mr-0">
+                        <a href="{{ auth()->check() && auth()->user()->user_type == 'affiliate' ? route('affiliate.user.index') : route('affiliate.registration') }}"
+                            class="dropdown-toggle fs-12 py-2 top-text-color-visibility"
+                            style="color: {{ $topHeaderTextColor }}" data-toggle="dropdown" data-display="static">
+                            {{ translate('Affiliate') }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            @auth
+                                @if(auth()->user()->user_type == 'affiliate')
+                                    <li>
+                                        <a class="dropdown-item py-2 px-3 text-dark fs-12" href="{{ route('affiliate.user.index') }}">
+                                            {{ translate('Affiliate Dashboard') }}
+                                        </a>
+                                    </li>
+                                @else
+                                    <li>
+                                        <a class="dropdown-item py-2 px-3 text-dark fs-12" href="{{ route('affiliate.apply') }}">
+                                            {{ translate('Become an Affiliate') }}
+                                        </a>
+                                    </li>
+                                @endif
+                            @else
+                                <li>
+                                    <a class="dropdown-item py-2 px-3 text-dark fs-12" href="{{ route('affiliate.registration') }}">
+                                        {{ translate('Register as Affiliate') }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item py-2 px-3 text-dark fs-12" href="{{ route('affiliate.login') }}">
+                                        {{ translate('Login to Affiliate') }}
+                                    </a>
+                                </li>
+                            @endauth
+                        </ul>
+                    </li>
 
                 </ul>
             </div>
@@ -428,7 +464,7 @@
                         <!--Login & Registration -->
                         <span class="d-flex align-items-center ml-3">
                             <!-- Image -->
-                            <span
+                            <a href="{{ route('user.login') }}"
                                 class="size-40px rounded-circle overflow-hidden border d-flex align-items-center justify-content-center nav-user-img middle-text-color-visibility" style="color: {{ $middleHeaderTextColor }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="19.902" height="20.012"
                                     viewBox="0 0 19.902 20.012">
@@ -436,12 +472,11 @@
                                         d="M15.71,12.71a6,6,0,1,0-7.42,0,10,10,0,0,0-6.22,8.18,1.006,1.006,0,1,0,2,.22,8,8,0,0,1,15.9,0,1,1,0,0,0,1,.89h.11a1,1,0,0,0,.88-1.1,10,10,0,0,0-6.25-8.19ZM12,12a4,4,0,1,1,4-4A4,4,0,0,1,12,12Z"
                                         transform="translate(-2.064 -1.995)" fill="currentColor" />
                                 </svg>
-                            </span>
+                            </a>
                             <a href="{{ route('user.login') }}"
-                                class="opacity-60 hov-opacity-100 fs-12 d-inline-block border-right border-soft-light border-width-2 pr-2 ml-3 middle-text-color-visibility" style="color: {{ $middleHeaderTextColor }}">{{ translate('Login') }}</a>
+                                class="d-none d-md-inline-block opacity-60 hov-opacity-100 fs-12 border-right border-soft-light border-width-2 pr-2 ml-3 middle-text-color-visibility" style="color: {{ $middleHeaderTextColor }}">{{ translate('Login') }}</a>
                             <a href="{{ route('user.registration') }}"
-                                {{-- <a href="{{ route('user.registration') }}" --}}
-                                class="opacity-60 hov-opacity-100 fs-12 d-inline-block py-2 pl-2 middle-text-color-visibility" style="color: {{ $middleHeaderTextColor }}">{{ translate('Registration') }}</a>
+                                class="d-none d-md-inline-block opacity-60 hov-opacity-100 fs-12 py-2 pl-2 middle-text-color-visibility" style="color: {{ $middleHeaderTextColor }}">{{ translate('Registration') }}</a>
                         </span>
                     @endauth
                 </div>

@@ -80,6 +80,15 @@
                         </div>
                     </div>
                     <div class="text-center" style="margin-top: 40px;">
+                        <small class="d-block fs-12 text-center mb-3" style="color: #78829d;">Mobile Apps for Active eCommerce CMS</small>
+                        <div class="d-flex flex-wrap justify-content-center mb-3">
+                            <a href="https://codecanyon.net/item/active-ecommerce-flutter-app/31466365" target="_blank" class="fs-14 fw-700 text-primary mx-3 animate-underline-primary">Customer Mobile App</a>
+                            <a href="https://codecanyon.net/item/active-ecommerce-seller-app/38842276" target="_blank" class="fs-14 fw-700 text-primary mx-3 animate-underline-primary">Seller’s Mobile App</a>
+                            <a href="https://codecanyon.net/item/active-ecommerce-delivery-boy-flutter-app/32173746" target="_blank" class="fs-14 fw-700 text-primary mx-3 animate-underline-primary">Delivery Boy Mobile App</a>
+                        </div>
+                        <div class="mb-5">
+                            <a href="https://codecanyon.net/user/activeitzone/portfolio" target="_blank" class="fs-12 fw-500 hov-text-primary" style="text-decoration: underline; text-transform: uppercase;color: #78829d;">View all Add-ons for Active eCommerce CMS</a>
+                        </div>
                         <div class="d-flex flex-wrap justify-content-center mb-2">
                             <a href="https://activeitzone.com/docs/active-ecommerce-cms/" target="_blank" class="fs-14 fw-700 text-primary mx-4 d-flex align-items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="16" viewBox="0 0 12 16">

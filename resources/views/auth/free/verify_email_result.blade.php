@@ -299,13 +299,7 @@
             >
         </div>
         <a href="{{ route('home') }}" class="axvero-login-brand">
-            @if(get_setting('system_logo_white') != null)
-                <img src="{{ uploaded_asset(get_setting('system_logo_white')) }}" alt="{{ translate('Site Icon') }}">
-            @elseif(get_setting('system_logo_black') != null)
-                <img src="{{ uploaded_asset(get_setting('system_logo_black')) }}" alt="{{ translate('Site Icon') }}">
-            @else
-                <img src="{{ static_asset('assets/img/demo/AXVERO.png') }}" alt="{{ translate('Site Icon') }}">
-            @endif
+            <img src="{{ static_asset('assets/img/demo/AXVERO.png') }}" alt="{{ translate('Site Icon') }}">
         </a>
     </div>
 
@@ -331,4 +325,3 @@
     </div>
 </div>
 @endsection
-

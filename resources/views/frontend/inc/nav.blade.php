@@ -111,6 +111,31 @@
                     </li>
                 @endforeach
             @endif
+            <li class="mr-0 dropdown">
+                <a href="javascript:void(0)" class="fs-13 px-3 py-3 w-100 d-inline-block fw-700 text-dark dropdown-toggle" data-toggle="dropdown">
+                    {{ translate('Affiliate') }}
+                </a>
+                <div class="dropdown-menu">
+                    @auth
+                        @if(auth()->user()->user_type == 'affiliate')
+                            <a class="dropdown-item py-2 px-3 text-dark fs-13" href="{{ route('affiliate.user.index') }}">
+                                {{ translate('Affiliate Dashboard') }}
+                            </a>
+                        @else
+                            <a class="dropdown-item py-2 px-3 text-dark fs-13" href="{{ route('affiliate.apply') }}">
+                                {{ translate('Become an Affiliate') }}
+                            </a>
+                        @endif
+                    @else
+                        <a class="dropdown-item py-2 px-3 text-dark fs-13" href="{{ route('affiliate.registration') }}">
+                            {{ translate('Register as Affiliate') }}
+                        </a>
+                        <a class="dropdown-item py-2 px-3 text-dark fs-13" href="{{ route('affiliate.login') }}">
+                            {{ translate('Login to Affiliate') }}
+                        </a>
+                    @endauth
+                </div>
+            </li>
             @auth
                 @if (isAdmin())
                     <hr>

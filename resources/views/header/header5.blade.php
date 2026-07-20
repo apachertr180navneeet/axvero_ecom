@@ -545,7 +545,7 @@ $middleHeaderTextColor = get_setting('middle_header_text_color');
                         <!-- Login & Registration -->
                         <span class="d-flex align-items-center ml-2">
                             <!-- Image -->
-                            <span
+                            <a href="{{ route('user.login') }}"
                                 class="size-40px rounded-circle overflow-hidden border d-flex align-items-center justify-content-center nav-user-img">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="19.902" height="20.012"
                                     viewBox="0 0 19.902 20.012">
@@ -553,13 +553,13 @@ $middleHeaderTextColor = get_setting('middle_header_text_color');
                                         d="M15.71,12.71a6,6,0,1,0-7.42,0,10,10,0,0,0-6.22,8.18,1.006,1.006,0,1,0,2,.22,8,8,0,0,1,15.9,0,1,1,0,0,0,1,.89h.11a1,1,0,0,0,.88-1.1,10,10,0,0,0-6.25-8.19ZM12,12a4,4,0,1,1,4-4A4,4,0,0,1,12,12Z"
                                         transform="translate(-2.064 -1.995)" fill="#91919b" />
                                 </svg>
-                            </span>
+                            </a>
                             <a href="{{ route('user.login') }}" style="color: {{ $middleHeaderTextColor }}"
-                                class="middle-text-color-visibility opacity-60 hov-opacity-100 hov-text-primary fs-12 d-inline-block border-right border-soft-light border-width-2 pr-2 ml-2">
+                                class="d-none d-md-inline-block middle-text-color-visibility opacity-60 hov-opacity-100 hov-text-primary fs-12 border-right border-soft-light border-width-2 pr-2 ml-2">
                                 {{ translate('Login') }}
                             </a>
                             <a href="{{ route('user.registration') }}"
-                                style="color: {{ $middleHeaderTextColor }}" class="middle-text-color-visibility opacity-60 hov-opacity-100 hov-text-primary fs-12 d-inline-block py-2 pl-2">
+                                style="color: {{ $middleHeaderTextColor }}" class="d-none d-md-inline-block middle-text-color-visibility opacity-60 hov-opacity-100 hov-text-primary fs-12 py-2 pl-2">
                                 {{ translate('Registration') }}
                             </a>
                         </span>

@@ -425,7 +425,7 @@ $bottomHeaderTextColor = get_setting('bottom_header_text_color');
                     <!--Login & Registration -->
                     <span class="d-flex align-items-center ml-3">
                         <!-- Image -->
-                        <span
+                        <a href="{{ route('user.login') }}"
                             class="size-40px rounded-circle overflow-hidden border d-flex align-items-center justify-content-center nav-user-img top-text-color-visibility" style="color: {{ $topHeaderTextColor }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="19.902" height="20.012"
                                 viewBox="0 0 19.902 20.012">
@@ -433,11 +433,11 @@ $bottomHeaderTextColor = get_setting('bottom_header_text_color');
                                     d="M15.71,12.71a6,6,0,1,0-7.42,0,10,10,0,0,0-6.22,8.18,1.006,1.006,0,1,0,2,.22,8,8,0,0,1,15.9,0,1,1,0,0,0,1,.89h.11a1,1,0,0,0,.88-1.1,10,10,0,0,0-6.25-8.19ZM12,12a4,4,0,1,1,4-4A4,4,0,0,1,12,12Z"
                                     transform="translate(-2.064 -1.995)" fill="currentColor" />
                             </svg>
-                        </span>
+                        </a>
                         <a href="{{ route('user.login') }}"
-                            class="opacity-60 hov-opacity-100 fs-12 d-inline-block border-right border-soft-light border-width-2 pr-2 ml-3 top-text-color-visibility" style="color: {{ $topHeaderTextColor }}">{{ translate('Login') }}</a>
+                            class="d-none d-md-inline-block opacity-60 hov-opacity-100 fs-12 border-right border-soft-light border-width-2 pr-2 ml-3 top-text-color-visibility" style="color: {{ $topHeaderTextColor }}">{{ translate('Login') }}</a>
                         <a href="{{ route('user.registration') }}"
-                            class="opacity-60 hov-opacity-100 fs-12 d-inline-block py-2 pl-2 top-text-color-visibility" style="color: {{ $topHeaderTextColor }}">{{ translate('Registration') }}</a>
+                            class="d-none d-md-inline-block opacity-60 hov-opacity-100 fs-12 d-inline-block py-2 pl-2 top-text-color-visibility" style="color: {{ $topHeaderTextColor }}">{{ translate('Registration') }}</a>
                     </span>
                     @endauth
                 </div>

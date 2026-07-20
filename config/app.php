@@ -132,6 +132,8 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'system_key' => env('SYSTEM_KEY'),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

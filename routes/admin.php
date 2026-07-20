@@ -84,6 +84,7 @@ Route::controller(UpdateController::class)->group(function () {
     Route::get('/update/step1', 'step1')->name('update.step1');
     Route::get('/update/step2', 'step2')->name('update.step2');
     Route::get('/update/step3', 'step3')->name('update.step3');
+    Route::post('/purchase_code', 'purchase_code')->name('update.code');
 });
 
 Route::get('/admin', [AdminController::class, 'admin_dashboard'])->name('admin.dashboard')->middleware(['auth', 'admin', 'prevent-back-history']);
